@@ -1,4 +1,6 @@
-package com.selagroup.schedu;
+package com.selagroup.schedu.activities;
+
+import com.selagroup.schedu.R;
 
 import android.app.Activity;
 import android.os.Bundle;
