@@ -26,11 +26,20 @@ public class SchedulerDAL {
 		mHelper = new DatabaseHelper(iContext);
 	}
 	
+	// Example, not to be used yet
 	public void addNote(Note iNote) {
 		open();
 		ContentValues values = null;
 		mDB.insert(DatabaseHelper.TABLE_Note, null, values);
 		close();
+	}
+	
+	/**
+	 * Synchronizes information stored in the database with the file system.
+	 * This should be done when starting the app to check for any files that have been deleted
+	 */
+	public void syncWithFileSystem() {
+		
 	}
 
 	/**
