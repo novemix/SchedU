@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="addtime_title">Add Time</string>
+    <string name="addtime_start_label">Start</string>
+    <string name="addtime_end_label">End</string>
+    <string name="addtime_days">Days</string>
+    <string-array name="addtime_day_array">
+        <item>Sun</item>
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+        <item>Thu</item>
+        <item>Fri</item>
+        <item>Sat</item>           
+    </string-array>
+    <string name="addtime_cancel_btn">Cancel</string>
+    <string name="addtime_add_btn">Add</string>
+</resources>
