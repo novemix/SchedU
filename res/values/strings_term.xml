@@ -5,4 +5,5 @@
     <string name="term_start_btn_text">Select Start</string>
     <string name="term_end_label">End:</string>
     <string name="term_end_btn_text">Select End</string>
+    <string name="term_ok_btn_text">OK</string>
 </resources>
