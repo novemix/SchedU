@@ -74,7 +74,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String COL_NOTE_ID = "ID";							// Primary key
 	public static final String COL_NOTE_NoteTypeID = "NoteType_ID";			// Foreign key: NoteType.ID
 	public static final String COL_NOTE_Title = "Title";
-	public static final String COL_NOTE_Data = "Data";
+	public static final String COL_NOTE_FilePath = "FilePath";
 	public static final String COL_NOTE_CreationDate = "CreationDate";
 
 	// NoteType table
@@ -102,7 +102,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String CREATE_TABLE_Term = "(" +
 			COL_TERM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
 			COL_TERM_StartDate + " INTEGER, " +
-			COL_TERM_EndDate + " INTEGER)";
+			COL_TERM_EndDate + " INTEGER);";
 
 	public static final String TABLE_CREATE_Class = "(" +
 			COL_CLASS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -110,32 +110,63 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			COL_CLASS_CourseName + " TEXT, " +
 			COL_CLASS_IsExam + " INTEGER, " +
 			COL_CLASS_InstructorID + " INTEGER, " +
-			"FOREIGN KEY(" + COL_CLASS_InstructorID + ") REFERENCES " + TABLE_Instructor + "(" + COL_INSTRUCTOR_ID + ")";
+			"FOREIGN KEY(" + COL_CLASS_InstructorID + ") REFERENCES " + TABLE_Instructor + "(" + COL_INSTRUCTOR_ID + ");";
 
 	public static final String TABLE_CREATE_ClassToTerm = "(" +
 			COL_CLASSES_TO_TERM_ClassID + " INTEGER, " +
 			COL_CLASSES_TO_TERM_TermID + " INTEGER, " +
 			"FOREIGN KEY(" + COL_CLASSES_TO_TERM_ClassID + ") REFERENCES " + TABLE_Class + "(" + COL_CLASS_ID + ")," +
-			"FOREIGN KEY(" + COL_CLASSES_TO_TERM_TermID + ") REFERENCES " + TABLE_Term + "(" + COL_TERM_ID + ")";
+			"FOREIGN KEY(" + COL_CLASSES_TO_TERM_TermID + ") REFERENCES " + TABLE_Term + "(" + COL_TERM_ID + ");";
 
-	public static final String TABLE_CREATE_INSTRUCTOR = "(" +
-			COL_INSTRUCTOR_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-			COL_INSTRUCTOR_Name + " TEXT," +
+	public static final String TABLE_CREATE_Instructor = "(" +
+			COL_INSTRUCTOR_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+			COL_INSTRUCTOR_Name + " TEXT, " +
 			COL_INSTRUCTOR_Email + " TEXT, " +
-			COL_INSTRUCTOR_Phone + " TEXT)";
+			COL_INSTRUCTOR_Phone + " TEXT);";
 
+	public static final String TABLE_CREATE_Location = "(" +
+			COL_LOCATION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+			COL_LOCATION_Building + " TEXT, " +
+			COL_LOCATION_Room + " TEXT, " +
+			COL_LOCATION_GeoLocation + " TEXT);";
+
+	public static final String TABLE_CREATE_TimePlaceBlock = "(" +
+			COL_TIME_PLACE_BLOCK_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+			COL_TIME_PLACE_BLOCK_DayFlags + " INTEGER, " +
+			COL_TIME_PLACE_BLOCK_StartTime + " INTEGER, " +
+			COL_TIME_PLACE_BLOCK_EndTime + " INTEGER, " +
+			COL_TIME_PLACE_BLOCK_LocationID + " INTEGER, " +
+			"FOREIGN KEY(" + COL_TIME_PLACE_BLOCK_LocationID + ") REFERENCES " + TABLE_Location + "(" + COL_LOCATION_ID + ");";
+
+	public static final String TABLE_CREATE_ClassTimePlaceBlocks = "(" +
+			COL_CLASS_TIME_PLACE_BLOCKS_ClassID + " INTEGER, " +
+			COL_CLASS_TIME_PLACE_BLOCKS_TimePlaceBlockID + " INTEGER, " +
+			"FOREIGN KEY(" + COL_CLASS_TIME_PLACE_BLOCKS_ClassID + ") REFERENCES " + TABLE_Class + "(" + COL_CLASS_ID + "), " +
+			"FOREIGN KEY(" + COL_CLASS_TIME_PLACE_BLOCKS_TimePlaceBlockID + ") REFERENCES " + TABLE_TimePlaceBlock + "(" + COL_TIME_PLACE_BLOCK_ID + ");";
+
+	public static final String TABLE_CREATE_OfficeTimePlaceBlocks = "(" +
+			COL_OFFICE_TIME_PLACE_BLOCKS_InstructorID + " INTEGER, " +
+			COL_OFFICE_TIME_PLACE_BLOCKS_TimePlaceBlockID + " INTEGER, " +
+			"FOREIGN KEY(" + COL_OFFICE_TIME_PLACE_BLOCKS_InstructorID + ") REFERENCES " + TABLE_Instructor + "(" + COL_INSTRUCTOR_ID + "), " +
+			"FOREIGN KEY(" + COL_OFFICE_TIME_PLACE_BLOCKS_TimePlaceBlockID + ") REFERENCES " + TABLE_TimePlaceBlock + "(" + COL_TIME_PLACE_BLOCK_ID + ");";
+	
+	public static final String TABLE_CREATE_Note = "(" +
+			COL_NOTE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + 
+			COL_NOTE_Title + " TEXT, " + 
+			COL_NOTE_NoteTypeID + " INTEGER, " + 
+			COL_NOTE_FilePath + " TEXT, " + 
+			"FOREIGN KEY(" + COL_NOTE_NoteTypeID + ") REFERENCES " + TABLE_NoteType + "(" + COL_NOTE_TYPE_ID + ");";
 	
 	
-	public static final String TABLE_CREATE_LOCATION = "(ID INTEGER PRIMARY KEY AUTOINCREMENT, Building TEXT, Room TEXT, GeoLocation TEXT)";
-	public static final String TABLE_CREATE_TIME_PLACE_BLOCK = "(ID INTEGER PRIMARY KEY AUTOINCREMENT)";
-	public static final String TABLE_CREATE_CLASS_TIME_PLACE_BLOCKS = "(ID INTEGER PRIMARY KEY AUTOINCREMENT)";
-	public static final String TABLE_CREATE_OFFICE_TIME_PLACE_BLOCKS = "(ID INTEGER PRIMARY KEY AUTOINCREMENT)";
-
-	public static final String TABLE_CREATE_NOTE = "(ID INTEGER PRIMARY KEY AUTOINCREMENT)";
+	
 	public static final String TABLE_CREATE_NOTE_TYPE = "(ID INTEGER PRIMARY KEY AUTOINCREMENT)";
+	
 	public static final String TABLE_CREATE_CLASS_NOTES = "(ID INTEGER PRIMARY KEY AUTOINCREMENT)";
+	
 	public static final String TABLE_CREATE_ASSIGNMENT = "(ID INTEGER PRIMARY KEY AUTOINCREMENT)";
+	
 	public static final String TABLE_CREATE_CLASS_ASSIGMENTS = "(ID INTEGER PRIMARY KEY AUTOINCREMENT)";
+	
 
 	// All table names in the order they should be created
 	public static final String[] TABLE_NAMES = new String[] { TABLE_Class };
