@@ -11,7 +11,7 @@ import android.app.Activity;
 import android.os.Bundle;
 
 /**
- * The Class TermActivity.
+ * The Class AddCourseActivity.
  */
 public class AddCourseActivity extends Activity {
 	@Override
