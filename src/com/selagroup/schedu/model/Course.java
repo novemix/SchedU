@@ -8,9 +8,9 @@ package com.selagroup.schedu.model;
 /**
  * The Class SchoolClass.
  */
-public class SchoolClass {
+public class Course {
 
-	public SchoolClass() {
+	public Course() {
 	}
 }
 
