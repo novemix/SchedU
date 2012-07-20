@@ -21,6 +21,9 @@
         <activity
             android:name=".activities.AddCourseActivity" >
         </activity>
-    </application>
+        <activity
+            android:name=".activities.AddTimeActivity" >
+        </activity>
+        </application>
 
 </manifest>

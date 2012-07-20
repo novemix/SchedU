@@ -4,8 +4,6 @@
     <string name="addcourse_title">Add a New Course</string>
     <string name="addcourse_course_code_label">Course Code:</string>
     <string name="addcourse_course_name_label">Course Name:</string>
-    <string name="addcourse_building_label">Building:</string>
-    <string name="addcourse_room_label">Room:</string>
     <string name="addcourse_instructor_label">Instructor:</string>
     <string name="addcourse_schedule_label">Course Schedule:</string>
     <string name="addcourse_add_time_btn">Add Time</string>

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/addcourse_upper"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_alignParentTop="true"
     android:orientation="vertical" >
 
     <TextView
@@ -11,177 +13,127 @@
         android:text="@string/addcourse_title"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-   
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/addcourse_tv_course_code_label"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:paddingRight="10dp"
-                android:text="@string/addcourse_course_code_label" />
-         
-            <EditText
-                android:id="@+id/addcourse_et_course_code"
-                android:inputType="text"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:ems="10" >
+        <TextView
+            android:id="@+id/addcourse_tv_course_code_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:paddingRight="10dp"
+            android:text="@string/addcourse_course_code_label" />
 
-                <requestFocus />
-            </EditText>
+        <EditText
+            android:id="@+id/addcourse_et_course_code"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:ems="10"
+            android:inputType="text" >
 
-        </LinearLayout>
+            <requestFocus />
+        </EditText>
+    </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/addcourse_tv_course_name_label"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:paddingRight="10dp"
-                android:text="@string/addcourse_course_name_label" />
+        <TextView
+            android:id="@+id/addcourse_tv_course_name_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:paddingRight="10dp"
+            android:text="@string/addcourse_course_name_label" />
 
-            <EditText
-                android:id="@+id/addcourse_et_course_name"
-                android:inputType="text"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:ems="10" />
+        <EditText
+            android:id="@+id/addcourse_et_course_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:ems="10"
+            android:inputType="text" />
+    </LinearLayout>
 
-        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+        <TextView
+            android:id="@+id/addcourse_tv_instructor_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:paddingRight="10dp"
+            android:text="@string/addcourse_instructor_label" />
 
-            <TextView
-                android:id="@+id/addcourse_tv_building_label"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:paddingRight="10dp"
-                android:text="@string/addcourse_building_label" />
+        <EditText
+            android:id="@+id/addcourse_et_instructor"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:ems="10"
+            android:inputType="text" />
+    </LinearLayout>
 
-            <EditText
-                android:id="@+id/addcourse_et_building"
-                android:inputType="text"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:ems="10" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
-        </LinearLayout>
+        <TextView
+            android:id="@+id/addcourse_tv_schedule_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="center_horizontal"
+            android:text="@string/addcourse_schedule_label"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+        <Button
+            android:id="@+id/addcourse_btn_add_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/addcourse_add_time_btn" />
+    </LinearLayout>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+  <ListView
+        android:id="@+id/addcourse_lv_schedule"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+         >
+    </ListView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0" >
 
-            <TextView
-                android:id="@+id/addcourse_tv_room_label"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:paddingRight="10dp"
-                android:text="@string/addcourse_room_label" />
+        <Button
+            android:id="@+id/addcourse_btn_next"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/addcourse_next_course_btn" />
 
-            <EditText
-                android:id="@+id/addcourse_et_room"
-                android:inputType="text"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:ems="10" />
+        <Button
+            android:id="@+id/addcourse_btn_done"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/addcourse_done_btn" />
+    </LinearLayout>
 
-        </LinearLayout>
+  
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:id="@+id/addcourse_tv_instructor_label"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:paddingRight="10dp"
-                android:text="@string/addcourse_instructor_label" />
-
-            <EditText
-                android:id="@+id/addcourse_et_instructor"
-                android:inputType="text"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:ems="10" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:id="@+id/addcourse_tv_schedule_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:gravity="center_horizontal"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/addcourse_schedule_label" />
-
-            <Button
-                android:id="@+id/addcourse_btn_add_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/addcourse_add_time_btn" />
-
-        </LinearLayout>
-
-	<LinearLayout
-	    android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical" >
-        <ListView
-            android:id="@+id/addcourse_lv_schedule"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="3" >
-        </ListView>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" >
-
-            <Button
-                android:id="@+id/addcourse_btn_next"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:text="@string/addcourse_next_course_btn" />
-
-            <Button
-                android:id="@+id/addcourse_btn_done"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:text="@string/addcourse_done_btn" />
-
-        </LinearLayout>
-	</LinearLayout>
+</LinearLayout>
 </LinearLayout>

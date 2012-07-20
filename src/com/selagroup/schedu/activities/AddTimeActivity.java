@@ -5,20 +5,17 @@
 
 package com.selagroup.schedu.activities;
 
-import com.selagroup.schedu.R;
-
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 
+import com.selagroup.schedu.R;
 /**
- * The Class TermActivity.
+ * The Class AddTimeActivity.
  */
-public class TermActivity extends Activity {
+public class AddTimeActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_term);
-		startActivity(new Intent(this, AddCourseActivity.class));
+		setContentView(R.layout.activity_addtime);
 	}
 }
