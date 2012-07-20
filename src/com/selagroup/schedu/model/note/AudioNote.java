@@ -5,14 +5,16 @@
 
 package com.selagroup.schedu.model.note;
 
+import com.selagroup.schedu.model.Course;
+
 import android.content.ContentValues;
 
 /**
  * The Class AudioNote.
  */
 public class AudioNote extends Note {
-	protected AudioNote() {
-		super(NOTE_TYPE.AUDIO);
+	public AudioNote(int iID, Course iCourse, String iDescription) {
+		super(iID, NOTE_TYPE.AUDIO, iCourse, iDescription);
 	}
 
 	public ContentValues getValues() {

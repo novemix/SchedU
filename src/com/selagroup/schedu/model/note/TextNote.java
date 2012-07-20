@@ -5,6 +5,8 @@
 
 package com.selagroup.schedu.model.note;
 
+import com.selagroup.schedu.model.Course;
+
 import android.content.ContentValues;
 
 /**
@@ -17,8 +19,8 @@ public class TextNote extends Note {
 	 * Instantiates a new text note.
 	 * @param iType the i type
 	 */
-	protected TextNote() {
-		super(NOTE_TYPE.TEXT);
+	public TextNote(int iID, Course iCourse, String iDescription) {
+		super(iID, NOTE_TYPE.TEXT, iCourse, iDescription);
 	}
 	
 	/**

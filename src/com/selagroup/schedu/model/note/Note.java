@@ -8,6 +8,7 @@ package com.selagroup.schedu.model.note;
 import java.util.Calendar;
 
 import com.selagroup.schedu.database.IContentValueItem;
+import com.selagroup.schedu.model.Course;
 
 /**
  * The Class Note.
@@ -17,17 +18,27 @@ public abstract class Note implements IContentValueItem {
 	// Type of note
 	public static enum NOTE_TYPE { TEXT, SKETCH, PHOTO, AUDIO };
 	
+	private int mID;						// Note ID
 	protected NOTE_TYPE mType;				// Type of this note
-	private String mTitle;					// Title for this note
+	private Course mCourse;					// The course this note is for
+	private String mDescription;			// Title for this note
+	private String mFilePath;				// File path for the data stored in this note
 	private Calendar mDateCreated;			// Date this note was created
 	
-	/**
-	 * Creates a new note and stores the current time as the creation time
-	 * @param iType The type of note this is
-	 */
-	protected Note(NOTE_TYPE iType) {
+	public Note(int iID, NOTE_TYPE iType, Course iCourse, String iDescription) {
+		mID = iID;
 		mType = iType;
+		mCourse = iCourse;
+		mDescription = iDescription;
+		mFilePath = "";						// Should initialize with some file path that makes sense for the Android
 		mDateCreated = Calendar.getInstance();
+	}
+	
+	/**
+	 * @return The note ID
+	 */
+	public int getID() {
+		return mID;
 	}
 
 	/**
@@ -38,17 +49,32 @@ public abstract class Note implements IContentValueItem {
 	}
 	
 	/**
-	 * @return The note title
+	 * Gets the course.
+	 * @return the course
 	 */
-	public String getTitle() {
-		return mTitle;
+	public Course getCourse() {
+		return mCourse;
 	}
 	
 	/**
-	 * @param iTitle The new note title
+	 * @return The note description
 	 */
-	public void setTitle(String iTitle) {
-		mTitle = iTitle;
+	public String getDescription() {
+		return mDescription;
+	}
+	
+	/**
+	 * @param iDescription The new note description
+	 */
+	public void setDescription(String iDescription) {
+		mDescription = iDescription;
+	}
+	
+	/**
+	 * @return the file path
+	 */
+	public String getFilePath() {
+		return mFilePath;
 	}
 	
 	/**

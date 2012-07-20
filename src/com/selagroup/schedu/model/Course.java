@@ -21,5 +21,10 @@ public class Course implements IContentValueItem {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public int getID() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
 

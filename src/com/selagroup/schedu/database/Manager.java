@@ -2,6 +2,7 @@
  * @author Nick Huebner and Mark Redden
  * @version 1.0
  */
+
 package com.selagroup.schedu.database;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public abstract class Manager<T extends IContentValueItem> {
 	 */
 	public Manager(DatabaseHelper iHelper) {
 		mHelper = iHelper;
+		syncWithFileSystem();
 	}
 	
 	public abstract void add(T iItem);
@@ -38,6 +40,8 @@ public abstract class Manager<T extends IContentValueItem> {
 	public abstract ArrayList<T> getAll();
 	
 	public abstract T get(int iItemID);
+	
+	protected abstract void syncWithFileSystem();
 
 	/**
 	 * Open the database for reading or writing

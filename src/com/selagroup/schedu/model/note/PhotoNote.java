@@ -5,14 +5,16 @@
 
 package com.selagroup.schedu.model.note;
 
+import com.selagroup.schedu.model.Course;
+
 import android.content.ContentValues;
 
 /**
  * The Class PhotoNote.
  */
 public class PhotoNote extends Note {
-	protected PhotoNote() {
-		super(NOTE_TYPE.PHOTO);
+	public PhotoNote(int iID, Course iCourse, String iDescription) {
+		super(iID, NOTE_TYPE.PHOTO, iCourse, iDescription);
 	}
 
 	public ContentValues getValues() {

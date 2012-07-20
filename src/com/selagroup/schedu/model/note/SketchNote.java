@@ -5,6 +5,8 @@
 
 package com.selagroup.schedu.model.note;
 
+import com.selagroup.schedu.model.Course;
+
 import android.content.ContentValues;
 import android.graphics.Bitmap;
 
@@ -18,8 +20,8 @@ public class SketchNote extends Note {
 	 * Instantiates a new sketch note.
 	 * @param iType the i type
 	 */
-	protected SketchNote(int iWidth, int iHeight) {
-		super(NOTE_TYPE.SKETCH);
+	public SketchNote(int iID, Course iCourse, String iDescription, int iWidth, int iHeight) {
+		super(iID, NOTE_TYPE.SKETCH, iCourse, iDescription);
 		mSketch = Bitmap.createBitmap(iWidth, iHeight, Bitmap.Config.ARGB_8888);
 	}
 	
