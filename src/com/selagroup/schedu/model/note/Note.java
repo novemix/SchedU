@@ -7,10 +7,12 @@ package com.selagroup.schedu.model.note;
 
 import java.util.Calendar;
 
+import com.selagroup.schedu.database.IContentValueItem;
+
 /**
  * The Class Note.
  */
-public abstract class Note {
+public abstract class Note implements IContentValueItem {
 	
 	// Type of note
 	public static enum NOTE_TYPE { TEXT, SKETCH, PHOTO, AUDIO };

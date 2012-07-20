@@ -31,7 +31,6 @@ public class AddCourseActivity extends Activity {
 				
 			}
 		});
-		
 	}
 	
 	public class myDialog extends Dialog {

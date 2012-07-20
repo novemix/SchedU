@@ -5,11 +5,18 @@
 
 package com.selagroup.schedu.model.note;
 
+import android.content.ContentValues;
+
 /**
  * The Class AudioNote.
  */
 public class AudioNote extends Note {
-	protected AudioNote(NOTE_TYPE iType) {
-		super(iType);
+	protected AudioNote() {
+		super(NOTE_TYPE.AUDIO);
+	}
+
+	public ContentValues getValues() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
