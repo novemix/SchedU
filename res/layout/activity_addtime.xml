@@ -84,19 +84,23 @@
             android:id="@+id/addtime_sp_start_hour"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="4" />
+            android:layout_weight="4"
+            android:entries="@array/addtime_array_hours"
+             />
 
         <Spinner
             android:id="@+id/addtime_sp_start_minute"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="4" />
+            android:layout_weight="4"
+            android:entries="@array/addtime_array_minutes" />
 
         <Spinner
             android:id="@+id/addtime_sp_start_ampm"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="4" />
+            android:layout_weight="4"
+            android:entries="@array/addtime_array_ampm" />
     </LinearLayout>
 
     <!-- End Time -->
@@ -118,19 +122,22 @@
             android:id="@+id/addtime_sp_end_hour"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="4" />
+            android:layout_weight="4"
+            android:entries="@array/addtime_array_hours" />
 
         <Spinner
             android:id="@+id/addtime_sp_end_minute"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="4" />
+            android:layout_weight="4"
+            android:entries="@array/addtime_array_minutes" />
 
         <Spinner
             android:id="@+id/addtime_sp_end_ampm"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="4" />
+            android:layout_weight="4"
+            android:entries="@array/addtime_array_ampm" />
     </LinearLayout>
     <!-- Day header -->
 
