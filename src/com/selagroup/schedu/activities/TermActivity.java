@@ -19,6 +19,6 @@ public class TermActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_term);
-		startActivity(new Intent(this, AddCourseActivity.class));
+		startActivity(new Intent(this, CalendarActivity.class));
 	}
 }

@@ -2,5 +2,6 @@
 <resources>
 
     <string name="app_name">Sched-U</string>
+    <dimen name="zero_dp">0dp</dimen>
 
 </resources>

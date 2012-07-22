@@ -24,6 +24,9 @@
         <activity
             android:name=".activities.AddTimeActivity" >
         </activity>
+        <activity
+            android:name=".activities.CalendarActivity" >
+        </activity>
         </application>
 
 </manifest>
