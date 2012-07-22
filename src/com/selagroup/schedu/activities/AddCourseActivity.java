@@ -35,6 +35,7 @@ public class AddCourseActivity extends Activity {
 			}
 		});
 		
+		startActivity(new Intent(this, CalendarActivity.class));
 	}
 	
 //	public class myDialog extends Dialog {

@@ -31,6 +31,7 @@ public class CalendarActivity extends Activity {
 		RelativeLayout courses = (RelativeLayout) findViewById(R.id.calendar_day_courses);
 		
 		TextView newCourse = new TextView(this);
+		newCourse.setText("(code)");
 		newCourse.setBackgroundColor(Color.GREEN);
 		newCourse.setClickable(true);
 		newCourse.setOnClickListener(new OnClickListener() {
@@ -44,7 +45,7 @@ public class CalendarActivity extends Activity {
 		int dp = (int) (60 * scale + 0.5f);
 		
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, dp);
-		params.setMargins(0,(int) (100 * scale + 0.5f), 0, 0);
+		params.setMargins(0,(int) (300 * scale + 0.5f), 0, 0);
 		newCourse.setLayoutParams(params);
 		
 		courses.addView(newCourse);
