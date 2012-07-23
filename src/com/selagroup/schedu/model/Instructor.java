@@ -14,9 +14,10 @@ import com.selagroup.schedu.database.IContentValueItem;
  */
 public class Instructor implements IContentValueItem {
 	private int mID = -1;
+	private String mName;
 	
-	public Instructor() {
-		
+	public Instructor(String iName) {
+		mName = iName;
 	}
 
 	public ContentValues getValues() {

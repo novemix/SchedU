@@ -20,10 +20,10 @@ import com.selagroup.schedu.model.note.TextNote;
  */
 public class NoteManager extends Manager<Note> {
 	private CourseManager mCourseManager;
-	
+
 	/**
 	 * Instantiates a new note manager.
-	 *
+	 * 
 	 * @param iHelper the helper
 	 * @param iCourseManager the course manager that will manage courses associated with these notes
 	 */
@@ -35,6 +35,12 @@ public class NoteManager extends Manager<Note> {
 
 	@Override
 	public int insert(Note iNote) {
+		// If the note already exists, just update the entry
+		if (get(iNote.getID()) != null) {
+			update(iNote);
+			return iNote.getID();
+		}
+
 		open(OPEN_MODE.WRITE);
 		long noteID = mDB.insert(DatabaseHelper.TABLE_Note, null, iNote.getValues());
 		close();
@@ -62,14 +68,14 @@ public class NoteManager extends Manager<Note> {
 		String title = iCursor.getString(iCursor.getColumnIndex(DatabaseHelper.COL_NOTE_Title));
 		int courseID = iCursor.getInt(iCursor.getColumnIndex(DatabaseHelper.COL_NOTE_CourseID));
 		int typeIndex = iCursor.getInt(iCursor.getColumnIndex(DatabaseHelper.COL_NOTE_NoteTypeEnum));
-		
+
 		// Convert type to an integer
 		Note.NOTE_TYPE type = Note.NOTE_TYPE.VALUES_ARRAY[typeIndex];
 		Note newNote = null;
-		
+
 		// Get the course from the courseID
 		Course course = mCourseManager.get(courseID);
-		
+
 		// Create a new note
 		switch (type) {
 		case TEXT:
@@ -85,15 +91,14 @@ public class NoteManager extends Manager<Note> {
 			newNote = new PhotoNote(noteID, course, title);
 			break;
 		}
-		
+
 		return newNote;
 	}
-	
+
 	/**
-	 * Synchronizes information stored in the database with the file system.
-	 * This is done to check for any files that have been deleted
+	 * Synchronizes information stored in the database with the file system. This is done to check for any files that have been deleted
 	 */
 	protected void syncWithFileSystem() {
-		
+
 	}
 }

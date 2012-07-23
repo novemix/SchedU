@@ -7,6 +7,7 @@ package com.selagroup.schedu.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 /**
  * The Course DatabaseHelper
@@ -14,7 +15,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
 	// Database name and version
-	public static final String DATABASE_NAME = "SchedulerDatabase.db";
+	public static final String DATABASE_NAME = "schedu.db";
 	public static final int DATABASE_VERSION = 1;
 
 	// Tables
@@ -108,7 +109,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			COL_COURSE_TO_TERM_CourseID + " INTEGER, " +
 			COL_COURSE_TO_TERM_TermID + " INTEGER, " +
 			"FOREIGN KEY(" + COL_COURSE_TO_TERM_CourseID + ") REFERENCES " + TABLE_Course + "(" + COL_COURSE_ID + "), " +
-			"FOREIGN KEY(" + COL_COURSE_TO_TERM_TermID + ") REFERENCES " + TABLE_Term + "(" + COL_TERM_ID + "));";
+			"FOREIGN KEY(" + COL_COURSE_TO_TERM_TermID + ") REFERENCES " + TABLE_Term + "(" + COL_TERM_ID + "), " + 
+			"PRIMARY KEY(" + COL_COURSE_TO_TERM_CourseID + ", " + COL_COURSE_TO_TERM_TermID + "));";
 
 	public static final String TABLE_CREATE_Instructor = "(" +
 			COL_INSTRUCTOR_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -134,13 +136,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			COL_COURSE_TIME_PLACE_BLOCK_CourseID + " INTEGER, " +
 			COL_COURSE_TIME_PLACE_BLOCK_TimePlaceBlockID + " INTEGER, " +
 			"FOREIGN KEY(" + COL_COURSE_TIME_PLACE_BLOCK_CourseID + ") REFERENCES " + TABLE_Course + "(" + COL_COURSE_ID + "), " +
-			"FOREIGN KEY(" + COL_COURSE_TIME_PLACE_BLOCK_TimePlaceBlockID + ") REFERENCES " + TABLE_TimePlaceBlock + "(" + COL_TIME_PLACE_BLOCK_ID + "));";
+			"FOREIGN KEY(" + COL_COURSE_TIME_PLACE_BLOCK_TimePlaceBlockID + ") REFERENCES " + TABLE_TimePlaceBlock + "(" + COL_TIME_PLACE_BLOCK_ID + "), " + 
+			"PRIMARY KEY(" + COL_COURSE_TIME_PLACE_BLOCK_CourseID + ", " + COL_COURSE_TIME_PLACE_BLOCK_TimePlaceBlockID + "));";
 
 	public static final String TABLE_CREATE_OfficeTimePlaceBlock = "(" +
 			COL_OFFICE_TIME_PLACE_BLOCK_InstructorID + " INTEGER, " +
 			COL_OFFICE_TIME_PLACE_BLOCK_TimePlaceBlockID + " INTEGER, " +
 			"FOREIGN KEY(" + COL_OFFICE_TIME_PLACE_BLOCK_InstructorID + ") REFERENCES " + TABLE_Instructor + "(" + COL_INSTRUCTOR_ID + "), " +
-			"FOREIGN KEY(" + COL_OFFICE_TIME_PLACE_BLOCK_TimePlaceBlockID + ") REFERENCES " + TABLE_TimePlaceBlock + "(" + COL_TIME_PLACE_BLOCK_ID + "));";
+			"FOREIGN KEY(" + COL_OFFICE_TIME_PLACE_BLOCK_TimePlaceBlockID + ") REFERENCES " + TABLE_TimePlaceBlock + "(" + COL_TIME_PLACE_BLOCK_ID + "), " + 
+			"PRIMARY KEY(" + COL_OFFICE_TIME_PLACE_BLOCK_InstructorID + ", " + COL_OFFICE_TIME_PLACE_BLOCK_TimePlaceBlockID + "));";
 
 	public static final String TABLE_CREATE_Note = "(" +
 			COL_NOTE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -153,9 +157,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String TABLE_CREATE_Assignment = "(" +
 			COL_ASSIGNMENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
 			COL_ASSIGNMENT_Name + " TEXT, " +
-			COL_ASSIGNMENT_DueDate + " INTEGER), " +
-			COL_ASSIGNMENT_CourseID + " INTEGER), " +
-			"FOREIGN KEY(" + COL_ASSIGNMENT_CourseID + ") REFERENCES " + TABLE_Course + "(" + COL_COURSE_ID + "))";
+			COL_ASSIGNMENT_DueDate + " INTEGER, " +
+			COL_ASSIGNMENT_CourseID + " INTEGER, " +
+			"FOREIGN KEY(" + COL_ASSIGNMENT_CourseID + ") REFERENCES " + TABLE_Course + "(" + COL_COURSE_ID + "));";
 
 	public static final String TABLE_CREATE_Exam = "(" +
 			COL_EXAM_ID + " INTEGER, " +
@@ -183,6 +187,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	 */
 	public DatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
+		Log.i("Test", "Helper created");
 	}
 
 	/**
@@ -192,9 +197,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	 */
 	@Override
 	public void onCreate(SQLiteDatabase db) {
+		Log.i("Test", "DB Created");
 		for (int i = 0; i < TABLE_NAMES.length; ++i) {
+			Log.i("Test", "Adding table: " + TABLE_NAMES[i]);
 			db.execSQL("CREATE TABLE " + TABLE_NAMES[i] + " " + TABLE_CREATES[i]);
+			Log.i("Test", "Added table: " + TABLE_NAMES[i]);
 		}
+		//db.execSQL("CREATE TABLE Term (_id INTEGER);");
 	}
 
 	/**
@@ -204,6 +213,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	 */
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+		Log.i("Test", "Upgraded");
+		for (String tableName : TABLE_NAMES) {
+			db.execSQL("drop table " + tableName + ";");
+		}
+		onCreate(db);
+	}
+	
+	public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+		Log.i("Test", "Downgraded");
 		for (String tableName : TABLE_NAMES) {
 			db.execSQL("drop table " + tableName + ";");
 		}

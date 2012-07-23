@@ -36,7 +36,8 @@ public abstract class Manager<T extends IContentValueItem> {
 	}
 	
 	/**
-	 * Inserts a new item into the database
+	 * Tries to insert a new item into the database.
+	 * If the item already exists, it performs an update.
 	 * @param iItem the new item to add
 	 * @return the ID of the item added
 	 */
@@ -55,7 +56,8 @@ public abstract class Manager<T extends IContentValueItem> {
 	public abstract void update(T iItem);
 	
 	/**
-	 * Reads an item from a cursor returned by a query
+	 * Reads an item from a cursor returned by a query.
+	 * Precondition: the database must be opened for reading.
 	 * @param iCursor the cursor, set to the correct position
 	 * @return the newly constructed item
 	 */
@@ -66,7 +68,7 @@ public abstract class Manager<T extends IContentValueItem> {
 	 * @param iItemID the item ID
 	 * @return the item
 	 */
-	public T get(int iItemID) {
+	public final T get(int iItemID) {
 		T item = null;
 		open(OPEN_MODE.READ);
 		Cursor cursor = mDB.query(DatabaseHelper.TABLE_Note, null, DatabaseHelper.COL_NOTE_ID + "=?", new String[] { "" + iItemID }, null, null, null);
@@ -81,7 +83,7 @@ public abstract class Manager<T extends IContentValueItem> {
 	 * Gets all items of type T from database
 	 * @return all items in an ArrayList
 	 */
-	public ArrayList<T> getAll() {
+	public final ArrayList<T> getAll() {
 		mItemsTmp.clear();
 		open(OPEN_MODE.READ);
 		
