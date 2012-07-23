@@ -3,6 +3,6 @@
 
     <string name="app_name">Sched-U</string>
     <dimen name="zero_dp">0dp</dimen>
-    <dimen name="label_padding">20dp</dimen>
+    <dimen name="label_padding">10dp</dimen>
 
 </resources>

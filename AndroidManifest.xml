@@ -30,6 +30,9 @@
         <activity
             android:name=".activities.CourseActivity" >
         </activity>
+        <activity
+            android:name=".activities.InstructorActivity" >
+        </activity>
         </application>
 
 </manifest>

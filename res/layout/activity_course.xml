@@ -230,7 +230,7 @@
 
         <!-- Edit instructor button -->
         <Button
-            android:id="@+id/course_edit_instructor"
+            android:id="@+id/course_btn_edit_instructor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -307,7 +307,6 @@
                 android:id="@+id/course_next_time_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="@dimen/label_padding"
                 android:text="@string/course_next_course_time" />
             <TextView
                 android:id="@+id/course_next_time"
@@ -318,7 +317,6 @@
                 android:id="@+id/course_next_instructor_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="@dimen/label_padding"
                 android:text="@string/course_next_instructor" />
             <TextView
                 android:id="@+id/course_next_instructor"

@@ -6,12 +6,16 @@
     android:layout_alignParentTop="true"
     android:orientation="vertical" >
 
+    <!-- Title -->
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="@string/addcourse_title"
         android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <!-- Course Code -->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="right"
-            android:paddingRight="10dp"
+            android:paddingRight="@dimen/label_padding"
             android:text="@string/addcourse_course_code_label" />
 
         <EditText
@@ -31,12 +35,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:ems="10"
             android:inputType="text" >
 
             <requestFocus />
         </EditText>
     </LinearLayout>
+
+    <!-- Course Name -->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -48,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="right"
-            android:paddingRight="10dp"
+            android:paddingRight="@dimen/label_padding"
             android:text="@string/addcourse_course_name_label" />
 
         <EditText
@@ -56,9 +61,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:ems="10"
             android:inputType="text" />
     </LinearLayout>
+
+    <!-- Instructor -->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -70,7 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="right"
-            android:paddingRight="10dp"
+            android:paddingRight="@dimen/label_padding"
             android:text="@string/addcourse_instructor_label" />
 
         <EditText
@@ -78,62 +84,73 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:ems="10"
             android:inputType="text" />
     </LinearLayout>
+
+    <!-- Schedule -->
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
+        <!-- Label -->
+
         <TextView
             android:id="@+id/addcourse_tv_schedule_label"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
+            android:layout_weight="2"
             android:gravity="center_horizontal"
             android:text="@string/addcourse_schedule_label"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
+        <!-- Add time button -->
+
         <Button
             android:id="@+id/addcourse_btn_add_time"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/addcourse_add_time_btn" />
     </LinearLayout>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
-  <ListView
-        android:id="@+id/addcourse_lv_schedule"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-         >
-    </ListView>
+
+    <!-- Bottom section -->
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0" >
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
 
-        <Button
-            android:id="@+id/addcourse_btn_next"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/addcourse_next_course_btn" />
+        <!-- List view -->
 
-        <Button
-            android:id="@+id/addcourse_btn_done"
-            android:layout_width="0dp"
+        <ListView
+            android:id="@+id/addcourse_lv_schedule"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/addcourse_done_btn" />
+            android:layout_weight="1" >
+        </ListView>
+
+        <!-- Buttons -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0" >
+
+            <Button
+                android:id="@+id/addcourse_btn_next"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/addcourse_next_course_btn" />
+
+            <Button
+                android:id="@+id/addcourse_btn_done"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/addcourse_done_btn" />
+        </LinearLayout>
     </LinearLayout>
 
-  
-
-</LinearLayout>
 </LinearLayout>

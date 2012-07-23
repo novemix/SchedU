@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="instructor_title">Instructor Information</string>
+    <string name="instructor_name_label">Name:</string>
+    <string name="instructor_email_label">Email:</string>
+    <string name="instructor_phone_label">Phone:</string>
+    <string name="instructor_office_label">Office:</string>
+    <string name="instructor_building_label">Building:</string>
+    <string name="instructor_room_label">Room:</string>
+    <string name="instructor_hours_label">Office Hours:</string>
+    <string name="instructor_add_time_btn">Add Time</string>
+    <string name="instructor_cancel_btn">Cancel</string>
+    <string name="instructor_done_btn">Done</string>
+</resources>
