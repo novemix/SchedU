@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="calendar_day_0000">12:00am</string>
+    <string name="calendar_day_0030">12:30am</string>
+    <string name="calendar_day_0100">1:00am</string>
+    <string name="calendar_day_0130">1:30am</string>
+    <string name="calendar_day_0200">2:00am</string>
+    <string name="calendar_day_0230">2:30am</string>
+    <string name="calendar_day_0300">3:00am</string>
+    <string name="calendar_day_0330">3:30am</string>
+    <string name="calendar_day_0400">4:00am</string>
+    <string name="calendar_day_0430">4:30am</string>
+    <string name="calendar_day_0500">5:00am</string>
+    <string name="calendar_day_0530">5:30am</string>
+    <string name="calendar_day_0600">6:00am</string>
+    <string name="calendar_day_0630">6:30am</string>
+    <string name="calendar_day_0700">7:00am</string>
+    <string name="calendar_day_0730">7:30am</string>
+    <string name="calendar_day_0800">8:00am</string>
+    <string name="calendar_day_0830">8:30am</string>
+    <string name="calendar_day_0900">9:00am</string>
+    <string name="calendar_day_0930">9:30am</string>
+    <string name="calendar_day_1000">10:00am</string>
+    <string name="calendar_day_1030">10:30am</string>
+    <string name="calendar_day_1100">11:00am</string>
+    <string name="calendar_day_1130">11:30am</string>
+    <string name="calendar_day_1200">12:00pm</string>
+    <string name="calendar_day_1230">12:30pm</string>
+    <string name="calendar_day_1300">1:00pm</string>
+    <string name="calendar_day_1330">1:30pm</string>
+    <string name="calendar_day_1400">2:00pm</string>
+    <string name="calendar_day_1430">2:30pm</string>
+    <string name="calendar_day_1500">3:00pm</string>
+    <string name="calendar_day_1530">3:30pm</string>
+    <string name="calendar_day_1600">4:00pm</string>
+    <string name="calendar_day_1630">4:30pm</string>
+    <string name="calendar_day_1700">5:00pm</string>
+    <string name="calendar_day_1730">5:30pm</string>
+    <string name="calendar_day_1800">6:00pm</string>
+    <string name="calendar_day_1830">6:30pm</string>
+    <string name="calendar_day_1900">7:00pm</string>
+    <string name="calendar_day_1930">7:30pm</string>
+    <string name="calendar_day_2000">8:00pm</string>
+    <string name="calendar_day_2030">8:30pm</string>
+    <string name="calendar_day_2100">9:00pm</string>
+    <string name="calendar_day_2130">9:30pm</string>
+    <string name="calendar_day_2200">10:00pm</string>
+    <string name="calendar_day_2230">10:30pm</string>
+    <string name="calendar_day_2300">11:00pm</string>
+    <string name="calendar_day_2330">11:30pm</string>
+
+</resources>

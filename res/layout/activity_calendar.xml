@@ -9,35 +9,35 @@
         android:layout_height="wrap_content" >
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/calendar_btn_day"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="xDay" />
+            android:text="@string/calendar_day_btn" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/calendar_btn_week"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="xWeek" />
+            android:text="@string/calendar_week_btn" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/calendar_btn_month"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="xMonth" />
+            android:text="@string/calendar_month_btn" />
     </LinearLayout>
 
     <TextView
+        android:id="@+id/calendar_tv_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="xFrabjuary 42nd, 3003" />
+        android:gravity="center_horizontal" />
 
     <ScrollView
-        android:id="@+id/scrollView1"
+        android:id="@+id/calendar_sv_day"
         android:layout_width="match_parent"
         android:layout_height="fill_parent" >
 
@@ -55,290 +55,292 @@
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:gravity="center"
-                    android:text="00:00" />
+                    android:text="@string/calendar_day_0000" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:gravity="center"
-                    android:text="00:30" />
+                    android:text="@string/calendar_day_0030" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:gravity="center"
-                    android:text="00:00" />
+                    android:text="@string/calendar_day_0100" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:gravity="center"
-                    android:text="00:30" />
+                    android:text="@string/calendar_day_0130" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:gravity="center"
-                    android:text="00:00" />
+                    android:text="@string/calendar_day_0200" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:gravity="center"
-                    android:text="00:30" />
+                    android:text="@string/calendar_day_0230" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:gravity="center"
-                    android:text="00:00" />
+                    android:text="@string/calendar_day_0300" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:gravity="center"
-                    android:text="00:30" />
+                    android:text="@string/calendar_day_0330" />
+
+                                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="@string/calendar_day_0400" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:gravity="center"
-                    android:text="00:00" />
+                    android:text="@string/calendar_day_0430" />
+
+                                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="@string/calendar_day_0500" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:gravity="center"
-                    android:text="00:30" />
+                    android:text="@string/calendar_day_0530" />
+
+                                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="@string/calendar_day_0600" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:gravity="center"
-                    android:text="00:00" />
+                    android:text="@string/calendar_day_0630" />
+
+                                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="@string/calendar_day_0700" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:gravity="center"
-                    android:text="00:30" />
+                    android:text="@string/calendar_day_0730" />
+
+                                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="@string/calendar_day_0800" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:gravity="center"
-                    android:text="00:00" />
+                    android:text="@string/calendar_day_0830" />
+
+                                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="@string/calendar_day_0900" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:gravity="center"
-                    android:text="00:30" />
+                    android:text="@string/calendar_day_0930" />
+
+                                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="@string/calendar_day_1000" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:gravity="center"
-                    android:text="00:00" />
+                    android:text="@string/calendar_day_1030" />
+
+                                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="@string/calendar_day_1100" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:gravity="center"
-                    android:text="00:30" />
+                    android:text="@string/calendar_day_1130" />
+
+                                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="@string/calendar_day_1200" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:gravity="center"
-                    android:text="00:00" />
+                    android:text="@string/calendar_day_1230" />
+
+                                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="@string/calendar_day_1300" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:gravity="center"
-                    android:text="00:30" />
+                    android:text="@string/calendar_day_1330" />
+
+                                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="@string/calendar_day_1400" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:gravity="center"
-                    android:text="00:00" />
+                    android:text="@string/calendar_day_1430" />
+
+                                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="@string/calendar_day_1500" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:gravity="center"
-                    android:text="00:30" />
+                    android:text="@string/calendar_day_1530" />
+
+                                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="@string/calendar_day_1600" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:gravity="center"
-                    android:text="00:00" />
+                    android:text="@string/calendar_day_1630" />
+
+                                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="@string/calendar_day_1700" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:gravity="center"
-                    android:text="00:30" />
+                    android:text="@string/calendar_day_1730" />
+
+                                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="@string/calendar_day_1800" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:gravity="center"
-                    android:text="00:00" />
+                    android:text="@string/calendar_day_1830" />
+
+                                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="@string/calendar_day_1900" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:gravity="center"
-                    android:text="00:30" />
+                    android:text="@string/calendar_day_1930" />
+
+                                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="@string/calendar_day_2000" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="@string/calendar_day_2030" />
+
+                                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="@string/calendar_day_2100" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="@string/calendar_day_2130" />
+
+                                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="@string/calendar_day_2200" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="@string/calendar_day_2230" />
+
+                                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="@string/calendar_day_2300" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="@string/calendar_day_2330" />
+
                 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:gravity="center"
-                    android:text="00:00" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:gravity="center"
-                    android:text="00:30" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:gravity="center"
-                    android:text="00:00" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:gravity="center"
-                    android:text="00:30" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:gravity="center"
-                    android:text="00:00" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:gravity="center"
-                    android:text="00:30" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:gravity="center"
-                    android:text="00:00" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:gravity="center"
-                    android:text="00:30" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:gravity="center"
-                    android:text="00:00" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:gravity="center"
-                    android:text="00:30" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:gravity="center"
-                    android:text="00:00" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:gravity="center"
-                    android:text="00:30" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:gravity="center"
-                    android:text="00:00" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:gravity="center"
-                    android:text="00:30" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:gravity="center"
-                    android:text="00:00" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:gravity="center"
-                    android:text="00:30" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:gravity="center"
-                    android:text="00:00" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:gravity="center"
-                    android:text="00:30" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:gravity="center"
-                    android:text="00:00" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:gravity="center"
-                    android:text="00:30" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:gravity="center"
-                    android:text="00:00" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:gravity="center"
-                    android:text="00:30" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:gravity="center"
-                    android:text="00:00" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:gravity="center"
-                    android:text="00:30" />
-            </LinearLayout>
+                </LinearLayout>
 
             <RelativeLayout
                 android:id="@+id/calendar_day_courses"

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="course_building_label">Building:</string>
+    <string name="course_room_label">Room:</string>
+    <string name="course_map_btn">Show on map</string>
+    <string name="course_instructor_label">Instructor:</string>
+    <string name="course_office_label">Office:</string>
+    <string name="course_office_hours_label">Office hours:</string>
+    <string name="course_email_label">Email:</string>
+    <string name="course_phone_label">Phone:</string>
+    <string name="course_instructor_edit_btn">Edit info</string>
+    <string name="course_notes_btn">Notes</string>
+    <string name="course_reminders_btn">Reminders</string>
+    <string name="course_assignments_exams_btn">Assignments/Exams</string>
+    <string name="course_next_course_label">Next course:</string>
+    <string name="course_next_course_time">Time until course:</string>
+    <string name="course_next_instructor">Instructor:</string>
+    <dimen name="course_sv_office_hours_height">50dp</dimen>
+</resources>

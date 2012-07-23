@@ -29,6 +29,9 @@ public class CalendarActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_calendar);
 		
+		TextView date = (TextView) findViewById(R.id.calendar_tv_date);
+		date.setText("Monday, July 23, 2012");
+		
 		RelativeLayout courses = (RelativeLayout) findViewById(R.id.calendar_day_courses);
 		
 		TextView newCourse = new TextView(this);

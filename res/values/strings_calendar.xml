@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="calendar_day_btn">Day</string>
+    <string name="calendar_week_btn">Week</string>
+    <string name="calendar_month_btn">Month</string>
+
+    
+</resources>
