@@ -8,6 +8,7 @@ package com.selagroup.schedu.activities;
 import com.selagroup.schedu.R;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.AttributeSet;
@@ -37,7 +38,7 @@ public class CalendarActivity extends Activity {
 		newCourse.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
-				Toast.makeText(CalendarActivity.this, "You touched me!", Toast.LENGTH_SHORT).show();
+				startActivity(new Intent(CalendarActivity.this, CourseActivity.class));
 				
 			}
 		});
