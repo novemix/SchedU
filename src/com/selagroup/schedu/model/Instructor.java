@@ -13,7 +13,8 @@ import com.selagroup.schedu.database.IContentValueItem;
  * The Class Instructor.
  */
 public class Instructor implements IContentValueItem {
-
+	private int mID = -1;
+	
 	public Instructor() {
 		
 	}
@@ -24,7 +25,10 @@ public class Instructor implements IContentValueItem {
 	}
 
 	public int getID() {
-		// TODO Auto-generated method stub
-		return 0;
+		return mID;
+	}
+
+	public void setID(int iID) {
+		mID = iID;
 	}
 }
