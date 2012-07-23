@@ -4,38 +4,45 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+    <!-- Buttons -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <Button
+        <ToggleButton
             android:id="@+id/calendar_btn_day"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/calendar_day_btn" />
+            android:textOn="@string/calendar_day_btn"
+            android:textOff="@string/calendar_day_btn" />
 
-        <Button
+        <ToggleButton
             android:id="@+id/calendar_btn_week"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/calendar_week_btn" />
+            android:textOn="@string/calendar_week_btn"
+            android:textOff="@string/calendar_week_btn" />
 
-        <Button
+        <ToggleButton
             android:id="@+id/calendar_btn_month"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/calendar_month_btn" />
+            android:textOn="@string/calendar_month_btn"
+            android:textOff="@string/calendar_month_btn" />
     </LinearLayout>
 
+    <!-- Date -->
     <TextView
         android:id="@+id/calendar_tv_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal" />
 
+    <!-- Main -->
+    <!-- Day -->
     <ScrollView
         android:id="@+id/calendar_sv_day"
         android:layout_width="match_parent"
@@ -361,4 +368,17 @@
         </LinearLayout>
     </ScrollView>
 
+    <!-- Week -->
+        <ScrollView
+        android:id="@+id/calendar_sv_week"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:visibility="gone" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+            </LinearLayout>
+            </ScrollView>
+    
 </LinearLayout>

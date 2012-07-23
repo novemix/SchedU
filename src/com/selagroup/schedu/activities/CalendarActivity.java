@@ -14,15 +14,21 @@ import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 /**
  * The Class CalendarActivity.
  */
 public class CalendarActivity extends Activity {
+	
+	ScrollView svDay, svWeek;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -31,6 +37,34 @@ public class CalendarActivity extends Activity {
 		
 		TextView date = (TextView) findViewById(R.id.calendar_tv_date);
 		date.setText("Monday, July 23, 2012");
+		
+		svDay = (ScrollView) findViewById(R.id.calendar_sv_day);
+		svWeek = (ScrollView) findViewById(R.id.calendar_sv_week);
+		
+		final ToggleButton btnDay = (ToggleButton) findViewById(R.id.calendar_btn_day);
+		final ToggleButton btnWeek = (ToggleButton) findViewById(R.id.calendar_btn_week);
+		
+		OnClickListener buttonListener = new OnClickListener() {
+			public void onClick(View v) {
+				switch (v.getId()) {
+				case R.id.calendar_btn_day:
+					btnWeek.setChecked(false);
+					btnDay.setChecked(true);
+					svWeek.setVisibility(View.GONE);
+					svDay.setVisibility(View.VISIBLE);
+					break;
+				case R.id.calendar_btn_week:
+					btnDay.setChecked(false);
+					btnWeek.setChecked(true);
+					svDay.setVisibility(View.GONE);
+					svWeek.setVisibility(View.VISIBLE);
+					break;
+				}
+			}
+		};
+		
+		btnDay.setOnClickListener(buttonListener);
+		btnWeek.setOnClickListener(buttonListener);
 		
 		RelativeLayout courses = (RelativeLayout) findViewById(R.id.calendar_day_courses);
 		
