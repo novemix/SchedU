@@ -4,4 +4,5 @@
     <string name="notes_date_label">Date</string>
     <string name="notes_title_label">Title</string>
     <string name="notes_type_label">Type</string>
+    <string name="sketchnote_title">Sketch Note</string>
 </resources>

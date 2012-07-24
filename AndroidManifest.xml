@@ -4,7 +4,9 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="15" />
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="15" />
 
     <application
         android:icon="@drawable/ic_launcher"
@@ -18,24 +20,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activities.AddCourseActivity" >
+        <activity android:name=".activities.AddCourseActivity" >
         </activity>
-        <activity
-            android:name=".activities.AddTimeActivity" >
+        <activity android:name=".activities.AddTimeActivity" >
         </activity>
-        <activity
-            android:name=".activities.CalendarActivity" >
+        <activity android:name=".activities.CalendarActivity" >
         </activity>
-        <activity
-            android:name=".activities.CourseActivity" >
+        <activity android:name=".activities.CourseActivity" >
         </activity>
-        <activity
-            android:name=".activities.InstructorActivity" >
+        <activity android:name=".activities.InstructorActivity" >
         </activity>
-        <activity
-            android:name=".activities.NotesActivity" >
+        <activity android:name=".activities.NotesActivity" >
         </activity>
-        </application>
+        <activity android:name=".activities.SketchNoteActivity" >
+        </activity>
+    </application>
 
 </manifest>

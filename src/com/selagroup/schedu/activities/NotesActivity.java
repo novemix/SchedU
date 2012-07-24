@@ -6,14 +6,16 @@ package com.selagroup.schedu.activities;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
+import android.widget.ImageButton;
 import com.selagroup.schedu.R;
 
 /**
@@ -26,6 +28,13 @@ public class NotesActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_notes);
 		
+		((ImageButton) findViewById(R.id.notes_btn_sketch)).setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
+				startActivity(new Intent(NotesActivity.this, SketchNoteActivity.class));
+			}
+		});
+				
 		final String[][] stuff = new String[][] {{"1","one"},{"2","two"},{"3","three"},{"4","four"},{"5","five"},
 				{"6","six"},{"7","seven"},{"8","eight"},{"9","nine"},{"10","ten"},
 				{"11","really long description, let's see what happens when we get really long, like now, ok?"},
