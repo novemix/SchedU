@@ -5,9 +5,12 @@
 
 package com.selagroup.schedu.managers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.database.Cursor;
 
-import com.selagroup.schedu.database.DatabaseHelper;
+import com.selagroup.schedu.database.DBHelper;
 import com.selagroup.schedu.model.Course;
 import com.selagroup.schedu.model.note.AudioNote;
 import com.selagroup.schedu.model.note.Note;
@@ -27,10 +30,26 @@ public class NoteManager extends Manager<Note> {
 	 * @param iHelper the helper
 	 * @param iCourseManager the course manager that will manage courses associated with these notes
 	 */
-	public NoteManager(DatabaseHelper iHelper, CourseManager iCourseManager) {
+	public NoteManager(DBHelper iHelper, CourseManager iCourseManager) {
 		super(iHelper);
 		mCourseManager = iCourseManager;
 		syncWithFileSystem();
+	}
+	
+	public List<Note> getAllForCourse(int iCourseID) {
+		List<Note> notes = new ArrayList<Note>();
+		
+		// Open the database, query for all notes matching the courseID, and add them to the list
+		open(OPEN_MODE.READ);
+		Cursor cursor = mDB.query(DBHelper.TABLE_Note, null, DBHelper.COL_NOTE_CourseID + "=?", new String[]{ "" + iCourseID }, null, null, null);
+		if (cursor.moveToFirst()) {
+			do {
+				notes.add(itemFromCurrentPos(cursor));
+			} while (cursor.moveToNext());
+		}
+		close();
+		
+		return notes;
 	}
 
 	@Override
@@ -42,7 +61,7 @@ public class NoteManager extends Manager<Note> {
 		}
 
 		open(OPEN_MODE.WRITE);
-		int noteID = (int) mDB.insert(DatabaseHelper.TABLE_Note, null, iNote.getValues());
+		int noteID = (int) mDB.insert(DBHelper.TABLE_Note, null, iNote.getValues());
 		iNote.setID(noteID);
 		close();
 		return noteID;
@@ -51,24 +70,24 @@ public class NoteManager extends Manager<Note> {
 	@Override
 	public void delete(Note iNote) {
 		open(OPEN_MODE.WRITE);
-		mDB.delete(DatabaseHelper.TABLE_Note, DatabaseHelper.COL_NOTE_ID + "=?", new String[] { "" + iNote.getID() });
+		mDB.delete(DBHelper.TABLE_Note, DBHelper.COL_NOTE_ID + "=?", new String[] { "" + iNote.getID() });
 		close();
 	}
 
 	@Override
 	public void update(Note iNote) {
 		open(OPEN_MODE.WRITE);
-		mDB.update(DatabaseHelper.TABLE_Note, iNote.getValues(), DatabaseHelper.COL_NOTE_ID + "=?", new String[] { "" + iNote.getID() });
+		mDB.update(DBHelper.TABLE_Note, iNote.getValues(), DBHelper.COL_NOTE_ID + "=?", new String[] { "" + iNote.getID() });
 		close();
 	}
 
 	@Override
 	protected Note itemFromCurrentPos(Cursor iCursor) {
 		// Get note data
-		int noteID = iCursor.getInt(iCursor.getColumnIndex(DatabaseHelper.COL_NOTE_ID));
-		String title = iCursor.getString(iCursor.getColumnIndex(DatabaseHelper.COL_NOTE_Title));
-		int courseID = iCursor.getInt(iCursor.getColumnIndex(DatabaseHelper.COL_NOTE_CourseID));
-		int typeIndex = iCursor.getInt(iCursor.getColumnIndex(DatabaseHelper.COL_NOTE_NoteTypeEnum));
+		int noteID = iCursor.getInt(iCursor.getColumnIndex(DBHelper.COL_NOTE_ID));
+		String title = iCursor.getString(iCursor.getColumnIndex(DBHelper.COL_NOTE_Title));
+		int courseID = iCursor.getInt(iCursor.getColumnIndex(DBHelper.COL_NOTE_CourseID));
+		int typeIndex = iCursor.getInt(iCursor.getColumnIndex(DBHelper.COL_NOTE_NoteTypeEnum));
 
 		// Convert type to an integer
 		Note.NOTE_TYPE type = Note.NOTE_TYPE.VALUES_ARRAY[typeIndex];
@@ -95,21 +114,21 @@ public class NoteManager extends Manager<Note> {
 
 		return newNote;
 	}
-
-	/**
-	 * Synchronizes information stored in the database with the file system. This is done to check for any files that have been deleted
-	 */
-	protected void syncWithFileSystem() {
-
-	}
 	
 	@Override
 	protected String getTableName() {
-		return DatabaseHelper.TABLE_Note;
+		return DBHelper.TABLE_Note;
 	}
 
 	@Override
 	protected String getIDColumnName() {
-		return DatabaseHelper.COL_NOTE_ID;
+		return DBHelper.COL_NOTE_ID;
+	}
+
+	/**
+	 * Synchronizes information stored in the database with the file system. This is done to check for any files that have been deleted
+	 */
+	private void syncWithFileSystem() {
+
 	}
 }

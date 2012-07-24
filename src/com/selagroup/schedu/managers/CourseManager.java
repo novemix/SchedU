@@ -1,24 +1,107 @@
+/**
+ * @author Nick Huebner and Mark Redden
+ * @version 1.0
+ */
 package com.selagroup.schedu.managers;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import com.selagroup.schedu.database.DatabaseHelper;
+import com.selagroup.schedu.database.DBHelper;
+import com.selagroup.schedu.managers.Manager.OPEN_MODE;
 import com.selagroup.schedu.model.Course;
 import com.selagroup.schedu.model.Instructor;
 import com.selagroup.schedu.model.Term;
 import com.selagroup.schedu.model.TimePlaceBlock;
 
+/**
+ * The Class CourseManager.
+ */
 public class CourseManager extends Manager<Course> {
 	private TermManager mTermManager;
 	private InstructorManager mInstructorManager;
 	private TimePlaceBlockManager mTimePlaceBlockManager;
 
-	public CourseManager(DatabaseHelper iHelper, TermManager iTermManager, InstructorManager iInstructorManager, TimePlaceBlockManager iTimePlaceBlockManager) {
+	/**
+	 * Instantiates a new course manager.
+	 *
+	 * @param iHelper the helper
+	 * @param iTermManager the term manager
+	 * @param iInstructorManager the instructor manager
+	 * @param iTimePlaceBlockManager the time place block manager
+	 */
+	public CourseManager(DBHelper iHelper, TermManager iTermManager, InstructorManager iInstructorManager, TimePlaceBlockManager iTimePlaceBlockManager) {
 		super(iHelper);
 		mTermManager = iTermManager;
 		mInstructorManager = iInstructorManager;
 		mTimePlaceBlockManager = iTimePlaceBlockManager;
+	}
+	
+	public List<Course> getAllForInstructor(int iInstructorID) {
+		List<Course> courses = new ArrayList<Course>();
+		
+		open(OPEN_MODE.READ);
+		Cursor cursor = mDB.rawQuery("SELECT " + DBHelper.COL_COURSE_ALL_COL + " FROM " + 
+				DBHelper.TABLE_Course + " INNER JOIN " + DBHelper.TABLE_Instructor + " ON " + 
+				DBHelper.TABLE_Instructor + "." + DBHelper.COL_INSTRUCTOR_ID + " = " + 
+				DBHelper.TABLE_Course + "." + DBHelper.COL_COURSE_InstructorID + 
+				" WHERE " + DBHelper.TABLE_Instructor + "." + DBHelper.COL_INSTRUCTOR_ID + " = ?", 
+				new String[] { "" + iInstructorID });
+		if (cursor.moveToFirst()) {
+			do{
+				courses.add(itemFromCurrentPos(cursor));
+			} while (cursor.moveToNext());
+		}
+		cursor.close();
+		close();
+		
+		return courses;
+	}
+
+	public List<Course> getAllForTerm(int iTermID) {
+		List<Course> courses = new ArrayList<Course>();
+
+		// Open the database, query for all courses matching the termID, and add them to the list
+		open(OPEN_MODE.READ);
+		Cursor cursor = mDB.query(DBHelper.TABLE_Course, null, DBHelper.COL_COURSE_TermID + "=?", new String[] { "" + iTermID }, null, null, null);
+		if (cursor.moveToFirst()) {
+			do {
+				courses.add(itemFromCurrentPos(cursor));
+			} while (cursor.moveToNext());
+		}
+		close();
+
+		return courses;
+	}
+
+	public List<Course> getAllForTermAndDay(int iTermID, int iDayFlag) {
+		List<Course> courses = new ArrayList<Course>();
+
+		// Open the database, query for all courses matching the termID and the day, and add them to the list
+		open(OPEN_MODE.READ);
+		Cursor cursor = mDB.rawQuery("SELECT " + DBHelper.COL_COURSE_ALL_COL + " FROM " + DBHelper.TABLE_Course +
+				" INNER JOIN " + DBHelper.TABLE_CourseTimePlaceBlock + " ON " +
+				DBHelper.TABLE_CourseTimePlaceBlock + "." + DBHelper.COL_COURSE_TIME_PLACE_BLOCK_CourseID + " = " +
+				DBHelper.TABLE_Course + "." + DBHelper.COL_COURSE_ID +
+				" INNER JOIN " + DBHelper.TABLE_TimePlaceBlock + " ON " +
+				DBHelper.TABLE_TimePlaceBlock + "." + DBHelper.COL_TIME_PLACE_BLOCK_ID + " = " + 
+				DBHelper.TABLE_CourseTimePlaceBlock + "." + DBHelper.COL_COURSE_TIME_PLACE_BLOCK_TimePlaceBlockID +
+				" WHERE (" + DBHelper.TABLE_Course + "." + DBHelper.COL_COURSE_TermID + " = ?) AND (" + 
+				DBHelper.TABLE_TimePlaceBlock + "." + DBHelper.COL_TIME_PLACE_BLOCK_DayFlag + " & ? > 0)",
+				new String[] { "" + iTermID, "" + iDayFlag });
+
+		if (cursor.moveToFirst()) {
+			do {
+				courses.add(itemFromCurrentPos(cursor));
+			} while (cursor.moveToNext());
+		}
+		cursor.close();
+		close();
+
+		return courses;
 	}
 
 	@Override
@@ -32,10 +115,10 @@ public class CourseManager extends Manager<Course> {
 		// Insert or update the instructor for this course
 		Instructor instructor = iCourse.getInstructor();
 		instructor.setID(mInstructorManager.insert(instructor));
-		
+
 		// Insert course to Course table
 		open(OPEN_MODE.WRITE);
-		int courseID = (int) mDB.insert(DatabaseHelper.TABLE_Course, null, iCourse.getValues());
+		int courseID = (int) mDB.insert(DBHelper.TABLE_Course, null, iCourse.getValues());
 		iCourse.setID(courseID);
 		close();
 
@@ -45,28 +128,14 @@ public class CourseManager extends Manager<Course> {
 			block.setID(mTimePlaceBlockManager.insert(block));
 
 			courseToScheduleBlock = new ContentValues();
-			courseToScheduleBlock.put(DatabaseHelper.COL_COURSE_TIME_PLACE_BLOCK_CourseID, courseID);
-			courseToScheduleBlock.put(DatabaseHelper.COL_COURSE_TIME_PLACE_BLOCK_TimePlaceBlockID, block.getID());
-			
+			courseToScheduleBlock.put(DBHelper.COL_COURSE_TIME_PLACE_BLOCK_CourseID, courseID);
+			courseToScheduleBlock.put(DBHelper.COL_COURSE_TIME_PLACE_BLOCK_TimePlaceBlockID, block.getID());
+
 			open(OPEN_MODE.WRITE);
-			mDB.insert(DatabaseHelper.TABLE_CourseTimeBlock, null, courseToScheduleBlock);
+			mDB.insert(DBHelper.TABLE_CourseTimePlaceBlock, null, courseToScheduleBlock);
 			close();
 		}
-		
-		// Insert or update office time blocks
-		ContentValues courseToOfficeBlock = null;
-		for (TimePlaceBlock block : iCourse.getOfficeBlocks()) {
-			block.setID(mTimePlaceBlockManager.insert(block));
-			
-			courseToOfficeBlock = new ContentValues();
-			courseToOfficeBlock.put(DatabaseHelper.COL_OFFICE_TIME_PLACE_BLOCK_CourseID, courseID);
-			courseToOfficeBlock.put(DatabaseHelper.COL_OFFICE_TIME_PLACE_BLOCK_TimePlaceBlockID, block.getID());
-			
-			open(OPEN_MODE.WRITE);
-			mDB.insert(DatabaseHelper.TABLE_OfficeTimePlaceBlock, null, courseToOfficeBlock);
-			close();
-		}
-		
+
 		return (int) courseID;
 	}
 
@@ -74,31 +143,20 @@ public class CourseManager extends Manager<Course> {
 	public void delete(Course iCourse) {
 		// Delete course from course table
 		open(OPEN_MODE.WRITE);
-		mDB.delete(DatabaseHelper.TABLE_Course, DatabaseHelper.COL_COURSE_ID + "=?", new String[] { "" + iCourse.getID() });
+		mDB.delete(DBHelper.TABLE_Course, DBHelper.COL_COURSE_ID + "=?", new String[] { "" + iCourse.getID() });
 		close();
-		
+
 		// Delete Schedule TimePlaceBlocks
 		for (TimePlaceBlock block : iCourse.getScheduleBlocks()) {
 			mTimePlaceBlockManager.delete(block);
 
 			open(OPEN_MODE.WRITE);
-			mDB.delete(DatabaseHelper.TABLE_CourseTimeBlock, DatabaseHelper.COL_COURSE_TIME_PLACE_BLOCK_CourseID + "=? AND " +
-					DatabaseHelper.COL_COURSE_TIME_PLACE_BLOCK_TimePlaceBlockID + "=?",
+			mDB.delete(DBHelper.TABLE_CourseTimePlaceBlock, DBHelper.COL_COURSE_TIME_PLACE_BLOCK_CourseID + "=? AND " +
+					DBHelper.COL_COURSE_TIME_PLACE_BLOCK_TimePlaceBlockID + "=?",
 					new String[] { "" + iCourse.getID(), "" + block.getID() });
 			close();
 		}
-		
-		// Delete Office TimePlaceBlocks
-		for (TimePlaceBlock block : iCourse.getOfficeBlocks()) {
-			mTimePlaceBlockManager.delete(block);
 
-			open(OPEN_MODE.WRITE);
-			mDB.delete(DatabaseHelper.TABLE_OfficeTimePlaceBlock, DatabaseHelper.COL_OFFICE_TIME_PLACE_BLOCK_CourseID + "=? AND " +
-					DatabaseHelper.COL_OFFICE_TIME_PLACE_BLOCK_TimePlaceBlockID + "=?",
-					new String[] { "" + iCourse.getID(), "" + block.getID() });
-			close();
-		}
-		
 		// TODO: Also, delete all notes, exams, and assignments for this course?
 	}
 
@@ -108,37 +166,23 @@ public class CourseManager extends Manager<Course> {
 
 		// Update instructor
 		mInstructorManager.update(iCourse.getInstructor());
-		
+
 		// Update course table
 		open(OPEN_MODE.WRITE);
-		mDB.update(DatabaseHelper.TABLE_Course, iCourse.getValues(), DatabaseHelper.COL_COURSE_ID + "=?", new String[] { "" + iCourse.getID() });
+		mDB.update(DBHelper.TABLE_Course, iCourse.getValues(), DBHelper.COL_COURSE_ID + "=?", new String[] { "" + iCourse.getID() });
 		close();
-		
+
 		// Insert or update schedule time blocks
 		ContentValues courseScheduleBlock = null;
 		for (TimePlaceBlock block : iCourse.getScheduleBlocks()) {
 			block.setID(mTimePlaceBlockManager.insert(block));
 
 			courseScheduleBlock = new ContentValues();
-			courseScheduleBlock.put(DatabaseHelper.COL_COURSE_TIME_PLACE_BLOCK_CourseID, courseID);
-			courseScheduleBlock.put(DatabaseHelper.COL_COURSE_TIME_PLACE_BLOCK_TimePlaceBlockID, block.getID());
-			
-			open(OPEN_MODE.WRITE);
-			mDB.insert(DatabaseHelper.TABLE_CourseTimeBlock, null, courseScheduleBlock);
-			close();
-		}
-		
-		// Insert or update schedule time blocks
-		ContentValues officeScheduleBlock = null;
-		for (TimePlaceBlock block : iCourse.getOfficeBlocks()) {
-			mTimePlaceBlockManager.insert(block);
+			courseScheduleBlock.put(DBHelper.COL_COURSE_TIME_PLACE_BLOCK_CourseID, courseID);
+			courseScheduleBlock.put(DBHelper.COL_COURSE_TIME_PLACE_BLOCK_TimePlaceBlockID, block.getID());
 
-			officeScheduleBlock = new ContentValues();
-			officeScheduleBlock.put(DatabaseHelper.COL_OFFICE_TIME_PLACE_BLOCK_CourseID, courseID);
-			officeScheduleBlock.put(DatabaseHelper.COL_OFFICE_TIME_PLACE_BLOCK_TimePlaceBlockID, block.getID());
-			
 			open(OPEN_MODE.WRITE);
-			mDB.insert(DatabaseHelper.TABLE_OfficeTimePlaceBlock, null, officeScheduleBlock);
+			mDB.insert(DBHelper.TABLE_CourseTimePlaceBlock, null, courseScheduleBlock);
 			close();
 		}
 	}
@@ -146,15 +190,15 @@ public class CourseManager extends Manager<Course> {
 	@Override
 	protected Course itemFromCurrentPos(Cursor iCursor) {
 		// Get course data
-		int courseID = iCursor.getInt(iCursor.getColumnIndex(DatabaseHelper.COL_COURSE_ID));
-		String courseCode = iCursor.getString(iCursor.getColumnIndex(DatabaseHelper.COL_COURSE_CourseCode));
-		String courseName = iCursor.getString(iCursor.getColumnIndex(DatabaseHelper.COL_COURSE_CourseName));
-		int instructorID = iCursor.getInt(iCursor.getColumnIndex(DatabaseHelper.COL_COURSE_InstructorID));
-		int termID = iCursor.getInt(iCursor.getColumnIndex(DatabaseHelper.COL_COURSE_TermID));
+		int courseID = iCursor.getInt(iCursor.getColumnIndex(DBHelper.COL_COURSE_ID));
+		String courseCode = iCursor.getString(iCursor.getColumnIndex(DBHelper.COL_COURSE_CourseCode));
+		String courseName = iCursor.getString(iCursor.getColumnIndex(DBHelper.COL_COURSE_CourseName));
+		int instructorID = iCursor.getInt(iCursor.getColumnIndex(DBHelper.COL_COURSE_InstructorID));
+		int termID = iCursor.getInt(iCursor.getColumnIndex(DBHelper.COL_COURSE_TermID));
 
 		// Lookup instructor from ID
 		Instructor instructor = mInstructorManager.get(instructorID);
-		
+
 		// Lookup term
 		Term term = mTermManager.get(termID);
 
@@ -162,8 +206,8 @@ public class CourseManager extends Manager<Course> {
 
 		// Get block IDs for the course schedule
 		open(OPEN_MODE.READ);
-		Cursor scheduleBlockCursor = mDB.query(DatabaseHelper.TABLE_CourseTimeBlock, new String[] { DatabaseHelper.COL_COURSE_TIME_PLACE_BLOCK_TimePlaceBlockID },
-				DatabaseHelper.COL_COURSE_TIME_PLACE_BLOCK_CourseID + "=?", new String[] { "" + courseID }, null, null, null);
+		Cursor scheduleBlockCursor = mDB.query(DBHelper.TABLE_CourseTimePlaceBlock, new String[] { DBHelper.COL_COURSE_TIME_PLACE_BLOCK_TimePlaceBlockID },
+				DBHelper.COL_COURSE_TIME_PLACE_BLOCK_CourseID + "=?", new String[] { "" + courseID }, null, null, null);
 		// Add schedule blocks
 		if (scheduleBlockCursor.moveToFirst()) {
 			do {
@@ -174,32 +218,17 @@ public class CourseManager extends Manager<Course> {
 		}
 		scheduleBlockCursor.close();
 		close();
-		
-		// Get block IDs for the office hours
-		open(OPEN_MODE.READ);
-		Cursor officeBlockCursor = mDB.query(DatabaseHelper.TABLE_OfficeTimePlaceBlock, new String[] { DatabaseHelper.COL_OFFICE_TIME_PLACE_BLOCK_TimePlaceBlockID },
-				DatabaseHelper.COL_OFFICE_TIME_PLACE_BLOCK_CourseID + "=?", new String[] { "" + courseID }, null, null, null);
-		// Add office blocks
-		if (officeBlockCursor.moveToFirst()) {
-			do {
-				int blockID = officeBlockCursor.getInt(0);	// Only column, the block IDs
-				TimePlaceBlock block = mTimePlaceBlockManager.get(blockID);
-				newCourse.addOfficeBlock(block);
-			} while (officeBlockCursor.moveToNext());
-		}
-		officeBlockCursor.close();
-		close();
 
 		return newCourse;
 	}
-	
+
 	@Override
 	protected String getTableName() {
-		return DatabaseHelper.TABLE_Course;
+		return DBHelper.TABLE_Course;
 	}
 
 	@Override
 	protected String getIDColumnName() {
-		return DatabaseHelper.COL_COURSE_ID;
+		return DBHelper.COL_COURSE_ID;
 	}
 }

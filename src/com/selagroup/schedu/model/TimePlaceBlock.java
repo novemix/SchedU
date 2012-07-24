@@ -6,7 +6,7 @@ package com.selagroup.schedu.model;
 
 import java.util.Calendar;
 
-import com.selagroup.schedu.database.DatabaseHelper;
+import com.selagroup.schedu.database.DBHelper;
 
 import android.content.ContentValues;
 
@@ -23,7 +23,7 @@ public class TimePlaceBlock extends ContentValueItem {
 	private int mDayFlag;
 	
 	// Masks for the days of the week: Sun, Mon, Tue, Wed, Thur, Fri, Sat, Sun
-	private static final int dayMasks[] = new int[] { 0x0001, 0x0002, 0x0004, 0x0008, 0x0010, 0x0020, 0x0040 };
+	public static final int DAY_MASKS[] = new int[] { 0x0001, 0x0002, 0x0004, 0x0008, 0x0010, 0x0020, 0x0040 };
 	
 	public TimePlaceBlock(int iID, Location iLocation, Calendar iStartTime, Calendar iEndTime, int iDayFlag) {
 		super(iID);
@@ -55,10 +55,10 @@ public class TimePlaceBlock extends ContentValueItem {
 
 	public ContentValues getValues() {
 		ContentValues values = new ContentValues();
-		values.put(DatabaseHelper.COL_TIME_PLACE_BLOCK_StartTime, mStartTime.getTimeInMillis());
-		values.put(DatabaseHelper.COL_TIME_PLACE_BLOCK_EndTime, mEndTime.getTimeInMillis());
-		values.put(DatabaseHelper.COL_TIME_PLACE_BLOCK_LocationID, mLocation.getID());
-		values.put(DatabaseHelper.COL_TIME_PLACE_BLOCK_DayFlag, mDayFlag);
+		values.put(DBHelper.COL_TIME_PLACE_BLOCK_StartTime, mStartTime.getTimeInMillis());
+		values.put(DBHelper.COL_TIME_PLACE_BLOCK_EndTime, mEndTime.getTimeInMillis());
+		values.put(DBHelper.COL_TIME_PLACE_BLOCK_LocationID, mLocation.getID());
+		values.put(DBHelper.COL_TIME_PLACE_BLOCK_DayFlag, mDayFlag);
 		return values;
 	}
 	
@@ -70,7 +70,7 @@ public class TimePlaceBlock extends ContentValueItem {
 		boolean[] flagArray = new boolean[7];
 		
 		for (int i = 0; i < DAYS_IN_WEEK; ++i) {
-			flagArray[i] = (mDayFlag & dayMasks[i]) > 0;
+			flagArray[i] = (mDayFlag & DAY_MASKS[i]) > 0;
 		}
 		
 		return flagArray;
@@ -83,7 +83,7 @@ public class TimePlaceBlock extends ContentValueItem {
 	public void setDayFlagArray(boolean[] flagArray) {
 		mDayFlag = 0;
 		for (int i = 0; i < DAYS_IN_WEEK; ++i) {
-			mDayFlag = (mDayFlag | (dayMasks[i] & (flagArray[i] ? 0xFFFF : 0x0000)));
+			mDayFlag = (mDayFlag | (DAY_MASKS[i] & (flagArray[i] ? 0xFFFF : 0x0000)));
 		}
 	}
 }

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.selagroup.schedu.database.DatabaseHelper;
+import com.selagroup.schedu.database.DBHelper;
 import com.selagroup.schedu.model.ContentValueItem;
 
 import android.database.Cursor;
@@ -23,7 +23,7 @@ public abstract class Manager<T extends ContentValueItem> {
 
 	protected SQLiteDatabase mDB = null;
 	protected ArrayList<T> mItemsTmp = new ArrayList<T>();
-	protected DatabaseHelper mHelper = null;
+	protected DBHelper mHelper = null;
 
 	public static enum OPEN_MODE {
 		READ, WRITE
@@ -33,7 +33,7 @@ public abstract class Manager<T extends ContentValueItem> {
 	 * Instantiates a new manager.
 	 * @param iContext the i context
 	 */
-	public Manager(DatabaseHelper iHelper) {
+	public Manager(DBHelper iHelper) {
 		mHelper = iHelper;
 	}
 	

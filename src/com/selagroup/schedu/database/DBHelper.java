@@ -12,7 +12,7 @@ import android.util.Log;
 /**
  * The Course DatabaseHelper
  */
-public class DatabaseHelper extends SQLiteOpenHelper {
+public class DBHelper extends SQLiteOpenHelper {
 
 	// Database name and version
 	public static final String DATABASE_NAME = "schedu.db";
@@ -39,6 +39,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String COL_COURSE_CourseName = "CourseName";
 	public static final String COL_COURSE_InstructorID = "Instructor_ID";	// Foreign key: Instructor.ID
 	public static final String COL_COURSE_TermID = "Term_ID";				// Foreign key: Term.ID
+	
+	public static final String COL_COURSE_ALL_COL =
+			TABLE_Course + "." + COL_COURSE_ID + ", " +
+			TABLE_Course + "." + COL_COURSE_CourseCode + ", " +
+			TABLE_Course + "." + COL_COURSE_CourseName +  ", " +
+			TABLE_Course + "." + COL_COURSE_InstructorID + ", " +
+			TABLE_Course + "." + COL_COURSE_TermID;
 
 	// Location table
 	public static final String TABLE_Location = "Location";
@@ -56,14 +63,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String COL_TIME_PLACE_BLOCK_LocationID = "Location_ID";		// Foreign key: Location.ID
 
 	// CourseTimePlaceBlocks table (connecting table)
-	public static final String TABLE_CourseTimeBlock = "CourseTimePlaceBlock";
+	public static final String TABLE_CourseTimePlaceBlock = "CourseTimePlaceBlock";
 	public static final String COL_COURSE_TIME_PLACE_BLOCK_TimePlaceBlockID = "TimePlaceBlock_ID";		// Foreign key: TimePlaceBlock.ID
 	public static final String COL_COURSE_TIME_PLACE_BLOCK_CourseID = "Course_ID";						// Foreign key: Course.ID
 
 	// OfficeTimePlaceBlocks table (connecting table)
 	public static final String TABLE_OfficeTimePlaceBlock = "OfficeTimePlaceBlock";
 	public static final String COL_OFFICE_TIME_PLACE_BLOCK_TimePlaceBlockID = "TimePlaceBlock_ID";	// Foreign key: TimePlaceBlock.ID
-	public static final String COL_OFFICE_TIME_PLACE_BLOCK_CourseID = "Course_ID";					// Foreign key: Course.ID
+	public static final String COL_OFFICE_TIME_PLACE_BLOCK_InstructorID = "Instructor_ID";			// Foreign key: Instructor.ID
 
 	// Note table
 	public static final String TABLE_Note = "Note";
@@ -83,9 +90,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	// Exam table
 	public static final String TABLE_Exam = "Exam";
-	public static final String COL_EXAM_ID = "_id";
-	public static final String COL_EXAM_CourseID = "Course_ID";
-	public static final String COL_EXAM_TimePlaceBlockID = "TimePlaceBlock_ID";
+	public static final String COL_EXAM_ID = "_id";								// Primary key
+	public static final String COL_EXAM_CourseID = "Course_ID";					// Foreign key: Course.ID
+	public static final String COL_EXAM_TimePlaceBlockID = "TimePlaceBlock_ID";	// Foreign key: TimePlaceBlock.ID
 	public static final String COL_EXAM_Description = "Description";
 
 	// Table creation statements
@@ -131,11 +138,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			"PRIMARY KEY(" + COL_COURSE_TIME_PLACE_BLOCK_CourseID + ", " + COL_COURSE_TIME_PLACE_BLOCK_TimePlaceBlockID + "));";
 
 	public static final String TABLE_CREATE_OfficeTimePlaceBlock = "(" +
-			COL_OFFICE_TIME_PLACE_BLOCK_CourseID + " INTEGER, " +
+			COL_OFFICE_TIME_PLACE_BLOCK_InstructorID + " INTEGER, " +
 			COL_OFFICE_TIME_PLACE_BLOCK_TimePlaceBlockID + " INTEGER, " +
-			"FOREIGN KEY(" + COL_OFFICE_TIME_PLACE_BLOCK_CourseID + ") REFERENCES " + TABLE_Course + "(" + COL_COURSE_ID + "), " +
+			"FOREIGN KEY(" + COL_OFFICE_TIME_PLACE_BLOCK_InstructorID + ") REFERENCES " + TABLE_Instructor + "(" + COL_INSTRUCTOR_ID + "), " +
 			"FOREIGN KEY(" + COL_OFFICE_TIME_PLACE_BLOCK_TimePlaceBlockID + ") REFERENCES " + TABLE_TimePlaceBlock + "(" + COL_TIME_PLACE_BLOCK_ID + "), " + 
-			"PRIMARY KEY(" + COL_OFFICE_TIME_PLACE_BLOCK_CourseID + ", " + COL_OFFICE_TIME_PLACE_BLOCK_TimePlaceBlockID + "));";
+			"PRIMARY KEY(" + COL_OFFICE_TIME_PLACE_BLOCK_InstructorID + ", " + COL_OFFICE_TIME_PLACE_BLOCK_TimePlaceBlockID + "));";
 
 	public static final String TABLE_CREATE_Note = "(" +
 			COL_NOTE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -163,7 +170,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	// All table names in the order they should be created
 	public static final String[] TABLE_NAMES = new String[] { TABLE_Term, TABLE_Instructor, TABLE_Course,
-			TABLE_Location, TABLE_TimePlaceBlock, TABLE_CourseTimeBlock, TABLE_OfficeTimePlaceBlock,
+			TABLE_Location, TABLE_TimePlaceBlock, TABLE_CourseTimePlaceBlock, TABLE_OfficeTimePlaceBlock,
 			TABLE_Note, TABLE_Assignment, TABLE_Exam };
 
 	// All table creation strings in the order they should be created
@@ -177,7 +184,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	 * @param context the context
 	 * @param factory the factory
 	 */
-	public DatabaseHelper(Context context) {
+	public DBHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 		Log.i("Test", "Helper created");
 	}

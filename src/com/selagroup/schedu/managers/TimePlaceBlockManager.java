@@ -7,7 +7,7 @@ package com.selagroup.schedu.managers;
 import android.database.Cursor;
 
 import com.selagroup.schedu.Utility;
-import com.selagroup.schedu.database.DatabaseHelper;
+import com.selagroup.schedu.database.DBHelper;
 import com.selagroup.schedu.model.Location;
 import com.selagroup.schedu.model.TimePlaceBlock;
 
@@ -18,7 +18,7 @@ public class TimePlaceBlockManager extends Manager<TimePlaceBlock> {
 	
 	private LocationManager mLocationManager;
 
-	public TimePlaceBlockManager(DatabaseHelper iHelper, LocationManager iLocationManager) {
+	public TimePlaceBlockManager(DBHelper iHelper, LocationManager iLocationManager) {
 		super(iHelper);
 		mLocationManager = iLocationManager;
 	}
@@ -34,7 +34,7 @@ public class TimePlaceBlockManager extends Manager<TimePlaceBlock> {
 		iBlock.setID(mLocationManager.insert(iBlock.getLocation()));
 
 		open(OPEN_MODE.WRITE);
-		int blockID = (int) mDB.insert(DatabaseHelper.TABLE_TimePlaceBlock, null, iBlock.getValues());
+		int blockID = (int) mDB.insert(DBHelper.TABLE_TimePlaceBlock, null, iBlock.getValues());
 		iBlock.setID(blockID);
 		close();
 		return blockID;
@@ -45,7 +45,7 @@ public class TimePlaceBlockManager extends Manager<TimePlaceBlock> {
 		mLocationManager.delete(iBlock.getLocation());
 		
 		open(OPEN_MODE.WRITE);
-		mDB.delete(DatabaseHelper.TABLE_TimePlaceBlock, DatabaseHelper.COL_TIME_PLACE_BLOCK_ID + "=?", new String[] { "" + iBlock.getID() });
+		mDB.delete(DBHelper.TABLE_TimePlaceBlock, DBHelper.COL_TIME_PLACE_BLOCK_ID + "=?", new String[] { "" + iBlock.getID() });
 		close();
 	}
 
@@ -54,17 +54,17 @@ public class TimePlaceBlockManager extends Manager<TimePlaceBlock> {
 		mLocationManager.update(iBlock.getLocation());
 		
 		open(OPEN_MODE.WRITE);
-		mDB.update(DatabaseHelper.TABLE_TimePlaceBlock, iBlock.getValues(), DatabaseHelper.COL_TIME_PLACE_BLOCK_ID + "=?", new String[] { "" + iBlock.getID() });
+		mDB.update(DBHelper.TABLE_TimePlaceBlock, iBlock.getValues(), DBHelper.COL_TIME_PLACE_BLOCK_ID + "=?", new String[] { "" + iBlock.getID() });
 		close();
 	}
 
 	@Override
 	protected TimePlaceBlock itemFromCurrentPos(Cursor iCursor) {
-		int id = iCursor.getInt(iCursor.getColumnIndex(DatabaseHelper.COL_TIME_PLACE_BLOCK_ID));
-		long startTime = iCursor.getInt(iCursor.getColumnIndex(DatabaseHelper.COL_TIME_PLACE_BLOCK_StartTime));
-		long endTime = iCursor.getInt(iCursor.getColumnIndex(DatabaseHelper.COL_TIME_PLACE_BLOCK_EndTime));
-		int dayFlag = iCursor.getInt(iCursor.getColumnIndex(DatabaseHelper.COL_TIME_PLACE_BLOCK_DayFlag));
-		int locationID = iCursor.getInt(iCursor.getColumnIndex(DatabaseHelper.COL_TIME_PLACE_BLOCK_LocationID));
+		int id = iCursor.getInt(iCursor.getColumnIndex(DBHelper.COL_TIME_PLACE_BLOCK_ID));
+		long startTime = iCursor.getInt(iCursor.getColumnIndex(DBHelper.COL_TIME_PLACE_BLOCK_StartTime));
+		long endTime = iCursor.getInt(iCursor.getColumnIndex(DBHelper.COL_TIME_PLACE_BLOCK_EndTime));
+		int dayFlag = iCursor.getInt(iCursor.getColumnIndex(DBHelper.COL_TIME_PLACE_BLOCK_DayFlag));
+		int locationID = iCursor.getInt(iCursor.getColumnIndex(DBHelper.COL_TIME_PLACE_BLOCK_LocationID));
 		
 		Location location = mLocationManager.get(locationID);
 		
@@ -73,11 +73,11 @@ public class TimePlaceBlockManager extends Manager<TimePlaceBlock> {
 	
 	@Override
 	protected String getTableName() {
-		return DatabaseHelper.TABLE_TimePlaceBlock;
+		return DBHelper.TABLE_TimePlaceBlock;
 	}
 
 	@Override
 	protected String getIDColumnName() {
-		return DatabaseHelper.COL_TIME_PLACE_BLOCK_ID;
+		return DBHelper.COL_TIME_PLACE_BLOCK_ID;
 	}
 }

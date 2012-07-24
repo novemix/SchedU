@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.selagroup.schedu.database.DatabaseHelper;
+import com.selagroup.schedu.database.DBHelper;
 
 import android.content.ContentValues;
 
@@ -22,7 +22,6 @@ public class Course extends ContentValueItem {
 	private String mCourseName;
 	private Instructor mInstructor;
 	private List<TimePlaceBlock> mScheduleBlocks = new ArrayList<TimePlaceBlock>(2);
-	private List<TimePlaceBlock> mOfficeBlocks = new ArrayList<TimePlaceBlock>(2);
 
 	/**
 	 * Instantiates a new course.
@@ -48,28 +47,16 @@ public class Course extends ContentValueItem {
 		mScheduleBlocks.remove(iBlock);
 	}
 
-	public void addOfficeBlock(TimePlaceBlock iBlock) {
-		mOfficeBlocks.add(iBlock);
-	}
-
-	public void removeOfficeBlock(TimePlaceBlock iBlock) {
-		mOfficeBlocks.remove(iBlock);
-	}
-
 	public List<TimePlaceBlock> getScheduleBlocks() {
 		return Collections.unmodifiableList(mScheduleBlocks);
 	}
 
-	public List<TimePlaceBlock> getOfficeBlocks() {
-		return Collections.unmodifiableList(mOfficeBlocks);
-	}
-
 	public ContentValues getValues() {
 		ContentValues values = new ContentValues();
-		values.put(DatabaseHelper.COL_COURSE_CourseName, mCourseName);
-		values.put(DatabaseHelper.COL_COURSE_CourseCode, mCourseCode);
-		values.put(DatabaseHelper.COL_COURSE_InstructorID, mInstructor.getID());
-		values.put(DatabaseHelper.COL_COURSE_TermID, mTerm.getID());
+		values.put(DBHelper.COL_COURSE_CourseName, mCourseName);
+		values.put(DBHelper.COL_COURSE_CourseCode, mCourseCode);
+		values.put(DBHelper.COL_COURSE_InstructorID, mInstructor.getID());
+		values.put(DBHelper.COL_COURSE_TermID, mTerm.getID());
 		return values;
 	}
 

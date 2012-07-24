@@ -5,7 +5,7 @@
 
 package com.selagroup.schedu.model;
 
-import com.selagroup.schedu.database.DatabaseHelper;
+import com.selagroup.schedu.database.DBHelper;
 
 import android.content.ContentValues;
 
@@ -27,9 +27,9 @@ public class Location extends ContentValueItem {
 
 	public ContentValues getValues() {
 		ContentValues values = new ContentValues();
-		values.put(DatabaseHelper.COL_LOCATION_Building, mBuilding);
-		values.put(DatabaseHelper.COL_LOCATION_Room, mRoom);
-		values.put(DatabaseHelper.COL_LOCATION_GeoLocation, mGeoLocation);
+		values.put(DBHelper.COL_LOCATION_Building, mBuilding);
+		values.put(DBHelper.COL_LOCATION_Room, mRoom);
+		values.put(DBHelper.COL_LOCATION_GeoLocation, mGeoLocation);
 		return values;
 	}
 }

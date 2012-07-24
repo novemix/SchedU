@@ -3,12 +3,12 @@ package com.selagroup.schedu.managers;
 import android.database.Cursor;
 
 import com.selagroup.schedu.Utility;
-import com.selagroup.schedu.database.DatabaseHelper;
+import com.selagroup.schedu.database.DBHelper;
 import com.selagroup.schedu.model.Term;
 
 public class TermManager extends Manager<Term> {
 
-	public TermManager(DatabaseHelper iHelper) {
+	public TermManager(DBHelper iHelper) {
 		super(iHelper);
 	}
 
@@ -21,7 +21,7 @@ public class TermManager extends Manager<Term> {
 		}
 
 		open(OPEN_MODE.WRITE);
-		int termID = (int) mDB.insert(DatabaseHelper.TABLE_Term, null, iTerm.getValues());
+		int termID = (int) mDB.insert(DBHelper.TABLE_Term, null, iTerm.getValues());
 		iTerm.setID(termID);
 		close();
 		return termID;
@@ -41,26 +41,26 @@ public class TermManager extends Manager<Term> {
 		open(OPEN_MODE.WRITE);
 		
 		// Update term table
-		mDB.update(DatabaseHelper.TABLE_Term, iTerm.getValues(), DatabaseHelper.COL_TERM_ID + "=?", new String[] { "" + iTerm.getID() });
+		mDB.update(DBHelper.TABLE_Term, iTerm.getValues(), DBHelper.COL_TERM_ID + "=?", new String[] { "" + iTerm.getID() });
 		close();
 	}
 
 	@Override
 	protected Term itemFromCurrentPos(Cursor iCursor) {
-		int id = iCursor.getInt(iCursor.getColumnIndex(DatabaseHelper.COL_TERM_ID));
-		long startDate = iCursor.getInt(iCursor.getColumnIndex(DatabaseHelper.COL_TERM_StartDate));
-		long endDate = iCursor.getInt(iCursor.getColumnIndex(DatabaseHelper.COL_TERM_EndDate));
+		int id = iCursor.getInt(iCursor.getColumnIndex(DBHelper.COL_TERM_ID));
+		long startDate = iCursor.getInt(iCursor.getColumnIndex(DBHelper.COL_TERM_StartDate));
+		long endDate = iCursor.getInt(iCursor.getColumnIndex(DBHelper.COL_TERM_EndDate));
 		
 		return new Term(id, Utility.calendarFromInt(startDate), Utility.calendarFromInt(endDate));
 	}
 	
 	@Override
 	protected String getTableName() {
-		return DatabaseHelper.TABLE_Term;
+		return DBHelper.TABLE_Term;
 	}
 
 	@Override
 	protected String getIDColumnName() {
-		return DatabaseHelper.COL_TERM_ID;
+		return DBHelper.COL_TERM_ID;
 	}
 }

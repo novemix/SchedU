@@ -4,7 +4,7 @@
  */
 package com.selagroup.schedu.model;
 
-import com.selagroup.schedu.database.DatabaseHelper;
+import com.selagroup.schedu.database.DBHelper;
 
 import android.content.ContentValues;
 
@@ -29,9 +29,9 @@ public class Exam extends ContentValueItem {
 
 	public ContentValues getValues() {
 		ContentValues values = new ContentValues();
-		values.put(DatabaseHelper.COL_EXAM_Description, mDescription);
-		values.put(DatabaseHelper.COL_EXAM_CourseID, mCourse.getID());
-		values.put(DatabaseHelper.COL_EXAM_TimePlaceBlockID, mBlock.getID());
+		values.put(DBHelper.COL_EXAM_Description, mDescription);
+		values.put(DBHelper.COL_EXAM_CourseID, mCourse.getID());
+		values.put(DBHelper.COL_EXAM_TimePlaceBlockID, mBlock.getID());
 		return values;
 	}
 	

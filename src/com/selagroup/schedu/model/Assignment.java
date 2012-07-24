@@ -8,7 +8,7 @@ package com.selagroup.schedu.model;
 
 import java.util.Calendar;
 
-import com.selagroup.schedu.database.DatabaseHelper;
+import com.selagroup.schedu.database.DBHelper;
 
 import android.content.ContentValues;
 
@@ -29,9 +29,9 @@ public class Assignment extends ContentValueItem {
 
 	public ContentValues getValues() {
 		ContentValues values = new ContentValues();
-		values.put(DatabaseHelper.COL_ASSIGNMENT_Name, mName);
-		values.put(DatabaseHelper.COL_ASSIGNMENT_DueDate, mDueDate.getTimeInMillis());
-		values.put(DatabaseHelper.COL_ASSIGNMENT_CourseID, mCourse.getID());
+		values.put(DBHelper.COL_ASSIGNMENT_Name, mName);
+		values.put(DBHelper.COL_ASSIGNMENT_DueDate, mDueDate.getTimeInMillis());
+		values.put(DBHelper.COL_ASSIGNMENT_CourseID, mCourse.getID());
 		return values;
 	}
 }
