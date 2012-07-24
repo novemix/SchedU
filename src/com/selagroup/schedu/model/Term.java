@@ -5,26 +5,35 @@
 
 package com.selagroup.schedu.model;
 
-import android.content.ContentValues;
+import java.util.Calendar;
 
-import com.selagroup.schedu.database.IContentValueItem;
+import com.selagroup.schedu.database.ContentValueItem;
+
+import android.content.ContentValues;
 
 /**
  * The Class Term.
  */
-public class Term implements IContentValueItem {
-
-	public Term() {
-
+public class Term extends ContentValueItem {
+	private Calendar mStartDate;
+	private Calendar mEndDate;
+	
+	public Term(int iID, Calendar iStartDate, Calendar iEndDate) {
+		super(iID);
+		mStartDate = iStartDate;
+		mEndDate = iEndDate;
 	}
 
 	public ContentValues getValues() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	public int getID() {
-		// TODO Auto-generated method stub
-		return 0;
+	
+	public Calendar getStartDate() {
+		return mStartDate;
+	}
+	
+	public Calendar getEndDate() {
+		return mEndDate;
 	}
 }

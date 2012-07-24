@@ -7,13 +7,13 @@ package com.selagroup.schedu.model.note;
 
 import java.util.Calendar;
 
-import com.selagroup.schedu.database.IContentValueItem;
+import com.selagroup.schedu.database.ContentValueItem;
 import com.selagroup.schedu.model.Course;
 
 /**
  * The Class Note.
  */
-public abstract class Note implements IContentValueItem {
+public abstract class Note extends ContentValueItem {
 
 	// Type of note
 	public static enum NOTE_TYPE {
@@ -21,7 +21,6 @@ public abstract class Note implements IContentValueItem {
 		public static final NOTE_TYPE[] VALUES_ARRAY = NOTE_TYPE.values();
 	};
 
-	private int mID;						// Note ID
 	protected NOTE_TYPE mType;				// Type of this note
 	private Course mCourse;					// The course this note is for
 	private String mDescription;			// Title for this note
@@ -29,19 +28,12 @@ public abstract class Note implements IContentValueItem {
 	private Calendar mDateCreated;			// Date this note was created
 
 	public Note(int iID, NOTE_TYPE iType, Course iCourse, String iDescription) {
-		mID = iID;
+		super(iID);
 		mType = iType;
 		mCourse = iCourse;
 		mDescription = iDescription;
 		mFilePath = "";						// Should initialize with some file path that makes sense for the Android
 		mDateCreated = Calendar.getInstance();
-	}
-
-	/**
-	 * @return The note ID
-	 */
-	public int getID() {
-		return mID;
 	}
 
 	/**

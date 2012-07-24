@@ -1,29 +1,41 @@
+/**
+ * @author Nick Huebner and Mark Redden
+ * @version 1.0
+ */
 package com.selagroup.schedu.managers;
 
 import android.database.Cursor;
 
 import com.selagroup.schedu.database.DatabaseHelper;
-import com.selagroup.schedu.managers.Manager.OPEN_MODE;
 import com.selagroup.schedu.model.Instructor;
 
+/**
+ * The Class InstructorManager.
+ */
 public class InstructorManager extends Manager<Instructor> {
-
-	public InstructorManager(DatabaseHelper iHelper) {
+	private TimePlaceBlockManager mTimePlaceBlockManager;
+	
+	public InstructorManager(DatabaseHelper iHelper, TimePlaceBlockManager iTimePlaceBlockManager) {
 		super(iHelper);
+		mTimePlaceBlockManager = iTimePlaceBlockManager;
 	}
 
 	@Override
 	public int insert(Instructor iInstructor) {
-		// If the note already exists, just update the entry
+		// If the instructor already exists, just update the entry
 		if (get(iInstructor.getID()) != null) {
 			update(iInstructor);
 			return iInstructor.getID();
 		}
 
 		open(OPEN_MODE.WRITE);
-		long instructorID = mDB.insert(DatabaseHelper.TABLE_Instructor, null, iInstructor.getValues());
+		int instructorID = (int) mDB.insert(DatabaseHelper.TABLE_Instructor, null, iInstructor.getValues());
+		iInstructor.setID(instructorID);
+		
+		// TODO: Also insert any office hours for the instructor
+		
 		close();
-		return (int) instructorID;
+		return instructorID;
 	}
 
 	@Override
@@ -37,12 +49,27 @@ public class InstructorManager extends Manager<Instructor> {
 		open(OPEN_MODE.WRITE);
 		mDB.update(DatabaseHelper.TABLE_Instructor, iInstructor.getValues(), DatabaseHelper.COL_INSTRUCTOR_ID + "=?", new String[] { "" + iInstructor.getID() });
 		close();
+		
+		// TODO: Also update any office hours for the instructor
 	}
 
 	@Override
 	protected Instructor itemFromCurrentPos(Cursor iCursor) {
-		// TODO Auto-generated method stub
-		return null;
+		int id = iCursor.getInt(iCursor.getColumnIndex(DatabaseHelper.COL_INSTRUCTOR_ID));
+		String name = iCursor.getString(iCursor.getColumnIndex(DatabaseHelper.COL_INSTRUCTOR_Name));
+		String email = iCursor.getString(iCursor.getColumnIndex(DatabaseHelper.COL_INSTRUCTOR_Email));
+		String phone = iCursor.getString(iCursor.getColumnIndex(DatabaseHelper.COL_INSTRUCTOR_Phone));
+		
+		return new Instructor(id, name, phone, email);
+	}
+	
+	@Override
+	protected String getTableName() {
+		return DatabaseHelper.TABLE_Instructor;
 	}
 
+	@Override
+	protected String getIDColumnName() {
+		return DatabaseHelper.COL_INSTRUCTOR_ID;
+	}
 }

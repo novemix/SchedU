@@ -11,13 +11,12 @@ import java.util.List;
 
 import android.content.ContentValues;
 
-import com.selagroup.schedu.database.IContentValueItem;
+import com.selagroup.schedu.database.ContentValueItem;
 
 /**
  * The Class SchoolClass.
  */
-public class Course implements IContentValueItem {
-	private int mID;
+public class Course extends ContentValueItem {
 	private String mCourseCode;
 	private String mCourseName;
 	private Instructor mInstructor;
@@ -32,7 +31,7 @@ public class Course implements IContentValueItem {
 	 * @param iInstructor the instructor
 	 */
 	public Course(int iID, String iCourseCode, String iCourseName, Instructor iInstructor) {
-		mID = iID;
+		super(iID);
 		mCourseCode = iCourseCode;
 		mCourseName = iCourseName;
 		mInstructor = iInstructor;
@@ -53,10 +52,6 @@ public class Course implements IContentValueItem {
 	public ContentValues getValues() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	public int getID() {
-		return mID;
 	}
 
 	public Term getTerm() {

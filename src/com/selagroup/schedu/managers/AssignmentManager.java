@@ -35,4 +35,14 @@ public class AssignmentManager extends Manager<Assignment> {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	protected String getTableName() {
+		return DatabaseHelper.TABLE_Assignment;
+	}
+
+	@Override
+	protected String getIDColumnName() {
+		return DatabaseHelper.COL_ASSIGNMENT_ID;
+	}
 }

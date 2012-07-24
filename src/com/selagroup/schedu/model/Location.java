@@ -5,12 +5,21 @@
 
 package com.selagroup.schedu.model;
 
+import android.content.ContentValues;
+
+import com.selagroup.schedu.database.ContentValueItem;
+
 /**
  * The Class Location.
  */
-public class Location {
+public class Location extends ContentValueItem {
+	
+	public Location(int iID) {
+		super(iID);
+	}
 
-	public Location() {
-
+	public ContentValues getValues() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

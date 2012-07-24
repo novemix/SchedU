@@ -8,22 +8,28 @@ import java.util.Calendar;
 
 import android.content.ContentValues;
 
-import com.selagroup.schedu.database.IContentValueItem;
+import com.selagroup.schedu.database.ContentValueItem;
 
 /**
  * The Class TimePlaceBlock.
  */
-public class TimePlaceBlock implements IContentValueItem {
-	private int mID;
-	private Location mLocation;
-	private Calendar mStartTime;		// Note: the day/month/year for this should NOT be used
-	private Calendar mEndTime;
+public class TimePlaceBlock extends ContentValueItem {
+	private static final int DAYS_IN_WEEK = 7;
 	
-	public TimePlaceBlock(int iID, Location iLocation, Calendar iStartTime, Calendar iEndTime) {
-		mID = iID;
+	private Location mLocation;
+	private Calendar mStartTime;
+	private Calendar mEndTime;
+	private int mDayFlag;
+	
+	// Masks for the days of the week: Sun, Mon, Tue, Wed, Thur, Fri, Sat, Sun
+	private static final int dayMasks[] = new int[] { 0x0001, 0x0002, 0x0004, 0x0008, 0x0010, 0x0020, 0x0040 };
+	
+	public TimePlaceBlock(int iID, Location iLocation, Calendar iStartTime, Calendar iEndTime, int iDayFlag) {
+		super(iID);
 		mLocation = iLocation;
 		mStartTime = iStartTime;
 		mEndTime = iEndTime;
+		mDayFlag = iDayFlag;
 	}
 	
 	public Location getLocation() {
@@ -42,12 +48,29 @@ public class TimePlaceBlock implements IContentValueItem {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	public int getID() {
-		return mID;
+	
+	/**
+	 * Gets an array of booleans for each day of the week (Sun - Sat)
+	 * @return
+	 */
+	public boolean[] getDayFlagArray() {
+		boolean[] flagArray = new boolean[7];
+		
+		for (int i = 0; i < DAYS_IN_WEEK; ++i) {
+			flagArray[i] = (mDayFlag & dayMasks[i]) > 0;
+		}
+		
+		return flagArray;
 	}
-
-	public void setID(int iID) {
-		mID = iID;
+	
+	/**
+	 * Sets the flag array for days of the week (Sun - Sat)
+	 * @param flagArray
+	 */
+	public void setDayFlagArray(boolean[] flagArray) {
+		mDayFlag = 0;
+		for (int i = 0; i < DAYS_IN_WEEK; ++i) {
+			mDayFlag = (mDayFlag | (dayMasks[i] & (flagArray[i] ? 0xFFFF : 0x0000)));
+		}
 	}
 }

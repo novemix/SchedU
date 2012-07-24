@@ -29,7 +29,8 @@ public class CourseManager extends Manager<Course> {
 		open(OPEN_MODE.WRITE);
 
 		// Insert course to Course table
-		long courseID = mDB.insert(DatabaseHelper.TABLE_Course, null, iCourse.getValues());
+		int courseID = (int) mDB.insert(DatabaseHelper.TABLE_Course, null, iCourse.getValues());
+		iCourse.setID(courseID);
 
 		// Insert course/term listing to CourseToTerm table
 		ContentValues courseToTermValues = new ContentValues();
@@ -118,7 +119,7 @@ public class CourseManager extends Manager<Course> {
 		// Lookup instructor from ID
 		Instructor instructor = mInstructorManager.get(instructorID);
 
-		Course returnCourse = new Course(courseID, courseCode, courseName, instructor);
+		Course newCourse = new Course(courseID, courseCode, courseName, instructor);
 
 		// Get block IDs for this course
 		Cursor blockCursor = mDB.query(DatabaseHelper.TABLE_CourseTimeBlock, new String[] { DatabaseHelper.COL_COURSE_TIME_PLACE_BLOCK_TimePlaceBlockID },
@@ -129,10 +130,20 @@ public class CourseManager extends Manager<Course> {
 			do {
 				int blockID = blockCursor.getInt(0);	// Only column, the block IDs
 				TimePlaceBlock block = mTimePlaceBlockManager.get(blockID);
-				returnCourse.addBlock(block);
+				newCourse.addBlock(block);
 			} while (blockCursor.moveToNext());
 		}
 
-		return returnCourse;
+		return newCourse;
+	}
+	
+	@Override
+	protected String getTableName() {
+		return DatabaseHelper.TABLE_Course;
+	}
+
+	@Override
+	protected String getIDColumnName() {
+		return DatabaseHelper.COL_COURSE_ID;
 	}
 }

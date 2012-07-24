@@ -54,7 +54,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	// TimePlaceBlock table
 	public static final String TABLE_TimePlaceBlock = "TimePlaceBlock";
 	public static final String COL_TIME_PLACE_BLOCK_ID = "_id";						// Primary key
-	public static final String COL_TIME_PLACE_BLOCK_DayFlags = "DayFlags";
+	public static final String COL_TIME_PLACE_BLOCK_DayFlag = "DayFlag";
 	public static final String COL_TIME_PLACE_BLOCK_StartTime = "StartTime";
 	public static final String COL_TIME_PLACE_BLOCK_EndTime = "EndTime";
 	public static final String COL_TIME_PLACE_BLOCK_LocationID = "Location_ID";		// Foreign key: Location.ID
@@ -126,7 +126,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	public static final String TABLE_CREATE_TimePlaceBlock = "(" +
 			COL_TIME_PLACE_BLOCK_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-			COL_TIME_PLACE_BLOCK_DayFlags + " INTEGER, " +
+			COL_TIME_PLACE_BLOCK_DayFlag + " INTEGER, " +
 			COL_TIME_PLACE_BLOCK_StartTime + " INTEGER, " +
 			COL_TIME_PLACE_BLOCK_EndTime + " INTEGER, " +
 			COL_TIME_PLACE_BLOCK_LocationID + " INTEGER, " +

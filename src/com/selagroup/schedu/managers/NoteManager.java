@@ -42,9 +42,10 @@ public class NoteManager extends Manager<Note> {
 		}
 
 		open(OPEN_MODE.WRITE);
-		long noteID = mDB.insert(DatabaseHelper.TABLE_Note, null, iNote.getValues());
+		int noteID = (int) mDB.insert(DatabaseHelper.TABLE_Note, null, iNote.getValues());
+		iNote.setID(noteID);
 		close();
-		return (int) noteID;
+		return noteID;
 	}
 
 	@Override
@@ -100,5 +101,15 @@ public class NoteManager extends Manager<Note> {
 	 */
 	protected void syncWithFileSystem() {
 
+	}
+	
+	@Override
+	protected String getTableName() {
+		return DatabaseHelper.TABLE_Note;
+	}
+
+	@Override
+	protected String getIDColumnName() {
+		return DatabaseHelper.COL_NOTE_ID;
 	}
 }

@@ -7,29 +7,37 @@ package com.selagroup.schedu.model;
 
 import android.content.ContentValues;
 
-import com.selagroup.schedu.database.IContentValueItem;
+import com.selagroup.schedu.database.ContentValueItem;
 
 /**
  * The Class Instructor.
  */
-public class Instructor implements IContentValueItem {
-	private int mID = -1;
+public class Instructor extends ContentValueItem {
 	private String mName;
+	private String mPhone;
+	private String mEmail;
 	
-	public Instructor(String iName) {
+	public Instructor(int iID, String iName, String iPhone, String iEmail) {
+		super(iID);
 		mName = iName;
+		mPhone = iPhone;
+		mEmail = iEmail;
 	}
 
 	public ContentValues getValues() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	public int getID() {
-		return mID;
+	
+	public String getName() {
+		return mName;
 	}
-
-	public void setID(int iID) {
-		mID = iID;
+	
+	public String getPhone() {
+		return mPhone;
+	}
+	
+	public String getEmail() {
+		return mEmail;
 	}
 }

@@ -6,9 +6,11 @@
 package com.selagroup.schedu.managers;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
+import com.selagroup.schedu.database.ContentValueItem;
 import com.selagroup.schedu.database.DatabaseHelper;
-import com.selagroup.schedu.database.IContentValueItem;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -17,11 +19,11 @@ import android.util.Log;
 /**
  * The Class Manager.
  */
-public abstract class Manager<T extends IContentValueItem> {
+public abstract class Manager<T extends ContentValueItem> {
 
 	protected SQLiteDatabase mDB = null;
-	private DatabaseHelper mHelper = null;
 	protected ArrayList<T> mItemsTmp = new ArrayList<T>();
+	private DatabaseHelper mHelper = null;
 
 	public static enum OPEN_MODE {
 		READ, WRITE
@@ -71,7 +73,7 @@ public abstract class Manager<T extends IContentValueItem> {
 	public final T get(int iItemID) {
 		T item = null;
 		open(OPEN_MODE.READ);
-		Cursor cursor = mDB.query(DatabaseHelper.TABLE_Note, null, DatabaseHelper.COL_NOTE_ID + "=?", new String[] { "" + iItemID }, null, null, null);
+		Cursor cursor = mDB.query(getTableName(), null, getIDColumnName() + "=?", new String[] { "" + iItemID }, null, null, null);
 		if (cursor.moveToFirst()) {
 			item = itemFromCurrentPos(cursor);
 		}
@@ -83,15 +85,16 @@ public abstract class Manager<T extends IContentValueItem> {
 	 * Gets all items of type T from database
 	 * @return all items in an ArrayList
 	 */
-	public final ArrayList<T> getAll() {
+	public final List<T> getAll() {
 		mItemsTmp.clear();
 		open(OPEN_MODE.READ);
 		
-		// Loop query for all notes and loop through the cursor, adding notes
-		Cursor cursor = mDB.query(DatabaseHelper.TABLE_Note, null, null, null, null, null, null);
+		// Loop query for all items and loop through the cursor, adding items to the list
+		T itemToAdd = null;
+		Cursor cursor = mDB.query(getTableName(), null, null, null, null, null, null);
 		if (cursor.moveToFirst()) {
 			do {
-				T itemToAdd = itemFromCurrentPos(cursor);
+				itemToAdd = itemFromCurrentPos(cursor);
 				if (itemToAdd != null) {
 					mItemsTmp.add(itemToAdd);
 				}
@@ -100,7 +103,7 @@ public abstract class Manager<T extends IContentValueItem> {
 		
 		close();
 		
-		return mItemsTmp;
+		return Collections.unmodifiableList(mItemsTmp);
 	}
 
 	/**
@@ -131,4 +134,7 @@ public abstract class Manager<T extends IContentValueItem> {
 			mDB = null;
 		}
 	}
+	
+	protected abstract String getTableName();
+	protected abstract String getIDColumnName();
 }

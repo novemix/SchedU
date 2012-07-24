@@ -5,26 +5,20 @@
 
 package com.selagroup.schedu.model;
 
-import android.content.ContentValues;
+import com.selagroup.schedu.database.ContentValueItem;
 
-import com.selagroup.schedu.database.IContentValueItem;
+import android.content.ContentValues;
 
 /**
  * The Class Assignment.
  */
-public class Assignment implements IContentValueItem {
-
-	public Assignment() {
-		
+public class Assignment extends ContentValueItem {
+	public Assignment(int iID) {
+		super(iID);
 	}
 
 	public ContentValues getValues() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	public int getID() {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 }
