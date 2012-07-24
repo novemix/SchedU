@@ -4,5 +4,6 @@
     <string name="app_name">Sched-U</string>
     <dimen name="zero_dp">0dp</dimen>
     <dimen name="label_padding">10dp</dimen>
+    <dimen name="new_note_button_height">40dp</dimen>
 
 </resources>

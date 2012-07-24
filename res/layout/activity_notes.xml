@@ -46,33 +46,33 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="@dimen/new_note_button_height" >
 
         <ImageButton
             android:id="@+id/notes_btn_text"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:src="@android:drawable/ic_menu_sort_alphabetically" />
 
         <ImageButton
             android:id="@+id/notes_btn_sketch"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:src="@android:drawable/ic_menu_edit" />
 
         <ImageButton
             android:id="@+id/notes_btn_audio"
             android:layout_width="0dp"
-            android:layout_height="fill_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:src="@android:drawable/ic_lock_silent_mode_off" />
 
         <ImageButton
             android:id="@+id/notes_btn_camera"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:src="@android:drawable/ic_menu_camera" />
     </LinearLayout>
