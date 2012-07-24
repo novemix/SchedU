@@ -3,16 +3,13 @@ package com.selagroup.schedu;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
-import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Point;
+import android.net.Uri;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -20,7 +17,6 @@ import android.widget.Toast;
 
 public class Sketch extends View implements OnTouchListener {
 
-	ArrayList<Point> mSketch;
 	Paint mPaint;
 	Canvas mCanvas;
 	Context context;
@@ -31,20 +27,15 @@ public class Sketch extends View implements OnTouchListener {
 	public Sketch(Context myContext) {
 		super(myContext);
 		context = myContext;
-		this.setBackgroundColor(Color.WHITE);
-		// this.setMinimumHeight(((View) this.getParent()).getHeight());
-		// this.setMinimumWidth(((View) this.getParent()).getWidth());
 		
 		this.setFocusable(true);
 		this.setFocusableInTouchMode(true);
 		this.setOnTouchListener(this);
 
-		mSketch = new ArrayList<Point>();
 		prevX = -1;
 		prevY = -1;
 		
 		mPaint = new Paint();
-		mPaint.setColor(Color.WHITE);
 		mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
 		mPaint.setAntiAlias(true);
 		mPaint.setStrokeWidth(2);
@@ -78,23 +69,6 @@ public class Sketch extends View implements OnTouchListener {
             canvas.drawBitmap(mBitmap, 0, 0, null);
         }
     }
-//	public void onDraw(Canvas c) {
-//		if (mBitmap == null) {
-//			mBitmap = Bitmap.createBitmap(this.getWidth(), this.getHeight(), Config.RGB_565);
-//		}
-//		if (mCanvas == null) mCanvas = c;
-//		Point prevPoint = null;
-//		mPaint.setStrokeWidth(2);
-//		for (Point p : mSketch) {
-//			if (prevPoint != null && p.x != -1 && prevPoint.x != -1) {
-//				c.drawLine(prevPoint.x, prevPoint.y, p.x, p.y, mPaint);
-//			}
-//			// else {
-//			// c.drawCircle(p.x,p.y,4,mPaint);
-//			// }
-//			prevPoint = p;
-//		}
-//	}
 
 	public boolean onTouch(View v, MotionEvent me) {
 		mPaint.setARGB(255, 0, 0, 0);
@@ -104,7 +78,6 @@ public class Sketch extends View implements OnTouchListener {
 			mCanvas.drawPoint(x, y, mPaint);
 			prevX = x;
 			prevY = y;
-			//mSketch.add(new Point((int) me.getX(), (int) me.getY()));
 		}
 		if (me.getAction() == MotionEvent.ACTION_MOVE) {
 			if (prevX != -1) {
@@ -112,7 +85,6 @@ public class Sketch extends View implements OnTouchListener {
 				prevX = x;
 				prevY = y;
 			}
-			//mSketch.add(new Point((int) me.getX(), (int) me.getY()));
 		}
 		if (me.getAction() == MotionEvent.ACTION_UP) {
 			prevX = -1;
@@ -123,7 +95,6 @@ public class Sketch extends View implements OnTouchListener {
 	}
 
 	public void clear() {
-//		mSketch.clear();
 		if (mCanvas != null) {
             mPaint.setARGB(0xff, 255, 255, 255);
             mCanvas.drawPaint(mPaint);
@@ -136,11 +107,17 @@ public class Sketch extends View implements OnTouchListener {
 		File file = new File(context.getFilesDir().toString() + "/test.png");
 		try {
 			OutputStream stream = new FileOutputStream(file);
-			/* Write bitmap to file using JPEG or PNG and 80% quality hint for JPEG. */
+			// Write bitmap to file using JPEG or PNG and 80% quality hint for JPEG.
 			mBitmap.compress(CompressFormat.PNG, 80, stream);
 			stream.close();
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+		Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+	    
+	    Uri contentUri = Uri.fromFile(new File(file.getAbsolutePath()));
+	    mediaScanIntent.setData(contentUri);
+	    context.sendBroadcast(mediaScanIntent);
+
 	}
 }
