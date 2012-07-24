@@ -42,6 +42,7 @@ public class CalendarActivity extends Activity {
 		svWeek = (ScrollView) findViewById(R.id.calendar_sv_week);
 		
 		final ToggleButton btnDay = (ToggleButton) findViewById(R.id.calendar_btn_day);
+		btnDay.setChecked(true);
 		final ToggleButton btnWeek = (ToggleButton) findViewById(R.id.calendar_btn_week);
 		
 		OnClickListener buttonListener = new OnClickListener() {

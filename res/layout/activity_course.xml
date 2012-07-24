@@ -126,11 +126,17 @@
         android:scaleType="fitXY"
         android:src="@android:drawable/divider_horizontal_dark" />
 
+     <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+         >
     <!-- Instructor info -->
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/course_divider_bottom" >
 
         <!-- Name -->
         <TextView
@@ -149,56 +155,14 @@
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/course_instructor_label"
             android:hint="--instructor--" />
-
-        <!-- Office location -->
-        <TextView
-            android:id="@+id/course_office_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/course_instructor_label"
-            android:paddingRight="@dimen/label_padding"
-            android:text="@string/course_office_label" />
-
-        <TextView
-            android:id="@+id/course_office"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/course_office_label"
-            android:layout_alignBottom="@+id/course_office_label"
-            android:layout_toRightOf="@+id/course_office_label"
-            android:hint="--office--" />
-
-        <!-- Office hours -->
-        <TextView
-            android:id="@+id/course_office_hours_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/course_office_label"
-            android:text="@string/course_office_hours_label" />
-
-        <ScrollView
-            android:id="@+id/course_sv_office_hours"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/course_sv_office_hours_height"
-            android:layout_below="@id/course_office_hours_label" >
-
-            <LinearLayout
-                android:id="@+id/course_ll_office_hours"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical" >
-            </LinearLayout>
-        </ScrollView>
-
+        
         <!-- Email -->
         <TextView
             android:id="@+id/course_email_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@id/course_sv_office_hours"
+            android:layout_below="@id/course_instructor_label"
             android:paddingRight="@dimen/label_padding"
             android:text="@string/course_email_label" />
 
@@ -228,29 +192,79 @@
             android:layout_toRightOf="@+id/course_phone_label"
             android:hint="--phone--" />
 
+
+        <!-- Office location -->
+        <TextView
+            android:id="@+id/course_office_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/course_phone_label"
+            android:paddingRight="@dimen/label_padding"
+            android:text="@string/course_office_label" />
+
+        <TextView
+            android:id="@+id/course_office"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/course_office_label"
+            android:layout_alignBottom="@+id/course_office_label"
+            android:layout_toRightOf="@+id/course_office_label"
+            android:hint="--office--" />
+
         <!-- Edit instructor button -->
         <Button
             android:id="@+id/course_btn_edit_instructor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/course_email_label"
+            android:layout_alignBottom="@+id/course_office_hours_label"
             android:text="@string/course_instructor_edit_btn" />
+        
+        <!-- Office hours -->
+        <TextView
+            android:id="@+id/course_office_hours_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/course_office_label"
+            android:text="@string/course_office_hours_label" />
+
+        <ScrollView
+            android:id="@+id/course_sv_office_hours"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_above="@+id/course_divider_bottom"
+            android:layout_below="@id/course_office_hours_label" >
+
+            <LinearLayout
+                android:id="@+id/course_ll_office_hours"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+            </LinearLayout>
+        </ScrollView>
+
+
     </RelativeLayout>
 
-    <!-- Divider -->
+   
+          <!-- Divider -->
     <ImageView
+        android:id="@+id/course_divider_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="2dp"
         android:scaleType="fitXY"
+        android:layout_above="@+id/course_ll_bottom"
         android:src="@android:drawable/divider_horizontal_dark" />
 
     <!-- Bottom section -->
     <LinearLayout
+        android:id="@+id/course_ll_bottom"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:visibility="visible" >
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" >
 
         <!-- Notes/Reminders/Assignments buttons -->
         <LinearLayout
@@ -325,5 +339,6 @@
                 android:hint="--instructor--" />
         </LinearLayout>
     </LinearLayout>
-
+   
+</RelativeLayout>
 </LinearLayout>
