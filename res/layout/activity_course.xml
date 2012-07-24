@@ -21,10 +21,10 @@
 
         <!-- Course description -->
         <TextView
-            android:id="@+id/course_course_desc"
+            android:id="@+id/course_course_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="--course description--"
+            android:hint="--course name--"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
 

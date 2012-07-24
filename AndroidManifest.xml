@@ -33,6 +33,9 @@
         <activity
             android:name=".activities.InstructorActivity" >
         </activity>
+        <activity
+            android:name=".activities.NotesActivity" >
+        </activity>
         </application>
 
 </manifest>

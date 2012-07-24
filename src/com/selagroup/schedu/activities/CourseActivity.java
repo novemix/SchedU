@@ -33,6 +33,14 @@ public class CourseActivity extends Activity {
 			}
 		});
 		
+		((Button) findViewById(R.id.course_btn_notes)).setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
+				startActivity(new Intent(CourseActivity.this, NotesActivity.class));
+			}
+		});
+		
+		
 		LinearLayout hours = (LinearLayout) findViewById(R.id.course_ll_office_hours);
 		TextView tv1 = new TextView(this);
 		tv1.setText("Mon, Wed -- 1pm - 3pm");

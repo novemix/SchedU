@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="notes_create_label">Create new:</string>
+    <string name="notes_date_label">Date</string>
+    <string name="notes_title_label">Title</string>
+    <string name="notes_type_label">Type</string>
+</resources>
