@@ -11,7 +11,6 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import com.selagroup.schedu.database.DBHelper;
-import com.selagroup.schedu.managers.Manager.OPEN_MODE;
 import com.selagroup.schedu.model.Course;
 import com.selagroup.schedu.model.Instructor;
 import com.selagroup.schedu.model.Term;

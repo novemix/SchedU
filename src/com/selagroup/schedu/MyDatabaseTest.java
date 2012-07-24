@@ -12,6 +12,8 @@ import com.selagroup.schedu.model.*;
 import com.selagroup.schedu.model.note.*;
 
 public class MyDatabaseTest {
+	private static final String TAG = "Test";
+	
 	public MyDatabaseTest(Context appContext) {
 		DBHelper helper = new DBHelper(appContext);
 		
@@ -66,27 +68,72 @@ public class MyDatabaseTest {
 		Exam exam1 = new Exam(-1, "Quiz 1", bio101, examBlock1);
 		
 		// Insert data
-		Log.i("Test", "Finished constructors, now doing inserts...");
-		Log.i("Test", "Inserting term.");
+		Log.i(TAG, "Finished constructors, now doing inserts...");
+		Log.i(TAG, "Inserting term.");
 		termManager.insert(term);
-		Log.i("Test", "Inserting bio 101 course.");
+		Log.i(TAG, "Inserting bio 101 course.");
 		courseManager.insert(bio101);
-		Log.i("Test", "Inserting chem 101 course.");
+		Log.i(TAG, "Inserting chem 101 course.");
 		courseManager.insert(chem101);
-		Log.i("Test", "Inserting note1.");
+		Log.i(TAG, "Inserting note1.");
 		noteManager.insert(note1);
-		Log.i("Test", "Inserting note2.");
+		Log.i(TAG, "Inserting note2.");
 		noteManager.insert(note2);
-		Log.i("Test", "Inserting assignment1.");
+		Log.i(TAG, "Inserting assignment1.");
 		assignmentManager.insert(assignment1);
-		Log.i("Test", "Inserting exam1.");
+		Log.i(TAG, "Inserting exam1.");
 		examManager.insert(exam1);
+		Log.i(TAG, "Exam ID: " + exam1.getID());
 		
-		Log.i("Test", "Getting all courses for Wed");
+		// Test get all for term and day
+		Log.i(TAG, "Getting all courses for Wed.");
 		List<Course> courses = courseManager.getAllForTermAndDay(term.getID(), TimePlaceBlock.DAY_MASKS[3]);
-		
 		for (Course course : courses) {
-			Log.i("Test", "Course: " + course.getCourseName() + " is on Wed.");
+			Log.i(TAG, "Course: " + course.getCourseName() + " is on Wed.");
 		}
+		
+		// Test get all for term
+		Log.i(TAG, "Getting all courses for the term.");
+		courses = courseManager.getAllForTerm(term.getID());
+		for (Course course : courses) {
+			Log.i(TAG, "Course: " + course.getCourseName() + " is in this term.");
+		}
+		
+		// Test get all for instructor
+		Log.i(TAG, "Getting all courses for " + instructor1.getName());
+		courses = courseManager.getAllForInstructor(instructor1.getID());
+		for (Course course : courses) {
+			Log.i(TAG, "Course: " + course.getCourseName() + " is taught by " + instructor1.getName());
+		}
+		
+		// Test gets
+		Log.i(TAG, "Get course: " + courseManager.get(chem101.getID()).getCourseName());
+		Log.i(TAG, "Get instructor: " + instructorManager.get(instructor2.getID()).getName());
+		Log.i(TAG, "Get term, day of month start: " + termManager.get(term.getID()).getStartDate().get(Calendar.DAY_OF_MONTH));
+		Log.i(TAG, "Get exam: " + examManager.get(exam1.getID()).getDescription());
+		Log.i(TAG, "Get assignment: " + assignmentManager.get(assignment1.getID()).getName());
+		Log.i(TAG, "Get note: " + noteManager.get(note1.getID()).getDescription());
+		
+		// Test getAlls
+		Log.i(TAG, "Get courses: " + courseManager.getAll().size());
+		Log.i(TAG, "Get instructors: " + instructorManager.getAll().size());
+		Log.i(TAG, "Get terms: " + termManager.getAll().size());
+		Log.i(TAG, "Get exams: " + examManager.getAll().size());
+		Log.i(TAG, "Get assignments: " + assignmentManager.getAll().size());
+		Log.i(TAG, "Get notes: " + noteManager.getAll().size());
+		
+		// Test deletes
+		Log.i(TAG, "Deleting course.");
+		courseManager.delete(chem101);
+		Log.i(TAG, "Deleting instructor.");
+		instructorManager.delete(instructor1);
+		Log.i(TAG, "Deleting exam.");
+		examManager.delete(exam1);
+		Log.i(TAG, "Deleting assignment.");
+		assignmentManager.delete(assignment1);
+		Log.i(TAG, "Deleting note.");
+		noteManager.delete(note1);
+		Log.i(TAG, "Deleting term.");
+		termManager.delete(term);
 	}
 }

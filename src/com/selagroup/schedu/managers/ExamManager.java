@@ -65,7 +65,7 @@ public class ExamManager extends Manager<Exam> {
 	@Override
 	public void delete(Exam iExam) {
 		// Delete the TimePlaceBlock for this exam
-		mTimePlaceBlockManager.insert(iExam.getBlock());
+		mTimePlaceBlockManager.delete(iExam.getBlock());
 		
 		open(OPEN_MODE.WRITE);
 		mDB.delete(DBHelper.TABLE_Exam, DBHelper.COL_EXAM_ID + "=?", new String[] { "" + iExam.getID() });

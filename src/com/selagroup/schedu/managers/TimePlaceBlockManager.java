@@ -61,8 +61,8 @@ public class TimePlaceBlockManager extends Manager<TimePlaceBlock> {
 	@Override
 	protected TimePlaceBlock itemFromCurrentPos(Cursor iCursor) {
 		int id = iCursor.getInt(iCursor.getColumnIndex(DBHelper.COL_TIME_PLACE_BLOCK_ID));
-		long startTime = iCursor.getInt(iCursor.getColumnIndex(DBHelper.COL_TIME_PLACE_BLOCK_StartTime));
-		long endTime = iCursor.getInt(iCursor.getColumnIndex(DBHelper.COL_TIME_PLACE_BLOCK_EndTime));
+		long startTime = iCursor.getLong(iCursor.getColumnIndex(DBHelper.COL_TIME_PLACE_BLOCK_StartTime));
+		long endTime = iCursor.getLong(iCursor.getColumnIndex(DBHelper.COL_TIME_PLACE_BLOCK_EndTime));
 		int dayFlag = iCursor.getInt(iCursor.getColumnIndex(DBHelper.COL_TIME_PLACE_BLOCK_DayFlag));
 		int locationID = iCursor.getInt(iCursor.getColumnIndex(DBHelper.COL_TIME_PLACE_BLOCK_LocationID));
 		

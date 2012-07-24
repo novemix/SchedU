@@ -34,4 +34,16 @@ public class Assignment extends ContentValueItem {
 		values.put(DBHelper.COL_ASSIGNMENT_CourseID, mCourse.getID());
 		return values;
 	}
+	
+	public String getName() {
+		return mName;
+	}
+	
+	public Calendar getDueDate() {
+		return mDueDate;
+	}
+	
+	public Course getCourse() {
+		return mCourse;
+	}
 }

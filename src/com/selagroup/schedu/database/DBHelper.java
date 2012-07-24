@@ -7,7 +7,6 @@ package com.selagroup.schedu.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 /**
  * The Course DatabaseHelper
@@ -161,7 +160,7 @@ public class DBHelper extends SQLiteOpenHelper {
 			"FOREIGN KEY(" + COL_ASSIGNMENT_CourseID + ") REFERENCES " + TABLE_Course + "(" + COL_COURSE_ID + "));";
 
 	public static final String TABLE_CREATE_Exam = "(" +
-			COL_EXAM_ID + " INTEGER, " +
+			COL_EXAM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
 			COL_EXAM_Description + " TEXT, " +
 			COL_EXAM_CourseID + " INTEGER, " +
 			COL_EXAM_TimePlaceBlockID + " INTEGER, " +
@@ -186,7 +185,6 @@ public class DBHelper extends SQLiteOpenHelper {
 	 */
 	public DBHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
-		Log.i("Test", "Helper created");
 	}
 
 	/**
@@ -196,11 +194,8 @@ public class DBHelper extends SQLiteOpenHelper {
 	 */
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		Log.i("Test", "DB Created");
 		for (int i = 0; i < TABLE_NAMES.length; ++i) {
-			Log.i("Test", "Adding table: " + TABLE_NAMES[i]);
 			db.execSQL("CREATE TABLE " + TABLE_NAMES[i] + " " + TABLE_CREATES[i]);
-			Log.i("Test", "Added table: " + TABLE_NAMES[i]);
 		}
 		//db.execSQL("CREATE TABLE Term (_id INTEGER);");
 	}
@@ -212,7 +207,6 @@ public class DBHelper extends SQLiteOpenHelper {
 	 */
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		Log.i("Test", "Upgraded");
 		for (String tableName : TABLE_NAMES) {
 			db.execSQL("drop table " + tableName + ";");
 		}
@@ -220,7 +214,6 @@ public class DBHelper extends SQLiteOpenHelper {
 	}
 	
 	public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		Log.i("Test", "Downgraded");
 		for (String tableName : TABLE_NAMES) {
 			db.execSQL("drop table " + tableName + ";");
 		}

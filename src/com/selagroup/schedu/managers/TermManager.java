@@ -48,8 +48,8 @@ public class TermManager extends Manager<Term> {
 	@Override
 	protected Term itemFromCurrentPos(Cursor iCursor) {
 		int id = iCursor.getInt(iCursor.getColumnIndex(DBHelper.COL_TERM_ID));
-		long startDate = iCursor.getInt(iCursor.getColumnIndex(DBHelper.COL_TERM_StartDate));
-		long endDate = iCursor.getInt(iCursor.getColumnIndex(DBHelper.COL_TERM_EndDate));
+		long startDate = iCursor.getLong(iCursor.getColumnIndex(DBHelper.COL_TERM_StartDate));
+		long endDate = iCursor.getLong(iCursor.getColumnIndex(DBHelper.COL_TERM_EndDate));
 		
 		return new Term(id, Utility.calendarFromInt(startDate), Utility.calendarFromInt(endDate));
 	}
