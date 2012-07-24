@@ -7,8 +7,6 @@ package com.selagroup.schedu.model.note;
 
 import com.selagroup.schedu.model.Course;
 
-import android.content.ContentValues;
-
 /**
  * The Class TextNote.
  */
@@ -29,10 +27,5 @@ public class TextNote extends Note {
 	 */
 	public String getText() {
 		return mText;
-	}
-
-	public ContentValues getValues() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

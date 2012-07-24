@@ -7,7 +7,10 @@ package com.selagroup.schedu.model.note;
 
 import java.util.Calendar;
 
-import com.selagroup.schedu.database.ContentValueItem;
+import android.content.ContentValues;
+
+import com.selagroup.schedu.database.DatabaseHelper;
+import com.selagroup.schedu.model.ContentValueItem;
 import com.selagroup.schedu.model.Course;
 
 /**
@@ -77,5 +80,16 @@ public abstract class Note extends ContentValueItem {
 	 */
 	public Calendar getDateCreated() {
 		return mDateCreated;
+	}
+
+	@Override
+	public ContentValues getValues() {
+		ContentValues values = new ContentValues();
+		values.put(DatabaseHelper.COL_NOTE_Title, mDescription);
+		values.put(DatabaseHelper.COL_NOTE_CreationDate, mDateCreated.getTimeInMillis());
+		values.put(DatabaseHelper.COL_NOTE_NoteTypeEnum, mType.ordinal());
+		values.put(DatabaseHelper.COL_NOTE_FilePath, mFilePath);
+		values.put(DatabaseHelper.COL_NOTE_CourseID, mCourse.getID());
+		return values;
 	}
 }

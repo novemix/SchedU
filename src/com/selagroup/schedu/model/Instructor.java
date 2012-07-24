@@ -5,9 +5,10 @@
 
 package com.selagroup.schedu.model;
 
+import com.selagroup.schedu.database.DatabaseHelper;
+
 import android.content.ContentValues;
 
-import com.selagroup.schedu.database.ContentValueItem;
 
 /**
  * The Class Instructor.
@@ -25,8 +26,11 @@ public class Instructor extends ContentValueItem {
 	}
 
 	public ContentValues getValues() {
-		// TODO Auto-generated method stub
-		return null;
+		ContentValues values = new ContentValues();
+		values.put(DatabaseHelper.COL_INSTRUCTOR_Name, mName);
+		values.put(DatabaseHelper.COL_INSTRUCTOR_Email, mEmail);
+		values.put(DatabaseHelper.COL_INSTRUCTOR_Phone, mPhone);
+		return values;
 	}
 	
 	public String getName() {

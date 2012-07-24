@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.selagroup.schedu.MyDatabaseTest;
 import com.selagroup.schedu.R;
 
 /**
@@ -19,6 +20,8 @@ public class TermActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_term);
+		
+		MyDatabaseTest test = new MyDatabaseTest(getApplicationContext());
 		
 		startActivity(new Intent(this, AddCourseActivity.class));
 	}

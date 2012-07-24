@@ -7,7 +7,8 @@ package com.selagroup.schedu.model;
 
 import java.util.Calendar;
 
-import com.selagroup.schedu.database.ContentValueItem;
+import com.selagroup.schedu.database.DatabaseHelper;
+
 
 import android.content.ContentValues;
 
@@ -25,8 +26,10 @@ public class Term extends ContentValueItem {
 	}
 
 	public ContentValues getValues() {
-		// TODO Auto-generated method stub
-		return null;
+		ContentValues values = new ContentValues();
+		values.put(DatabaseHelper.COL_TERM_StartDate, mStartDate.getTimeInMillis());
+		values.put(DatabaseHelper.COL_TERM_EndDate, mEndDate.getTimeInMillis());
+		return values;
 	}
 	
 	public Calendar getStartDate() {

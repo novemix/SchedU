@@ -20,6 +20,7 @@ public class TimePlaceBlockManager extends Manager<TimePlaceBlock> {
 
 	public TimePlaceBlockManager(DatabaseHelper iHelper, LocationManager iLocationManager) {
 		super(iHelper);
+		mLocationManager = iLocationManager;
 	}
 
 	@Override
@@ -29,6 +30,8 @@ public class TimePlaceBlockManager extends Manager<TimePlaceBlock> {
 			update(iBlock);
 			return iBlock.getID();
 		}
+		
+		iBlock.setID(mLocationManager.insert(iBlock.getLocation()));
 
 		open(OPEN_MODE.WRITE);
 		int blockID = (int) mDB.insert(DatabaseHelper.TABLE_TimePlaceBlock, null, iBlock.getValues());
@@ -39,6 +42,8 @@ public class TimePlaceBlockManager extends Manager<TimePlaceBlock> {
 
 	@Override
 	public void delete(TimePlaceBlock iBlock) {
+		mLocationManager.delete(iBlock.getLocation());
+		
 		open(OPEN_MODE.WRITE);
 		mDB.delete(DatabaseHelper.TABLE_TimePlaceBlock, DatabaseHelper.COL_TIME_PLACE_BLOCK_ID + "=?", new String[] { "" + iBlock.getID() });
 		close();
@@ -46,9 +51,9 @@ public class TimePlaceBlockManager extends Manager<TimePlaceBlock> {
 
 	@Override
 	public void update(TimePlaceBlock iBlock) {
+		mLocationManager.update(iBlock.getLocation());
+		
 		open(OPEN_MODE.WRITE);
-
-		// Update term table
 		mDB.update(DatabaseHelper.TABLE_TimePlaceBlock, iBlock.getValues(), DatabaseHelper.COL_TIME_PLACE_BLOCK_ID + "=?", new String[] { "" + iBlock.getID() });
 		close();
 	}

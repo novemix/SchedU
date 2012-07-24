@@ -1,9 +1,9 @@
-package com.selagroup.schedu.database;
+package com.selagroup.schedu.model;
 
 import android.content.ContentValues;
 
 public abstract class ContentValueItem {
-	private int mID;
+	protected int mID;
 	
 	public ContentValueItem(int iID) {
 		mID = iID;

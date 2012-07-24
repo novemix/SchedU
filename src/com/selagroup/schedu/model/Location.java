@@ -5,21 +5,31 @@
 
 package com.selagroup.schedu.model;
 
+import com.selagroup.schedu.database.DatabaseHelper;
+
 import android.content.ContentValues;
 
-import com.selagroup.schedu.database.ContentValueItem;
 
 /**
  * The Class Location.
  */
 public class Location extends ContentValueItem {
+	private String mBuilding;
+	private String mRoom;
+	private String mGeoLocation;
 	
-	public Location(int iID) {
+	public Location(int iID, String iBuilding, String iRoom, String iGeoLocation) {
 		super(iID);
+		mBuilding = iBuilding;
+		mRoom = iRoom;
+		mGeoLocation = iGeoLocation;
 	}
 
 	public ContentValues getValues() {
-		// TODO Auto-generated method stub
-		return null;
+		ContentValues values = new ContentValues();
+		values.put(DatabaseHelper.COL_LOCATION_Building, mBuilding);
+		values.put(DatabaseHelper.COL_LOCATION_Room, mRoom);
+		values.put(DatabaseHelper.COL_LOCATION_GeoLocation, mGeoLocation);
+		return values;
 	}
 }

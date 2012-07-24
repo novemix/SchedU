@@ -6,9 +6,10 @@ package com.selagroup.schedu.model;
 
 import java.util.Calendar;
 
+import com.selagroup.schedu.database.DatabaseHelper;
+
 import android.content.ContentValues;
 
-import com.selagroup.schedu.database.ContentValueItem;
 
 /**
  * The Class TimePlaceBlock.
@@ -32,6 +33,14 @@ public class TimePlaceBlock extends ContentValueItem {
 		mDayFlag = iDayFlag;
 	}
 	
+	public TimePlaceBlock(int iID, Location iLocation, Calendar iStartTime, Calendar iEndTime, boolean[] iDayFlag) {
+		super(iID);
+		mLocation = iLocation;
+		mStartTime = iStartTime;
+		mEndTime = iEndTime;
+		setDayFlagArray(iDayFlag);
+    }
+
 	public Location getLocation() {
 		return mLocation;
 	}
@@ -45,8 +54,12 @@ public class TimePlaceBlock extends ContentValueItem {
 	}
 
 	public ContentValues getValues() {
-		// TODO Auto-generated method stub
-		return null;
+		ContentValues values = new ContentValues();
+		values.put(DatabaseHelper.COL_TIME_PLACE_BLOCK_StartTime, mStartTime.getTimeInMillis());
+		values.put(DatabaseHelper.COL_TIME_PLACE_BLOCK_EndTime, mEndTime.getTimeInMillis());
+		values.put(DatabaseHelper.COL_TIME_PLACE_BLOCK_LocationID, mLocation.getID());
+		values.put(DatabaseHelper.COL_TIME_PLACE_BLOCK_DayFlag, mDayFlag);
+		return values;
 	}
 	
 	/**

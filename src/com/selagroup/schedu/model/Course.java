@@ -9,59 +9,83 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import android.content.ContentValues;
+import com.selagroup.schedu.database.DatabaseHelper;
 
-import com.selagroup.schedu.database.ContentValueItem;
+import android.content.ContentValues;
 
 /**
  * The Class SchoolClass.
  */
 public class Course extends ContentValueItem {
+	private Term mTerm;
 	private String mCourseCode;
 	private String mCourseName;
 	private Instructor mInstructor;
-	private List<TimePlaceBlock> mCourseScheduleBlocks = new ArrayList<TimePlaceBlock>(2);
+	private List<TimePlaceBlock> mScheduleBlocks = new ArrayList<TimePlaceBlock>(2);
+	private List<TimePlaceBlock> mOfficeBlocks = new ArrayList<TimePlaceBlock>(2);
 
 	/**
 	 * Instantiates a new course.
-	 *
+	 * 
 	 * @param iCourseID the course id
 	 * @param iCourseCode the course code
 	 * @param iCourseName the course name
 	 * @param iInstructor the instructor
 	 */
-	public Course(int iID, String iCourseCode, String iCourseName, Instructor iInstructor) {
+	public Course(int iID, Term iTerm, String iCourseCode, String iCourseName, Instructor iInstructor) {
 		super(iID);
+		mTerm = iTerm;
 		mCourseCode = iCourseCode;
 		mCourseName = iCourseName;
 		mInstructor = iInstructor;
 	}
-	
-	public void addBlock(TimePlaceBlock iBlock) {
-		mCourseScheduleBlocks.add(iBlock);
+
+	public void addScheduleBlock(TimePlaceBlock iBlock) {
+		mScheduleBlocks.add(iBlock);
 	}
-	
-	public void removeBlock(TimePlaceBlock iBlock) {
-		mCourseScheduleBlocks.remove(iBlock);
+
+	public void removeScheduleBlock(TimePlaceBlock iBlock) {
+		mScheduleBlocks.remove(iBlock);
 	}
-	
-	public List<TimePlaceBlock> getBlocks() {
-		return Collections.unmodifiableList(mCourseScheduleBlocks);
+
+	public void addOfficeBlock(TimePlaceBlock iBlock) {
+		mOfficeBlocks.add(iBlock);
+	}
+
+	public void removeOfficeBlock(TimePlaceBlock iBlock) {
+		mOfficeBlocks.remove(iBlock);
+	}
+
+	public List<TimePlaceBlock> getScheduleBlocks() {
+		return Collections.unmodifiableList(mScheduleBlocks);
+	}
+
+	public List<TimePlaceBlock> getOfficeBlocks() {
+		return Collections.unmodifiableList(mOfficeBlocks);
 	}
 
 	public ContentValues getValues() {
-		// TODO Auto-generated method stub
-		return null;
+		ContentValues values = new ContentValues();
+		values.put(DatabaseHelper.COL_COURSE_CourseName, mCourseName);
+		values.put(DatabaseHelper.COL_COURSE_CourseCode, mCourseCode);
+		values.put(DatabaseHelper.COL_COURSE_InstructorID, mInstructor.getID());
+		values.put(DatabaseHelper.COL_COURSE_TermID, mTerm.getID());
+		return values;
 	}
 
 	public Term getTerm() {
-		// TODO Auto-generated method stub
-		return null;
+		return mTerm;
+	}
+
+	public String getCourseCode() {
+		return mCourseCode;
+	}
+
+	public String getCourseName() {
+		return mCourseName;
 	}
 
 	public Instructor getInstructor() {
-		// TODO Auto-generated method stub
-		return null;
+		return mInstructor;
 	}
 }
-

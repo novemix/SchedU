@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.selagroup.schedu.database.ContentValueItem;
 import com.selagroup.schedu.database.DatabaseHelper;
+import com.selagroup.schedu.model.ContentValueItem;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -23,7 +23,7 @@ public abstract class Manager<T extends ContentValueItem> {
 
 	protected SQLiteDatabase mDB = null;
 	protected ArrayList<T> mItemsTmp = new ArrayList<T>();
-	private DatabaseHelper mHelper = null;
+	protected DatabaseHelper mHelper = null;
 
 	public static enum OPEN_MODE {
 		READ, WRITE
@@ -77,6 +77,7 @@ public abstract class Manager<T extends ContentValueItem> {
 		if (cursor.moveToFirst()) {
 			item = itemFromCurrentPos(cursor);
 		}
+		cursor.close();
 		close();
 		return item;
 	}
@@ -100,7 +101,7 @@ public abstract class Manager<T extends ContentValueItem> {
 				}
 			} while (cursor.moveToNext());
 		}
-		
+		cursor.close();
 		close();
 		
 		return Collections.unmodifiableList(mItemsTmp);

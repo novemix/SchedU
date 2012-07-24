@@ -5,10 +5,9 @@
 
 package com.selagroup.schedu.model.note;
 
-import com.selagroup.schedu.model.Course;
-
-import android.content.ContentValues;
 import android.graphics.Bitmap;
+
+import com.selagroup.schedu.model.Course;
 
 /**
  * The Class SketchNote.
@@ -27,10 +26,5 @@ public class SketchNote extends Note {
 	
 	public Bitmap getSketch() {
 		return mSketch;
-	}
-
-	public ContentValues getValues() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

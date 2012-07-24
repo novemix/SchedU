@@ -13,11 +13,9 @@ import com.selagroup.schedu.model.Instructor;
  * The Class InstructorManager.
  */
 public class InstructorManager extends Manager<Instructor> {
-	private TimePlaceBlockManager mTimePlaceBlockManager;
 	
-	public InstructorManager(DatabaseHelper iHelper, TimePlaceBlockManager iTimePlaceBlockManager) {
+	public InstructorManager(DatabaseHelper iHelper) {
 		super(iHelper);
-		mTimePlaceBlockManager = iTimePlaceBlockManager;
 	}
 
 	@Override
@@ -31,8 +29,6 @@ public class InstructorManager extends Manager<Instructor> {
 		open(OPEN_MODE.WRITE);
 		int instructorID = (int) mDB.insert(DatabaseHelper.TABLE_Instructor, null, iInstructor.getValues());
 		iInstructor.setID(instructorID);
-		
-		// TODO: Also insert any office hours for the instructor
 		
 		close();
 		return instructorID;
@@ -49,8 +45,6 @@ public class InstructorManager extends Manager<Instructor> {
 		open(OPEN_MODE.WRITE);
 		mDB.update(DatabaseHelper.TABLE_Instructor, iInstructor.getValues(), DatabaseHelper.COL_INSTRUCTOR_ID + "=?", new String[] { "" + iInstructor.getID() });
 		close();
-		
-		// TODO: Also update any office hours for the instructor
 	}
 
 	@Override
