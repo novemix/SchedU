@@ -18,7 +18,7 @@ import android.content.ContentValues;
  * The Class Term.
  */
 public class Term extends ContentValueItem {
-	private static final DateFormat mFormat = new SimpleDateFormat("MMM/dd/yyyy");
+	private static final DateFormat mFormat = new SimpleDateFormat("MMM dd, yyyy");
 	private Calendar mStartDate;
 	private Calendar mEndDate;
 	
@@ -39,12 +39,28 @@ public class Term extends ContentValueItem {
 		return mStartDate;
 	}
 	
+	public String getStartDateString() {
+		return (mStartDate != null ? mFormat.format(mStartDate.getTime()) : "[start date]");
+	}
+
+	public void setStartDate(Calendar iStartDate) {
+	    mStartDate = iStartDate;
+    }
+	
 	public Calendar getEndDate() {
 		return mEndDate;
 	}
 	
+	public String getEndDateString() {
+		return (mEndDate != null ? mFormat.format(mEndDate.getTime()) : "[end date]");
+	}
+	
+	public void setEndDate(Calendar iEndDate) {
+		mEndDate = iEndDate;
+    }
+	
 	@Override
 	public String toString() {
-		return mFormat.format(mStartDate.getTime()) + " - " + mFormat.format(mEndDate.getTime());
+		return getStartDateString() + " - " + getEndDateString();
 	}
 }

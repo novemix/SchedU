@@ -6,15 +6,14 @@
 package com.selagroup.schedu.managers;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
-import com.selagroup.schedu.database.DBHelper;
-import com.selagroup.schedu.model.ContentValueItem;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+
+import com.selagroup.schedu.database.DBHelper;
+import com.selagroup.schedu.model.ContentValueItem;
 
 /**
  * The Class Manager.
@@ -104,7 +103,7 @@ public abstract class Manager<T extends ContentValueItem> {
 		cursor.close();
 		close();
 		
-		return Collections.unmodifiableList(mItemsTmp);
+		return mItemsTmp;
 	}
 
 	/**
