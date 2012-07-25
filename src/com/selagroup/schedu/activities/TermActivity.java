@@ -15,6 +15,8 @@ import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -64,6 +66,23 @@ public class TermActivity extends Activity {
 		mTerms.add(0, null);
 
 		initWidgets();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add("xPreferences");
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getTitle().equals("xPreferences")) {
+			startActivity(new Intent(TermActivity.this, PreferencesActivity.class));
+			return true;
+		}
+		else {
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 	private void initWidgets() {
