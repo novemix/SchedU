@@ -34,6 +34,13 @@ public class NotesActivity extends Activity {
 				startActivity(new Intent(NotesActivity.this, SketchNoteActivity.class));
 			}
 		});
+		
+		((ImageButton) findViewById(R.id.notes_btn_text)).setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
+				startActivity(new Intent(NotesActivity.this, TextNoteActivity.class));
+			}
+		});
 				
 		final String[][] stuff = new String[][] {{"1","one"},{"2","two"},{"3","three"},{"4","four"},{"5","five"},
 				{"6","six"},{"7","seven"},{"8","eight"},{"9","nine"},{"10","ten"},

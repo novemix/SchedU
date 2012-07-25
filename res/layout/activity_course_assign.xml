@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
-       <!-- Course Info -->
+
+    <!-- Course Info -->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,6 +12,7 @@
         android:orientation="vertical" >
 
         <!-- Course code -->
+
         <TextView
             android:id="@+id/course_assign_course_code"
             android:layout_width="wrap_content"
@@ -20,6 +21,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <!-- Course description -->
+
         <TextView
             android:id="@+id/course_assign_course_name"
             android:layout_width="wrap_content"
@@ -27,8 +29,9 @@
             android:hint="--course name--"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
-    
-  <!-- Divider -->
+
+    <!-- Divider -->
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -37,119 +40,156 @@
         android:src="@android:drawable/divider_horizontal_dark" />
 
     <!-- Everything below class info header -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical" >
 
         <!-- Upper half - Assignments -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="vertical" >
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
+                <!-- Assignments title/button -->
+
                 <TextView
-                    android:id="@+id/textView1"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/course_assign_assignments_title"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="TextView" />
+                    android:layout_alignBaseline="@+id/course_assign_btn_new_assignment"
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@+id/course_assign_btn_new_assignment"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/course_assign_assignments_title" />
 
                 <Button
-                    android:id="@+id/button1"
+                    android:id="@+id/course_assign_btn_new_assignment"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Button" />
+                    android:layout_height="@dimen/new_assign_button_height"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:text="@string/course_assign_new_assignment_btn" />
+            </RelativeLayout>
 
-            </LinearLayout>
-<!-- Divider -->
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="2dp"
-        android:scaleType="fitXY"
-        android:src="@android:drawable/divider_horizontal_dark" />
+            <!-- Divider -->
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:scaleType="fitXY"
+                android:src="@android:drawable/divider_horizontal_dark" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
                 <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/course_assign_assignment_due_date"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="TextView" />
+                    android:layout_weight="1"
+                    android:text="@string/course_assign_assignment_due_date_label" />
 
                 <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/course_assign_assignment_description"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="TextView" />
-
+                    android:layout_weight="3"
+                    android:text="@string/course_assign_assignment_description_label" />
             </LinearLayout>
 
+            <ListView
+                android:id="@+id/course_assign_lv_assignments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+            </ListView>
+
         </LinearLayout>
-<!-- Divider -->
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="2dp"
-        android:scaleType="fitXY"
-        android:src="@android:drawable/divider_horizontal_dark" />
+        <!-- Divider -->
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:scaleType="fitXY"
+            android:src="@android:drawable/divider_horizontal_dark" />
         <!-- Lower Half - Exams -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="vertical" >
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
+                <!-- Assignments title/button -->
+
                 <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/course_assign_exams_title"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="TextView" />
+                    android:layout_alignBaseline="@+id/course_assign_btn_new_exam"
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@+id/course_assign_btn_new_exam"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/course_assign_exams_title" />
 
                 <Button
-                    android:id="@+id/button2"
+                    android:id="@+id/course_assign_btn_new_exam"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Button" />
+                    android:layout_height="@dimen/new_assign_button_height"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:text="@string/course_assign_new_exam_btn" />
+            </RelativeLayout>
 
-            </LinearLayout>
-<!-- Divider -->
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="2dp"
-        android:scaleType="fitXY"
-        android:src="@android:drawable/divider_horizontal_dark" />
+            <!-- Divider -->
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:scaleType="fitXY"
+                android:src="@android:drawable/divider_horizontal_dark" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
                 <TextView
-                    android:id="@+id/textView5"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/course_assign_exam_due_date"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="TextView" />
+                    android:layout_weight="1"
+                    android:text="@string/course_assign_exam_due_date_label" />
 
                 <TextView
-                    android:id="@+id/textView6"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/course_assign_exam_description"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="TextView" />
-
+                    android:layout_weight="3"
+                    android:text="@string/course_assign_exam_description_label" />
             </LinearLayout>
 
-        </LinearLayout>
+            <ListView
+                android:id="@+id/course_assign_lv_exams"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                 >
+            </ListView>
 
+        </LinearLayout>
     </LinearLayout>
-    
-</LinearLayout>
+</LinearLayout>
