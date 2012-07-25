@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="dialog_new_assignment_title">New Assignment</string>
+	<string name="dialog_new_assignment_desc_label">Description:</string>
+	<string name="dialog_new_assignment_due_date_label">Due Date:</string>
+	<string name="dialog_new_assignment_next_btn">Next</string>
+	<string name="dialog_new_assignment_done_btn">Done</string>    
+</resources>

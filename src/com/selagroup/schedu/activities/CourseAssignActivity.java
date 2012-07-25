@@ -7,12 +7,17 @@ package com.selagroup.schedu.activities;
 import com.selagroup.schedu.R;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -25,6 +30,24 @@ public class CourseAssignActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_course_assign);
+		
+		final Dialog dlgNewAssignment = new Dialog(this);
+		//dlgNewAssignment.setTitle(R.string.dialog_new_assignment_title);
+		dlgNewAssignment.requestWindowFeature(Window.FEATURE_NO_TITLE); 
+		dlgNewAssignment.setContentView(R.layout.dialog_new_assignment);
+		((Button) findViewById(R.id.course_assign_btn_new_assignment)).setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
+				dlgNewAssignment.show();
+			}
+		});
+		
+		((Button) findViewById(R.id.course_assign_btn_new_exam)).setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
+				startActivity(new Intent(CourseAssignActivity.this, NewExamActivity.class));
+			}
+		});
 		
 		final String[][] stuff = new String[][] {{"1","one"},{"2","two"},{"3","three"},{"4","four"},{"5","five"},
 				{"6","six"},{"7","seven"},{"8","eight"},{"9","nine"},{"10","ten"},

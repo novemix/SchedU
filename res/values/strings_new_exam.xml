@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="new_exam_title">Add New Exam</string>
+    <string name="new_exam_course_label">Course:</string>
+    <string name="new_exam_building_label">Building:</string>
+    <string name="new_exam_room_label">Room:</string>
+    <string name="new_exam_date_label">Date:</string>
+    <string name="new_exam_start_time_label">Start Time:</string>
+    <string name="new_exam_end_time_label">End Time:</string>
+    <string name="new_exam_date_btn">Select date</string>
+    <string name="new_exam_start_btn">Select start time</string>
+    <string name="new_exam_end_btn">Select end time</string>
+    <string name="new_exam_next_btn">Next</string>
+    <string name="new_exam_done_btn">Done</string>
+</resources>
