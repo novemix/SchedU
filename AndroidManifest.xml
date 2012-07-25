@@ -35,6 +35,8 @@
         </activity>
         <activity android:name=".activities.SketchNoteActivity" >
         </activity>
+        <activity android:name=".activities.CourseAssignActivity" >
+        </activity>
     </application>
 
 </manifest>
