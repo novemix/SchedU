@@ -79,10 +79,11 @@
             android:paddingRight="@dimen/label_padding"
             android:text="@string/addcourse_instructor_label" />
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/addcourse_et_instructor"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:completionThreshold="1"
             android:layout_weight="2"
             android:inputType="text" />
     </LinearLayout>

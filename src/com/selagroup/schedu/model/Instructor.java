@@ -62,4 +62,17 @@ public class Instructor extends ContentValueItem {
 	public String getEmail() {
 		return mEmail;
 	}
+	
+	@Override
+	public String toString() {
+		return mName;
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		if (other instanceof Instructor) {
+			return mName.equalsIgnoreCase(((Instructor) other).mName);
+		}
+		return false;
+	}
 }

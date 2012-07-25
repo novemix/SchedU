@@ -134,6 +134,7 @@ public class TermActivity extends Activity {
 						Toast.makeText(TermActivity.this, "Added new term: " + addedTerm, Toast.LENGTH_SHORT).show();
 					}
 				}
+				mNewTermIndices.clear();
 
 				// Update terms
 				for (Term term : mTerms) {
@@ -154,8 +155,11 @@ public class TermActivity extends Activity {
 			}
 		});
 	}
-	
+
 	private void showStartDateDialog(Calendar initDate) {
+		if (initDate == null) {
+			initDate = Calendar.getInstance();
+		}
 		// Set up start date dialog
 		DatePickerDialog startDateDialog = new DatePickerDialog(this, new OnDateSetListener() {
 			public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -177,8 +181,11 @@ public class TermActivity extends Activity {
 		startDateDialog.setTitle("Set Term Start Date");
 		startDateDialog.show();
 	}
-	
+
 	private void showEndDateDialog(Calendar initDate) {
+		if (initDate == null) {
+			initDate = Calendar.getInstance();
+		}
 		// Set up end date dialog
 		DatePickerDialog endDateDialog = new DatePickerDialog(this, new OnDateSetListener() {
 			public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {

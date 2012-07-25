@@ -30,8 +30,8 @@ public class TimePlaceBlockManager extends Manager<TimePlaceBlock> {
 			update(iBlock);
 			return iBlock.getID();
 		}
-		
-		iBlock.setID(mLocationManager.insert(iBlock.getLocation()));
+		Location location = iBlock.getLocation();
+		location.setID(mLocationManager.insert(location));
 
 		open(OPEN_MODE.WRITE);
 		int blockID = (int) mDB.insert(DBHelper.TABLE_TimePlaceBlock, null, iBlock.getValues());
