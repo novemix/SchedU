@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="preferences_title">Preferences</string>
+    <string name="preferences_auto_silence_category_title">Auto-silence</string>
+    <string name="preferences_auto_silence_title">Auto-silence</string>
+    <string name="preferences_auto_silence_summary_on">You will NOT receive audio alerts during course times</string>
+    <string name="preferences_auto_silence_summary_off">You WILL receive audio alerts during course times, if enabled otherwise</string>
+	<string name="preferences_course_reminders_category_title">Course reminders</string>
+    <string name="preferences_course_reminders_title">Course reminders</string>
+    <string name="preferences_course_reminders_summary_on">You will be reminded about upcoming courses</string>
+    <string name="preferences_course_reminders_summary_off">You will NOT be reminded prior to course start</string>
+	<string name="preferences_course_lead_time_title">Reminder lead time</string>
+	<string name="preferences_course_lead_time_summary">Amount of time before course to be reminded</string>
+	<string-array name="preferences_course_lead_time_display_array">
+	    <item>5 minutes</item>
+	    <item>15 minutes</item>
+	    <item>30 minutes</item>
+	    <item>1 hour</item>
+	    <item>2 hours</item>
+	</string-array>
+	<string-array name="preferences_course_lead_time_value_array">
+	    <item>5</item>
+	    <item>15</item>
+	    <item>30</item>
+	    <item>60</item>
+	    <item>120</item>
+	</string-array>
+	<string name="preferences_assign_reminders_category_title">Assignment reminders</string>
+	<string name="preferences_assign_reminders_title">Assignment reminders</string>
+    <string name="preferences_assign_reminders_summary_on">You will be reminded about upcoming assignments</string>
+    <string name="preferences_assign_reminders_summary_off">You will NOT be reminded about upcoming assignments</string>
+    <string name="preferences_assign_first_reminder_title">First reminder</string>
+    <string name="preferences_assign_first_reminder_summary">Lead time for first reminder</string>
+    <string name="preferences_assign_second_reminder_title">Second reminder</string>
+    <string name="preferences_assign_second_reminder_summary">Lead time for second reminder</string>
+    <string-array name="preferences_assign_lead_time_display_array">
+        <item>7 days</item>
+        <item>6 days</item>
+        <item>5 days</item>
+        <item>4 days</item>
+        <item>3 days</item>
+        <item>2 days</item>
+        <item>1 day</item>
+    </string-array>
+    <string-array name="preferences_assign_lead_time_value_array">
+        <item>7</item>
+        <item>6</item>
+        <item>5</item>
+        <item>4</item>
+        <item>3</item>
+        <item>2</item>
+        <item>1</item>
+    </string-array>
+	<string name="preferences_highlight_category_title">Course highlighting</string>
+	<string name="preferences_high_pri_title">High priority</string>
+	<string name="preferences_high_pri_summary">How far in advance courses with due assignments will be highlighted red</string>
+	<string name="preferences_med_pri_title">Medium priority</string>
+	<string name="preferences_med_pri_summary">How far in advance courses with due assignments will be highlighted yellow.</string>
+	<string-array name="preferences_highlight_lead_time_display_array">
+	    <item>5 days</item>
+	    <item>4 days</item>
+	    <item>3 days</item>
+	    <item>2 days</item>
+	    <item>1 day</item>
+	</string-array>
+	<string-array name="preferences_highlight_lead_time_values_array">
+	    <item>5</item>
+	    <item>4</item>
+	    <item>3</item>
+	    <item>2</item>
+	    <item>1</item>
+	</string-array>
+</resources>

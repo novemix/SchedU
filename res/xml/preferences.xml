@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory
+        android:title="@string/preferences_auto_silence_category_title" >
+        <CheckBoxPreference
+            android:key="autoSilence"
+            android:defaultValue="true"
+            android:summaryOff="@string/preferences_auto_silence_summary_off"
+            android:summaryOn="@string/preferences_auto_silence_summary_on"
+            android:title="@string/preferences_auto_silence_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/preferences_course_reminders_category_title" >
+    <CheckBoxPreference
+        android:key="remindCourse"
+        android:defaultValue="true"
+        android:summaryOff="@string/preferences_course_reminders_summary_off"
+        android:summaryOn="@string/preferences_course_reminders_summary_on"
+        android:title="@string/preferences_course_reminders_title" />
+
+    <ListPreference
+        android:entries="@array/preferences_course_lead_time_display_array"
+        android:entryValues="@array/preferences_course_lead_time_value_array"
+        android:key="courseLeadTime"
+        android:defaultValue="30"
+        android:summary="@string/preferences_course_lead_time_summary"
+        android:title="@string/preferences_course_lead_time_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory 
+        android:title="@string/preferences_assign_reminders_category_title">
+        <CheckBoxPreference
+            android:key="remindAssign"
+            android:defaultValue="true"
+            android:summaryOn="@string/preferences_assign_reminders_summary_on"
+            android:summaryOff="@string/preferences_assign_reminders_summary_off"
+            android:title="@string/preferences_assign_reminders_title" />
+        <ListPreference
+            android:entries="@array/preferences_assign_lead_time_display_array"
+            android:entryValues="@array/preferences_assign_lead_time_value_array"
+            android:key="assignLeadTime1"
+            android:defaultValue="2"
+            android:summary="@string/preferences_assign_first_reminder_summary"
+            android:title="@string/preferences_assign_first_reminder_title" />
+        <ListPreference
+            android:entries="@array/preferences_assign_lead_time_display_array"
+            android:entryValues="@array/preferences_assign_lead_time_value_array"
+            android:key="assignLeadTime2"
+            android:defaultValue="1"
+            android:summary="@string/preferences_assign_second_reminder_summary"
+            android:title="@string/preferences_assign_second_reminder_title" />
+        </PreferenceCategory>
+        
+    <PreferenceCategory
+        android:title="@string/preferences_highlight_category_title" >
+        <ListPreference
+            android:entries="@array/preferences_highlight_lead_time_display_array"
+            android:entryValues="@array/preferences_highlight_lead_time_values_array"
+            android:key="highlightRed"
+            android:defaultValue="1"
+            android:summary="@string/preferences_high_pri_summary"
+            android:title="@string/preferences_high_pri_title" />
+        <ListPreference
+            android:entries="@array/preferences_highlight_lead_time_display_array"
+            android:entryValues="@array/preferences_highlight_lead_time_values_array"
+            android:key="highlightYellow"
+            android:defaultValue="3"
+            android:summary="@string/preferences_med_pri_summary"
+            android:title="@string/preferences_med_pri_title" />
+    </PreferenceCategory>
+</PreferenceScreen>
