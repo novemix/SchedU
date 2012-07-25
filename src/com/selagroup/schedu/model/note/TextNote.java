@@ -11,6 +11,8 @@ import com.selagroup.schedu.model.Course;
  * The Class TextNote.
  */
 public class TextNote extends Note {
+    private static final long serialVersionUID = 9052567317794492664L;
+    
 	private String mText = "";
 	
 	/**

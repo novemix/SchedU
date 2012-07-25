@@ -17,6 +17,7 @@ import com.selagroup.schedu.model.Course;
  * The Class Note.
  */
 public abstract class Note extends ContentValueItem {
+    private static final long serialVersionUID = 2462455847495851596L;
 
 	// Type of note
 	public static enum NOTE_TYPE {

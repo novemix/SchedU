@@ -9,15 +9,16 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import com.selagroup.schedu.database.DBHelper;
-
-
 import android.content.ContentValues;
+
+import com.selagroup.schedu.database.DBHelper;
 
 /**
  * The Class Term.
  */
 public class Term extends ContentValueItem {
+    private static final long serialVersionUID = 7962826214043942640L;
+    
 	private static final DateFormat mFormat = new SimpleDateFormat("MMM dd, yyyy");
 	private Calendar mStartDate;
 	private Calendar mEndDate;

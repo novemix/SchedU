@@ -144,7 +144,9 @@ public class TermActivity extends Activity {
 
 				// Move to next activity if a valid term is selected
 				if (termIsValid(mSelectedTerm)) {
-					startActivity(new Intent(TermActivity.this, AddCourseActivity.class));
+					Intent addCourseIntent = new Intent(TermActivity.this, AddCourseActivity.class);
+					addCourseIntent.putExtra("term", mSelectedTerm);
+					startActivity(addCourseIntent);
 				}
 				else {
 					Toast.makeText(TermActivity.this, "The selected term must have a start date and an end date.", Toast.LENGTH_LONG).show();
@@ -216,6 +218,11 @@ public class TermActivity extends Activity {
 		}
 	}
 
+	/**
+	 * Checks if a Term is valid: can be inserted into the database and used as a Term
+	 * @param term the term to check
+	 * @return true if a valid term
+	 */
 	private boolean termIsValid(Term term) {
 		return term != null && term.getStartDate() != null && term.getEndDate() != null;
 	}

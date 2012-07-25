@@ -15,6 +15,8 @@ import android.content.ContentValues;
  * The Class TimePlaceBlock.
  */
 public class TimePlaceBlock extends ContentValueItem {
+    private static final long serialVersionUID = 127932472161863783L;
+
 	private static final int DAYS_IN_WEEK = 7;
 	
 	private Location mLocation;

@@ -11,6 +11,8 @@ import com.selagroup.schedu.model.Course;
  * The Class PhotoNote.
  */
 public class PhotoNote extends Note {
+    private static final long serialVersionUID = -9144110006430261383L;
+
 	public PhotoNote(int iID, Course iCourse, String iDescription) {
 		super(iID, NOTE_TYPE.PHOTO, iCourse, iDescription);
 	}

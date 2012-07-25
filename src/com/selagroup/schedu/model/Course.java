@@ -17,6 +17,8 @@ import android.content.ContentValues;
  * The Class SchoolClass.
  */
 public class Course extends ContentValueItem {
+    private static final long serialVersionUID = 756404045035754144L;
+    
 	private Term mTerm;
 	private String mCourseCode;
 	private String mCourseName;

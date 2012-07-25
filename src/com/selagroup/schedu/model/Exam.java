@@ -8,11 +8,12 @@ import com.selagroup.schedu.database.DBHelper;
 
 import android.content.ContentValues;
 
-
 /**
  * The Class Exam.
  */
 public class Exam extends ContentValueItem {
+    private static final long serialVersionUID = 1706713919453127768L;
+    
 	private String mDescription;
 	private Course mCourse;
 	private TimePlaceBlock mBlock;

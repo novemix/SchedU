@@ -13,6 +13,8 @@ import com.selagroup.schedu.model.Course;
  * The Class SketchNote.
  */
 public class SketchNote extends Note {
+    private static final long serialVersionUID = -4347941333066130160L;
+    
 	private Bitmap mSketch;
 
 	/**

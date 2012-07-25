@@ -14,6 +14,8 @@ import android.content.ContentValues;
  * The Class Location.
  */
 public class Location extends ContentValueItem {
+    private static final long serialVersionUID = 2953150752015996296L;
+    
 	private String mBuilding;
 	private String mRoom;
 	private String mGeoLocation;

@@ -17,6 +17,8 @@ import android.content.ContentValues;
  * The Class Instructor.
  */
 public class Instructor extends ContentValueItem {
+    private static final long serialVersionUID = 2064735598532482711L;
+    
 	private String mName;
 	private String mPhone;
 	private String mEmail;

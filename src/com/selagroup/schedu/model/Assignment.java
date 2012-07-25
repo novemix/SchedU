@@ -16,6 +16,8 @@ import android.content.ContentValues;
  * The Class Assignment.
  */
 public class Assignment extends ContentValueItem {
+    private static final long serialVersionUID = 8117658505753210282L;
+    
 	private String mName;
 	private Calendar mDueDate;
 	private Course mCourse;
