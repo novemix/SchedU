@@ -34,4 +34,12 @@ public class Location extends ContentValueItem {
 		values.put(DBHelper.COL_LOCATION_GeoLocation, mGeoLocation);
 		return values;
 	}
+
+	public String getBuilding() {
+		return mBuilding;
+	}
+	
+	public String getRoom() {
+		return mRoom;
+	}
 }

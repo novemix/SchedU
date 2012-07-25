@@ -77,4 +77,20 @@ public class Course extends ContentValueItem {
 	public Instructor getInstructor() {
 		return mInstructor;
 	}
+	
+	@Override
+	public String toString() {
+		if (mCourseName.equals("")) {
+			return mCourseCode;
+		}
+		return mCourseName + "(" + mCourseCode + ")";
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		if (other instanceof Course) {
+			return mCourseCode == ((Course)other).mCourseCode && mTerm.getID() == ((Course)other).mTerm.getID();
+		}
+		return false;
+	}
 }

@@ -15,7 +15,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 	// Database name and version
 	public static final String DATABASE_NAME = "schedu.db";
-	public static final int DATABASE_VERSION = 1;
+	public static final int DATABASE_VERSION = 2;
 
 	// Tables
 	// Term table
@@ -197,7 +197,6 @@ public class DBHelper extends SQLiteOpenHelper {
 		for (int i = 0; i < TABLE_NAMES.length; ++i) {
 			db.execSQL("CREATE TABLE " + TABLE_NAMES[i] + " " + TABLE_CREATES[i]);
 		}
-		//db.execSQL("CREATE TABLE Term (_id INTEGER);");
 	}
 
 	/**

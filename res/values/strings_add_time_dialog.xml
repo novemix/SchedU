@@ -16,4 +16,6 @@
     <string name="addtime_day_sat">Sat</string>
     <string name="addtime_cancel_btn">Cancel</string>
     <string name="addtime_add_btn">Add</string>
+    <string name="addtime_start_btn">Select Start</string>
+    <string name="addtime_end_btn">Select End</string>
 </resources>
