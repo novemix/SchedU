@@ -22,6 +22,7 @@ public class Instructor extends ContentValueItem {
 	private String mName;
 	private String mPhone;
 	private String mEmail;
+	private Location mLocation;
 	private ArrayList<TimePlaceBlock> mOfficeHours = new ArrayList<TimePlaceBlock>();
 	
 	public Instructor(int iID, String iName, String iPhone, String iEmail) {
@@ -61,6 +62,10 @@ public class Instructor extends ContentValueItem {
 	
 	public String getEmail() {
 		return mEmail;
+	}
+	
+	public Location getLocation() {
+		return mLocation;
 	}
 	
 	@Override
