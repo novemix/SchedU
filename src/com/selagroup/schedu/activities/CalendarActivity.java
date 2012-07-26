@@ -6,6 +6,7 @@
 package com.selagroup.schedu.activities;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
@@ -34,6 +35,7 @@ import com.selagroup.schedu.MyApplication;
  */
 public class CalendarActivity extends Activity {
 	private static final SimpleDateFormat sDayFormat = new SimpleDateFormat("EEEE MMM d, yyyy");
+	private static final int sDaysInWeek = 7;
 	private static final int sDayViewBuffer_dp = 16;
 
 	// Widgets
@@ -44,9 +46,11 @@ public class CalendarActivity extends Activity {
 
 	private ToggleButton calendar_btn_day;
 	private ToggleButton calendar_btn_week;
-	
+
 	private RelativeLayout calendar_day_courses;
 	private LinkedList<TextView> mCourseBlocks = new LinkedList<TextView>();
+	
+	private ArrayList<TextView> mWeekDayBlocks = new ArrayList<TextView>(7);
 
 	// Managers
 	private CourseManager mCourseManager;
@@ -63,26 +67,21 @@ public class CalendarActivity extends Activity {
 
 		MyApplication myApp = ((MyApplication) getApplication());
 		mCourseManager = myApp.getCourseManager();
-		
+
 		// Set up the correct day to view
 		mCurrentDay = Calendar.getInstance();
 		mCurrentTerm = myApp.getCurrentTerm();
 		if (mCurrentDay.after(mCurrentTerm.getEndDate())) {
 			mCurrentDay = mCurrentTerm.getStartDate();
 		}
-		
+
 		// Get all courses for the current term and day
 		mCourses = mCourseManager.getAllForTerm(mCurrentTerm.getID());
 
 		initWidgets();
-		
-		// Add courses for current day
-		for (Course course : mCourses) {
-			List<TimePlaceBlock> blocks = course.getBlocksOnDay(mCurrentDay.get(Calendar.DAY_OF_WEEK) - 1);
-			for (TimePlaceBlock block : blocks) {
-				addCourseBlockToDay(course, block);
-			}
-		}
+		initListeners();
+		initDay();
+		initWeek();
 	}
 
 	/**
@@ -100,7 +99,12 @@ public class CalendarActivity extends Activity {
 		calendar_sv_week = (ScrollView) findViewById(R.id.calendar_sv_week);
 
 		calendar_day_courses = (RelativeLayout) findViewById(R.id.calendar_day_courses);
+	}
 
+	/**
+	 * Initializes the listeners.
+	 */
+	private void initListeners() {
 		OnClickListener buttonListener = new OnClickListener() {
 			public void onClick(View v) {
 				switch (v.getId()) {
@@ -123,30 +127,61 @@ public class CalendarActivity extends Activity {
 		calendar_btn_day.setOnClickListener(buttonListener);
 		calendar_btn_week.setOnClickListener(buttonListener);
 	}
+	
+	private void initDay() {
+		// Add courses for current day
+		for (Course course : mCourses) {
+			List<TimePlaceBlock> blocks = course.getBlocksOnDay(mCurrentDay.get(Calendar.DAY_OF_WEEK) - 1);
+			for (TimePlaceBlock block : blocks) {
+				addCourseBlockToDay(course, block);
+			}
+		}
+	}
+	
+	private void initWeek() {
+		TextView weekDayBlock;
+		for (int i = 0; i < sDaysInWeek; ++i) {
+			
+			// Initialize the week's day block
+			weekDayBlock = new TextView(this);
+			weekDayBlock.setTextColor(Color.BLACK);
+			weekDayBlock.setBackgroundColor(Color.GRAY);
+			
+			// Add the week's day block
+			mWeekDayBlocks.add(weekDayBlock);
+			
+			
+		}
+	}
 
 	private void addCourseBlockToDay(Course iCourse, TimePlaceBlock iBlock) {
+		
+		// Initialize the block's colors, text, and listeners
 		TextView courseBlock = new TextView(this);
 		courseBlock.setTextColor(Color.BLACK);
 		courseBlock.setBackgroundColor(Color.GREEN);
 		courseBlock.setText(iCourse.getCourseName() + " (" + iCourse.getCourseCode() + ")\n" + iBlock.getLocation());
 		courseBlock.setClickable(true);
-
 		courseBlock.setOnClickListener(new CourseClickListener(iCourse.getID(), iBlock.getID()));
-		
+
+		// Sets the block height appropriately (1 minute = 1 dp)
 		final float scale = getResources().getDisplayMetrics().density;
 		int blockHeight_dp = (int) (iBlock.getMinutesElapsed() * scale + 0.5f);
 
+		// Sets the block distance from the top of the layout
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, blockHeight_dp);
 		params.setMargins(0, (int) (iBlock.getMinutesAfterMidnight() * scale + sDayViewBuffer_dp + 0.5f), 0, 0);
 		courseBlock.setLayoutParams(params);
 
+		// Add the block to the list of blocks and the layout
 		mCourseBlocks.add(courseBlock);
 		calendar_day_courses.addView(courseBlock);
 	}
-	
-	private class CourseClickListener implements OnClickListener { 
+
+	private class CourseClickListener implements OnClickListener {
 		private int mCourseID;
 		private int mBlockID;
+
 		public CourseClickListener(int iCourseID, int iBlockID) {
 			mCourseID = iCourseID;
 			mBlockID = iBlockID;
