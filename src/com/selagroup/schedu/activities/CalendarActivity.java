@@ -78,7 +78,7 @@ public class CalendarActivity extends Activity {
 		
 		// Add courses for current day
 		for (Course course : mCourses) {
-			List<TimePlaceBlock> blocks = course.getBlocksOnDay(mCurrentDay.get(Calendar.DAY_OF_WEEK));
+			List<TimePlaceBlock> blocks = course.getBlocksOnDay(mCurrentDay.get(Calendar.DAY_OF_WEEK) - 1);
 			for (TimePlaceBlock block : blocks) {
 				addCourseBlockToDay(course, block);
 			}
@@ -131,7 +131,7 @@ public class CalendarActivity extends Activity {
 		courseBlock.setText(iCourse.getCourseCode());
 		courseBlock.setClickable(true);
 
-		courseBlock.setOnClickListener(new CourseClickListener(iCourse));
+		courseBlock.setOnClickListener(new CourseClickListener(iCourse.getID(), iBlock.getID()));
 		
 		final float scale = getResources().getDisplayMetrics().density;
 		int blockHeight_dp = (int) (iBlock.getMinutesElapsed() * scale + 0.5f);
@@ -147,15 +147,17 @@ public class CalendarActivity extends Activity {
 	}
 	
 	private class CourseClickListener implements OnClickListener { 
-		private Course mCourse;
-		public CourseClickListener(Course iCourse) {
-			mCourse = iCourse;
+		private int mCourseID;
+		private int mBlockID;
+		public CourseClickListener(int iCourseID, int iBlockID) {
+			mCourseID = iCourseID;
+			mBlockID = iBlockID;
 		}
 
 		public void onClick(View view) {
 			Intent showCourse = new Intent(CalendarActivity.this, CourseActivity.class);
-			showCourse.putExtra("courseID", mCourse.getID());
-			showCourse.putExtra("blockID", -1);
+			showCourse.putExtra("courseID", mCourseID);
+			showCourse.putExtra("blockID", mBlockID);
 			startActivity(showCourse);
 		}
 	}
