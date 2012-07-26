@@ -36,7 +36,6 @@ public class AddTimeActivity extends Activity {
 
 	// Views
 	private Button addtime_btn_add;
-	private Button addtime_btn_cancel;
 
 	private CheckBox[] mDayCheckboxes = new CheckBox[DAYS_IN_WEEK];
 
@@ -60,7 +59,6 @@ public class AddTimeActivity extends Activity {
 
 	private void initWidgets() {
 		addtime_btn_add = (Button) findViewById(R.id.addtime_btn_add);
-		addtime_btn_cancel = (Button) findViewById(R.id.addtime_btn_cancel);
 
 		mDayCheckboxes[0] = (CheckBox) findViewById(R.id.addtime_cb_sun);
 		mDayCheckboxes[1] = (CheckBox) findViewById(R.id.addtime_cb_mon);
@@ -118,16 +116,16 @@ public class AddTimeActivity extends Activity {
 				}
 			}
 		});
-
-		addtime_btn_cancel.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				Intent returnIntent = new Intent();
-				setResult(RESULT_CANCELED, returnIntent);
-				finish();
-			}
-		});
 	}
 
+	@Override
+	public void onBackPressed() {
+		Intent returnIntent = new Intent();
+		setResult(RESULT_CANCELED, returnIntent);
+		finish();
+		super.onBackPressed();
+	}
+	
 	private void showStartTimeDialog(Calendar initDate) {
 		if (initDate == null) {
 			initDate = Calendar.getInstance();
