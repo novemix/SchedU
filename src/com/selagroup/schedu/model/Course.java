@@ -6,6 +6,7 @@
 package com.selagroup.schedu.model;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -17,8 +18,8 @@ import android.content.ContentValues;
  * The Class SchoolClass.
  */
 public class Course extends ContentValueItem {
-    private static final long serialVersionUID = 756404045035754144L;
-    
+	private static final long serialVersionUID = 756404045035754144L;
+
 	private Term mTerm;
 	private String mCourseCode;
 	private String mCourseName;
@@ -53,6 +54,15 @@ public class Course extends ContentValueItem {
 		return Collections.unmodifiableList(mScheduleBlocks);
 	}
 
+	public TimePlaceBlock getScheduleBlock(int iBlockID) {
+		for (TimePlaceBlock block : mScheduleBlocks) {
+			if (block.getID() == iBlockID) {
+				return block;
+			}
+		}
+		return null;
+	}
+
 	public ContentValues getValues() {
 		ContentValues values = new ContentValues();
 		values.put(DBHelper.COL_COURSE_CourseName, mCourseName);
@@ -77,7 +87,16 @@ public class Course extends ContentValueItem {
 	public Instructor getInstructor() {
 		return mInstructor;
 	}
-	
+
+	public boolean hasBlockOnDay(int iDayIndex) {
+		for (TimePlaceBlock block : mScheduleBlocks) {
+			if (block.getDayFlagArray()[iDayIndex]) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	@Override
 	public String toString() {
 		if (mCourseName.equals("")) {
@@ -85,11 +104,11 @@ public class Course extends ContentValueItem {
 		}
 		return mCourseName + "(" + mCourseCode + ")";
 	}
-	
+
 	@Override
 	public boolean equals(Object other) {
 		if (other instanceof Course) {
-			return mCourseCode == ((Course)other).mCourseCode && mTerm.getID() == ((Course)other).mTerm.getID();
+			return mCourseCode == ((Course) other).mCourseCode && mTerm.getID() == ((Course) other).mTerm.getID();
 		}
 		return false;
 	}

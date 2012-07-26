@@ -9,11 +9,16 @@ import com.selagroup.schedu.managers.LocationManager;
 import com.selagroup.schedu.managers.NoteManager;
 import com.selagroup.schedu.managers.TermManager;
 import com.selagroup.schedu.managers.TimePlaceBlockManager;
+import com.selagroup.schedu.model.Term;
 
 import android.app.Application;
 
 public class MyApplication extends Application {
+	
+	// Database helper
 	private DBHelper mHelper;
+	
+	// Managers for content stored in the database
 	private TermManager mTermManager;
 	private LocationManager mLocationManager;					// Keep private, operations handled by other managers
 	private TimePlaceBlockManager mTimePlaceBlockManager;		// Keep private, operations handled by other managers
@@ -22,6 +27,9 @@ public class MyApplication extends Application {
 	private NoteManager mNoteManager;
 	private AssignmentManager mAssignmentManager;
 	private ExamManager mExamManager;
+	
+	// The current term
+	private Term mCurrentTerm;
 
 	
 	@Override
@@ -64,5 +72,13 @@ public class MyApplication extends Application {
 	
 	public ExamManager getExamManager() {
 		return mExamManager;
+	}
+	
+	public Term getCurrentTerm() {
+		return mCurrentTerm;
+	}
+	
+	public void setCurrentTerm(Term iTerm) {
+		mCurrentTerm = iTerm;
 	}
 }

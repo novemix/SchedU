@@ -68,12 +68,12 @@ public class AddCourseActivity extends Activity {
 		setContentView(R.layout.activity_addcourse);
 
 		// Get the selected term
-		mCurrentTerm = (Term) getIntent().getSerializableExtra("term");
-		Log.i("Test", mCurrentTerm.toString());
+		MyApplication myApp = ((MyApplication) getApplication());
+		mCurrentTerm = myApp.getCurrentTerm();
 
 		// Get the course manager
-		mCourseManager = ((MyApplication) getApplication()).getCourseManager();
-		mInstructorManager = ((MyApplication) getApplication()).getInstructorManager();
+		mCourseManager = myApp.getCourseManager();
+		mInstructorManager = myApp.getInstructorManager();
 
 		mInstructors = mInstructorManager.getAll();
 

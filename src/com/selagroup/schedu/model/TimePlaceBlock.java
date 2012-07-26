@@ -14,7 +14,7 @@ import android.content.ContentValues;
 /**
  * The Class TimePlaceBlock.
  */
-public class TimePlaceBlock extends ContentValueItem {
+public class TimePlaceBlock extends ContentValueItem implements Comparable<TimePlaceBlock> {
 	private static final long serialVersionUID = 127932472161863783L;
 	private static final int sDaysInWeek = 7;
 	private static final String[] sDayAbbreviations = new String[] { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
@@ -88,6 +88,10 @@ public class TimePlaceBlock extends ContentValueItem {
 		for (int i = 0; i < sDaysInWeek; ++i) {
 			mDayFlag = (mDayFlag | (DAY_MASKS[i] & (flagArray[i] ? 0xFFFF : 0x0000)));
 		}
+	}
+
+	public int compareTo(TimePlaceBlock another) {
+		return mStartTime.compareTo(another.mStartTime);
 	}
 
 	@Override
