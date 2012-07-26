@@ -105,6 +105,10 @@ public class CourseManager extends Manager<Course> {
 
 	@Override
 	public int insert(Course iCourse) {
+		if (iCourse == null) {
+			return -1;
+		}
+		
 		// If the course already exists, just update the entry
 		if (get(iCourse.getID()) != null) {
 			update(iCourse);
@@ -113,7 +117,9 @@ public class CourseManager extends Manager<Course> {
 
 		// Insert or update the instructor for this course
 		Instructor instructor = iCourse.getInstructor();
-		instructor.setID(mInstructorManager.insert(instructor));
+		if (instructor != null) {
+			instructor.setID(mInstructorManager.insert(instructor));
+		}
 
 		// Insert course to Course table
 		open(OPEN_MODE.WRITE);

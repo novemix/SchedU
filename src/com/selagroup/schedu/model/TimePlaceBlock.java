@@ -93,6 +93,14 @@ public class TimePlaceBlock extends ContentValueItem implements Comparable<TimeP
 	public int compareTo(TimePlaceBlock another) {
 		return mStartTime.compareTo(another.mStartTime);
 	}
+	
+	public int getMinutesAfterMidnight() {
+		return mStartTime.get(Calendar.MINUTE) + 60 * mStartTime.get(Calendar.HOUR_OF_DAY);
+	}
+	
+	public int getMinutesElapsed() {
+		return (int)((mEndTime.getTimeInMillis() - mStartTime.getTimeInMillis()) / 60000);
+	}
 
 	@Override
 	public String toString() {

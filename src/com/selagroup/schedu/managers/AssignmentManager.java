@@ -36,6 +36,10 @@ public class AssignmentManager extends Manager<Assignment> {
 
 	@Override
 	public int insert(Assignment iAssignment) {
+		if (iAssignment == null) {
+			return -1;
+		}
+		
 		// If the assignment already exists, just update the entry
 		if (get(iAssignment.getID()) != null) {
 			update(iAssignment);

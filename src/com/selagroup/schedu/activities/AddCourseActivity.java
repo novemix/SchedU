@@ -137,7 +137,7 @@ public class AddCourseActivity extends Activity {
 					});
 					mBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int which) {
-							
+
 						}
 					});
 					mBuilder.create();
@@ -167,18 +167,18 @@ public class AddCourseActivity extends Activity {
 		String instructorName = addcourse_et_instructor.getText().toString();
 
 		// Create and insert a new instructor or find an existing instructor
-		Instructor instructor = null;
+		Instructor instructor = new Instructor(-1, instructorName, "", "");
 		if (instructorName.equals("")) {
-			instructor = new Instructor(-1, instructorName, "", "");
-			int index = mInstructors.indexOf(instructor);
-			if (index != -1) {
-				instructor = mInstructors.get(index);
-			}
-			else {
-				mInstructors.add(instructor);
-				mInstructorManager.insert(instructor);
-			}
+			instructor = null;
 		}
+		int index = mInstructors.indexOf(instructor);
+		if (index != -1) {
+			instructor = mInstructors.get(index);
+		}
+		else {
+			mInstructors.add(instructor);
+		}
+
 		Course newCourse = new Course(-1, mCurrentTerm, code, name, instructor);
 
 		// Add schedule blocks

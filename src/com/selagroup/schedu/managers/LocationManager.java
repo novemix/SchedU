@@ -20,6 +20,10 @@ public class LocationManager extends Manager<Location> {
 
 	@Override
 	public int insert(Location iLocation) {
+		if (iLocation == null) {
+			return -1;
+		}
+		
 		// If the location already exists, just update the entry
 		if (get(iLocation.getID()) != null) {
 			update(iLocation);

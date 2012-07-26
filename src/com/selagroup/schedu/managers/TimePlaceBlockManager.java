@@ -25,6 +25,10 @@ public class TimePlaceBlockManager extends Manager<TimePlaceBlock> {
 
 	@Override
 	public int insert(TimePlaceBlock iBlock) {
+		if (iBlock == null) {
+			return -1;
+		}
+		
 		// If the term already exists, just update the entry
 		if (get(iBlock.getID()) != null) {
 			update(iBlock);

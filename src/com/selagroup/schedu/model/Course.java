@@ -67,7 +67,9 @@ public class Course extends ContentValueItem {
 		ContentValues values = new ContentValues();
 		values.put(DBHelper.COL_COURSE_CourseName, mCourseName);
 		values.put(DBHelper.COL_COURSE_CourseCode, mCourseCode);
-		values.put(DBHelper.COL_COURSE_InstructorID, mInstructor.getID());
+		if (mInstructor != null) {
+			values.put(DBHelper.COL_COURSE_InstructorID, mInstructor.getID());
+		}
 		values.put(DBHelper.COL_COURSE_TermID, mTerm.getID());
 		return values;
 	}
@@ -88,13 +90,14 @@ public class Course extends ContentValueItem {
 		return mInstructor;
 	}
 
-	public boolean hasBlockOnDay(int iDayIndex) {
+	public List<TimePlaceBlock> getBlocksOnDay(int iDayIndex) {
+		ArrayList<TimePlaceBlock> blocks = new ArrayList<TimePlaceBlock>(2);
 		for (TimePlaceBlock block : mScheduleBlocks) {
 			if (block.getDayFlagArray()[iDayIndex]) {
-				return true;
+				blocks.add(block);
 			}
 		}
-		return false;
+		return blocks;
 	}
 
 	@Override

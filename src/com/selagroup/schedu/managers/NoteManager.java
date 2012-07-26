@@ -54,6 +54,10 @@ public class NoteManager extends Manager<Note> {
 
 	@Override
 	public int insert(Note iNote) {
+		if (iNote == null) {
+			return -1;
+		}
+		
 		// If the note already exists, just update the entry
 		if (get(iNote.getID()) != null) {
 			update(iNote);

@@ -166,6 +166,7 @@ public class TermActivity extends Activity {
 				if (termIsValid(mSelectedTerm)) {
 					Intent addCourseIntent = new Intent(TermActivity.this, AddCourseActivity.class);
 					addCourseIntent.putExtra("term", mSelectedTerm);
+					((MyApplication)getApplication()).setCurrentTerm(mSelectedTerm);
 					startActivity(addCourseIntent);
 				}
 				else {

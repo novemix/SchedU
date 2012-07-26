@@ -46,7 +46,7 @@ public class CalendarActivity extends Activity {
 
 	private RelativeLayout calendar_day_courses;
 	
-	private LinkedList<TextView> mTextViews = new LinkedList<TextView>();
+	private LinkedList<TextView> mCourseBlocks = new LinkedList<TextView>();
 
 	// Managers
 	private CourseManager mCourseManager;
@@ -76,8 +76,12 @@ public class CalendarActivity extends Activity {
 
 		initWidgets();
 		
+		// Add courses for current day
 		for (Course course : mCourses) {
-			addCourseToDay(course);
+			List<TimePlaceBlock> blocks = course.getBlocksOnDay(mCurrentDay.get(Calendar.DAY_OF_WEEK));
+			for (TimePlaceBlock block : blocks) {
+				addCourseBlockToDay(course, block);
+			}
 		}
 	}
 
@@ -120,24 +124,26 @@ public class CalendarActivity extends Activity {
 		calendar_btn_week.setOnClickListener(buttonListener);
 	}
 
-	private void addCourseToDay(Course iCourse) {
-		TextView courseView = new TextView(this);
-		courseView.setTextColor(Color.BLACK);
-		courseView.setBackgroundColor(Color.GREEN);
-		courseView.setText(iCourse.getCourseCode());
-		courseView.setClickable(true);
+	private void addCourseBlockToDay(Course iCourse, TimePlaceBlock iBlock) {
+		TextView courseBlock = new TextView(this);
+		courseBlock.setTextColor(Color.BLACK);
+		courseBlock.setBackgroundColor(Color.GREEN);
+		courseBlock.setText(iCourse.getCourseCode());
+		courseBlock.setClickable(true);
 
-		courseView.setOnClickListener(new CourseClickListener(iCourse));
+		courseBlock.setOnClickListener(new CourseClickListener(iCourse));
 		
 		final float scale = getResources().getDisplayMetrics().density;
-		int dp = (int) (60 * scale + 0.5f);
+		int blockHeight_dp = (int) (iBlock.getMinutesElapsed() * scale + 0.5f);
+//		int blockHeight_dp = (int) (60 * scale + 0.5f);
 
-		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, dp);
-		params.setMargins(0, (int) (300 * scale + 0.5f), 0, 0);
-		courseView.setLayoutParams(params);
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, blockHeight_dp);
+		params.setMargins(0, (int) (iBlock.getMinutesAfterMidnight() * scale + 0.5f), 0, 0);
+//		params.setMargins(0, (int) (300 * scale + 0.5f), 0, 0);
+		courseBlock.setLayoutParams(params);
 
-		mTextViews.add(courseView);
-		calendar_day_courses.addView(courseView);
+		mCourseBlocks.add(courseBlock);
+		calendar_day_courses.addView(courseBlock);
 	}
 	
 	private class CourseClickListener implements OnClickListener { 

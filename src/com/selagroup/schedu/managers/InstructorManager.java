@@ -24,6 +24,10 @@ public class InstructorManager extends Manager<Instructor> {
 
 	@Override
 	public int insert(Instructor iInstructor) {
+		if (iInstructor == null) {
+			return -1;
+		}
+		
 		// If the instructor already exists, just update the entry
 		if (get(iInstructor.getID()) != null) {
 			update(iInstructor);
@@ -60,6 +64,10 @@ public class InstructorManager extends Manager<Instructor> {
 
 	@Override
 	public void update(Instructor iInstructor) {
+		if (iInstructor == null) {
+			return;
+		}
+		
 		open(OPEN_MODE.WRITE);
 		mDB.update(DBHelper.TABLE_Instructor, iInstructor.getValues(), DBHelper.COL_INSTRUCTOR_ID + "=?", new String[] { "" + iInstructor.getID() });
 		close();

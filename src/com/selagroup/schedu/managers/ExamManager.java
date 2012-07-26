@@ -45,6 +45,10 @@ public class ExamManager extends Manager<Exam> {
 
 	@Override
 	public int insert(Exam iExam) {
+		if (iExam == null) {
+			return -1;
+		}
+		
 		// If the exam already exists, just update the entry
 		if (get(iExam.getID()) != null) {
 			update(iExam);

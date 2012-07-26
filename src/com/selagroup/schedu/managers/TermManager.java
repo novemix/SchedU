@@ -14,6 +14,10 @@ public class TermManager extends Manager<Term> {
 
 	@Override
 	public int insert(Term iTerm) {
+		if (iTerm == null) {
+			return -1;
+		}
+		
 		// If the term already exists, just update the entry
 		if (get(iTerm.getID()) != null) {
 			update(iTerm);
