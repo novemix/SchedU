@@ -51,31 +51,6 @@ public class Instructor extends ContentValueItem {
 		return Collections.unmodifiableList(mOfficeHours);
 	}
 
-	
-	public void populateHours(ScrollView sv) {
-		LinearLayout result = new LinearLayout(sv.getContext());
-		result.setOrientation(LinearLayout.VERTICAL);
-		if (mOfficeHours != null) {
-			SimpleDateFormat sdf = new SimpleDateFormat("h:mm a");
-			for (TimePlaceBlock tpb : mOfficeHours) {
-				TextView newTextView = new TextView(result.getContext());
-				newTextView.setText(mapDays(tpb.getDayFlagArray()) + ": " + sdf.format(tpb.getStartTime().getTime()).toLowerCase() + " - " + sdf.format(tpb.getEndTime().getTime()).toLowerCase());
-				result.addView(newTextView);
-			}
-			sv.removeAllViews();
-			sv.addView(result);
-		}
-	}
-
-	private String mapDays(boolean[] arr) {
-		String[] days = {"Sun","Mon","Tue","Wed","Thu","Fri","Sat"};
-		String result = "";
-		for (int i = 0 ; i < 7 ; i++) {
-			if (arr[i]) result += ("".equals(result) ? "" : ", ") + days[i];
-		}
-		return result;
-	}
-	
 	public ContentValues getValues() {
 		ContentValues values = new ContentValues();
 		values.put(DBHelper.COL_INSTRUCTOR_Name, mName);

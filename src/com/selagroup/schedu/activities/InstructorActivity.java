@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.selagroup.schedu.MyApplication;
 import com.selagroup.schedu.R;
+import com.selagroup.schedu.Utility;
 import com.selagroup.schedu.managers.InstructorManager;
 import com.selagroup.schedu.model.Course;
 import com.selagroup.schedu.model.Instructor;
@@ -102,7 +103,8 @@ public class InstructorActivity extends Activity {
 			instructor_email.setText(thisInstructor.getEmail());
 			instructor_phone.setText(thisInstructor.getPhone());
 		}
-		thisInstructor.populateHours((ScrollView) findViewById(R.id.instructor_sv_hours));
+		ScrollView sv = (ScrollView) findViewById(R.id.instructor_sv_hours);
+		Utility.populateInstructorHours(sv, thisInstructor.getOfficeBlocks());
 	}
 	
 	private void initListeners() {

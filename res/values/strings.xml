@@ -4,6 +4,7 @@
     <string name="app_name">Sched-U</string>
     <dimen name="zero_dp">0dp</dimen>
     <dimen name="label_padding">10dp</dimen>
+    <dimen name="calendar_hour_label_padding">10dp</dimen>
     <dimen name="new_note_button_height">40dp</dimen>
 	<dimen name="new_assign_button_height">40dp</dimen>
 	<dimen name="dialog_new_assignment_date_picker_padding">20dp</dimen>

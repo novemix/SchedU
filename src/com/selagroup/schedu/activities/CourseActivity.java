@@ -7,6 +7,7 @@ package com.selagroup.schedu.activities;
 
 import com.selagroup.schedu.MyApplication;
 import com.selagroup.schedu.R;
+import com.selagroup.schedu.Utility;
 import com.selagroup.schedu.managers.CourseManager;
 import com.selagroup.schedu.model.Course;
 import com.selagroup.schedu.model.Instructor;
@@ -123,7 +124,8 @@ public class CourseActivity extends Activity {
 			course_instructor.setText(thisInstructor.getName());
 			course_email.setText(thisInstructor.getEmail());
 			course_phone.setText(thisInstructor.getPhone());
-			thisInstructor.populateHours((ScrollView) findViewById(R.id.course_sv_office_hours));
+			ScrollView sv = (ScrollView) findViewById(R.id.course_sv_office_hours);
+			Utility.populateInstructorHours(sv, thisInstructor.getOfficeBlocks());
 		}
 	}
 	
