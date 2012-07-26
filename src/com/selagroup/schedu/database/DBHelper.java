@@ -15,7 +15,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 	// Database name and version
 	public static final String DATABASE_NAME = "schedu.db";
-	public static final int DATABASE_VERSION = 2;
+	public static final int DATABASE_VERSION = 3;
 
 	// Tables
 	// Term table
@@ -30,6 +30,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	public static final String COL_INSTRUCTOR_Name = "Name";
 	public static final String COL_INSTRUCTOR_Email = "Email";
 	public static final String COL_INSTRUCTOR_Phone = "Phone";
+	public static final String COL_INSTRUCTOR_LocationID = "Location_ID"; // Foreign key: Location.ID
 
 	// Course table
 	public static final String TABLE_Course = "Course";
@@ -113,7 +114,9 @@ public class DBHelper extends SQLiteOpenHelper {
 			COL_INSTRUCTOR_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
 			COL_INSTRUCTOR_Name + " TEXT, " +
 			COL_INSTRUCTOR_Email + " TEXT, " +
-			COL_INSTRUCTOR_Phone + " TEXT);";
+			COL_INSTRUCTOR_Phone + " TEXT, " +
+			COL_INSTRUCTOR_LocationID + " INTEGER, " +
+			"FOREIGN KEY(" + COL_INSTRUCTOR_LocationID + ") REFERENCES " + TABLE_Location + "(" + COL_LOCATION_ID + "));";
 
 	public static final String TABLE_CREATE_Location = "(" +
 			COL_LOCATION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
