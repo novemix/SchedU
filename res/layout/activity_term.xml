@@ -12,32 +12,42 @@
         android:layout_weight="2"
         android:orientation="vertical" >
 
-        
-		<!-- Title and Spinner -->
-        <LinearLayout 
+        <!-- Logo -->
+
+        <ImageView
+            android:id="@+id/term_iv_sela_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:src="@android:drawable/star_big_on" />
+
+        <!-- Title and Spinner -->
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:gravity="bottom"
             android:orientation="vertical" >
 
             <!-- Title -->
+
             <TextView
-                android:contentDescription="@string/term_title_desc"
                 android:id="@+id/term_tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:contentDescription="@string/term_title_desc"
                 android:paddingBottom="25dp"
                 android:text="@string/app_name"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <!-- Select term spinner -->
+
             <Spinner
                 android:id="@+id/term_sp_select"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                 />
+                android:layout_gravity="center_horizontal" />
         </LinearLayout>
     </LinearLayout>
 
@@ -51,64 +61,70 @@
         android:paddingTop="25dp" >
 
         <!-- Term spec section (will be made visible/invisible) -->
-        <LinearLayout 
+
+        <LinearLayout
             android:id="@+id/term_section_start_end"
-            android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"> 
-        <!-- Term Start Label and Button -->
+            android:orientation="vertical"
+            android:visibility="visible" >
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            <!-- Term Start Label and Button -->
 
-            <TextView
-                android:id="@+id/term_tv_start_label"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:paddingRight="20dp"
-                android:text="@string/term_start_label" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
 
-            <Button
-                android:id="@+id/term_btn_start"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="30dp"
-                android:layout_weight="1"
-                android:text="@string/term_start_btn_text" />
+                <TextView
+                    android:id="@+id/term_tv_start_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:paddingRight="20dp"
+                    android:text="@string/term_start_label" />
+
+                <Button
+                    android:id="@+id/term_btn_start"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="30dp"
+                    android:layout_weight="1"
+                    android:text="@string/term_start_btn_text" />
+            </LinearLayout>
+
+            <!-- Term End Label and Button -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/term_tv_end_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:paddingRight="20dp"
+                    android:text="@string/term_end_label" />
+
+                <Button
+                    android:id="@+id/term_btn_end"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="30dp"
+                    android:layout_weight="1"
+                    android:text="@string/term_end_btn_text" />
+            </LinearLayout>
         </LinearLayout>
-
-        <!-- Term End Label and Button -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-            <TextView
-                android:id="@+id/term_tv_end_label"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:paddingRight="20dp"
-                android:text="@string/term_end_label" />
-
-            <Button
-                android:id="@+id/term_btn_end"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="30dp"
-                android:layout_weight="1"
-                android:text="@string/term_end_btn_text" />
-        </LinearLayout>
-	</LinearLayout>
         <!-- Fill the remaining -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="fill_parent" >
 
             <!-- Footer Section Button and Logo -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -116,22 +132,12 @@
                 android:orientation="vertical" >
 
                 <!-- OK Button -->
+
                 <Button
                     android:id="@+id/term_btn_ok"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="30dp"
-                    android:minWidth="75dp"
                     android:text="@string/term_ok_btn_text" />
-
-                <!-- Logo -->
-                <ImageView
-                    android:id="@+id/term_iv_sela_logo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:src="@android:drawable/star_big_on" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
