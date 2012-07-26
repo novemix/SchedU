@@ -15,6 +15,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -58,6 +60,9 @@ public class AddTimeActivity extends Activity {
 	}
 
 	private void initWidgets() {
+		
+		setup(); // Change things if came from Instructor Activity
+		
 		addtime_btn_add = (Button) findViewById(R.id.addtime_btn_add);
 
 		mDayCheckboxes[0] = (CheckBox) findViewById(R.id.addtime_cb_sun);
@@ -77,6 +82,20 @@ public class AddTimeActivity extends Activity {
 		initListeners();
 	}
 
+	private void setup() {
+		LinearLayout ll_location = (LinearLayout) findViewById(R.id.addtime_ll_location);
+		
+		if (getIntent().getBooleanExtra("instructor", false)) {
+			// Came from Instructor activity, change title, hide location entry
+			((TextView) findViewById(R.id.addtime_tv_title)).setText(R.string.addtime_title_instructor);
+			ll_location.setVisibility(View.GONE);
+		}
+		else {
+			// If didn't come from Instructor activity, make sure location fields are visible
+			ll_location.setVisibility(View.VISIBLE);
+		}
+	}
+	
 	private void initListeners() {
 		addtime_btn_start.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {

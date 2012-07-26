@@ -10,6 +10,8 @@ import com.selagroup.schedu.R;
 import com.selagroup.schedu.managers.CourseManager;
 import com.selagroup.schedu.model.Course;
 import com.selagroup.schedu.model.Instructor;
+import com.selagroup.schedu.model.Location;
+import com.selagroup.schedu.model.TimePlaceBlock;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,7 +20,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * The Class CourseActivity.
@@ -50,6 +54,8 @@ public class CourseActivity extends Activity {
 	Button course_btn_assignments_exams;
 	
 	Course thisCourse;
+	TimePlaceBlock thisBlock;
+	Location thisLocation;
 	Instructor thisInstructor;
 	
 	@Override
@@ -63,16 +69,20 @@ public class CourseActivity extends Activity {
 		int blockID = intent.getIntExtra("blockID", -1);
 		
 		thisCourse = ((MyApplication) getApplication()).getCourseManager().get(courseID);
-		thisCourse.getScheduleBlock(blockID);
+		thisBlock = thisCourse.getScheduleBlock(blockID);
+		thisLocation = thisBlock.getLocation();
 		thisInstructor = thisCourse.getInstructor();
 		
 		initWidgets();
+		setValues();
+		initListeners();
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == INSTRUCTOR_EDIT_CODE && resultCode == RESULT_OK) {
-			// refresh instructor information
+			thisInstructor = (Instructor) data.getSerializableExtra("instructor");
+			setValues();
 		}
 	}
 	
@@ -99,19 +109,25 @@ public class CourseActivity extends Activity {
 		course_btn_notes = (Button) findViewById(R.id.course_btn_notes);
 		course_btn_reminders = (Button) findViewById(R.id.course_btn_reminders);
 		course_btn_assignments_exams = (Button) findViewById(R.id.course_btn_assignments_exams);
-		
+
+	}
+
+	private void setValues() {
 		// Set values
 		course_course_code.setText(thisCourse.getCourseCode());
 		course_course_name.setText(thisCourse.getCourseName());
 		// todo: update time label and time display
-		// todo: building and room from block
-		course_instructor.setText(thisInstructor.getName());
-		course_email.setText(thisInstructor.getEmail());
-		course_phone.setText(thisInstructor.getPhone());
-//		thisInstructor.get
-//		List<TimePlaceBlocks> 
-		
-		
+		course_building.setText(thisLocation.getBuilding());
+		course_room.setText(thisLocation.getRoom());
+		if (thisInstructor != null) {
+			course_instructor.setText(thisInstructor.getName());
+			course_email.setText(thisInstructor.getEmail());
+			course_phone.setText(thisInstructor.getPhone());
+			thisInstructor.populateHours((ScrollView) findViewById(R.id.course_sv_office_hours));
+		}
+	}
+	
+	private void initListeners() {
 		course_btn_edit_instructor.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
@@ -135,7 +151,8 @@ public class CourseActivity extends Activity {
 			}
 		});
 	}
-	
+
+
 	void mockup() {
 		LinearLayout hours = (LinearLayout) findViewById(R.id.course_ll_office_hours);
 		TextView tv1 = new TextView(this);

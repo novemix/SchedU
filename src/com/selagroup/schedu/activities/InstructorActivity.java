@@ -4,11 +4,15 @@
  */
 package com.selagroup.schedu.activities;
 
+import java.text.SimpleDateFormat;
+import java.util.List;
+
 import com.selagroup.schedu.MyApplication;
 import com.selagroup.schedu.R;
 import com.selagroup.schedu.managers.InstructorManager;
 import com.selagroup.schedu.model.Course;
 import com.selagroup.schedu.model.Instructor;
+import com.selagroup.schedu.model.TimePlaceBlock;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -17,6 +21,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -25,6 +30,7 @@ import android.widget.TextView;
  */
 public class InstructorActivity extends Activity {
 
+	public static final int ADDTIME_REQUEST_CODE = 1;
 	InstructorManager mInstructorManager;
 
 	TextView instructor_course_code;
@@ -33,6 +39,8 @@ public class InstructorActivity extends Activity {
 	EditText instructor_phone;
 	EditText instructor_building;
 	EditText instructor_room;
+	Button instructor_btn_add_time;
+	Button instructor_btn_done;
 	
 	Instructor thisInstructor;
 	Course thisCourse;
@@ -42,15 +50,29 @@ public class InstructorActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_instructor);
 
-		int courseID = getIntent().getIntExtra("courseID", -1);
 		MyApplication app = (MyApplication) getApplication();
+		int courseID = getIntent().getIntExtra("courseID", -1);
+		
 		mInstructorManager = app.getInstructorManager();
-		String course_code = app.getCourseManager().get(courseID).getCourseCode();
+		thisCourse = app.getCourseManager().get(courseID);
+		thisInstructor = thisCourse.getInstructor();
 
 		initWidgets();
+		setValues();
+		initListeners();
 	}
 
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == ADDTIME_REQUEST_CODE && resultCode == RESULT_OK) {
+			// update location and time block displays
+			TimePlaceBlock block = (TimePlaceBlock) data.getSerializableExtra("block");
+			thisInstructor.addOfficeBlock(block);
+			setValues();
+		}
+	}
+	
 	@Override
 	public void onBackPressed() {
 		Intent returnIntent = new Intent();
@@ -60,21 +82,50 @@ public class InstructorActivity extends Activity {
 	
 	private void initWidgets() {
 		
+		// Initialize widget handles
 		instructor_course_code = (TextView) findViewById(R.id.instructor_course_code);
 		instructor_name = (EditText) findViewById(R.id.instructor_name);
 		instructor_email = (EditText) findViewById(R.id.instructor_email);
+		instructor_phone = (EditText) findViewById(R.id.instructor_phone);
 		instructor_building = (EditText) findViewById(R.id.instructor_building);
 		instructor_room = (EditText) findViewById(R.id.instructor_room);
+		instructor_btn_add_time = (Button) findViewById(R.id.instructor_btn_add_time);
+		instructor_btn_done = (Button) findViewById(R.id.instructor_btn_done);
 		
-		
-		((Button) findViewById(R.id.instructor_btn_add_time)).setOnClickListener(new OnClickListener() {
+	}
+
+
+	private void setValues() {
+		instructor_course_code.setText(thisCourse.getCourseCode());
+		if (thisInstructor != null) {
+			instructor_name.setText(thisInstructor.getName());
+			instructor_email.setText(thisInstructor.getEmail());
+			instructor_phone.setText(thisInstructor.getPhone());
+		}
+		thisInstructor.populateHours((ScrollView) findViewById(R.id.instructor_sv_hours));
+	}
+	
+	private void initListeners() {
+		instructor_btn_add_time.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
-				startActivity(new Intent(InstructorActivity.this, AddTimeActivity.class));
+				// TODO: only go to add time if we have enough info for instructor
+				Intent intent = new Intent(InstructorActivity.this, AddTimeActivity.class);
+				intent.putExtra("instructor", true);
+				startActivityForResult(intent, ADDTIME_REQUEST_CODE);
+			}
+		});
+		instructor_btn_done.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
+				Intent intent = new Intent();
+				intent.putExtra("instructor", thisInstructor);
+				setResult(RESULT_OK, intent);
+				finish();
 			}
 		});
 	}
-
+	
 	void mockup() {
 		LinearLayout hours = (LinearLayout) findViewById(R.id.instructor_ll_hours);
 		TextView tv1 = new TextView(this);
