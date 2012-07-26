@@ -312,7 +312,7 @@
                 android:layout_height="wrap_content"
                 android:hint="--code--" />
             <TextView 
-                android:id="@+id/course_next_desc"
+                android:id="@+id/course_next_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="--desc--" />
