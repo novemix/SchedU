@@ -105,11 +105,7 @@ public class TimePlaceBlock extends ContentValueItem implements Comparable<TimeP
 	@Override
 	public String toString() {
 		String retString = daysToString() + (sTimeFormat.format(mStartTime.getTime()) + " - " + sTimeFormat.format(mEndTime.getTime())).toLowerCase();
-		String building = mLocation.getBuilding();
-		String room = mLocation.getRoom();
-		
-		retString += ((building == null) || building.equals("")) ?  "" : "\n" + building;
-		retString += ((room == null) || room.equals("")) ? "" : " (" + room + ")";
+		retString += "\n" + mLocation.toString();
 
 		return retString;
 	}

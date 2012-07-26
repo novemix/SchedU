@@ -34,6 +34,7 @@ import com.selagroup.schedu.MyApplication;
  */
 public class CalendarActivity extends Activity {
 	private static final SimpleDateFormat sDayFormat = new SimpleDateFormat("EEEE MMM d, yyyy");
+	private static final int sDayViewBuffer_dp = 16;
 
 	// Widgets
 	private TextView calendar_tv_date;
@@ -43,9 +44,8 @@ public class CalendarActivity extends Activity {
 
 	private ToggleButton calendar_btn_day;
 	private ToggleButton calendar_btn_week;
-
-	private RelativeLayout calendar_day_courses;
 	
+	private RelativeLayout calendar_day_courses;
 	private LinkedList<TextView> mCourseBlocks = new LinkedList<TextView>();
 
 	// Managers
@@ -128,7 +128,7 @@ public class CalendarActivity extends Activity {
 		TextView courseBlock = new TextView(this);
 		courseBlock.setTextColor(Color.BLACK);
 		courseBlock.setBackgroundColor(Color.GREEN);
-		courseBlock.setText(iCourse.getCourseCode());
+		courseBlock.setText(iCourse.getCourseName() + " (" + iCourse.getCourseCode() + ")\n" + iBlock.getLocation());
 		courseBlock.setClickable(true);
 
 		courseBlock.setOnClickListener(new CourseClickListener(iCourse.getID(), iBlock.getID()));
@@ -137,7 +137,7 @@ public class CalendarActivity extends Activity {
 		int blockHeight_dp = (int) (iBlock.getMinutesElapsed() * scale + 0.5f);
 
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, blockHeight_dp);
-		params.setMargins(0, (int) (iBlock.getMinutesAfterMidnight() * scale + 0.5f), 0, 0);
+		params.setMargins(0, (int) (iBlock.getMinutesAfterMidnight() * scale + sDayViewBuffer_dp + 0.5f), 0, 0);
 		courseBlock.setLayoutParams(params);
 
 		mCourseBlocks.add(courseBlock);

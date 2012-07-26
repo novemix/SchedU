@@ -42,4 +42,12 @@ public class Location extends ContentValueItem {
 	public String getRoom() {
 		return mRoom;
 	}
+	
+	@Override
+	public String toString() {
+		String retString = ((mBuilding == null) || mBuilding.equals("")) ?  "" : mBuilding;
+		retString += ((mRoom == null) || mRoom.equals("")) ? "" : " (" + mRoom + ")";
+
+		return retString;
+	}
 }
