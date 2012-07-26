@@ -15,10 +15,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -36,7 +37,7 @@ import com.selagroup.schedu.MyApplication;
 public class CalendarActivity extends Activity {
 	private static final SimpleDateFormat sDayFormat = new SimpleDateFormat("EEEE MMM d, yyyy");
 	private static final int sDaysInWeek = 7;
-	private static final int sDayViewBuffer_dp = 16;
+	private static final int sDayViewBuffer_dp = 0;
 
 	// Widgets
 	private TextView calendar_tv_date;
@@ -47,9 +48,10 @@ public class CalendarActivity extends Activity {
 	private ToggleButton calendar_btn_day;
 	private ToggleButton calendar_btn_week;
 
-	private RelativeLayout calendar_day_courses;
+	private RelativeLayout calendar_day_layout;
 	private LinkedList<TextView> mCourseBlocks = new LinkedList<TextView>();
 	
+	private LinearLayout calendar_ll_week;
 	private ArrayList<TextView> mWeekDayBlocks = new ArrayList<TextView>(7);
 
 	// Managers
@@ -98,7 +100,8 @@ public class CalendarActivity extends Activity {
 		calendar_sv_day = (ScrollView) findViewById(R.id.calendar_sv_day);
 		calendar_sv_week = (ScrollView) findViewById(R.id.calendar_sv_week);
 
-		calendar_day_courses = (RelativeLayout) findViewById(R.id.calendar_day_courses);
+		calendar_day_layout = (RelativeLayout) findViewById(R.id.calendar_day_courses);
+		calendar_ll_week = (LinearLayout) findViewById(R.id.calendar_ll_week);
 	}
 
 	/**
@@ -139,18 +142,26 @@ public class CalendarActivity extends Activity {
 	}
 	
 	private void initWeek() {
+		// Set the day to the first day of the current week
 		TextView weekDayBlock;
+		Calendar day = (Calendar) mCurrentDay.clone();
+		day.set(Calendar.DAY_OF_WEEK, mCurrentDay.getFirstDayOfWeek());
+		
+		// Add blocks for each day
 		for (int i = 0; i < sDaysInWeek; ++i) {
-			
 			// Initialize the week's day block
 			weekDayBlock = new TextView(this);
 			weekDayBlock.setTextColor(Color.BLACK);
-			weekDayBlock.setBackgroundColor(Color.GRAY);
+			weekDayBlock.setBackgroundColor(Color.LTGRAY);
+			weekDayBlock.setText("Day " + i);
+			weekDayBlock.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 			
-			// Add the week's day block
+			// Add the week's day block to the list and the linear layout
 			mWeekDayBlocks.add(weekDayBlock);
+			calendar_ll_week.addView(weekDayBlock);
 			
-			
+			// Increment the day by 1
+			day.add(Calendar.DAY_OF_WEEK, 1);
 		}
 	}
 
@@ -169,13 +180,13 @@ public class CalendarActivity extends Activity {
 		int blockHeight_dp = (int) (iBlock.getMinutesElapsed() * scale + 0.5f);
 
 		// Sets the block distance from the top of the layout
-		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, blockHeight_dp);
-		params.setMargins(0, (int) (iBlock.getMinutesAfterMidnight() * scale + sDayViewBuffer_dp + 0.5f), 0, 0);
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, blockHeight_dp);
+		params.setMargins(0, (int) (iBlock.getMinutesAfterMidnight() * scale + 0.5f), 0, 0);
 		courseBlock.setLayoutParams(params);
 
 		// Add the block to the list of blocks and the layout
 		mCourseBlocks.add(courseBlock);
-		calendar_day_courses.addView(courseBlock);
+		calendar_day_layout.addView(courseBlock);
 	}
 
 	private class CourseClickListener implements OnClickListener {
