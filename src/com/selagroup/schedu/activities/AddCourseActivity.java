@@ -36,7 +36,8 @@ import com.selagroup.schedu.model.TimePlaceBlock;
  * The Class AddCourseActivity.
  */
 public class AddCourseActivity extends Activity {
-	private static final int ADD_TIME_REQUEST_CODE = 5;
+	private static final int sAddTimeCode = 5;
+	private static final int sCalendarCode = 6;
 
 	// Managers
 	private CourseManager mCourseManager;
@@ -71,25 +72,33 @@ public class AddCourseActivity extends Activity {
 		MyApplication myApp = ((MyApplication) getApplication());
 		mCurrentTerm = myApp.getCurrentTerm();
 
-		// Get the course manager
+		// Get the course manager and the instructor manager
 		mCourseManager = myApp.getCourseManager();
 		mInstructorManager = myApp.getInstructorManager();
 
-		mInstructors = mInstructorManager.getAll();
-
 		initWidgets();
+		initListeners();
+		reset();
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (resultCode == RESULT_OK) {
-			if (requestCode == ADD_TIME_REQUEST_CODE) {
-
+		Log.i("Test", "Request code: " + requestCode);
+		switch (requestCode) {
+		case sAddTimeCode:
+			if (resultCode == RESULT_OK) {
 				// Add a block
 				TimePlaceBlock block = (TimePlaceBlock) data.getSerializableExtra("block");
 				mScheduleBlocks.add(block);
 				mScheduleAdapter.notifyDataSetChanged();
 			}
+			break;
+		case sCalendarCode:
+			reset();
+			break;
+		default:
+			reset();
+			break;
 		}
 	}
 
@@ -112,11 +121,16 @@ public class AddCourseActivity extends Activity {
 
 		// Set up adapter to auto complete instructor
 		addcourse_et_instructor.setAdapter(new ArrayAdapter<Instructor>(this, android.R.layout.simple_dropdown_item_1line, mInstructors));
+	}
 
+	/**
+	 * Initializes the listeners.
+	 */
+	private void initListeners() {
 		// Set up add time button listener
 		addcourse_btn_add_time.setOnClickListener(new OnClickListener() {
 			public void onClick(View view) {
-				startActivityForResult(new Intent(AddCourseActivity.this, AddTimeActivity.class), ADD_TIME_REQUEST_CODE);
+				startActivityForResult(new Intent(AddCourseActivity.this, AddTimeActivity.class), sAddTimeCode);
 			}
 		});
 
@@ -126,13 +140,13 @@ public class AddCourseActivity extends Activity {
 
 				// Try to add another course.
 				if (addCourseHelper()) {
-					startActivity(new Intent(AddCourseActivity.this, CalendarActivity.class));
+					startActivityForResult(new Intent(AddCourseActivity.this, CalendarActivity.class), sCalendarCode);
 				}
 				else {
 					mBuilder.setTitle("Your course has not been added. Continue anyway?");
 					mBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int which) {
-							startActivity(new Intent(AddCourseActivity.this, CalendarActivity.class));
+							startActivityForResult(new Intent(AddCourseActivity.this, CalendarActivity.class), sCalendarCode);
 						}
 					});
 					mBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -149,17 +163,30 @@ public class AddCourseActivity extends Activity {
 		// Set up next button listener
 		addcourse_btn_next.setOnClickListener(new OnClickListener() {
 			public void onClick(View view) {
-
 				// Try to add the course. If successful, add another course
 				if (addCourseHelper()) {
-					Intent nextCourseIntent = new Intent(AddCourseActivity.this, AddCourseActivity.class);
-					nextCourseIntent.putExtra("term", mCurrentTerm);
-					startActivity(nextCourseIntent);
+					reset();
 				}
 			}
 		});
 	}
 
+	/**
+	 * Resets the activity's UI and data
+	 */
+	private void reset() {
+		mInstructors = mInstructorManager.getAll();
+		mScheduleBlocks.clear();
+		mScheduleAdapter.notifyDataSetChanged();
+		addcourse_et_course_code.setText("");
+		addcourse_et_course_name.setText("");
+		addcourse_et_instructor.setText("");
+	}
+
+	/**
+	 * Helps to add a course given the information populated in this activity
+	 * @return true, if successfully added a course
+	 */
 	private boolean addCourseHelper() {
 		// Get information for the course
 		String code = addcourse_et_course_code.getText().toString();
@@ -189,11 +216,11 @@ public class AddCourseActivity extends Activity {
 		// Insert new course if it has a term, a code, and at least one schedule block
 		if (mCurrentTerm != null && !code.equals("") && mScheduleBlocks.size() > 0) {
 			mCourseManager.insert(newCourse);
-			Toast.makeText(AddCourseActivity.this, "Added a new course: " + newCourse, Toast.LENGTH_SHORT).show();
+			Toast.makeText(AddCourseActivity.this, "Added a new course: " + newCourse, Toast.LENGTH_LONG).show();
 			return true;
 		}
 		else {
-			Toast.makeText(AddCourseActivity.this, "Please provide a course code and at least one time block.", Toast.LENGTH_SHORT).show();
+			Toast.makeText(AddCourseActivity.this, "Please provide a course code and at least one time block.", Toast.LENGTH_LONG).show();
 			return false;
 		}
 	}

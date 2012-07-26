@@ -135,11 +135,9 @@ public class CalendarActivity extends Activity {
 		
 		final float scale = getResources().getDisplayMetrics().density;
 		int blockHeight_dp = (int) (iBlock.getMinutesElapsed() * scale + 0.5f);
-//		int blockHeight_dp = (int) (60 * scale + 0.5f);
 
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, blockHeight_dp);
 		params.setMargins(0, (int) (iBlock.getMinutesAfterMidnight() * scale + 0.5f), 0, 0);
-//		params.setMargins(0, (int) (300 * scale + 0.5f), 0, 0);
 		courseBlock.setLayoutParams(params);
 
 		mCourseBlocks.add(courseBlock);
