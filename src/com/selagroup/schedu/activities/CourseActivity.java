@@ -25,6 +25,8 @@ import android.widget.TextView;
  */
 public class CourseActivity extends Activity {
 	
+	public static final int INSTRUCTOR_EDIT_CODE = 1;
+	
 	TextView course_course_code;
 	TextView course_course_name;
 	TextView course_time_label;
@@ -67,6 +69,13 @@ public class CourseActivity extends Activity {
 		initWidgets();
 	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == INSTRUCTOR_EDIT_CODE && resultCode == RESULT_OK) {
+			// refresh instructor information
+		}
+	}
+	
 	private void initWidgets() {
 		// Initialize widget handles
 		course_course_code = (TextView) findViewById(R.id.course_course_code);
@@ -106,7 +115,9 @@ public class CourseActivity extends Activity {
 		course_btn_edit_instructor.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
-				startActivity(new Intent(CourseActivity.this, InstructorActivity.class));
+				Intent intent = new Intent(CourseActivity.this, InstructorActivity.class);
+				intent.putExtra("courseID", thisCourse.getID());
+				startActivityForResult(intent, INSTRUCTOR_EDIT_CODE);
 			}
 		});
 		
