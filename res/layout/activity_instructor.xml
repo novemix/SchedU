@@ -21,6 +21,27 @@
         android:layout_height="wrap_content" >
 
         <TextView
+            android:id="@+id/instructor_course_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:paddingRight="@dimen/label_padding"
+            android:text="@string/instructor_course_label" />
+
+        <TextView
+            android:id="@+id/instructor_course_code"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:hint="--course code--" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
             android:id="@+id/instructor_name_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -155,7 +176,7 @@
         <Button
             android:id="@+id/instructor_btn_add_time"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/instructor_add_time_button_height"
             android:layout_weight="1"
             android:text="@string/instructor_add_time_btn" />
     </LinearLayout>
@@ -170,38 +191,25 @@
             android:id="@+id/instructor_sv_hours"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/instructor_ll_cancel_done"
+            android:layout_above="@+id/instructor_btn_done"
             android:layout_alignParentTop="true" >
 
             <LinearLayout
                 android:id="@+id/instructor_ll_hours"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical" >
             </LinearLayout>
         </ScrollView>
 
-        <!-- Cancel and Done buttons -->
-        <LinearLayout
-            android:id="@+id/instructor_ll_cancel_done"
+        <!-- Done button -->
+
+        <Button
+            android:id="@+id/instructor_btn_done"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true" >
-
-            <Button
-                android:id="@+id/instructor_btn_cancel"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/instructor_cancel_btn" />
-
-            <Button
-                android:id="@+id/instructor_btn_done"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/instructor_done_btn" />
-        </LinearLayout>
+            android:layout_alignParentBottom="true"
+            android:text="@string/instructor_done_btn" />
     </RelativeLayout>
 
 </LinearLayout>

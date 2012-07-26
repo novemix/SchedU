@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="instructor_title">Instructor Information</string>
+    <string name="instructor_course_label">Course:</string>
     <string name="instructor_name_label">Name:</string>
     <string name="instructor_email_label">Email:</string>
     <string name="instructor_phone_label">Phone:</string>
