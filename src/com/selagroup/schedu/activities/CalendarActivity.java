@@ -39,6 +39,11 @@ public class CalendarActivity extends Activity {
 	private static final SimpleDateFormat sDayFormat = new SimpleDateFormat("EEEE, MMM d, yyyy");
 	private static final int sDaysInWeek = 7;
 	private static final int sDayViewBuffer_dp = 15;
+	private static LinearLayout.LayoutParams sWeekParams;
+	static {
+		sWeekParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+		sWeekParams.setMargins(0, 2, 0, 2);
+	}
 
 	// Widgets
 	private TextView calendar_tv_date;
@@ -53,7 +58,6 @@ public class CalendarActivity extends Activity {
 	private LinkedList<TextView> mCourseBlocks = new LinkedList<TextView>();
 
 	private LinearLayout calendar_ll_week;
-	private static LinearLayout.LayoutParams sWeekParams;
 	private ArrayList<TextView> mWeekDayBlocks = new ArrayList<TextView>(7);
 
 	// Managers
@@ -107,10 +111,6 @@ public class CalendarActivity extends Activity {
 
 		calendar_day_layout = (RelativeLayout) findViewById(R.id.calendar_day_courses);
 		calendar_ll_week = (LinearLayout) findViewById(R.id.calendar_ll_week);
-		
-		// Layout parameters
-		sWeekParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-		sWeekParams.setMargins(0, 2, 0, 2);
 	}
 
 	/**
@@ -177,6 +177,7 @@ public class CalendarActivity extends Activity {
 			weekDayBlock.setTextColor(Color.BLACK);
 			weekDayBlock.setBackgroundColor(Color.LTGRAY);
 			weekDayBlock.setText(sDayFormat.format(day.getTime()));
+			weekDayBlock.setBackgroundResource(R.drawable.calendar_block);
 			weekDayBlock.setLayoutParams(sWeekParams);
 
 			// Add the week's day block to the list and the linear layout
@@ -235,6 +236,7 @@ public class CalendarActivity extends Activity {
 		courseBlock.setTextColor(Color.BLACK);
 		courseBlock.setBackgroundColor(Color.GREEN);
 		courseBlock.setText(iCourse.getCourseName() + " (" + iCourse.getCourseCode() + ")\n" + iBlock.getLocation());
+		courseBlock.setBackgroundResource(R.drawable.course_block_low);
 		courseBlock.setClickable(true);
 		courseBlock.setOnClickListener(new CourseClickListener(iCourse.getID(), iBlock.getID()));
 		return courseBlock;
