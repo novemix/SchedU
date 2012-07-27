@@ -203,7 +203,7 @@ public class CalendarActivity extends Activity {
 
 		// Sets the block distance from the top of the layout
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, blockHeight_dp);
-		params.setMargins(0, (int) (iBlock.getMinutesAfterMidnight() + sDayViewBuffer_dp * scale + 0.5f), 0, 0);
+		params.setMargins(0, (int) ((iBlock.getMinutesAfterMidnight() + sDayViewBuffer_dp) * scale + 0.5f), 0, 0);
 		courseDayBlock.setLayoutParams(params);
 
 		// Add the block to the list of blocks and the layout
