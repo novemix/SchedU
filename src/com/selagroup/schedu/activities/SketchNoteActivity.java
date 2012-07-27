@@ -5,9 +5,13 @@
 package com.selagroup.schedu.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.selagroup.schedu.R;
@@ -44,8 +48,31 @@ public class SketchNoteActivity extends Activity {
 			sketch.clear();
 		}
 		if (choice.equals("Save Note")) {
-			sketch.save();
+			saveDialog();
 		}
 		return true;
+	}
+	
+	public void saveDialog() {
+		//todo: get rid of hardcoded strings, save description in db, etc for save
+		AlertDialog.Builder dlg = new AlertDialog.Builder(SketchNoteActivity.this);
+		dlg.setTitle("Save Note");
+		dlg.setMessage("Description:");
+		final EditText input = new EditText(SketchNoteActivity.this);
+		dlg.setView(input);
+
+		dlg.setNegativeButton("Cancel", new OnClickListener() {
+			
+			public void onClick(DialogInterface dialog, int which) {
+				// nothing
+			}
+		});
+		dlg.setPositiveButton("Save", new OnClickListener() {
+			
+			public void onClick(DialogInterface dialog, int which) {
+				sketch.save();
+			}
+		});
+		dlg.show();
 	}
 }
