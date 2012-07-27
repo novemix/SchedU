@@ -29,8 +29,7 @@
             android:gravity="bottom"
             android:orientation="vertical" >
 
-            <!-- Title -->
-
+            <!-- Application title -->
             <TextView
                 android:id="@+id/term_tv_title"
                 android:layout_width="wrap_content"
@@ -40,12 +39,20 @@
                 android:paddingBottom="25dp"
                 android:text="@string/app_name"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
+            
+            <!-- Spinner title -->
+            <TextView 
+                android:id="@+id/term_tv_spinnerTitle"
+                style="@style/labels"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/term_spinnerTitle_label"
+                />
 
             <!-- Select term spinner -->
-
             <Spinner
                 android:id="@+id/term_sp_select"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal" />
         </LinearLayout>
@@ -77,6 +84,7 @@
 
                 <TextView
                     android:id="@+id/term_tv_start_label"
+                    style="@style/labels"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -101,6 +109,7 @@
 
                 <TextView
                     android:id="@+id/term_tv_end_label"
+                    style="@style/labels"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

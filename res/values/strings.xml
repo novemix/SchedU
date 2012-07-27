@@ -9,5 +9,18 @@
 	<dimen name="new_assign_button_height">40dp</dimen>
 	<dimen name="dialog_new_assignment_date_picker_padding">20dp</dimen>
 	<dimen name="instructor_add_time_button_height">40dp</dimen>
-    
+	
+	<!-- Activity Titles -->
+	<string name="addCourse_activity_title">Add Course</string>
+	<string name="addTime_activity_title">Add Course Time</string>
+	<string name="officeHours_activity_title">Add Office Hours</string>
+	<string name="calendar_activity_title">Calendar</string>
+	<string name="course_activity_title">Course</string>
+	<string name="instructor_activity_title">Instructor</string>
+	<string name="newExam_activity_title">Exam</string>
+	<string name="notes_activity_title">Notes</string>
+    <string name="preferences_activity_title">Preferences</string>
+    <string name="sketchNote_activity_title">Sketch Note</string>
+    <string name="term_activity_title">New Term</string>
+    <string name="textNote_activity_title">Text Note</string>
 </resources>

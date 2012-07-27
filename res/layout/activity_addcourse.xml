@@ -6,15 +6,6 @@
     android:layout_alignParentTop="true"
     android:orientation="vertical" >
 
-    <!-- Title -->
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/addcourse_title"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
     <!-- Course Code -->
 
     <LinearLayout
@@ -23,9 +14,10 @@
 
         <TextView
             android:id="@+id/addcourse_tv_course_code_label"
+            style="@style/labels"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:gravity="right"
             android:paddingRight="@dimen/label_padding"
             android:text="@string/addcourse_course_code_label" />
@@ -34,7 +26,7 @@
             android:id="@+id/addcourse_et_course_code"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_weight="3"
             android:inputType="text" >
 
             <requestFocus />
@@ -49,9 +41,10 @@
 
         <TextView
             android:id="@+id/addcourse_tv_course_name_label"
+            style="@style/labels"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:gravity="right"
             android:paddingRight="@dimen/label_padding"
             android:text="@string/addcourse_course_name_label" />
@@ -60,7 +53,7 @@
             android:id="@+id/addcourse_et_course_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_weight="3"
             android:inputType="text" />
     </LinearLayout>
 
@@ -72,9 +65,10 @@
 
         <TextView
             android:id="@+id/addcourse_tv_instructor_label"
+            style="@style/labels"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:gravity="right"
             android:paddingRight="@dimen/label_padding"
             android:text="@string/addcourse_instructor_label" />
@@ -84,7 +78,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:completionThreshold="1"
-            android:layout_weight="2"
+            android:layout_weight="3"
             android:inputType="text" />
     </LinearLayout>
 
@@ -98,9 +92,10 @@
 
         <TextView
             android:id="@+id/addcourse_tv_schedule_label"
+            style="@style/labels"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:gravity="center_horizontal"
             android:text="@string/addcourse_schedule_label"
             android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -127,7 +122,7 @@
         <ListView
             android:id="@+id/addcourse_lv_schedule"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_weight="1" >
         </ListView>
 
@@ -136,21 +131,21 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0" >
+            android:orientation="horizontal" >
 
             <Button
-                android:id="@+id/addcourse_btn_next"
+                android:id="@+id/addcourse_btn_add"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/addcourse_next_course_btn" />
+                android:text="@string/addcourse_add_btn" />
 
             <Button
-                android:id="@+id/addcourse_btn_done"
+                android:id="@+id/addcourse_btn_cancel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/addcourse_done_btn" />
+                android:text="@string/addcourse_cancel_btn" />
         </LinearLayout>
     </LinearLayout>
 

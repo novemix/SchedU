@@ -15,11 +15,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -38,6 +37,7 @@ public class AddTimeActivity extends Activity {
 
 	// Views
 	private Button addtime_btn_add;
+	private Button addtime_btn_cancel;
 
 	private CheckBox[] mDayCheckboxes = new CheckBox[DAYS_IN_WEEK];
 
@@ -64,6 +64,7 @@ public class AddTimeActivity extends Activity {
 		setup(); // Change things if came from Instructor Activity
 		
 		addtime_btn_add = (Button) findViewById(R.id.addtime_btn_add);
+		addtime_btn_cancel = (Button) findViewById(R.id.addtime_btn_cancel);
 
 		mDayCheckboxes[0] = (CheckBox) findViewById(R.id.addtime_cb_sun);
 		mDayCheckboxes[1] = (CheckBox) findViewById(R.id.addtime_cb_mon);
@@ -87,11 +88,12 @@ public class AddTimeActivity extends Activity {
 		
 		if (getIntent().getBooleanExtra("instructor", false)) {
 			// Came from Instructor activity, change title, hide location entry
-			((TextView) findViewById(R.id.addtime_tv_title)).setText(R.string.addtime_title_instructor);
+			setTitle(R.string.officeHours_activity_title);
 			ll_location.setVisibility(View.GONE);
 		}
 		else {
 			// If didn't come from Instructor activity, make sure location fields are visible
+			setTitle(R.string.addTime_activity_title);
 			ll_location.setVisibility(View.VISIBLE);
 		}
 	}
@@ -133,6 +135,12 @@ public class AddTimeActivity extends Activity {
 				else {
 					Toast.makeText(AddTimeActivity.this, "Please select a start time, an end time, and at least one day of the week.", Toast.LENGTH_LONG).show();
 				}
+			}
+		});
+		
+		addtime_btn_cancel.setOnClickListener(new OnClickListener() {
+			public void onClick(View view) {
+				onBackPressed();
 			}
 		});
 	}

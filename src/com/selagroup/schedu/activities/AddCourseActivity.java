@@ -37,7 +37,6 @@ import com.selagroup.schedu.model.TimePlaceBlock;
  */
 public class AddCourseActivity extends Activity {
 	private static final int sAddTimeCode = 5;
-	private static final int sCalendarCode = 6;
 
 	// Managers
 	private CourseManager mCourseManager;
@@ -49,10 +48,8 @@ public class AddCourseActivity extends Activity {
 	private EditText addcourse_et_course_name;
 	private AutoCompleteTextView addcourse_et_instructor;
 	private Button addcourse_btn_add_time;
-	private Button addcourse_btn_done;
-	private Button addcourse_btn_next;
-
-	private Builder mBuilder;
+	private Button addcourse_btn_cancel;
+	private Button addcourse_btn_add;
 
 	// Adapters
 	private ArrayAdapter<TimePlaceBlock> mScheduleAdapter;
@@ -61,6 +58,7 @@ public class AddCourseActivity extends Activity {
 	private Term mCurrentTerm;
 	private List<TimePlaceBlock> mScheduleBlocks = new LinkedList<TimePlaceBlock>();
 	private List<Instructor> mInstructors;
+	private boolean mFromTerm;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +69,8 @@ public class AddCourseActivity extends Activity {
 		// Get the selected term
 		MyApplication myApp = ((MyApplication) getApplication());
 		mCurrentTerm = myApp.getCurrentTerm();
+		
+		mFromTerm = getIntent().getBooleanExtra("fromTerm", false);
 
 		// Get the course manager and the instructor manager
 		mCourseManager = myApp.getCourseManager();
@@ -93,11 +93,7 @@ public class AddCourseActivity extends Activity {
 				mScheduleAdapter.notifyDataSetChanged();
 			}
 			break;
-		case sCalendarCode:
-			reset();
-			break;
 		default:
-			reset();
 			break;
 		}
 	}
@@ -106,14 +102,13 @@ public class AddCourseActivity extends Activity {
 	 * Initialize widgets for this activity
 	 */
 	private void initWidgets() {
-		mBuilder = new Builder(this);
 		addcourse_lv_schedule = (ListView) findViewById(R.id.addcourse_lv_schedule);
 		addcourse_et_course_code = (EditText) findViewById(R.id.addcourse_et_course_code);
 		addcourse_et_course_name = (EditText) findViewById(R.id.addcourse_et_course_name);
 		addcourse_et_instructor = (AutoCompleteTextView) findViewById(R.id.addcourse_et_instructor);
 		addcourse_btn_add_time = (Button) findViewById(R.id.addcourse_btn_add_time);
-		addcourse_btn_done = (Button) findViewById(R.id.addcourse_btn_done);
-		addcourse_btn_next = (Button) findViewById(R.id.addcourse_btn_next);
+		addcourse_btn_cancel = (Button) findViewById(R.id.addcourse_btn_cancel);
+		addcourse_btn_add = (Button) findViewById(R.id.addcourse_btn_add);
 
 		// Set up list view adapter for schedule blocks
 		mScheduleAdapter = new ArrayAdapter<TimePlaceBlock>(this, android.R.layout.simple_list_item_1, mScheduleBlocks);
@@ -135,37 +130,33 @@ public class AddCourseActivity extends Activity {
 		});
 
 		// Set up done button listener
-		addcourse_btn_done.setOnClickListener(new OnClickListener() {
+		addcourse_btn_cancel.setOnClickListener(new OnClickListener() {
 			public void onClick(View view) {
-
-				// Try to add another course.
-				if (addCourseHelper()) {
-					startActivityForResult(new Intent(AddCourseActivity.this, CalendarActivity.class), sCalendarCode);
+				if (mFromTerm) {
+					startActivity(new Intent(AddCourseActivity.this, CalendarActivity.class));
 				}
 				else {
-					mBuilder.setTitle("Your course has not been added. Continue anyway?");
-					mBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int which) {
-							startActivityForResult(new Intent(AddCourseActivity.this, CalendarActivity.class), sCalendarCode);
-						}
-					});
-					mBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int which) {
-
-						}
-					});
-					mBuilder.create();
-					mBuilder.show();
+					finish();
 				}
 			}
 		});
 
-		// Set up next button listener
-		addcourse_btn_next.setOnClickListener(new OnClickListener() {
+		// Set up "add" button listener
+		addcourse_btn_add.setOnClickListener(new OnClickListener() {
 			public void onClick(View view) {
-				// Try to add the course. If successful, add another course
+				// Try to add the course. If successful, reset fields and finish
 				if (addCourseHelper()) {
+					Toast.makeText(AddCourseActivity.this, "Successfully added course" , Toast.LENGTH_SHORT).show();
 					reset();
+					if (mFromTerm) {
+						startActivity(new Intent(AddCourseActivity.this, CalendarActivity.class));
+					}
+					else {
+						finish();
+					}
+				}
+				else {
+					Toast.makeText(AddCourseActivity.this, "Please provide a course code and at least one time block.", Toast.LENGTH_LONG).show();
 				}
 			}
 		});
@@ -216,11 +207,9 @@ public class AddCourseActivity extends Activity {
 		// Insert new course if it has a term, a code, and at least one schedule block
 		if (mCurrentTerm != null && !code.equals("") && mScheduleBlocks.size() > 0) {
 			mCourseManager.insert(newCourse);
-			Toast.makeText(AddCourseActivity.this, "Added a new course: " + newCourse, Toast.LENGTH_LONG).show();
 			return true;
 		}
 		else {
-			Toast.makeText(AddCourseActivity.this, "Please provide a course code and at least one time block.", Toast.LENGTH_LONG).show();
 			return false;
 		}
 	}

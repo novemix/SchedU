@@ -63,6 +63,7 @@ public class CalendarActivity extends Activity {
 	private List<Course> mCourses;
 	private Calendar mCurrentDay;
 	private Term mCurrentTerm;
+	private float mDensity;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +79,8 @@ public class CalendarActivity extends Activity {
 		if (mCurrentDay.after(mCurrentTerm.getEndDate())) {
 			mCurrentDay = mCurrentTerm.getStartDate();
 		}
+		
+		mDensity = getResources().getDisplayMetrics().density;
 
 		// Get all courses for the current term and day
 		mCourses = mCourseManager.getAllForTerm(mCurrentTerm.getID());
@@ -142,6 +145,12 @@ public class CalendarActivity extends Activity {
 	}
 
 	private void initDay() {
+		calendar_sv_day.post(new Runnable() { 
+		    public void run() {
+		    	calendar_sv_day.scrollTo(0, (int)(mDensity * (60 * mCurrentDay.get(Calendar.HOUR_OF_DAY) + mCurrentDay.get(Calendar.MINUTE)))); 
+		    }  
+		});
+		
 		// Add courses for current day
 		for (Course course : mCourses) {
 			List<TimePlaceBlock> blocks = course.getBlocksOnDay(mCurrentDay.get(Calendar.DAY_OF_WEEK) - 1);
@@ -198,12 +207,11 @@ public class CalendarActivity extends Activity {
 		TextView courseDayBlock = getCourseBlock(iCourse, iBlock);
 
 		// Sets the block height appropriately (1 minute = 1 dp)
-		final float scale = getResources().getDisplayMetrics().density;
-		int blockHeight_dp = (int) (iBlock.getMinutesElapsed() * scale + 0.5f);
+		int blockHeight_dp = (int) (iBlock.getMinutesElapsed() * mDensity + 0.5f);
 
 		// Sets the block distance from the top of the layout
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, blockHeight_dp);
-		params.setMargins(0, (int) ((iBlock.getMinutesAfterMidnight() + sDayViewBuffer_dp) * scale + 0.5f), 0, 0);
+		params.setMargins(0, (int) ((iBlock.getMinutesAfterMidnight() + sDayViewBuffer_dp) * mDensity + 0.5f), 0, 0);
 		courseDayBlock.setLayoutParams(params);
 
 		// Add the block to the list of blocks and the layout

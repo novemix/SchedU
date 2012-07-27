@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="term_title_desc">Title Image</string>
+	<string name="term_spinnerTitle_label">Select a Term:</string>
     <string name="term_start_label">Start:</string>
     <string name="term_start_btn_text">Select Start</string>
     <string name="term_end_label">End:</string>

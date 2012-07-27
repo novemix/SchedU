@@ -165,8 +165,8 @@ public class TermActivity extends Activity {
 				// Move to next activity if a valid term is selected
 				if (termIsValid(mSelectedTerm)) {
 					Intent addCourseIntent = new Intent(TermActivity.this, AddCourseActivity.class);
-					addCourseIntent.putExtra("term", mSelectedTerm);
 					((MyApplication)getApplication()).setCurrentTerm(mSelectedTerm);
+					addCourseIntent.putExtra("fromTerm", true);
 					startActivity(addCourseIntent);
 				}
 				else {

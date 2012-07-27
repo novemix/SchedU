@@ -7,7 +7,7 @@
     <string name="addcourse_instructor_label">Instructor:</string>
     <string name="addcourse_schedule_label">Course Schedule:</string>
     <string name="addcourse_add_time_btn">Add Time</string>
-    <string name="addcourse_next_course_btn">Next Course</string>
-    <string name="addcourse_done_btn">Done</string>
+    <string name="addcourse_add_btn">Add</string>
+    <string name="addcourse_cancel_btn">Cancel</string>
 
 </resources>

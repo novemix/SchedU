@@ -5,8 +5,8 @@
     <string name="addtime_title_instructor">Add Time For Office Hours</string>
     <string name="addtime_building_label">Building:</string>
     <string name="addtime_room_label">Room:</string>
-    <string name="addtime_start_label">Start:</string>
-    <string name="addtime_end_label">End:</string>
+    <string name="addtime_start_label">Start Time:</string>
+    <string name="addtime_end_label">End Time:</string>
     <string name="addtime_days">Days</string>
     <string name="addtime_day_sun">Sun</string>
     <string name="addtime_day_mon">Mon</string>
