@@ -1,0 +1,8 @@
+Must support fully:
+Normal / mdpi	HVGA (320x480)						160 dpi
+Normal / hdpi	WVGA800 (480x800), WVGA854 (480x854), 600x1024		240 dpi
+Normal / xhdpi	640x960							320 dpi
+
+Nice to support:
+Xlarge / mdpi	WXGA (1280x800), 1024x768, 1280x768			160 dpi
+Large / mdpi	WVGA800 (480x800), WVGA854 (480x854), 600x1024		160 dpi
