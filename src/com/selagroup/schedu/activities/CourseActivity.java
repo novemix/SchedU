@@ -5,6 +5,8 @@
 
 package com.selagroup.schedu.activities;
 
+import java.util.Calendar;
+
 import com.selagroup.schedu.MyApplication;
 import com.selagroup.schedu.R;
 import com.selagroup.schedu.Utility;
@@ -17,6 +19,7 @@ import com.selagroup.schedu.model.TimePlaceBlock;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -74,6 +77,7 @@ public class CourseActivity extends Activity {
 		thisLocation = thisBlock.getLocation();
 		thisInstructor = thisCourse.getInstructor();
 		
+		
 		initWidgets();
 		setValues();
 		initListeners();
@@ -113,11 +117,43 @@ public class CourseActivity extends Activity {
 
 	}
 
+	private void setCourseTimer() {
+		long now = Calendar.getInstance().getTimeInMillis();
+		long difference = thisBlock.getStartTime().getTimeInMillis() - now;
+		if (difference <= 0) {
+			course_time_label.setText(R.string.course_course_ends);
+			difference = thisBlock.getEndTime().getTimeInMillis() - now;
+			if (difference <= 0) {
+				course_time.setText("00 : 00 : 00");
+			}
+		}
+		else {
+			course_time_label.setText(R.string.course_course_begins);
+		}
+		if (difference > 0) {
+			new CountDownTimer(difference, 1000) {
+
+				public void onTick(long millisUntilFinished) {
+					int days = (int) millisUntilFinished / Utility.MILLIS_PER_DAY;
+					int hours = (int) millisUntilFinished / Utility.MILLIS_PER_HOUR % Utility.HOURS_PER_DAY;
+					int minutes = (int) millisUntilFinished / Utility.MILLIS_PER_MINUTE % Utility.MINUTES_PER_HOUR;
+					int seconds = (int) millisUntilFinished / Utility.MILLIS_PER_SECOND % Utility.SECONDS_PER_MINUTE;
+					String dayText = days > 1 ? days + " days, " : days == 1 ? days + "day, " : "";
+					course_time.setText(dayText + String.format("%02d : %02d : %02d", hours, minutes, seconds));
+				}
+
+				public void onFinish() {
+					setCourseTimer();
+				}
+			}.start();
+		}
+	}
+	
 	private void setValues() {
 		// Set values
 		course_course_code.setText(thisCourse.getCourseCode());
 		course_course_name.setText(thisCourse.getCourseName());
-		// todo: update time label and time display
+		setCourseTimer();
 		course_building.setText(thisLocation.getBuilding());
 		course_room.setText(thisLocation.getRoom());
 		if (thisInstructor != null) {

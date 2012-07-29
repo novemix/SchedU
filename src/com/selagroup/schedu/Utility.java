@@ -14,6 +14,13 @@ import android.widget.TextView;
 public class Utility {
 	
 	public static final String[] sDays = {"Sun","Mon","Tue","Wed","Thu","Fri","Sat"};
+	public static final int MILLIS_PER_SECOND = 1000;
+	public static final int SECONDS_PER_MINUTE = 60;
+	public static final int MINUTES_PER_HOUR = 60;
+	public static final int HOURS_PER_DAY = 24;
+	public static final int MILLIS_PER_MINUTE = MILLIS_PER_SECOND * SECONDS_PER_MINUTE;
+	public static final int MILLIS_PER_HOUR = MILLIS_PER_MINUTE * MINUTES_PER_HOUR;
+	public static final int MILLIS_PER_DAY = MILLIS_PER_HOUR * HOURS_PER_DAY;
 	
 	public static long intFromCalendar(Calendar iCalendar) {
 		return iCalendar.getTimeInMillis();

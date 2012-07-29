@@ -25,6 +25,7 @@ import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * The Class InstructorActivity.
@@ -42,6 +43,7 @@ public class InstructorActivity extends Activity {
 	EditText instructor_room;
 	Button instructor_btn_add_time;
 	Button instructor_btn_done;
+	Button instructor_btn_cancel;
 	
 	Instructor thisInstructor;
 	Course thisCourse;
@@ -57,7 +59,7 @@ public class InstructorActivity extends Activity {
 		mInstructorManager = app.getInstructorManager();
 		thisCourse = app.getCourseManager().get(courseID);
 		thisInstructor = thisCourse.getInstructor();
-
+		
 		initWidgets();
 		setValues();
 		initListeners();
@@ -76,6 +78,10 @@ public class InstructorActivity extends Activity {
 	
 	@Override
 	public void onBackPressed() {
+		cancel();
+	}
+	
+	private void cancel() {
 		Intent returnIntent = new Intent();
 		setResult(RESULT_CANCELED, returnIntent);
 		finish();
@@ -92,9 +98,9 @@ public class InstructorActivity extends Activity {
 		instructor_room = (EditText) findViewById(R.id.instructor_room);
 		instructor_btn_add_time = (Button) findViewById(R.id.instructor_btn_add_time);
 		instructor_btn_done = (Button) findViewById(R.id.instructor_btn_done);
+		instructor_btn_cancel = (Button) findViewById(R.id.instructor_btn_cancel);
 		
 	}
-
 
 	private void setValues() {
 		instructor_course_code.setText(thisCourse.getCourseCode());
@@ -102,9 +108,9 @@ public class InstructorActivity extends Activity {
 			instructor_name.setText(thisInstructor.getName());
 			instructor_email.setText(thisInstructor.getEmail());
 			instructor_phone.setText(thisInstructor.getPhone());
+			ScrollView sv = (ScrollView) findViewById(R.id.instructor_sv_hours);
+			Utility.populateInstructorHours(sv, thisInstructor.getOfficeBlocks());
 		}
-		ScrollView sv = (ScrollView) findViewById(R.id.instructor_sv_hours);
-		Utility.populateInstructorHours(sv, thisInstructor.getOfficeBlocks());
 	}
 	
 	private void initListeners() {
@@ -124,6 +130,12 @@ public class InstructorActivity extends Activity {
 				intent.putExtra("instructor", thisInstructor);
 				setResult(RESULT_OK, intent);
 				finish();
+			}
+		});
+		instructor_btn_cancel.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
+				cancel();
 			}
 		});
 	}

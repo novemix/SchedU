@@ -33,7 +33,7 @@
             android:id="@+id/instructor_course_code"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_weight="3"
             android:hint="--course code--" />
     </LinearLayout>
 
@@ -54,7 +54,7 @@
             android:id="@+id/instructor_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_weight="3"
             android:inputType="textPersonName" />
     </LinearLayout>
 
@@ -77,7 +77,7 @@
             android:id="@+id/instructor_email"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_weight="3"
             android:inputType="textEmailAddress" />
     </LinearLayout>
 
@@ -100,7 +100,7 @@
             android:id="@+id/instructor_phone"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_weight="3"
             android:inputType="phone" />
     </LinearLayout>
 
@@ -130,7 +130,7 @@
             android:id="@+id/instructor_building"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_weight="3"
             android:inputType="text" />
     </LinearLayout>
 
@@ -153,7 +153,7 @@
             android:id="@+id/instructor_room"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_weight="3"
             android:inputType="text" />
     </LinearLayout>
 
@@ -204,12 +204,23 @@
 
         <!-- Done button -->
 
+		<LinearLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true" >
         <Button
             android:id="@+id/instructor_btn_done"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_weight="1"
             android:text="@string/instructor_done_btn" />
+        <Button
+            android:id="@+id/instructor_btn_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/instructor_cancel_btn" />
+        </LinearLayout>
     </RelativeLayout>
 
 </LinearLayout>
