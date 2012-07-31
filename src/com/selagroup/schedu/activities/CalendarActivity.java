@@ -155,7 +155,7 @@ public class CalendarActivity extends Activity {
 		for (Course course : mCourses) {
 			List<TimePlaceBlock> blocks = course.getBlocksOnDay(mCurrentDay.get(Calendar.DAY_OF_WEEK) - 1);
 			for (TimePlaceBlock block : blocks) {
-				addCourseBlockToDay(course, block);
+				addCourseBlockToDay(course, block, mCurrentDay);
 			}
 		}
 	}
@@ -192,7 +192,7 @@ public class CalendarActivity extends Activity {
 			}
 			
 			for (Entry<TimePlaceBlock, Course> entry : courseBlocks.entrySet()) {
-				addCourseBlockToWeek(entry.getValue(), entry.getKey());
+				addCourseBlockToWeek(entry.getValue(), entry.getKey(), day);
 			}
 			
 			courseBlocks.clear();
@@ -202,7 +202,7 @@ public class CalendarActivity extends Activity {
 		}
 	}
 
-	private void addCourseBlockToDay(Course iCourse, TimePlaceBlock iBlock) {
+	private void addCourseBlockToDay(Course iCourse, TimePlaceBlock iBlock, Calendar iDay) {
 
 		// Initialize the block's colors, text, and listeners
 		TextView courseDayBlock = getCourseBlock(iCourse, iBlock);
@@ -214,15 +214,17 @@ public class CalendarActivity extends Activity {
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, blockHeight_dp);
 		params.setMargins(0, (int) ((iBlock.getMinutesAfterMidnight() + sDayViewBuffer_dp) * mDensity + 0.5f), 0, 0);
 		courseDayBlock.setLayoutParams(params);
+		courseDayBlock.setTag(iDay);
 
 		// Add the block to the list of blocks and the layout
 		mCourseBlocks.add(courseDayBlock);
 		calendar_day_layout.addView(courseDayBlock);
 	}
 
-	private void addCourseBlockToWeek(Course iCourse, TimePlaceBlock iBlock) {
+	private void addCourseBlockToWeek(Course iCourse, TimePlaceBlock iBlock, Calendar iDay) {
 		// Initialize the block's colors, text, and listeners
 		TextView weekDayBlock = getCourseBlock(iCourse, iBlock);
+		weekDayBlock.setTag(iDay);
 		
 		weekDayBlock.setLayoutParams(sWeekParams);
 		
@@ -255,6 +257,7 @@ public class CalendarActivity extends Activity {
 			Intent showCourse = new Intent(CalendarActivity.this, CourseActivity.class);
 			showCourse.putExtra("courseID", mCourseID);
 			showCourse.putExtra("blockID", mBlockID);
+			showCourse.putExtra("day", (Calendar)view.getTag());
 			startActivity(showCourse);
 		}
 	}

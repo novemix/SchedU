@@ -65,6 +65,12 @@
             android:name=".activities.PreferencesActivity"
             android:label="@string/preferences_activity_title" >
         </activity>
+
+        <receiver android:name=".RebootBroadcastReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.REBOOT" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
