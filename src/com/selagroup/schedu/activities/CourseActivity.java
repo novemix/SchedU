@@ -90,27 +90,23 @@ public class CourseActivity extends Activity {
 		initListeners();
 	}
 
-	private void updateDayWithBlockTime() {
-		Date date = day.getTime();
-		int year = date.getYear();
-		int month = date.getMonth();
-		int dayOfMonth = date.getDate();
-		Date start = thisBlock.getStartTime().getTime();
-		int hour = start.getHours();
-		int minute = start.getMinutes();
-		Log.i("start hour", hour + "");
-		Log.i("start minute", minute + "");
-		
-		day.set(year, month, dayOfMonth, hour, minute, 0);
-		Log.i("day is: ", (new SimpleDateFormat("yyyy/MM/dd hh:mm:ss")).format(day.getTime()));
-	}
-	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == INSTRUCTOR_EDIT_CODE && resultCode == RESULT_OK) {
 			thisInstructor = (Instructor) data.getSerializableExtra("instructor");
 			setValues();
 		}
+	}
+	
+	private void updateDayWithBlockTime() {
+		int year = day.get(Calendar.YEAR);
+		int month = day.get(Calendar.MONTH);
+		int dayOfMonth = day.get(Calendar.DAY_OF_MONTH);
+		Calendar start = thisBlock.getStartTime();
+		int hour = start.get(Calendar.HOUR_OF_DAY);
+		int minute = start.get(Calendar.MINUTE);
+		
+		day.set(year, month, dayOfMonth, hour, minute, 0);
 	}
 	
 	private void initWidgets() {
@@ -161,7 +157,7 @@ public class CourseActivity extends Activity {
 					int hours = (int) millisUntilFinished / Utility.MILLIS_PER_HOUR % Utility.HOURS_PER_DAY;
 					int minutes = (int) millisUntilFinished / Utility.MILLIS_PER_MINUTE % Utility.MINUTES_PER_HOUR;
 					int seconds = (int) millisUntilFinished / Utility.MILLIS_PER_SECOND % Utility.SECONDS_PER_MINUTE;
-					String dayText = days > 1 ? days + " days, " : days == 1 ? days + "day, " : "";
+					String dayText = days > 1 ? days + " days, " : days == 1 ? days + " day, " : "";
 					course_time.setText(dayText + String.format("%02d : %02d : %02d", hours, minutes, seconds));
 				}
 
