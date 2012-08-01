@@ -5,7 +5,9 @@
 
 package com.selagroup.schedu.activities;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import com.selagroup.schedu.MyApplication;
 import com.selagroup.schedu.R;
@@ -20,6 +22,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -57,6 +60,8 @@ public class CourseActivity extends Activity {
 	Button course_btn_reminders;
 	Button course_btn_assignments_exams;
 	
+	Calendar day;
+	int duration;
 	Course thisCourse;
 	TimePlaceBlock thisBlock;
 	Location thisLocation;
@@ -71,18 +76,35 @@ public class CourseActivity extends Activity {
 		Intent intent = getIntent();
 		int courseID = intent.getIntExtra("courseID", -1);
 		int blockID = intent.getIntExtra("blockID", -1);
+		day = (Calendar) intent.getSerializableExtra("day");
 		
 		thisCourse = ((MyApplication) getApplication()).getCourseManager().get(courseID);
 		thisBlock = thisCourse.getScheduleBlock(blockID);
+		duration = (int) (thisBlock.getEndTime().getTimeInMillis() - thisBlock.getStartTime().getTimeInMillis());
+		updateDayWithBlockTime();
 		thisLocation = thisBlock.getLocation();
 		thisInstructor = thisCourse.getInstructor();
-		
 		
 		initWidgets();
 		setValues();
 		initListeners();
 	}
 
+	private void updateDayWithBlockTime() {
+		Date date = day.getTime();
+		int year = date.getYear();
+		int month = date.getMonth();
+		int dayOfMonth = date.getDate();
+		Date start = thisBlock.getStartTime().getTime();
+		int hour = start.getHours();
+		int minute = start.getMinutes();
+		Log.i("start hour", hour + "");
+		Log.i("start minute", minute + "");
+		
+		day.set(year, month, dayOfMonth, hour, minute, 0);
+		Log.i("day is: ", (new SimpleDateFormat("yyyy/MM/dd hh:mm:ss")).format(day.getTime()));
+	}
+	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == INSTRUCTOR_EDIT_CODE && resultCode == RESULT_OK) {
@@ -118,19 +140,20 @@ public class CourseActivity extends Activity {
 	}
 
 	private void setCourseTimer() {
-		long now = Calendar.getInstance().getTimeInMillis();
-		long difference = thisBlock.getStartTime().getTimeInMillis() - now;
-		if (difference <= 0) {
+		long now = System.currentTimeMillis();
+		long difference = day.getTimeInMillis() - now;
+		if (difference <= 0) { // it's now after the start time
 			course_time_label.setText(R.string.course_course_ends);
-			difference = thisBlock.getEndTime().getTimeInMillis() - now;
-			if (difference <= 0) {
+			// calculate new difference between now and end time
+			difference = day.getTimeInMillis() + duration - now;
+			if (difference <= 0) { // it's now after the end time
 				course_time.setText("00 : 00 : 00");
 			}
 		}
-		else {
+		else { // it's before the start time, set the label
 			course_time_label.setText(R.string.course_course_begins);
 		}
-		if (difference > 0) {
+		if (difference > 0) { // before start time, or before end time, do the same thing
 			new CountDownTimer(difference, 1000) {
 
 				public void onTick(long millisUntilFinished) {
