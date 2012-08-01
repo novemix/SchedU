@@ -15,6 +15,10 @@ import android.content.ContentValues;
  * The Class TimePlaceBlock.
  */
 public class TimePlaceBlock extends ContentValueItem implements Comparable<TimePlaceBlock> {
+
+	// Masks for the days of the week: Sun, Mon, Tue, Wed, Thur, Fri, Sat, Sun
+	public static final int sDayMasks[] = new int[] { 0x0001, 0x0002, 0x0004, 0x0008, 0x0010, 0x0020, 0x0040 };
+	
 	private static final long serialVersionUID = 127932472161863783L;
 	private static final int sDaysInWeek = 7;
 	private static final String[] sDayAbbreviations = new String[] { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
@@ -24,9 +28,6 @@ public class TimePlaceBlock extends ContentValueItem implements Comparable<TimeP
 	private Calendar mStartTime;
 	private Calendar mEndTime;
 	private int mDayFlag;
-
-	// Masks for the days of the week: Sun, Mon, Tue, Wed, Thur, Fri, Sat, Sun
-	public static final int DAY_MASKS[] = new int[] { 0x0001, 0x0002, 0x0004, 0x0008, 0x0010, 0x0020, 0x0040 };
 
 	public TimePlaceBlock(int iID, Location iLocation, Calendar iStartTime, Calendar iEndTime, int iDayFlag) {
 		super(iID);
@@ -73,7 +74,7 @@ public class TimePlaceBlock extends ContentValueItem implements Comparable<TimeP
 		boolean[] flagArray = new boolean[7];
 
 		for (int i = 0; i < sDaysInWeek; ++i) {
-			flagArray[i] = (mDayFlag & DAY_MASKS[i]) > 0;
+			flagArray[i] = (mDayFlag & sDayMasks[i]) > 0;
 		}
 
 		return flagArray;
@@ -86,7 +87,7 @@ public class TimePlaceBlock extends ContentValueItem implements Comparable<TimeP
 	public void setDayFlagArray(boolean[] flagArray) {
 		mDayFlag = 0;
 		for (int i = 0; i < sDaysInWeek; ++i) {
-			mDayFlag = (mDayFlag | (DAY_MASKS[i] & (flagArray[i] ? 0xFFFF : 0x0000)));
+			mDayFlag = (mDayFlag | (sDayMasks[i] & (flagArray[i] ? 0xFFFF : 0x0000)));
 		}
 	}
 

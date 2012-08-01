@@ -214,7 +214,7 @@ public class CalendarActivity extends Activity {
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, blockHeight_dp);
 		params.setMargins(0, (int) ((iBlock.getMinutesAfterMidnight() + sDayViewBuffer_dp) * mDensity + 0.5f), 0, 0);
 		courseDayBlock.setLayoutParams(params);
-		courseDayBlock.setTag(iDay);
+		courseDayBlock.setTag(iDay.clone());
 
 		// Add the block to the list of blocks and the layout
 		mCourseBlocks.add(courseDayBlock);
@@ -224,7 +224,7 @@ public class CalendarActivity extends Activity {
 	private void addCourseBlockToWeek(Course iCourse, TimePlaceBlock iBlock, Calendar iDay) {
 		// Initialize the block's colors, text, and listeners
 		TextView weekDayBlock = getCourseBlock(iCourse, iBlock);
-		weekDayBlock.setTag(iDay);
+		weekDayBlock.setTag(iDay.clone());
 		
 		weekDayBlock.setLayoutParams(sWeekParams);
 		

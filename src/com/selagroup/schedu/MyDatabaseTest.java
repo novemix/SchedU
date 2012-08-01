@@ -87,14 +87,14 @@ public class MyDatabaseTest {
 		
 		// Test get all for term and day
 		Log.i(TAG, "Getting all courses for Wed.");
-		List<Course> courses = courseManager.getAllForTermAndDay(term.getID(), TimePlaceBlock.DAY_MASKS[3]);
-		for (Course course : courses) {
-			Log.i(TAG, "Course: " + course.getCourseName() + " is on Wed.");
-		}
+//		List<Course> courses = courseManager.getAllForTermAndDay(term.getID(), TimePlaceBlock.DAY_MASKS[3]);
+//		for (Course course : courses) {
+//			Log.i(TAG, "Course: " + course.getCourseName() + " is on Wed.");
+//		}
 		
 		// Test get all for term
 		Log.i(TAG, "Getting all courses for the term.");
-		courses = courseManager.getAllForTerm(term.getID());
+		List<Course> courses = courseManager.getAllForTerm(term.getID());
 		for (Course course : courses) {
 			Log.i(TAG, "Course: " + course.getCourseName() + " is in this term.");
 		}
