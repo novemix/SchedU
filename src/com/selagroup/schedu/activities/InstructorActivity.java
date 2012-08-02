@@ -7,7 +7,7 @@ package com.selagroup.schedu.activities;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-import com.selagroup.schedu.MyApplication;
+import com.selagroup.schedu.ScheduApplication;
 import com.selagroup.schedu.R;
 import com.selagroup.schedu.Utility;
 import com.selagroup.schedu.managers.InstructorManager;
@@ -53,7 +53,7 @@ public class InstructorActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_instructor);
 
-		MyApplication app = (MyApplication) getApplication();
+		ScheduApplication app = (ScheduApplication) getApplication();
 		int courseID = getIntent().getIntExtra("courseID", -1);
 		
 		mInstructorManager = app.getInstructorManager();

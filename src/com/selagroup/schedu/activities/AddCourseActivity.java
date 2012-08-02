@@ -9,8 +9,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import android.app.Activity;
-import android.app.AlertDialog.Builder;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,8 +21,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.selagroup.schedu.MyApplication;
 import com.selagroup.schedu.R;
+import com.selagroup.schedu.ScheduApplication;
 import com.selagroup.schedu.managers.CourseManager;
 import com.selagroup.schedu.managers.InstructorManager;
 import com.selagroup.schedu.model.Course;
@@ -67,7 +65,7 @@ public class AddCourseActivity extends Activity {
 		setContentView(R.layout.activity_addcourse);
 
 		// Get the selected term
-		MyApplication myApp = ((MyApplication) getApplication());
+		ScheduApplication myApp = ((ScheduApplication) getApplication());
 		mCurrentTerm = myApp.getCurrentTerm();
 		
 		mFromTerm = getIntent().getBooleanExtra("fromTerm", false);

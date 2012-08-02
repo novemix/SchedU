@@ -26,7 +26,7 @@ import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.selagroup.schedu.MyApplication;
+import com.selagroup.schedu.ScheduApplication;
 import com.selagroup.schedu.R;
 import com.selagroup.schedu.adapters.TermArrayAdapter;
 import com.selagroup.schedu.managers.TermManager;
@@ -60,7 +60,7 @@ public class TermActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_term);
 
-		mTermManager = ((MyApplication) getApplication()).getTermManager();
+		mTermManager = ((ScheduApplication) getApplication()).getTermManager();
 
 		mTerms = mTermManager.getAll();
 		mTerms.add(0, null);
@@ -77,7 +77,7 @@ public class TermActivity extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getTitle().equals("xPreferences")) {
-			startActivity(new Intent(TermActivity.this, PreferencesActivity.class));
+			startActivity(new Intent(TermActivity.this, ScheduPreferences.class));
 			return true;
 		}
 		else {
@@ -165,7 +165,7 @@ public class TermActivity extends Activity {
 				// Move to next activity if a valid term is selected
 				if (termIsValid(mSelectedTerm)) {
 					Intent addCourseIntent = new Intent(TermActivity.this, AddCourseActivity.class);
-					((MyApplication)getApplication()).setCurrentTerm(mSelectedTerm);
+					((ScheduApplication)getApplication()).setCurrentTerm(mSelectedTerm);
 					addCourseIntent.putExtra("fromTerm", true);
 					startActivity(addCourseIntent);
 				}

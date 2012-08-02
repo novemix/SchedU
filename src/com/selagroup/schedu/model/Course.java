@@ -6,13 +6,12 @@
 package com.selagroup.schedu.model;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
-import com.selagroup.schedu.database.DBHelper;
-
 import android.content.ContentValues;
+
+import com.selagroup.schedu.database.DBHelper;
 
 /**
  * The Class SchoolClass.

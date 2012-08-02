@@ -9,6 +9,6 @@ public class RebootBroadcastReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		Log.i("Test", "Rebooted");
+		Log.i("Test", "Rebooted... reset/update alarms");
 	}
 }

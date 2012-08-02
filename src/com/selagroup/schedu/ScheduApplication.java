@@ -13,7 +13,7 @@ import com.selagroup.schedu.model.Term;
 
 import android.app.Application;
 
-public class MyApplication extends Application {
+public class ScheduApplication extends Application {
 	
 	// Database helper
 	private DBHelper mHelper;
@@ -27,10 +27,12 @@ public class MyApplication extends Application {
 	private NoteManager mNoteManager;
 	private AssignmentManager mAssignmentManager;
 	private ExamManager mExamManager;
+
+	// Alarm system
+	private ScheduleAlarmSystem mScheduleAlarmSystem;
 	
 	// The current term
 	private Term mCurrentTerm;
-
 	
 	@Override
 	public void onCreate() {
@@ -48,8 +50,12 @@ public class MyApplication extends Application {
 		mNoteManager = new NoteManager(mHelper, mCourseManager);
 		mAssignmentManager = new AssignmentManager(mHelper, mCourseManager);
 		mExamManager = new ExamManager(mHelper, mTimePlaceBlockManager, mCourseManager);
+		
+		// Create alarm manager
+		mScheduleAlarmSystem = new ScheduleAlarmSystem(getApplicationContext());
 	}
 	
+	// Getters for database access managers
 	public TermManager getTermManager() {
 		return mTermManager;
 	}
@@ -74,6 +80,12 @@ public class MyApplication extends Application {
 		return mExamManager;
 	}
 	
+	// Alarm system
+	public ScheduleAlarmSystem getScheduleAlarmSystem() {
+		return mScheduleAlarmSystem;
+	}
+	
+	// Term get/set
 	public Term getCurrentTerm() {
 		return mCurrentTerm;
 	}

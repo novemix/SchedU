@@ -25,8 +25,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import com.selagroup.schedu.MyApplication;
 import com.selagroup.schedu.R;
+import com.selagroup.schedu.ScheduApplication;
 import com.selagroup.schedu.managers.CourseManager;
 import com.selagroup.schedu.model.Course;
 import com.selagroup.schedu.model.Term;
@@ -57,7 +57,7 @@ public class CalendarActivity extends Activity {
 	private RelativeLayout calendar_day_layout;
 	private LinkedList<TextView> mCourseBlocks = new LinkedList<TextView>();
 
-	private LinearLayout calendar_ll_week;
+	private LinearLayout calendar_week_layout;
 	private ArrayList<TextView> mWeekDayBlocks = new ArrayList<TextView>(7);
 
 	// Managers
@@ -74,7 +74,7 @@ public class CalendarActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_calendar);
 
-		MyApplication myApp = ((MyApplication) getApplication());
+		ScheduApplication myApp = ((ScheduApplication) getApplication());
 		mCourseManager = myApp.getCourseManager();
 
 		// Set up the correct day to view
@@ -91,8 +91,8 @@ public class CalendarActivity extends Activity {
 
 		initWidgets();
 		initListeners();
-		initDay();
-		initWeek();
+		initDayView();
+		initWeekView();
 	}
 
 	/**
@@ -110,7 +110,7 @@ public class CalendarActivity extends Activity {
 		calendar_sv_week = (ScrollView) findViewById(R.id.calendar_sv_week);
 
 		calendar_day_layout = (RelativeLayout) findViewById(R.id.calendar_day_courses);
-		calendar_ll_week = (LinearLayout) findViewById(R.id.calendar_ll_week);
+		calendar_week_layout = (LinearLayout) findViewById(R.id.calendar_ll_week);
 	}
 
 	/**
@@ -144,7 +144,11 @@ public class CalendarActivity extends Activity {
 		calendar_btn_week.setOnClickListener(buttonListener);
 	}
 
-	private void initDay() {
+	private void initDayView() {
+		// Remove any existing day views
+		calendar_day_layout.removeAllViews();
+		
+		// Scroll to the current time in the day
 		calendar_sv_day.post(new Runnable() { 
 		    public void run() {
 		    	calendar_sv_day.scrollTo(0, (int)(mDensity * (60 * mCurrentDay.get(Calendar.HOUR_OF_DAY) + mCurrentDay.get(Calendar.MINUTE)))); 
@@ -160,7 +164,9 @@ public class CalendarActivity extends Activity {
 		}
 	}
 
-	private void initWeek() {
+	private void initWeekView() {
+		// Remove any existing week views
+		calendar_week_layout.removeAllViews();
 		
 		// Tree map to store sorted blocks and the associated courses
 		TreeMap<TimePlaceBlock, Course> courseBlocks = new TreeMap<TimePlaceBlock, Course>();
@@ -172,7 +178,7 @@ public class CalendarActivity extends Activity {
 
 		// Add blocks for each day
 		for (int i = 0; i < sDaysInWeek; ++i) {
-			// Initialize the week's day block
+			// Initialize the day header block
 			weekDayBlock = new TextView(this);
 			weekDayBlock.setTextColor(Color.BLACK);
 			weekDayBlock.setBackgroundColor(Color.LTGRAY);
@@ -182,8 +188,9 @@ public class CalendarActivity extends Activity {
 
 			// Add the week's day block to the list and the linear layout
 			mWeekDayBlocks.add(weekDayBlock);
-			calendar_ll_week.addView(weekDayBlock);
+			calendar_week_layout.addView(weekDayBlock);
 
+			// Add time blocks to tree map for sorting by time of day
 			for (Course course : mCourses) {
 				List<TimePlaceBlock> blocks = course.getBlocksOnDay(i);
 				for (TimePlaceBlock block : blocks) {
@@ -191,6 +198,7 @@ public class CalendarActivity extends Activity {
 				}
 			}
 			
+			// Add time blocks to the view in chronological order
 			for (Entry<TimePlaceBlock, Course> entry : courseBlocks.entrySet()) {
 				addCourseBlockToWeek(entry.getValue(), entry.getKey(), day);
 			}
@@ -230,7 +238,7 @@ public class CalendarActivity extends Activity {
 		
 		// Add the week's day block to the list and the linear layout
 		mWeekDayBlocks.add(weekDayBlock);
-		calendar_ll_week.addView(weekDayBlock);
+		calendar_week_layout.addView(weekDayBlock);
 	}
 
 	private TextView getCourseBlock(Course iCourse, TimePlaceBlock iBlock) {
