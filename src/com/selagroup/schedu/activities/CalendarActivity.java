@@ -111,6 +111,8 @@ public class CalendarActivity extends Activity {
 
 		calendar_day_layout = (RelativeLayout) findViewById(R.id.calendar_day_courses);
 		calendar_week_layout = (LinearLayout) findViewById(R.id.calendar_ll_week);
+		
+		// calendar_day_layout.set
 	}
 
 	/**
