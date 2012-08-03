@@ -63,12 +63,24 @@ public class Instructor extends ContentValueItem {
 		return mName;
 	}
 	
+	public void setName(String iName) {
+		mName = iName;
+	}
+	
 	public String getPhone() {
 		return mPhone;
 	}
 	
+	public void setPhone(String iPhone) {
+		mPhone = iPhone;
+	}
+	
 	public String getEmail() {
 		return mEmail;
+	}
+	
+	public void setEmail(String iEmail) {
+		mEmail = iEmail;
 	}
 	
 	public Location getLocation() {

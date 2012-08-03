@@ -10,6 +10,7 @@ import java.util.List;
 import com.selagroup.schedu.ScheduApplication;
 import com.selagroup.schedu.R;
 import com.selagroup.schedu.Utility;
+import com.selagroup.schedu.managers.CourseManager;
 import com.selagroup.schedu.managers.InstructorManager;
 import com.selagroup.schedu.model.Course;
 import com.selagroup.schedu.model.Instructor;
@@ -32,8 +33,9 @@ import android.widget.Toast;
  */
 public class InstructorActivity extends Activity {
 
-	public static final int ADDTIME_REQUEST_CODE = 1;
+	private static final int ADDTIME_REQUEST_CODE = 1;
 	InstructorManager mInstructorManager;
+	CourseManager mCourseManager;
 
 	TextView instructor_course_code;
 	EditText instructor_name;
@@ -57,11 +59,12 @@ public class InstructorActivity extends Activity {
 		int courseID = getIntent().getIntExtra("courseID", -1);
 		
 		mInstructorManager = app.getInstructorManager();
+		mCourseManager = app.getCourseManager();
 		thisCourse = app.getCourseManager().get(courseID);
 		thisInstructor = thisCourse.getInstructor();
 		
 		initWidgets();
-		setValues();
+		setWidgetValues();
 		initListeners();
 	}
 
@@ -72,7 +75,7 @@ public class InstructorActivity extends Activity {
 			// update location and time block displays
 			TimePlaceBlock block = (TimePlaceBlock) data.getSerializableExtra("block");
 			thisInstructor.addOfficeBlock(block);
-			setValues();
+			setWidgetValues();
 		}
 	}
 	
@@ -102,7 +105,7 @@ public class InstructorActivity extends Activity {
 		
 	}
 
-	private void setValues() {
+	private void setWidgetValues() {
 		instructor_course_code.setText(thisCourse.getCourseCode());
 		if (thisInstructor != null) {
 			instructor_name.setText(thisInstructor.getName());
@@ -110,6 +113,20 @@ public class InstructorActivity extends Activity {
 			instructor_phone.setText(thisInstructor.getPhone());
 			ScrollView sv = (ScrollView) findViewById(R.id.instructor_sv_hours);
 			Utility.populateInstructorHours(sv, thisInstructor.getOfficeBlocks());
+		}
+	}
+	
+	private void collectWidgetValues() {
+		String name = instructor_name.getText().toString();
+		String email = instructor_email.getText().toString();
+		String phone = instructor_phone.getText().toString();
+		if (thisInstructor != null) {
+			thisInstructor.setName(name);
+			thisInstructor.setEmail(email);
+			thisInstructor.setPhone(phone);
+		} else {
+			thisInstructor = new Instructor(-1, name, email, phone);
+			thisCourse.setInstructor(thisInstructor);
 		}
 	}
 	
@@ -126,6 +143,9 @@ public class InstructorActivity extends Activity {
 		instructor_btn_done.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
+				collectWidgetValues();
+				mInstructorManager.insert(thisInstructor);
+				
 				Intent intent = new Intent();
 				intent.putExtra("instructor", thisInstructor);
 				setResult(RESULT_OK, intent);

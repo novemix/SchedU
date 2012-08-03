@@ -71,6 +71,7 @@ public class CourseManager extends Manager<Course> {
 				courses.add(itemFromCurrentPos(cursor));
 			} while (cursor.moveToNext());
 		}
+		cursor.close();
 		close();
 
 		return courses;

@@ -57,6 +57,7 @@ public class CourseActivity extends Activity {
 	
 	Calendar day;
 	int duration;
+	int courseID;
 	Course thisCourse;
 	TimePlaceBlock thisBlock;
 	Location thisLocation;
@@ -68,7 +69,7 @@ public class CourseActivity extends Activity {
 		setContentView(R.layout.activity_course);
 	
 		Intent intent = getIntent();
-		int courseID = intent.getIntExtra("courseID", -1);
+		courseID = intent.getIntExtra("courseID", -1);
 		int blockID = intent.getIntExtra("blockID", -1);
 		day = (Calendar) intent.getSerializableExtra("day");
 		
@@ -87,7 +88,9 @@ public class CourseActivity extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == INSTRUCTOR_EDIT_CODE && resultCode == RESULT_OK) {
-			thisInstructor = (Instructor) data.getSerializableExtra("instructor");
+			//thisInstructor = (Instructor) data.getSerializableExtra("instructor");
+			thisCourse = ((ScheduApplication) getApplication()).getCourseManager().get(courseID);
+			thisInstructor = thisCourse.getInstructor();
 			setValues();
 		}
 	}
@@ -96,6 +99,7 @@ public class CourseActivity extends Activity {
 		int year = day.get(Calendar.YEAR);
 		int month = day.get(Calendar.MONTH);
 		int dayOfMonth = day.get(Calendar.DAY_OF_MONTH);
+		
 		Calendar start = thisBlock.getStartTime();
 		int hour = start.get(Calendar.HOUR_OF_DAY);
 		int minute = start.get(Calendar.MINUTE);

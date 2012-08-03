@@ -88,6 +88,10 @@ public class Course extends ContentValueItem {
 	public Instructor getInstructor() {
 		return mInstructor;
 	}
+	
+	public void setInstructor(Instructor iInstructor) {
+		mInstructor = iInstructor;
+	}
 
 	public List<TimePlaceBlock> getBlocksOnDay(int iDayIndex) {
 		ArrayList<TimePlaceBlock> blocks = new ArrayList<TimePlaceBlock>(2);
