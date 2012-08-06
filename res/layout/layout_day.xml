@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/calendar_rl_day"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
 
         <!-- Date -->
 
@@ -21,7 +15,7 @@
         <!-- Main -->
         <!-- Day -->
 
-        <ScrollView
+        <com.selagroup.schedu.ObservableScrollView
             android:id="@+id/calendar_sv_day"
             android:layout_width="match_parent"
             android:layout_height="fill_parent" >
@@ -381,7 +375,5 @@
                     android:layout_weight="2" >
                 </RelativeLayout>
             </LinearLayout>
-        </ScrollView>
-    </LinearLayout>
-
-</RelativeLayout>
+        </com.selagroup.schedu.ObservableScrollView>
+</LinearLayout>

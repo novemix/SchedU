@@ -6,4 +6,8 @@
         <item name="android:textSize">18dp</item>
         <item name="android:paddingRight">@dimen/label_padding</item>
     </style>
+    
+    <color name="red">#ffff0000</color>
+    <color name="green">#ff00ff00</color>
+    <color name="blue">#ff0000ff</color>
 </resources>

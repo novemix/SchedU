@@ -12,24 +12,25 @@ public class HorizontalPanelSwitcher extends RelativeLayout {
 		/**
 		 * @return The new panel to be placed on the right
 		 */
-		public RelativeLayout switchRight();
-		
+		public void switchRight();
+
 		/**
 		 * @return The new panel to be placed on the left
 		 */
-		public RelativeLayout switchLeft();
+		public void switchLeft();
 	}
-	
+
 	private OnPanelSwitchListener mSwitchListener = null;
-	
+
 	private static final int PANEL_LEFT = 0;
 	private static final int PANEL_CENTER = 1;
 	private static final int PANEL_RIGHT = 2;
-	
+
 	private int mTargetPanel = PANEL_CENTER;
-	
+
 	// x-coordinate of the last ACTION_DOWN motion event
 	private float mDownX;
+	private boolean mIsDragging = false;
 
 	// Store the switcher's width and height
 	private int mWidth;
@@ -54,7 +55,7 @@ public class HorizontalPanelSwitcher extends RelativeLayout {
 			requestLayout();
 		}
 	};
-	
+
 	// Animation thread
 	private Thread mAnimationThread = new Thread(new Runnable() {
 		public void run() {
@@ -72,19 +73,20 @@ public class HorizontalPanelSwitcher extends RelativeLayout {
 					else {
 						// Reached target: animation done
 						mIsAnimating = false;
-						
+
 						// If there's a switch listener set, get new panels
 						if (mSwitchListener != null) {
-							if (mTargetPanel == PANEL_RIGHT) {
-								mLeftPanel = mCenterPanel;
-								mCenterPanel = mRightPanel;
-								mRightPanel = mSwitchListener.switchRight();
-							}
-							else if (mTargetPanel == PANEL_LEFT) {
-								mRightPanel = mCenterPanel;
-								mCenterPanel = mLeftPanel;
-								mLeftPanel = mSwitchListener.switchLeft();
-							}
+							post(new Runnable() {
+								public void run() {
+									if (mTargetPanel == PANEL_RIGHT) {
+										mSwitchListener.switchRight();
+									}
+									else if (mTargetPanel == PANEL_LEFT) {
+										mSwitchListener.switchLeft();
+									}
+								}
+							});
+							mDelta = 0;
 						}
 					}
 					mShift = mDelta;
@@ -108,30 +110,39 @@ public class HorizontalPanelSwitcher extends RelativeLayout {
 		super(context, attrs);
 		init();
 	}
-	
+
 	public HorizontalPanelSwitcher(Context context) {
 		super(context);
 		init();
 	}
-	
+
 	// Set listener for the panel switch
 	public void setOnPanelSwitchListener(OnPanelSwitchListener iSwitchListener) {
 		mSwitchListener = iSwitchListener;
 	}
-	
+
 	// Setters for panels
 	public void setLeftLayout(RelativeLayout iLeftPanel) {
+		removeView(mLeftPanel);
+		removeView(iLeftPanel);
 		mLeftPanel = iLeftPanel;
+		addView(mLeftPanel);
 	}
-	
+
 	public void setCenterLayout(RelativeLayout iCenterPanel) {
+		removeView(mCenterPanel);
+		removeView(iCenterPanel);
 		mCenterPanel = iCenterPanel;
+		addView(mCenterPanel);
 	}
-	
+
 	public void setRightLayout(RelativeLayout iRightPanel) {
+		removeView(mRightPanel);
+		removeView(iRightPanel);
 		mRightPanel = iRightPanel;
+		addView(mRightPanel);
 	}
-	
+
 	// Initialize panels, listeners, animations
 	public void init() {
 		setGravity(Gravity.TOP);
@@ -148,10 +159,14 @@ public class HorizontalPanelSwitcher extends RelativeLayout {
 
 		setOnTouchListener(new OnTouchListener() {
 			public boolean onTouch(View v, MotionEvent event) {
-				movePanels(event);
-				return false;
+				return movePanels(event);
 			}
 		});
+	}
+
+	@Override
+	public boolean onInterceptTouchEvent(MotionEvent ev) {
+		return movePanels(ev);
 	}
 
 	@Override
@@ -170,36 +185,35 @@ public class HorizontalPanelSwitcher extends RelativeLayout {
 		case MotionEvent.ACTION_DOWN:
 			mIsAnimating = false;
 			mDownX = event.getX();
-			// mVelocityTracker = VelocityTracker.obtain();
-			// mVelocityTracker.addMovement(event);
-
 			break;
+
 		case MotionEvent.ACTION_MOVE:
+			mIsDragging = true;
 			float xDiff = event.getX() - mDownX;
 			mDelta = mShift + (int) xDiff;
 			mDelta = Math.max(Math.min(mDelta, 3 * mWidth / 2), -3 * mWidth / 2);
 			requestLayout();
 			break;
+
 		case MotionEvent.ACTION_UP:
-			// mVelocityTracker.computeCurrentVelocity(1);
-			// float xVel = mVelocityTracker.getXVelocity();
-			
 			// Check which panel should become the center
 			if (mDelta < -mWidth / 2) {
 				mTarget = -mWidth;
-				mTargetPanel = PANEL_LEFT;
+				mTargetPanel = PANEL_RIGHT;
 			}
 			else if (mDelta > mWidth / 2) {
 				mTarget = mWidth;
-				mTargetPanel = PANEL_RIGHT;
+				mTargetPanel = PANEL_LEFT;
 			}
 			else {
 				mTarget = 0;
 				mTargetPanel = PANEL_CENTER;
 			}
-			
 			mIsAnimating = true;
-			break;
+			
+			boolean tmp = mIsDragging;
+			mIsDragging = false;
+			return tmp;
 		}
 
 		return false;
