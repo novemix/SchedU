@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.selagroup.schedu"
     android:versionCode="1"
@@ -7,18 +7,22 @@
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="15" />
-    
+
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".ScheduApplication"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
+        <uses-library android:name="com.google.android.maps" />
+
         <activity
             android:name=".activities.TermActivity"
             android:label="@string/term_activity_title" >
             <intent-filter android:label="@string/app_name" >
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

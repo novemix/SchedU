@@ -10,10 +10,10 @@
     <string name="course_office_hours_label">Office hours:</string>
     <string name="course_email_label">Email:</string>
     <string name="course_phone_label">Phone:</string>
-    <string name="course_instructor_edit_btn">Edit info</string>
+    <string name="course_instructor_edit_btn">Edit</string>
     <string name="course_notes_btn">Notes</string>
-    <string name="course_reminders_btn">Reminders</string>
-    <string name="course_assignments_exams_btn">Assignments/Exams</string>
+    <string name="course_assignments_btn">Assignments</string>
+    <string name="course_exams_btn">Exams</string>
     <string name="course_next_course_label">Next course:</string>
     <string name="course_next_course_time">Time until course:</string>
     <string name="course_next_instructor">Instructor:</string>

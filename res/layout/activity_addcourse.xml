@@ -14,11 +14,10 @@
 
         <TextView
             android:id="@+id/addcourse_tv_course_code_label"
-            style="@style/labels"
+            style="@style/label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:gravity="right"
             android:paddingRight="@dimen/label_padding"
             android:text="@string/addcourse_course_code_label" />
 
@@ -41,11 +40,10 @@
 
         <TextView
             android:id="@+id/addcourse_tv_course_name_label"
-            style="@style/labels"
+            style="@style/label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:gravity="right"
             android:paddingRight="@dimen/label_padding"
             android:text="@string/addcourse_course_name_label" />
 
@@ -65,11 +63,10 @@
 
         <TextView
             android:id="@+id/addcourse_tv_instructor_label"
-            style="@style/labels"
+            style="@style/label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:gravity="right"
             android:paddingRight="@dimen/label_padding"
             android:text="@string/addcourse_instructor_label" />
 
@@ -92,7 +89,7 @@
 
         <TextView
             android:id="@+id/addcourse_tv_schedule_label"
-            style="@style/labels"
+            style="@style/label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

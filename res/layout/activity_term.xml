@@ -43,7 +43,8 @@
             <!-- Spinner title -->
             <TextView 
                 android:id="@+id/term_tv_spinnerTitle"
-                style="@style/labels"
+                style="@style/label"
+                android:gravity="left"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/term_spinnerTitle_label"
@@ -84,11 +85,10 @@
 
                 <TextView
                     android:id="@+id/term_tv_start_label"
-                    style="@style/labels"
+                    style="@style/label"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="right"
                     android:paddingRight="20dp"
                     android:text="@string/term_start_label" />
 
@@ -109,11 +109,10 @@
 
                 <TextView
                     android:id="@+id/term_tv_end_label"
-                    style="@style/labels"
+                    style="@style/label"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="right"
                     android:paddingRight="20dp"
                     android:text="@string/term_end_label" />
 

@@ -284,13 +284,13 @@
                 android:id="@+id/course_btn_reminders"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/course_reminders_btn" />
+                android:text="@string/course_exams_btn" />
 
             <Button
                 android:id="@+id/course_btn_assignments_exams"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/course_assignments_exams_btn" />
+                android:text="@string/course_assignments_btn" />
         </LinearLayout>
 
         <!-- Next course info -->
