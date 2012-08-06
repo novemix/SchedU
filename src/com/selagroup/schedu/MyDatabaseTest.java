@@ -21,7 +21,7 @@ public class MyDatabaseTest {
 		TermManager termManager = new TermManager(helper);
 		LocationManager locationManager = new LocationManager(helper);
 		TimePlaceBlockManager timePlaceBlockManager = new TimePlaceBlockManager(helper, locationManager);
-		InstructorManager instructorManager = new InstructorManager(helper, timePlaceBlockManager);
+		InstructorManager instructorManager = new InstructorManager(helper, locationManager, timePlaceBlockManager);
 		CourseManager courseManager = new CourseManager(helper, termManager, instructorManager, timePlaceBlockManager);
 		NoteManager noteManager = new NoteManager(helper, courseManager);
 		AssignmentManager assignmentManager = new AssignmentManager(helper, courseManager);

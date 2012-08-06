@@ -87,6 +87,10 @@ public class Instructor extends ContentValueItem {
 		return mLocation;
 	}
 	
+	public void setLocation(Location iLocation) {
+		mLocation = iLocation;
+	}
+	
 	@Override
 	public String toString() {
 		return mName;

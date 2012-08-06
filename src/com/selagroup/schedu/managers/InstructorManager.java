@@ -16,10 +16,12 @@ import com.selagroup.schedu.model.TimePlaceBlock;
  */
 public class InstructorManager extends Manager<Instructor> {
 	private TimePlaceBlockManager mTimePlaceBlockManager;
+	private LocationManager mLocationManager;
 
-	public InstructorManager(DBHelper iHelper, TimePlaceBlockManager iTimePlaceBlockManager) {
+	public InstructorManager(DBHelper iHelper, LocationManager iLocationManager, TimePlaceBlockManager iTimePlaceBlockManager) {
 		super(iHelper);
 		mTimePlaceBlockManager = iTimePlaceBlockManager;
+		mLocationManager = iLocationManager;
 	}
 
 	@Override

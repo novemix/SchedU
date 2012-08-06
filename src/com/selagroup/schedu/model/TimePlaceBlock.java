@@ -48,6 +48,10 @@ public class TimePlaceBlock extends ContentValueItem implements Comparable<TimeP
 	public Location getLocation() {
 		return mLocation;
 	}
+	
+	public void setLocation(Location iLocation) {
+		mLocation = iLocation;
+	}
 
 	public Calendar getStartTime() {
 		return mStartTime;

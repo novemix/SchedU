@@ -150,7 +150,6 @@ public class AddTimeActivity extends Activity {
 		Intent returnIntent = new Intent();
 		setResult(RESULT_CANCELED, returnIntent);
 		finish();
-		super.onBackPressed();
 	}
 	
 	private void showStartTimeDialog(Calendar initDate) {

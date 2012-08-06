@@ -14,6 +14,7 @@ import com.selagroup.schedu.managers.CourseManager;
 import com.selagroup.schedu.managers.InstructorManager;
 import com.selagroup.schedu.model.Course;
 import com.selagroup.schedu.model.Instructor;
+import com.selagroup.schedu.model.Location;
 import com.selagroup.schedu.model.TimePlaceBlock;
 
 import android.app.Activity;
@@ -47,8 +48,9 @@ public class InstructorActivity extends Activity {
 	Button instructor_btn_done;
 	Button instructor_btn_cancel;
 	
-	Instructor thisInstructor;
 	Course thisCourse;
+	Instructor thisInstructor;
+	Location thisLocation;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +64,11 @@ public class InstructorActivity extends Activity {
 		mCourseManager = app.getCourseManager();
 		thisCourse = app.getCourseManager().get(courseID);
 		thisInstructor = thisCourse.getInstructor();
+		thisLocation = thisInstructor.getLocation();
+		if (thisLocation == null) {
+			thisLocation = new Location(-1, "", "", "");
+			thisInstructor.setLocation(thisLocation);
+		}
 		
 		initWidgets();
 		setWidgetValues();
@@ -74,6 +81,7 @@ public class InstructorActivity extends Activity {
 		if (requestCode == ADDTIME_REQUEST_CODE && resultCode == RESULT_OK) {
 			// update location and time block displays
 			TimePlaceBlock block = (TimePlaceBlock) data.getSerializableExtra("block");
+			block.setLocation(thisLocation);
 			thisInstructor.addOfficeBlock(block);
 			setWidgetValues();
 		}
@@ -111,6 +119,10 @@ public class InstructorActivity extends Activity {
 			instructor_name.setText(thisInstructor.getName());
 			instructor_email.setText(thisInstructor.getEmail());
 			instructor_phone.setText(thisInstructor.getPhone());
+			if (thisLocation != null) {
+				instructor_building.setText(thisLocation.getBuilding());
+				instructor_room.setText(thisLocation.getRoom());
+			}
 			ScrollView sv = (ScrollView) findViewById(R.id.instructor_sv_hours);
 			Utility.populateInstructorHours(sv, thisInstructor.getOfficeBlocks());
 		}
@@ -126,15 +138,16 @@ public class InstructorActivity extends Activity {
 			thisInstructor.setPhone(phone);
 		} else {
 			thisInstructor = new Instructor(-1, name, email, phone);
-			thisCourse.setInstructor(thisInstructor);
 		}
+		thisLocation.setBuilding(instructor_building.getText().toString());
+		thisLocation.setRoom(instructor_room.getText().toString());
 	}
 	
 	private void initListeners() {
 		instructor_btn_add_time.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
-				// TODO: only go to add time if we have enough info for instructor
+				collectWidgetValues(); // need to do this so that bldg/room don't get clobbered when we come back
 				Intent intent = new Intent(InstructorActivity.this, AddTimeActivity.class);
 				intent.putExtra("instructor", true);
 				startActivityForResult(intent, ADDTIME_REQUEST_CODE);
@@ -145,10 +158,12 @@ public class InstructorActivity extends Activity {
 			public void onClick(View v) {
 				collectWidgetValues();
 				mInstructorManager.insert(thisInstructor);
+				thisCourse.setInstructor(thisInstructor);
+				mCourseManager.update(thisCourse);
 				
-				Intent intent = new Intent();
-				intent.putExtra("instructor", thisInstructor);
-				setResult(RESULT_OK, intent);
+//				Intent intent = new Intent();
+//				intent.putExtra("instructor", thisInstructor);
+				setResult(RESULT_OK);
 				finish();
 			}
 		});

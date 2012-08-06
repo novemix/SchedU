@@ -9,6 +9,8 @@ import java.util.List;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
+import android.util.Log;
 
 import com.selagroup.schedu.database.DBHelper;
 import com.selagroup.schedu.model.Course;
@@ -169,7 +171,7 @@ public class CourseManager extends Manager<Course> {
 	@Override
 	public void update(Course iCourse) {
 		int courseID = iCourse.getID();
-
+		
 		// Update instructor
 		mInstructorManager.update(iCourse.getInstructor());
 
@@ -188,7 +190,11 @@ public class CourseManager extends Manager<Course> {
 			courseScheduleBlock.put(DBHelper.COL_COURSE_TIME_PLACE_BLOCK_TimePlaceBlockID, block.getID());
 
 			open(OPEN_MODE.WRITE);
-			mDB.insert(DBHelper.TABLE_CourseTimePlaceBlock, null, courseScheduleBlock);
+			try {
+				mDB.insertOrThrow(DBHelper.TABLE_CourseTimePlaceBlock, null, courseScheduleBlock);
+			} catch (SQLiteConstraintException e) {
+				// record already exists in coursetimeplaceblock table
+			}
 			close();
 		}
 	}

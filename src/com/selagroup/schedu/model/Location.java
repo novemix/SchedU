@@ -39,8 +39,16 @@ public class Location extends ContentValueItem {
 		return mBuilding;
 	}
 	
+	public void setBuilding(String iBuilding) {
+		mBuilding = iBuilding;
+	}
+	
 	public String getRoom() {
 		return mRoom;
+	}
+	
+	public void setRoom(String iRoom) {
+		mRoom = iRoom;
 	}
 	
 	@Override
