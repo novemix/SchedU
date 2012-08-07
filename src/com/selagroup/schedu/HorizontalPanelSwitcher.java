@@ -63,12 +63,16 @@ public class HorizontalPanelSwitcher extends RelativeLayout {
 				if (mIsAnimating) {
 					if (Math.abs(mTarget - mDelta) <= mAnimationStep) {
 						mDelta = mTarget;
+						mShift = mDelta;
 					}
+					
 					if (mDelta > mTarget) {
 						mDelta -= mAnimationStep;
+						mShift = mDelta;
 					}
 					else if (mDelta < mTarget) {
 						mDelta += mAnimationStep;
+						mShift = mDelta;
 					}
 					else {
 						// Reached target: animation done
@@ -84,12 +88,12 @@ public class HorizontalPanelSwitcher extends RelativeLayout {
 									else if (mTargetPanel == PANEL_LEFT) {
 										mSwitchListener.switchLeft();
 									}
+									mDelta = 0;
+									mShift = mDelta;
 								}
 							});
-							mDelta = 0;
 						}
 					}
-					mShift = mDelta;
 					post(mRefreshLayout);
 				}
 				try {

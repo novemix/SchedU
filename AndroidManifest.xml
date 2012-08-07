@@ -15,7 +15,6 @@
         android:name=".ScheduApplication"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
-        <uses-library android:name="com.google.android.maps" />
 
         <activity
             android:name=".activities.TermActivity"
