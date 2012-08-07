@@ -15,10 +15,11 @@
     </style>
     
     <style name="divider">
-        <item name="android:padding">2dp</item>
-        <item name="android:src">@android:drawable/divider_horizontal_dark</item>
+        <item name="android:height">5dp</item>
+        <item name="android:padding">4dp</item>
+        <item name="android:background">@drawable/divider</item>
         <item name="android:scaleType">fitXY</item>
-        <item name="android:layout_marginTop">15dp</item>
+        <item name="android:layout_marginTop">10dp</item>
         <!-- 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,8 +29,6 @@
         android:src="@android:drawable/divider_horizontal_dark" -->
     </style>
 
-    <color name="red">#ffff0000</color>
-    <color name="green">#ff00ff00</color>
-    <color name="blue">#ff0000ff</color>
+    <color name="dividerColor">#ffaaaaaa</color>
 
 </resources>

@@ -14,8 +14,6 @@ import android.os.CountDownTimer;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.selagroup.schedu.R;
@@ -40,16 +38,7 @@ public class CourseActivity extends Activity {
 	TextView course_building;
 	TextView course_room;
 	TextView course_instructor;
-	TextView course_email;
-	TextView course_phone;
-	TextView course_office;
 	
-	TextView course_next_code;
-	TextView course_next_name;
-	TextView course_next_time;
-	TextView course_next_instructor;
-	
-	Button course_btn_map;
 	Button course_btn_edit_instructor;
 	Button course_btn_notes;
 	Button course_btn_reminders;
@@ -116,16 +105,7 @@ public class CourseActivity extends Activity {
 		course_building = (TextView) findViewById(R.id.course_building);
 		course_room = (TextView) findViewById(R.id.course_room);
 		course_instructor = (TextView) findViewById(R.id.course_instructor);
-		course_email = (TextView) findViewById(R.id.course_email);
-		course_phone = (TextView) findViewById(R.id.course_phone);
-		course_office = (TextView) findViewById(R.id.course_office);
 		
-		course_next_code = (TextView) findViewById(R.id.course_next_code);
-		course_next_name = (TextView) findViewById(R.id.course_next_name);
-		course_next_time = (TextView) findViewById(R.id.course_next_time);
-		course_next_instructor = (TextView) findViewById(R.id.course_next_instructor);
-		
-		course_btn_map = (Button) findViewById(R.id.course_btn_map);
 		course_btn_edit_instructor = (Button) findViewById(R.id.course_btn_edit_instructor);
 		course_btn_notes = (Button) findViewById(R.id.course_btn_notes);
 		course_btn_reminders = (Button) findViewById(R.id.course_btn_reminders);
@@ -175,10 +155,6 @@ public class CourseActivity extends Activity {
 		course_room.setText(thisLocation.getRoom());
 		if (thisInstructor != null) {
 			course_instructor.setText(thisInstructor.getName());
-			course_email.setText(thisInstructor.getEmail());
-			course_phone.setText(thisInstructor.getPhone());
-			ScrollView sv = (ScrollView) findViewById(R.id.course_sv_office_hours);
-			Utility.populateInstructorHours(sv, thisInstructor.getOfficeBlocks());
 		}
 	}
 	
@@ -205,31 +181,5 @@ public class CourseActivity extends Activity {
 				startActivity(new Intent(CourseActivity.this, CourseAssignActivity.class));
 			}
 		});
-	}
-
-
-	void mockup() {
-		LinearLayout hours = (LinearLayout) findViewById(R.id.course_ll_office_hours);
-		TextView tv1 = new TextView(this);
-		tv1.setText("Mon, Wed -- 1pm - 3pm");
-		TextView tv2 = new TextView(this);
-		tv2.setText("Tue, Thu -- 3pm-4pm");
-		TextView tv3 = new TextView(this);
-		tv3.setText("Fri -- 11am - 12pm");
-		TextView tv4 = new TextView(this);
-		tv4.setText("Sat -- 11am - 12pm");
-		TextView tv5 = new TextView(this);
-		tv5.setText("Sat -- 11am - 12pm");
-		TextView tv6 = new TextView(this);
-		tv6.setText("Sat -- 11am - 12pm");
-		TextView tv7 = new TextView(this);
-		tv7.setText("Sat -- 11am - 12pm");
-		hours.addView(tv1);
-		hours.addView(tv2);
-		hours.addView(tv3);
-		hours.addView(tv4);
-		hours.addView(tv5);
-		hours.addView(tv6);
-		hours.addView(tv7);
 	}
 }

@@ -47,11 +47,11 @@ public class InstructorActivity extends Activity {
 	Button instructor_btn_add_time;
 	Button instructor_btn_done;
 	Button instructor_btn_cancel;
-	
+
 	Course thisCourse;
 	Instructor thisInstructor;
 	Location thisLocation;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -59,22 +59,24 @@ public class InstructorActivity extends Activity {
 
 		ScheduApplication app = (ScheduApplication) getApplication();
 		int courseID = getIntent().getIntExtra("courseID", -1);
-		
+
 		mInstructorManager = app.getInstructorManager();
 		mCourseManager = app.getCourseManager();
 		thisCourse = app.getCourseManager().get(courseID);
-		thisInstructor = thisCourse.getInstructor();
-		thisLocation = thisInstructor.getLocation();
-		if (thisLocation == null) {
-			thisLocation = new Location(-1, "", "", "");
-			thisInstructor.setLocation(thisLocation);
+
+		if (thisInstructor != null) {
+			thisInstructor = thisCourse.getInstructor();
+			thisLocation = thisInstructor.getLocation();
+			if (thisLocation == null) {
+				thisLocation = new Location(-1, "", "", "");
+				thisInstructor.setLocation(thisLocation);
+			}
 		}
-		
+
 		initWidgets();
 		setWidgetValues();
 		initListeners();
 	}
-
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -86,20 +88,20 @@ public class InstructorActivity extends Activity {
 			setWidgetValues();
 		}
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		cancel();
 	}
-	
+
 	private void cancel() {
 		Intent returnIntent = new Intent();
 		setResult(RESULT_CANCELED, returnIntent);
 		finish();
 	}
-	
+
 	private void initWidgets() {
-		
+
 		// Initialize widget handles
 		instructor_course_code = (TextView) findViewById(R.id.instructor_course_code);
 		instructor_name = (EditText) findViewById(R.id.instructor_name);
@@ -110,7 +112,7 @@ public class InstructorActivity extends Activity {
 		instructor_btn_add_time = (Button) findViewById(R.id.instructor_btn_add_time);
 		instructor_btn_done = (Button) findViewById(R.id.instructor_btn_done);
 		instructor_btn_cancel = (Button) findViewById(R.id.instructor_btn_cancel);
-		
+
 	}
 
 	private void setWidgetValues() {
@@ -127,7 +129,7 @@ public class InstructorActivity extends Activity {
 			Utility.populateInstructorHours(sv, thisInstructor.getOfficeBlocks());
 		}
 	}
-	
+
 	private void collectWidgetValues() {
 		String name = instructor_name.getText().toString();
 		String email = instructor_email.getText().toString();
@@ -142,7 +144,7 @@ public class InstructorActivity extends Activity {
 		thisLocation.setBuilding(instructor_building.getText().toString());
 		thisLocation.setRoom(instructor_room.getText().toString());
 	}
-	
+
 	private void initListeners() {
 		instructor_btn_add_time.setOnClickListener(new OnClickListener() {
 
@@ -154,27 +156,27 @@ public class InstructorActivity extends Activity {
 			}
 		});
 		instructor_btn_done.setOnClickListener(new OnClickListener() {
-			
+
 			public void onClick(View v) {
 				collectWidgetValues();
 				mInstructorManager.insert(thisInstructor);
 				thisCourse.setInstructor(thisInstructor);
 				mCourseManager.update(thisCourse);
-				
-//				Intent intent = new Intent();
-//				intent.putExtra("instructor", thisInstructor);
+
+				// Intent intent = new Intent();
+				// intent.putExtra("instructor", thisInstructor);
 				setResult(RESULT_OK);
 				finish();
 			}
 		});
 		instructor_btn_cancel.setOnClickListener(new OnClickListener() {
-			
+
 			public void onClick(View v) {
 				cancel();
 			}
 		});
 	}
-	
+
 	void mockup() {
 		LinearLayout hours = (LinearLayout) findViewById(R.id.instructor_ll_hours);
 		TextView tv1 = new TextView(this);
