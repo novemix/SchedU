@@ -42,8 +42,6 @@ public class CourseActivity extends Activity {
 	private TextView course_tv_countDown;
 	private TextView course_tv_date;
 	private TextView course_tv_time;
-//	private TextView course_building;
-//	private TextView course_room;
 	private TextView course_location;
 	private TextView course_instructor;
 	private TextView course_instructor_location;
@@ -87,7 +85,6 @@ public class CourseActivity extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == INSTRUCTOR_EDIT_CODE && resultCode == RESULT_OK) {
-			//thisInstructor = (Instructor) data.getSerializableExtra("instructor");
 			thisCourse = ((ScheduApplication) getApplication()).getCourseManager().get(courseID);
 			thisInstructor = thisCourse.getInstructor();
 			setValues();
@@ -114,8 +111,6 @@ public class CourseActivity extends Activity {
 		course_tv_time = (TextView) 		findViewById(R.id.course_tv_time);
 		course_countDown_label = (TextView) findViewById(R.id.course_countDown_label);
 		course_tv_countDown = (TextView) findViewById(R.id.course_tv_countDown);
-//		course_building = (TextView) findViewById(R.id.course_building);
-//		course_room = (TextView) findViewById(R.id.course_room);
 		course_location = (TextView) findViewById(R.id.course_location);
 		course_instructor = (TextView) findViewById(R.id.course_instructor);
 		course_instructor_location = (TextView) findViewById(R.id.course_instructor_location);
@@ -165,17 +160,17 @@ public class CourseActivity extends Activity {
 		// Set values
 		course_course_code.setText(thisCourse.getCourseCode());
 		course_course_name.setText(thisCourse.getCourseName());
+		course_tv_date.setText(DATE_FORMAT.format(day.getTime()));
 		course_tv_time.setText(thisBlock.toTimeString());
-		course_tv_date.setText(DATE_FORMAT.format(thisBlock.getStartTime().getTime()));
-		//course
 		setCourseTimer();
 		course_location.setText(thisLocation.getBuilding() + ", " + thisLocation.getRoom());
-//		course_building.setText(thisLocation.getBuilding());
-//		course_room.setText(thisLocation.getRoom());
 		if (thisInstructor != null) {
 			course_instructor.setText(thisInstructor.getName());
-			course_instructor_location.setText(thisInstructor.getLocation().getBuilding()
-					+ ", " + thisInstructor.getLocation().getRoom());
+			String building = thisInstructor.getLocation().getBuilding();
+			String room = thisInstructor.getLocation().getRoom();
+			course_instructor_location.setText(building
+					+ ("".equals(building) || "".equals(room) ? "" : ", ")
+					+ room);
 			Utility.populateInstructorHours(course_sv_instructor_hours, thisInstructor.getOfficeBlocks());
 		}
 	}
