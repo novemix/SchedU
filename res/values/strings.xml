@@ -21,6 +21,6 @@
 	<string name="notes_activity_title">Notes</string>
     <string name="preferences_activity_title">Preferences</string>
     <string name="sketchNote_activity_title">Sketch Note</string>
-    <string name="term_activity_title">New Term</string>
+    <string name="term_activity_title">Term Select</string>
     <string name="textNote_activity_title">Text Note</string>
 </resources>

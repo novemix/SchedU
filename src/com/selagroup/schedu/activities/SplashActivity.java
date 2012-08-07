@@ -14,6 +14,8 @@ import com.selagroup.schedu.R;
 
 public class SplashActivity extends Activity {
 	
+	private Timer mTimer;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
@@ -23,13 +25,13 @@ public class SplashActivity extends Activity {
 	    findViewById(R.id.splash_layout_root).setOnTouchListener(new OnTouchListener() {
 			public boolean onTouch(View v, MotionEvent event) {
 				startApplication();
+			    mTimer.cancel();
 				return false;
 			}
 		});
 	    
-	    // If no tap, start in 3s
-	    Timer timer = new Timer(true);
-	    timer.schedule(new TimerTask() {
+	    mTimer = new Timer(true);
+	    mTimer.schedule(new TimerTask() {
 			@Override
 			public void run() {
 				startApplication();

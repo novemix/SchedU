@@ -26,10 +26,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            android:gravity="bottom"
             android:orientation="vertical" >
 
             <!-- Application title -->
+
             <TextView
                 android:id="@+id/term_tv_title"
                 android:layout_width="wrap_content"
@@ -39,114 +39,46 @@
                 android:paddingBottom="25dp"
                 android:text="@string/app_name"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
-            
+
             <!-- Spinner title -->
-            <TextView 
-                android:id="@+id/term_tv_spinnerTitle"
-                style="@style/label"
-                android:gravity="left"
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/term_spinnerTitle_label"
-                />
+                android:orientation="horizontal" >
+
+                <ToggleButton
+                    android:id="@+id/term_btn_edit"
+                    android:layout_width="75dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="left"
+                    android:textOff="@string/term_btn_edit_text_off"
+                    android:textOn="@string/term_btn_edit_text_on" />
+
+                <TextView
+                    android:id="@+id/term_tv_spinnerTitle"
+                    style="@style/label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="@string/term_spinnerTitle_label" />
+
+                <ImageButton
+                    android:id="@+id/term_btn_add"
+                    android:layout_width="75dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="right"
+                    android:src="@android:drawable/ic_menu_add" />
+            </LinearLayout>
 
             <!-- Select term spinner -->
-            <Spinner
-                android:id="@+id/term_sp_select"
+
+            <ListView
+                android:id="@android:id/list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <!-- Lower Section -->
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="3"
-        android:orientation="vertical"
-        android:paddingTop="25dp" >
-
-        <!-- Term spec section (will be made visible/invisible) -->
-
-        <LinearLayout
-            android:id="@+id/term_section_start_end"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="visible" >
-
-            <!-- Term Start Label and Button -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    android:id="@+id/term_tv_start_label"
-                    style="@style/label"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingRight="20dp"
-                    android:text="@string/term_start_label" />
-
-                <Button
-                    android:id="@+id/term_btn_start"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="30dp"
-                    android:layout_weight="1"
-                    android:text="@string/term_start_btn_text" />
-            </LinearLayout>
-
-            <!-- Term End Label and Button -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    android:id="@+id/term_tv_end_label"
-                    style="@style/label"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingRight="20dp"
-                    android:text="@string/term_end_label" />
-
-                <Button
-                    android:id="@+id/term_btn_end"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="30dp"
-                    android:layout_weight="1"
-                    android:text="@string/term_end_btn_text" />
-            </LinearLayout>
-        </LinearLayout>
-        <!-- Fill the remaining -->
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent" >
-
-            <!-- Footer Section Button and Logo -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:orientation="vertical" >
-
-                <!-- OK Button -->
-
-                <Button
-                    android:id="@+id/term_btn_ok"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/term_ok_btn_text" />
-            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
