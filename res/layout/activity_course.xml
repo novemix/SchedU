@@ -40,7 +40,7 @@
         <ImageView
             style="@style/divider"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
         <!-- Time Section -->
 
@@ -68,7 +68,7 @@
 
                 <TextView
                     android:id="@+id/course_countDown_label"
-                    style="@style/label_small"
+                    style="@style/label"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -99,37 +99,15 @@
             <!-- Building -->
 
             <TextView
-                android:id="@+id/course_building_label"
-                style="@style/label_small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingRight="@dimen/label_padding"
-                android:text="@string/course_building_label" />
-
-            <TextView
-                android:id="@+id/course_building"
+                android:id="@+id/course_location_label"
                 style="@style/label"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <!-- Room -->
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:id="@+id/course_room_label"
-                style="@style/label_small"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingRight="@dimen/label_padding"
-                android:text="@string/course_room_label" />
+                android:text="@string/course_location_label" />
 
             <TextView
-                android:id="@+id/course_room"
+                android:id="@+id/course_location"
                 style="@style/label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -143,7 +121,7 @@
         android:layout_width="match_parent"
         android:layout_height="175dp"
         android:apiKey="0PMCzGHsH0MYV5nrRFobO9J4fvMZ12hLIeowaHw"
-        android:clickable="true" />
+        android:clickable="true" />
         -->
 
 
@@ -157,7 +135,7 @@
 
         <!-- Instructor info -->
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
@@ -166,32 +144,52 @@
 
             <TextView
                 android:id="@+id/course_instructor_label"
-                style="@style/label_small"
+                style="@style/label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/course_instructor_label" />
 
             <TextView
                 android:id="@+id/course_instructor"
-                style="@style/label"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/course_instructor_label" />
+
+            <TextView
+                android:id="@+id/course_instructor_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/course_instructor" />
 
             <!-- Edit instructor button -->
+
+            <ScrollView
+                android:id="@+id/course_sv_instructor_hours"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/course_instructor_location" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+                </LinearLayout>
+            </ScrollView>
 
             <Button
                 android:id="@+id/course_btn_edit_instructor"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
                 android:text="@string/course_instructor_edit_btn" />
-        </LinearLayout>
 
-        <!-- Divider -->
+            <!-- Divider -->
 
-        <ImageView
-            style="@style/divider"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <ImageView
+                style="@style/divider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/course_sv_instructor_hours" />
+        </RelativeLayout>
     </LinearLayout>
 
     <!-- Notes/Reminders/Assignments buttons -->
@@ -203,34 +201,28 @@
         android:orientation="horizontal" >
 
         <Button
-            style="@style/button1"
             android:id="@+id/course_btn_notes"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:drawableTop="@drawable/note_icon"
-            android:padding="8dp"
-            android:text="@string/course_notes_btn" />
+            android:drawableTop="@android:drawable/ic_menu_edit"
+            android:text="Notes" />
 
         <Button
-            style="@style/button1"
             android:id="@+id/course_btn_reminders"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:drawableTop="@drawable/note_icon"
-            android:padding="8dp"
-            android:text="@string/course_exams_btn" />
+            android:drawableTop="@android:drawable/ic_menu_help"
+            android:text="Work" />
 
         <Button
-            style="@style/button1"
             android:id="@+id/course_btn_assignments_exams"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:drawableTop="@drawable/note_icon"
-            android:padding="8dp"
-            android:text="@string/course_assignments_btn" />
+            android:drawableTop="@android:drawable/ic_menu_agenda"
+            android:text="Exams" />
     </LinearLayout>
 
 </RelativeLayout>

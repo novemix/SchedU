@@ -15,6 +15,7 @@ import android.os.CountDownTimer;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.selagroup.schedu.R;
@@ -41,9 +42,12 @@ public class CourseActivity extends Activity {
 	private TextView course_tv_countDown;
 	private TextView course_tv_date;
 	private TextView course_tv_time;
-	private TextView course_building;
-	private TextView course_room;
+//	private TextView course_building;
+//	private TextView course_room;
+	private TextView course_location;
 	private TextView course_instructor;
+	private TextView course_instructor_location;
+	private ScrollView course_sv_instructor_hours;
 	
 	private Button course_btn_edit_instructor;
 	private Button course_btn_notes;
@@ -110,9 +114,12 @@ public class CourseActivity extends Activity {
 		course_tv_time = (TextView) 		findViewById(R.id.course_tv_time);
 		course_countDown_label = (TextView) findViewById(R.id.course_countDown_label);
 		course_tv_countDown = (TextView) findViewById(R.id.course_tv_countDown);
-		course_building = (TextView) findViewById(R.id.course_building);
-		course_room = (TextView) findViewById(R.id.course_room);
+//		course_building = (TextView) findViewById(R.id.course_building);
+//		course_room = (TextView) findViewById(R.id.course_room);
+		course_location = (TextView) findViewById(R.id.course_location);
 		course_instructor = (TextView) findViewById(R.id.course_instructor);
+		course_instructor_location = (TextView) findViewById(R.id.course_instructor_location);
+		course_sv_instructor_hours = (ScrollView) findViewById(R.id.course_sv_instructor_hours);
 		
 		course_btn_edit_instructor = (Button) findViewById(R.id.course_btn_edit_instructor);
 		course_btn_notes = (Button) findViewById(R.id.course_btn_notes);
@@ -162,10 +169,14 @@ public class CourseActivity extends Activity {
 		course_tv_date.setText(DATE_FORMAT.format(thisBlock.getStartTime().getTime()));
 		//course
 		setCourseTimer();
-		course_building.setText(thisLocation.getBuilding());
-		course_room.setText(thisLocation.getRoom());
+		course_location.setText(thisLocation.getBuilding() + ", " + thisLocation.getRoom());
+//		course_building.setText(thisLocation.getBuilding());
+//		course_room.setText(thisLocation.getRoom());
 		if (thisInstructor != null) {
 			course_instructor.setText(thisInstructor.getName());
+			course_instructor_location.setText(thisInstructor.getLocation().getBuilding()
+					+ ", " + thisInstructor.getLocation().getRoom());
+			Utility.populateInstructorHours(course_sv_instructor_hours, thisInstructor.getOfficeBlocks());
 		}
 	}
 	

@@ -4,6 +4,7 @@
     <string name="course_course_ends">Course ends in:</string>
     <string name="course_building_label">Building:</string>
     <string name="course_room_label">Room:</string>
+    <string name="course_location_label">Location:</string>
     <string name="course_map_btn">Show on map</string>
     <string name="course_instructor_label">Instructor:</string>
     <string name="course_office_label">Office:</string>

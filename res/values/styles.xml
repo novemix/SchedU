@@ -15,11 +15,10 @@
     </style>
 
     <style name="divider">
-        <item name="android:height">5dp</item>
-        <item name="android:padding">4dp</item>
+        <item name="android:height">3dp</item>
+        <item name="android:padding">3dp</item>
         <item name="android:background">@drawable/divider</item>
         <item name="android:scaleType">fitXY</item>
-        <item name="android:layout_marginTop">10dp</item>
         <item name="android:contentDescription">Divider</item>
     </style>
 
