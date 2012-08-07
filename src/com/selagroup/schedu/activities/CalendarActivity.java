@@ -18,6 +18,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
@@ -27,6 +28,7 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.selagroup.schedu.HorizontalPanelSwitcher;
+import com.selagroup.schedu.HorizontalPanelSwitcher.OnDragListener;
 import com.selagroup.schedu.HorizontalPanelSwitcher.OnPanelSwitchListener;
 import com.selagroup.schedu.ObservableScrollView;
 import com.selagroup.schedu.ObservableScrollView.ScrollViewListener;
@@ -98,6 +100,7 @@ public class CalendarActivity extends Activity {
 	private Calendar mPrevDay;
 	private Term mCurrentTerm;
 	private float mDensity;
+	private boolean mScrollLock = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -112,8 +115,7 @@ public class CalendarActivity extends Activity {
 		mCurrentTerm = myApp.getCurrentTerm();
 		if (mThisDay.after(mCurrentTerm.getEndDate())) {
 			mThisDay = mCurrentTerm.getEndDate();
-		}
-		else if (mThisDay.before(mCurrentTerm.getStartDate())) {
+		} else if (mThisDay.before(mCurrentTerm.getStartDate())) {
 			mThisDay = mCurrentTerm.getStartDate();
 		}
 		mNextDay = (Calendar) mThisDay.clone();
@@ -219,6 +221,7 @@ public class CalendarActivity extends Activity {
 		calendar_btn_day.setOnClickListener(buttonListener);
 		calendar_btn_week.setOnClickListener(buttonListener);
 
+		// React to switching the day in the panel switcher
 		calendar_switcher_day.setOnPanelSwitchListener(new OnPanelSwitchListener() {
 			public void switchRight() {
 				mThisDay.roll(Calendar.DAY_OF_MONTH, true);
@@ -243,6 +246,23 @@ public class CalendarActivity extends Activity {
 			}
 		});
 		
+		// Lock the scroll view while changing days
+		calendar_switcher_day.setOnDragListener(new OnDragListener() {
+			public void dragStart() {
+				setScrollLock(true);
+			}
+			
+			public void dragEnd() {
+				setScrollLock(false);
+			}
+		});
+
+		mThisDayScroll.setOnTouchListener(new ScrollView.OnTouchListener() {
+			public boolean onTouch(View v, MotionEvent event) {
+				return mScrollLock;
+			}
+		});
+
 		mThisDayScroll.setOnScrollListener(new ScrollViewListener() {
 			public void onScrollChanged(ObservableScrollView view, int x, int y, int oldx, int oldy) {
 				mNextDayScroll.scrollTo(0, y);
@@ -398,5 +418,13 @@ public class CalendarActivity extends Activity {
 			showCourse.putExtra("day", (Calendar) view.getTag());
 			startActivity(showCourse);
 		}
+	}
+	
+	public void setScrollLock(boolean iScrollLock) {
+		mScrollLock = iScrollLock;
+	}
+	
+	public boolean getScrollLock() {
+		return mScrollLock;
 	}
 }
