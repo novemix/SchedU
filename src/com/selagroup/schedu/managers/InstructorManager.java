@@ -111,8 +111,11 @@ public class InstructorManager extends Manager<Instructor> {
 		String name = iCursor.getString(iCursor.getColumnIndex(DBHelper.COL_INSTRUCTOR_Name));
 		String email = iCursor.getString(iCursor.getColumnIndex(DBHelper.COL_INSTRUCTOR_Email));
 		String phone = iCursor.getString(iCursor.getColumnIndex(DBHelper.COL_INSTRUCTOR_Phone));
+		int locationId = iCursor.getInt(iCursor.getColumnIndex(DBHelper.COL_INSTRUCTOR_LocationID));
 
 		Instructor instructor = new Instructor(id, name, phone, email);
+
+		instructor.setLocation(mLocationManager.get(locationId));
 		
 		// Get block IDs for the office hours
 		open(OPEN_MODE.READ);

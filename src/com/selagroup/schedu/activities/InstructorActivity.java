@@ -65,6 +65,9 @@ public class InstructorActivity extends Activity {
 		thisCourse = app.getCourseManager().get(courseID);
 		
 		thisInstructor = thisCourse.getInstructor();
+		if (thisInstructor == null) {
+			thisInstructor = new Instructor(-1, "", "", "");
+		}
 		thisLocation = thisInstructor.getLocation();
 
 		initWidgets();

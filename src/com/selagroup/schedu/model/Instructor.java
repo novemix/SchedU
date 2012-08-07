@@ -89,6 +89,15 @@ public class Instructor extends ContentValueItem {
 		return mLocation;
 	}
 	
+	public boolean setLocation(Location iLocation) {
+		if (iLocation != null) {
+			mLocation = iLocation;
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	public void setBuilding(String iBuilding) {
 		mLocation.setBuilding(iBuilding);
 	}
