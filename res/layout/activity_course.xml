@@ -47,14 +47,14 @@
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/course_day_label"
+            android:id="@+id/course_tv_date"
             style="@style/label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Monday, September 12, 2012" />
 
         <TextView
-            android:id="@+id/course_timeBlock_label"
+            android:id="@+id/course_tv_time"
             style="@style/label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -66,19 +66,17 @@
             android:orientation="horizontal" >
 
             <TextView
-                android:id="@+id/course_time_label"
+                android:id="@+id/course_countDown_label"
                 style="@style/label_small"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Time to class:"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
-                android:id="@+id/course_time"
+                android:id="@+id/course_tv_countDown"
                 style="@style/label"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="4:20:30"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
         </LinearLayout>
     </LinearLayout>
@@ -138,7 +136,8 @@
             android:text="320" />
     </LinearLayout>
 
-    <!-- Map 
+    <!--
+    Map 
 
     <com.google.android.maps.MapView
         android:id="@+id/mapView"
@@ -146,8 +145,8 @@
         android:layout_height="175dp"
         android:apiKey="0PMCzGHsH0MYV5nrRFobO9J4fvMZ12hLIeowaHw"
         android:clickable="true" />
-        
     -->
+
 
     <!-- Divider -->
 
@@ -204,29 +203,34 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:orientation="horizontal" >
 
         <Button
             android:id="@+id/course_btn_notes"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/course_notes_btn" />
 
         <Button
-            android:id="@+id/course_btn_assignments_exams"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/course_assignments_btn" />
-
-        <Button
             android:id="@+id/course_btn_reminders"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/course_exams_btn" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/course_btn_assignments_exams"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/course_assignments_btn" />
     </LinearLayout>
 
 </LinearLayout>

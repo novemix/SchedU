@@ -5,6 +5,7 @@
 
 package com.selagroup.schedu.activities;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import android.app.Activity;
@@ -31,26 +32,31 @@ public class CourseActivity extends Activity {
 	
 	public static final int INSTRUCTOR_EDIT_CODE = 1;
 	
-	TextView course_course_code;
-	TextView course_course_name;
-	TextView course_time_label;
-	TextView course_time;
-	TextView course_building;
-	TextView course_room;
-	TextView course_instructor;
+	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MMMM d, yyyy");
+	public static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("h:mm a");
 	
-	Button course_btn_edit_instructor;
-	Button course_btn_notes;
-	Button course_btn_reminders;
-	Button course_btn_assignments_exams;
+	private TextView course_course_code;
+	private TextView course_course_name;
+	private TextView course_countDown_label;
+	private TextView course_tv_countDown;
+	private TextView course_tv_date;
+	private TextView course_tv_time;
+	private TextView course_building;
+	private TextView course_room;
+	private TextView course_instructor;
 	
-	Calendar day;
-	int duration;
-	int courseID;
-	Course thisCourse;
-	TimePlaceBlock thisBlock;
-	Location thisLocation;
-	Instructor thisInstructor;
+	private Button course_btn_edit_instructor;
+	private Button course_btn_notes;
+	private Button course_btn_assignments;
+	private Button course_btn_exams;
+	
+	private Calendar day;
+	private int duration;
+	private int courseID;
+	private Course thisCourse;
+	private TimePlaceBlock thisBlock;
+	private Location thisLocation;
+	private Instructor thisInstructor;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -100,16 +106,18 @@ public class CourseActivity extends Activity {
 		// Initialize widget handles
 		course_course_code = (TextView) findViewById(R.id.course_course_code);
 		course_course_name = (TextView) findViewById(R.id.course_course_name);
-		course_time_label = (TextView) findViewById(R.id.course_time_label);
-		course_time = (TextView) findViewById(R.id.course_time);
+		course_tv_date = (TextView) findViewById(R.id.course_tv_date);
+		course_tv_time = (TextView) 		findViewById(R.id.course_tv_time);
+		course_countDown_label = (TextView) findViewById(R.id.course_countDown_label);
+		course_tv_countDown = (TextView) findViewById(R.id.course_tv_countDown);
 		course_building = (TextView) findViewById(R.id.course_building);
 		course_room = (TextView) findViewById(R.id.course_room);
 		course_instructor = (TextView) findViewById(R.id.course_instructor);
 		
 		course_btn_edit_instructor = (Button) findViewById(R.id.course_btn_edit_instructor);
 		course_btn_notes = (Button) findViewById(R.id.course_btn_notes);
-		course_btn_reminders = (Button) findViewById(R.id.course_btn_reminders);
-		course_btn_assignments_exams = (Button) findViewById(R.id.course_btn_assignments_exams);
+		course_btn_assignments = (Button) findViewById(R.id.course_btn_reminders);
+		course_btn_exams = (Button) findViewById(R.id.course_btn_assignments_exams);
 
 	}
 
@@ -117,15 +125,15 @@ public class CourseActivity extends Activity {
 		long now = System.currentTimeMillis();
 		long difference = day.getTimeInMillis() - now;
 		if (difference <= 0) { // it's now after the start time
-			course_time_label.setText(R.string.course_course_ends);
+			course_countDown_label.setText(R.string.course_course_ends);
 			// calculate new difference between now and end time
 			difference = day.getTimeInMillis() + duration - now;
 			if (difference <= 0) { // it's now after the end time
-				course_time.setText("00 : 00 : 00");
+				course_tv_countDown.setText("00 : 00 : 00");
 			}
 		}
 		else { // it's before the start time, set the label
-			course_time_label.setText(R.string.course_course_begins);
+			course_countDown_label.setText(R.string.course_course_begins);
 		}
 		if (difference > 0) { // before start time, or before end time, do the same thing
 			new CountDownTimer(difference, 1000) {
@@ -136,7 +144,7 @@ public class CourseActivity extends Activity {
 					int minutes = (int) millisUntilFinished / Utility.MILLIS_PER_MINUTE % Utility.MINUTES_PER_HOUR;
 					int seconds = (int) millisUntilFinished / Utility.MILLIS_PER_SECOND % Utility.SECONDS_PER_MINUTE;
 					String dayText = days > 1 ? days + " days, " : days == 1 ? days + " day, " : "";
-					course_time.setText(dayText + String.format("%02d : %02d : %02d", hours, minutes, seconds));
+					course_tv_countDown.setText(dayText + String.format("%02d : %02d : %02d", hours, minutes, seconds));
 				}
 
 				public void onFinish() {
@@ -150,6 +158,9 @@ public class CourseActivity extends Activity {
 		// Set values
 		course_course_code.setText(thisCourse.getCourseCode());
 		course_course_name.setText(thisCourse.getCourseName());
+		course_tv_time.setText(thisBlock.toTimeString());
+		course_tv_date.setText(DATE_FORMAT.format(thisBlock.getStartTime().getTime()));
+		//course
 		setCourseTimer();
 		course_building.setText(thisLocation.getBuilding());
 		course_room.setText(thisLocation.getRoom());
@@ -175,7 +186,7 @@ public class CourseActivity extends Activity {
 			}
 		});
 		
-		course_btn_assignments_exams.setOnClickListener(new OnClickListener() {
+		course_btn_exams.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
 				startActivity(new Intent(CourseActivity.this, CourseAssignActivity.class));

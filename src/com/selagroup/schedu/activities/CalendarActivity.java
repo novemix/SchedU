@@ -375,7 +375,7 @@ public class CalendarActivity extends Activity {
 		TextView courseBlock = new TextView(this);
 		courseBlock.setTextColor(Color.BLACK);
 		courseBlock.setBackgroundColor(Color.GREEN);
-		courseBlock.setText(iCourse.getCourseName() + " (" + iCourse.getCourseCode() + ")\n" + iBlock.getLocation());
+		courseBlock.setText(iCourse.toString() + "\n" + iBlock.getLocation());
 		courseBlock.setBackgroundResource(R.drawable.course_block_low);
 		courseBlock.setClickable(true);
 		courseBlock.setOnClickListener(new CourseClickListener(iCourse.getID(), iBlock.getID()));

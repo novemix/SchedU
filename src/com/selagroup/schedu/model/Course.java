@@ -108,7 +108,7 @@ public class Course extends ContentValueItem {
 		if (mCourseName.equals("")) {
 			return mCourseCode;
 		}
-		return mCourseName + "(" + mCourseCode + ")";
+		return mCourseName + " (" + mCourseCode + ")";
 	}
 
 	@Override

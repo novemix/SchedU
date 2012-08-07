@@ -22,7 +22,7 @@ public class TimePlaceBlock extends ContentValueItem implements Comparable<TimeP
 	private static final long serialVersionUID = 127932472161863783L;
 	private static final int sDaysInWeek = 7;
 	private static final String[] sDayAbbreviations = new String[] { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
-	private static final SimpleDateFormat sTimeFormat = new SimpleDateFormat("h:mm a");
+	private static final SimpleDateFormat sTimeFormat = new SimpleDateFormat("h:mma");
 
 	private Location mLocation;
 	private Calendar mStartTime;
@@ -106,13 +106,18 @@ public class TimePlaceBlock extends ContentValueItem implements Comparable<TimeP
 	public int getMinutesElapsed() {
 		return (int)((mEndTime.getTimeInMillis() - mStartTime.getTimeInMillis()) / 60000);
 	}
+	
+	public String toTimeString() {
+		return (sTimeFormat.format(mStartTime.getTime()) + " - " + sTimeFormat.format(mEndTime.getTime())).toLowerCase();
+	}
+	
+	public String toDateTimeString() {
+		return daysToString() + toTimeString();
+	}
 
 	@Override
 	public String toString() {
-		String retString = daysToString() + (sTimeFormat.format(mStartTime.getTime()) + " - " + sTimeFormat.format(mEndTime.getTime())).toLowerCase();
-		retString += "\n" + mLocation.toString();
-
-		return retString;
+		return toDateTimeString() + "\n" + mLocation.toString();
 	}
 
 	private String daysToString() {
