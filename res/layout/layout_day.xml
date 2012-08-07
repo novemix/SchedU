@@ -4,377 +4,399 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-        <!-- Date -->
+    <!-- Date -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/calendar_btn_prevDay"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_media_rew"
+            android:layout_gravity="left" />
 
         <TextView
             android:id="@+id/calendar_tv_date"
             style="@style/label"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="4"
             android:gravity="center_horizontal" />
 
-        <!-- Main -->
-        <!-- Day -->
+        <ImageButton
+            android:id="@+id/calendar_btn_nextDay"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_media_ff"
+            android:layout_gravity="right" />
+    </LinearLayout>
 
-        <com.selagroup.schedu.ObservableScrollView
-            android:id="@+id/calendar_sv_day"
+    <!-- Main -->
+    <!-- Day -->
+
+    <com.selagroup.schedu.ObservableScrollView
+        android:id="@+id/calendar_sv_day"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent" >
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="fill_parent" >
+            android:layout_height="720dp"
+            android:baselineAligned="false" >
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="720dp"
-                android:baselineAligned="false" >
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:orientation="vertical" >
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:orientation="vertical" >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_0000" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_0000" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_0030" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_0030" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_0100" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_0100" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_0130" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_0130" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_0200" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_0200" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_0230" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_0230" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_0300" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_0300" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_0330" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_0330" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_0400" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_0400" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_0430" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_0430" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_0500" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_0500" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_0530" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_0530" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_0600" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_0600" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_0630" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_0630" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_0700" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_0700" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_0730" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_0730" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_0800" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_0800" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_0830" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_0830" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_0900" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_0900" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_0930" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_0930" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_1000" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_1000" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_1030" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_1030" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_1100" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_1100" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_1130" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_1130" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_1200" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_1200" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_1230" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_1230" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_1300" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_1300" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_1330" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_1330" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_1400" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_1400" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_1430" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_1430" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_1500" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_1500" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_1530" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_1530" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_1600" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_1600" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_1630" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_1630" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_1700" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_1700" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_1730" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_1730" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_1800" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_1800" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_1830" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_1830" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_1900" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_1900" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_1930" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_1930" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_2000" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_2000" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_2030" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_2030" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_2100" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_2100" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_2130" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_2130" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_2200" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_2200" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_2230" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_2230" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_2300" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_2300" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="@dimen/calendar_hour_label_padding"
-                        android:text="@string/calendar_day_2330" />
-                </LinearLayout>
-
-                <RelativeLayout
-                    android:id="@+id/calendar_day_courses"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="5" >
-                </RelativeLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/calendar_hour_label_padding"
+                    android:text="@string/calendar_day_2330" />
             </LinearLayout>
-        </com.selagroup.schedu.ObservableScrollView>
+
+            <RelativeLayout
+                android:id="@+id/calendar_day_courses"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5" >
+            </RelativeLayout>
+        </LinearLayout>
+    </com.selagroup.schedu.ObservableScrollView>
+
 </LinearLayout>

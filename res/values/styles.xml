@@ -13,20 +13,18 @@
     <style name="label_small" parent="@style/label">
         <item name="android:textSize">12dp</item>
     </style>
-    
+
     <style name="divider">
         <item name="android:height">5dp</item>
         <item name="android:padding">4dp</item>
         <item name="android:background">@drawable/divider</item>
         <item name="android:scaleType">fitXY</item>
         <item name="android:layout_marginTop">10dp</item>
-        <!-- 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        
-        android:scaleType="fitXY"
-        android:src="@android:drawable/divider_horizontal_dark" -->
+        <item name="android:contentDescription">Divider</item>
+    </style>
+
+    <style name="button1" parent="android:style/Widget.Button">
+        <item name="android:textSize">10dp</item>
     </style>
 
     <color name="dividerColor">#ffaaaaaa</color>
