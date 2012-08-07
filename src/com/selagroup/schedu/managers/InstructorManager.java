@@ -6,9 +6,11 @@ package com.selagroup.schedu.managers;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 
 import com.selagroup.schedu.database.DBHelper;
 import com.selagroup.schedu.model.Instructor;
+import com.selagroup.schedu.model.Location;
 import com.selagroup.schedu.model.TimePlaceBlock;
 
 /**
@@ -36,6 +38,11 @@ public class InstructorManager extends Manager<Instructor> {
 			return iInstructor.getID();
 		}
 
+		Location location = iInstructor.getLocation();
+		if (location != null) {
+			mLocationManager.insert(location);
+		}
+		
 		open(OPEN_MODE.WRITE);
 		int instructorID = (int) mDB.insert(DBHelper.TABLE_Instructor, null, iInstructor.getValues());
 		iInstructor.setID(instructorID);
@@ -70,6 +77,11 @@ public class InstructorManager extends Manager<Instructor> {
 			return;
 		}
 		
+		Location location = iInstructor.getLocation();
+		if (location != null) {
+			mLocationManager.insert(location);
+		}
+		
 		open(OPEN_MODE.WRITE);
 		mDB.update(DBHelper.TABLE_Instructor, iInstructor.getValues(), DBHelper.COL_INSTRUCTOR_ID + "=?", new String[] { "" + iInstructor.getID() });
 		close();
@@ -84,7 +96,11 @@ public class InstructorManager extends Manager<Instructor> {
 			officeBlock.put(DBHelper.COL_OFFICE_TIME_PLACE_BLOCK_TimePlaceBlockID, block.getID());
 
 			open(OPEN_MODE.WRITE);
-			mDB.insert(DBHelper.TABLE_OfficeTimePlaceBlock, null, officeBlock);
+			try {
+				mDB.insertOrThrow(DBHelper.TABLE_OfficeTimePlaceBlock, null, officeBlock);
+			} catch (SQLiteConstraintException e) {
+				// already exists
+			}
 			close();
 		}
 	}

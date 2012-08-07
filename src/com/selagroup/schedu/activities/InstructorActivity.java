@@ -63,15 +63,9 @@ public class InstructorActivity extends Activity {
 		mInstructorManager = app.getInstructorManager();
 		mCourseManager = app.getCourseManager();
 		thisCourse = app.getCourseManager().get(courseID);
-
-		if (thisInstructor != null) {
-			thisInstructor = thisCourse.getInstructor();
-			thisLocation = thisInstructor.getLocation();
-			if (thisLocation == null) {
-				thisLocation = new Location(-1, "", "", "");
-				thisInstructor.setLocation(thisLocation);
-			}
-		}
+		
+		thisInstructor = thisCourse.getInstructor();
+		thisLocation = thisInstructor.getLocation();
 
 		initWidgets();
 		setWidgetValues();
@@ -121,10 +115,8 @@ public class InstructorActivity extends Activity {
 			instructor_name.setText(thisInstructor.getName());
 			instructor_email.setText(thisInstructor.getEmail());
 			instructor_phone.setText(thisInstructor.getPhone());
-			if (thisLocation != null) {
-				instructor_building.setText(thisLocation.getBuilding());
-				instructor_room.setText(thisLocation.getRoom());
-			}
+			instructor_building.setText(thisLocation.getBuilding());
+			instructor_room.setText(thisLocation.getRoom());
 			ScrollView sv = (ScrollView) findViewById(R.id.instructor_sv_hours);
 			Utility.populateInstructorHours(sv, thisInstructor.getOfficeBlocks());
 		}
@@ -140,6 +132,7 @@ public class InstructorActivity extends Activity {
 			thisInstructor.setPhone(phone);
 		} else {
 			thisInstructor = new Instructor(-1, name, email, phone);
+			thisLocation = thisInstructor.getLocation();
 		}
 		thisLocation.setBuilding(instructor_building.getText().toString());
 		thisLocation.setRoom(instructor_room.getText().toString());

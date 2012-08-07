@@ -37,6 +37,7 @@ public class Instructor extends ContentValueItem {
 		mName = iName;
 		mPhone = iPhone;
 		mEmail = iEmail;
+		mLocation = new Location(-1, "", "", "");
 	}
 
 	public void addOfficeBlock(TimePlaceBlock iBlock) {
@@ -56,6 +57,7 @@ public class Instructor extends ContentValueItem {
 		values.put(DBHelper.COL_INSTRUCTOR_Name, mName);
 		values.put(DBHelper.COL_INSTRUCTOR_Email, mEmail);
 		values.put(DBHelper.COL_INSTRUCTOR_Phone, mPhone);
+		values.put(DBHelper.COL_INSTRUCTOR_LocationID, mLocation.getID());
 		return values;
 	}
 	
@@ -87,8 +89,12 @@ public class Instructor extends ContentValueItem {
 		return mLocation;
 	}
 	
-	public void setLocation(Location iLocation) {
-		mLocation = iLocation;
+	public void setBuilding(String iBuilding) {
+		mLocation.setBuilding(iBuilding);
+	}
+	
+	public void setRoom(String iRoom) {
+		mLocation.setRoom(iRoom);
 	}
 	
 	@Override
