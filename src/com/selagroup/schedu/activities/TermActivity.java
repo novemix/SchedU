@@ -1,4 +1,3 @@
-
 /**
  * @author Nick Huebner and Mark Redden
  * @version 1.0
@@ -94,7 +93,8 @@ public class TermActivity extends ListActivity {
 		term_btn_edit.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				mEditMode = !mEditMode;
-				mTermAdapter.setEditMode(mEditMode);
+				mTermAdapter.setEditEnabled(mEditMode);
+				term_btn_add.setEnabled(!mEditMode);
 				mTermAdapter.notifyDataSetChanged();
 			}
 		});
@@ -108,9 +108,9 @@ public class TermActivity extends ListActivity {
 					mNewTerm = new Term(-1, null, null);
 					mTerms.add(0, mNewTerm);
 					mTermAdapter.notifyDataSetChanged();
-					
+
 					mAddMode = true;
-					mTermAdapter.setEditMode(true);
+					mTermAdapter.setEditEnabled(true);
 					mTermAdapter.setEditIndex(mTerms.indexOf(mNewTerm));
 					mTermAdapter.notifyDataSetChanged();
 					mTermEditListener.onTermEdit(mNewTerm);
@@ -118,8 +118,8 @@ public class TermActivity extends ListActivity {
 				else {
 					// Done/Cancel, stop adding
 					mAddMode = false;
-					mTermAdapter.setEditMode(false);
-					
+					mTermAdapter.setEditEnabled(false);
+
 					// Valid term, insert (Done button pressed)
 					if (termIsValid(mNewTerm)) {
 						mTermManager.insert(mNewTerm);
@@ -129,33 +129,43 @@ public class TermActivity extends ListActivity {
 					else {
 						mTermAdapter.remove(mNewTerm);
 						mNewTerm = null;
+						if (mTermAdapter.isEmpty()) {
+							mTerms.add(null);
+						}
 					}
-					
+
 					// Update list
 					mTermAdapter.notifyDataSetChanged();
+					getListView().invalidate();
 				}
+				mTermAdapter.setAddEnabled(mAddMode);
+				term_btn_edit.setEnabled(!mAddMode);
 			}
 		});
 
 		// Set up spinner adapter
 		mTermAdapter = new TermArrayAdapter(this, R.layout.adapter_term_select, mTerms, mTermEditListener, mTermManager);
-		
+
 		mTermAdapter.setDropDownViewResource(R.layout.adapter_term_select);
 		setListAdapter(mTermAdapter);
 
 		getListView().setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
 				if (getListView().getItemAtPosition(pos) != null) {
-					if (mEditMode) {
-						mTermAdapter.setEditIndex(pos);
-						mTermAdapter.notifyDataSetChanged();
-					}
-					else {
-						mSelectedTerm = mTermAdapter.getItem(pos);
-						Intent addCourseIntent = new Intent(TermActivity.this, AllCoursesActivity.class);
-						((ScheduApplication) getApplication()).setCurrentTerm(mSelectedTerm);
-						addCourseIntent.putExtra("fromTerm", true);
-						startActivity(addCourseIntent);
+					if (!mAddMode) {
+						// Edit
+						if (mEditMode) {
+							mTermAdapter.setEditIndex(pos);
+							mTermAdapter.notifyDataSetChanged();
+						}
+						// Select
+						else {
+							mSelectedTerm = mTermAdapter.getItem(pos);
+							Intent addCourseIntent = new Intent(TermActivity.this, AllCoursesActivity.class);
+							((ScheduApplication) getApplication()).setCurrentTerm(mSelectedTerm);
+							addCourseIntent.putExtra("fromTerm", true);
+							startActivity(addCourseIntent);
+						}
 					}
 				}
 			}

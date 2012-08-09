@@ -37,7 +37,8 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 
 	private Context mContext;
 	private List<Term> mTerms;
-	private boolean mEditMode = false;
+	private boolean mEditEnabled = false;
+	private boolean mAddEnabled = false;
 	private int mEditIndex = -1;
 
 	private static AlertDialog.Builder mDeleteAlert;
@@ -60,8 +61,12 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 		mDeleteAlert = new AlertDialog.Builder(mContext);
 	}
 
-	public void setEditMode(boolean iEditMode) {
-		mEditMode = iEditMode;
+	public void setEditEnabled(boolean iEditEnabled) {
+		mEditEnabled = iEditEnabled;
+	}
+	
+	public void setAddEnabled(boolean iAddEnabled) {
+		mAddEnabled = iAddEnabled;
 	}
 
 	public void setEditIndex(int iEditIndex) {
@@ -94,10 +99,10 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 		if (term != null) {
 			boolean editThisRow = mEditIndex == position;
 			holder.term_adapter_tv_select.setText(term.toString());
-			holder.term_adapter_tv_select.setVisibility(!editThisRow || !mEditMode ? View.VISIBLE : View.GONE);
-			holder.term_btn_delete.setVisibility(mEditMode ? View.VISIBLE : View.GONE);
-			holder.term_btn_start.setVisibility(mEditMode && editThisRow ? View.VISIBLE : View.GONE);
-			holder.term_btn_end.setVisibility(mEditMode && editThisRow ? View.VISIBLE : View.GONE);
+			holder.term_adapter_tv_select.setVisibility(!editThisRow || !mEditEnabled ? View.VISIBLE : View.GONE);
+			holder.term_btn_delete.setVisibility(mEditEnabled && !mAddEnabled ? View.VISIBLE : View.GONE);
+			holder.term_btn_start.setVisibility(mEditEnabled && editThisRow ? View.VISIBLE : View.GONE);
+			holder.term_btn_end.setVisibility(mEditEnabled && editThisRow ? View.VISIBLE : View.GONE);
 
 			Calendar startDate = term.getStartDate();
 			Calendar endDate = term.getEndDate();
@@ -114,7 +119,8 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 				holder.term_btn_end.setText("Select End");
 			}
 
-			if (mEditMode) {
+			// If edit enabled, show editing options
+			if (mEditEnabled) {
 				holder.term_btn_delete.setOnClickListener(new OnClickListener() {
 					public void onClick(View view) {
 						mDeleteAlert.setTitle("Warning!");
@@ -155,6 +161,7 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 		}
 		// No terms, show a message
 		else {
+			holder.term_adapter_tv_select.setVisibility(View.VISIBLE);
 			holder.term_adapter_tv_select.setText("No terms. Create a term first.");
 			holder.term_btn_delete.setVisibility(View.GONE);
 			holder.term_btn_start.setVisibility(View.GONE);

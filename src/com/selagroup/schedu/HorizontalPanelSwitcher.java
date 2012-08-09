@@ -11,8 +11,7 @@ import android.widget.RelativeLayout;
 public class HorizontalPanelSwitcher extends RelativeLayout {
 	public interface OnDragListener {
 		public void dragStart();
-
-		public void dragEnd();
+		public void dragEnd(boolean isSwitching);
 	}
 
 	public interface OnPanelSwitchListener {
@@ -25,14 +24,16 @@ public class HorizontalPanelSwitcher extends RelativeLayout {
 	private OnPanelSwitchListener mSwitchListener = null;
 
 	private static final int VELOCITY_SENSITIVITY = 2000;
+	private static final float THRESHOLD = 20;
 
-	private static final int PANEL_LEFT = 0;
-	private static final int PANEL_CENTER = 1;
-	private static final int PANEL_RIGHT = 2;
+	public static final int PANEL_LEFT = 0;
+	public static final int PANEL_CENTER = 1;
+	public static final int PANEL_RIGHT = 2;
 
 	private int mTargetPanel = PANEL_CENTER;
 
-	private float mDownX; // x-coordinate of the last ACTION_DOWN motion event
+	private float mDownX; 	// x-coordinate of the last ACTION_DOWN motion event
+	private float mDownY;	// y-coordinate of the last ACTION_DOWN motion event
 	private boolean mIsDragging = false; // True if dragging this panel
 	private boolean mDragDirectionDecided = false;
 	private VelocityTracker mVelocityTracker; // Tracks velocity
@@ -121,6 +122,26 @@ public class HorizontalPanelSwitcher extends RelativeLayout {
 		super(context);
 		init();
 	}
+	
+	// Externally invoke a panel switch
+	public void switchPanels(boolean iSwitchRight) {
+		if (iSwitchRight) {
+			mTarget = -mWidth;
+			mTargetPanel = PANEL_RIGHT;
+			mDragDirectionDecided = true;
+			mIsAnimating = true;
+			mIsDragging = false;
+			mDragListener.dragEnd(false);
+		}
+		else {
+			mTarget = mWidth;
+			mTargetPanel = PANEL_LEFT;
+			mDragDirectionDecided = true;
+			mIsAnimating = true;
+			mIsDragging = false;
+			mDragListener.dragEnd(false);
+		}
+	}
 
 	// Set listener for the panel switch
 	public void setOnPanelSwitchListener(OnPanelSwitchListener iSwitchListener) {
@@ -195,6 +216,7 @@ public class HorizontalPanelSwitcher extends RelativeLayout {
 		case MotionEvent.ACTION_DOWN:
 			if (!mIsAnimating) {
 				mDownX = event.getX();
+				mDownY = event.getY();
 				mVelocityTracker = VelocityTracker.obtain();
 				mVelocityTracker.addMovement(event);
 				mDragDirectionDecided = false;
@@ -202,9 +224,11 @@ public class HorizontalPanelSwitcher extends RelativeLayout {
 			break;
 
 		case MotionEvent.ACTION_MOVE:
+			float xDiff = event.getX() - mDownX;
+			float yDiff = event.getY() - mDownY;
 
-			// Only start dragging if the x velocity > the y velocity
-			if (!mDragDirectionDecided) {
+			// Only start dragging if the x velocity > the y velocity and the x-distance moved is greater than a threshold
+			if (!mDragDirectionDecided && Math.abs(xDiff) > THRESHOLD) {
 				mVelocityTracker.addMovement(event);
 				mVelocityTracker.computeCurrentVelocity(VELOCITY_SENSITIVITY);
 				if (Math.abs(mVelocityTracker.getXVelocity()) > Math.abs(mVelocityTracker.getYVelocity())) {
@@ -213,10 +237,12 @@ public class HorizontalPanelSwitcher extends RelativeLayout {
 				}
 				mDragDirectionDecided = true;
 			}
+			if (Math.abs(yDiff) > THRESHOLD) {
+				mDragDirectionDecided = true;
+			}
 
 			// If dragging, move the panels
 			if (mIsDragging) {
-				float xDiff = event.getX() - mDownX;
 				mDelta = mShift + (int) xDiff;
 				mDelta = Math.max(Math.min(mDelta, 3 * mWidth / 2), -3 * mWidth / 2);
 				requestLayout();
@@ -226,21 +252,23 @@ public class HorizontalPanelSwitcher extends RelativeLayout {
 
 		case MotionEvent.ACTION_UP:
 			if (mIsDragging) {
-				mDragListener.dragEnd();
 
 				mVelocityTracker.computeCurrentVelocity(VELOCITY_SENSITIVITY);
 				float xVelocity = mVelocityTracker.getXVelocity();
 
 				// Check which panel should become the center
-				if (mDelta + xVelocity < -mWidth / 2) {
+				if (mDelta + xVelocity < -mWidth / 2 && mDelta < -mWidth / 8) {
 					mTarget = -mWidth;
 					mTargetPanel = PANEL_RIGHT;
-				} else if (mDelta + xVelocity > mWidth / 2) {
+					mDragListener.dragEnd(true);
+				} else if (mDelta + xVelocity > mWidth / 2 && mDelta > mWidth / 8) {
 					mTarget = mWidth;
 					mTargetPanel = PANEL_LEFT;
+					mDragListener.dragEnd(true);
 				} else {
 					mTarget = 0;
 					mTargetPanel = PANEL_CENTER;
+					mDragListener.dragEnd(false);
 				}
 				mIsAnimating = true;
 
