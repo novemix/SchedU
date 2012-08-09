@@ -49,7 +49,7 @@ public class CourseActivity extends Activity {
 	
 	private Button course_btn_edit_instructor;
 	private Button course_btn_notes;
-	private Button course_btn_assignments;
+	private Button course_btn_work;
 	private Button course_btn_exams;
 	
 	private Calendar day;
@@ -118,8 +118,8 @@ public class CourseActivity extends Activity {
 		
 		course_btn_edit_instructor = (Button) findViewById(R.id.course_btn_edit_instructor);
 		course_btn_notes = (Button) findViewById(R.id.course_btn_notes);
-		course_btn_assignments = (Button) findViewById(R.id.course_btn_reminders);
-		course_btn_exams = (Button) findViewById(R.id.course_btn_assignments_exams);
+		course_btn_work = (Button) findViewById(R.id.course_btn_work);
+		course_btn_exams = (Button) findViewById(R.id.course_btn_exams);
 
 	}
 
@@ -192,10 +192,17 @@ public class CourseActivity extends Activity {
 			}
 		});
 		
+		course_btn_work.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
+				startActivity(new Intent(CourseActivity.this, CourseWorkActivity.class));
+			}
+		});
+		
 		course_btn_exams.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
-				startActivity(new Intent(CourseActivity.this, CourseAssignActivity.class));
+				startActivity(new Intent(CourseActivity.this, CourseExamsActivity.class));
 			}
 		});
 	}

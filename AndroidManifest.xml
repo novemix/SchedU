@@ -77,8 +77,13 @@
             android:screenOrientation="nosensor" >
         </activity>
         <activity
-            android:name=".activities.CourseAssignActivity"
-            android:label="@string/course_activity_title"
+            android:name=".activities.CourseWorkActivity"
+            android:label="@string/courseWork_activity_title"
+            android:screenOrientation="nosensor" >
+        </activity>
+        <activity
+            android:name=".activities.CourseExamsActivity"
+            android:label="@string/courseExams_activity_title"
             android:screenOrientation="nosensor" >
         </activity>
         <activity

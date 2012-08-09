@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ToggleButton;
 
 /**
@@ -21,8 +22,8 @@ public class AllCoursesActivity extends ListActivity {
 	
 	private static final int ADD_COURSE_CODE = 1;
 	ToggleButton allcourses_btn_edit;
-	Button allcourses_btn_add;
-	Button allcourses_btn_calendar;
+	ImageButton allcourses_btn_add;
+	ImageButton allcourses_btn_calendar;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +36,8 @@ public class AllCoursesActivity extends ListActivity {
 	
 	protected void initWidgets() {
 		allcourses_btn_edit = (ToggleButton) findViewById(R.id.allcourses_btn_edit);
-		allcourses_btn_add = (Button) findViewById(R.id.allcourses_btn_add);
-		allcourses_btn_calendar = (Button) findViewById(R.id.allcourses_btn_calendar);
+		allcourses_btn_add = (ImageButton) findViewById(R.id.allcourses_btn_add);
+		allcourses_btn_calendar = (ImageButton) findViewById(R.id.allcourses_btn_calendar);
 	}
 	
 	protected void initListeners() {

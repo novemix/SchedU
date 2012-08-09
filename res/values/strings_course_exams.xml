@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="course_exams_title">Exams:</string>
+    <string name="course_exams_edit_btn_off">Edit</string>
+    <string name="course_exams_edit_btn_on">Cancel</string>
+    <string name="course_exams_date_label">Date</string>
+    <string name="course_exams_description_label">Description</string>
+</resources>

@@ -209,7 +209,7 @@
             android:text="@string/course_notes_btn" />
 
         <Button
-            android:id="@+id/course_btn_reminders"
+            android:id="@+id/course_btn_work"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -217,7 +217,7 @@
             android:text="@string/course_work_btn" />
 
         <Button
-            android:id="@+id/course_btn_assignments_exams"
+            android:id="@+id/course_btn_exams"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

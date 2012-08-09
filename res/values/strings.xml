@@ -17,6 +17,8 @@
 	<string name="officeHours_activity_title">Add Office Hours</string>
 	<string name="calendar_activity_title">Calendar</string>
 	<string name="course_activity_title">Course</string>
+	<string name="courseWork_activity_title">Course work</string>
+	<string name="courseExams_activity_title">Exams</string>
 	<string name="instructor_activity_title">Instructor</string>
 	<string name="newExam_activity_title">Exam</string>
 	<string name="notes_activity_title">Notes</string>
