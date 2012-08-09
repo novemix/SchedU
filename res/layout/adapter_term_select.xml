@@ -27,7 +27,7 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/term_adapter_tv_select"
-        android:text="Start" />
+        android:text="Select Start" />
 
     <Button
         android:id="@+id/term_btn_end"
@@ -35,6 +35,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/term_adapter_tv_select"
         android:layout_toRightOf="@id/term_btn_start"
-        android:text="End" />
+        android:text="Select End" />
 
 </RelativeLayout>

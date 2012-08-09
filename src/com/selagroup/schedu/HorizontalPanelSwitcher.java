@@ -24,7 +24,7 @@ public class HorizontalPanelSwitcher extends RelativeLayout {
 	private OnDragListener mDragListener = null;
 	private OnPanelSwitchListener mSwitchListener = null;
 
-	private static final int VELOCITY_SENSITIVITY = 100;
+	private static final int VELOCITY_SENSITIVITY = 2000;
 
 	private static final int PANEL_LEFT = 0;
 	private static final int PANEL_CENTER = 1;
@@ -52,7 +52,7 @@ public class HorizontalPanelSwitcher extends RelativeLayout {
 
 	private volatile int mTarget = 0; // Target offset to animate towards
 	private volatile boolean mIsAnimating = false; // True if animating the view
-	private volatile int mAnimationStep = 10; // Number of pixels that the view moves each update while animating
+	private volatile int mAnimationStep = 8; // Number of pixels that the view moves each update while animating
 
 	// Refreshes the layout
 	private final Runnable mRefreshLayout = new Runnable() {

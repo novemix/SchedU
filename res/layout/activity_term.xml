@@ -64,12 +64,13 @@
                     android:gravity="center"
                     android:text="@string/term_spinnerTitle_label" />
 
-                <ImageButton
+                <ToggleButton
                     android:id="@+id/term_btn_add"
                     android:layout_width="75dp"
                     android:layout_height="50dp"
                     android:layout_gravity="right"
-                    android:src="@android:drawable/ic_menu_add" />
+                    android:textOff="Add"
+                    android:textOn="Done" />
             </LinearLayout>
 
             <!-- Select term spinner -->

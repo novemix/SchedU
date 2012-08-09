@@ -1,5 +1,6 @@
 package com.selagroup.schedu.adapters;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
@@ -16,15 +17,29 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.selagroup.schedu.R;
+import com.selagroup.schedu.managers.TermManager;
 import com.selagroup.schedu.model.Term;
 
 public class TermArrayAdapter extends ArrayAdapter<Term> {
+
+	public interface TermEditListener {
+		public void onTermEdit(Term iTerm);
+	}
+
+	private TermEditListener mListener;
+	private TermManager mTermManager;
+
+	private static final SimpleDateFormat SHORT_DATE_FORMAT = new SimpleDateFormat("MMM d");
+	private static final SimpleDateFormat LONG_DATE_FORMAT = new SimpleDateFormat("MMM d, yyyy");
+
 	private Context mContext;
 	private List<Term> mTerms;
-	private int mEditIndex = -1;
 	private boolean mEditMode = false;
+	private int mEditIndex = -1;
+
 	private static AlertDialog.Builder mDeleteAlert;
 	private AlertDialog mDeleteAlertDialog;
 
@@ -35,10 +50,13 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 		private Button term_btn_end;
 	}
 
-	public TermArrayAdapter(Context iContext, int textViewResourceId, List<Term> iTerms) {
+	public TermArrayAdapter(Context iContext, int textViewResourceId, List<Term> iTerms,
+			TermEditListener iListener, TermManager iTermManager) {
 		super(iContext, textViewResourceId, iTerms);
 		mContext = iContext;
 		mTerms = iTerms;
+		mListener = iListener;
+		mTermManager = iTermManager;
 		mDeleteAlert = new AlertDialog.Builder(mContext);
 	}
 
@@ -52,43 +70,62 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 
 	@Override
 	public View getView(int position, View row, ViewGroup parent) {
-		ViewHolder holder = null;
+		ViewHolder tmpHolder = null;
 
 		// Only get the items from the layout once
 		if (row == null) {
 			LayoutInflater li = LayoutInflater.from(mContext);
 			row = li.inflate(R.layout.adapter_term_select, null);
-			holder = new ViewHolder();
-			holder.term_adapter_tv_select = (TextView) row.findViewById(R.id.term_adapter_tv_select);
-			holder.term_btn_delete = (Button) row.findViewById(R.id.term_btn_delete);
-			holder.term_btn_start = (Button) row.findViewById(R.id.term_btn_start);
-			holder.term_btn_end = (Button) row.findViewById(R.id.term_btn_end);
-			row.setTag(holder);
+			tmpHolder = new ViewHolder();
+			tmpHolder.term_adapter_tv_select = (TextView) row.findViewById(R.id.term_adapter_tv_select);
+			tmpHolder.term_btn_delete = (Button) row.findViewById(R.id.term_btn_delete);
+			tmpHolder.term_btn_start = (Button) row.findViewById(R.id.term_btn_start);
+			tmpHolder.term_btn_end = (Button) row.findViewById(R.id.term_btn_end);
+			row.setTag(tmpHolder);
 		} else {
-			holder = (ViewHolder) row.getTag();
+			tmpHolder = (ViewHolder) row.getTag();
 		}
+		final ViewHolder holder = tmpHolder;
 
 		// Get the item
 		final Term term = mTerms.get(position);
+
+		// If there's a term, set up the widgets
 		if (term != null) {
-			boolean showEdit = mEditIndex == position;
+			boolean editThisRow = mEditIndex == position;
 			holder.term_adapter_tv_select.setText(term.toString());
-			holder.term_btn_delete.setTag(term);
+			holder.term_adapter_tv_select.setVisibility(!editThisRow || !mEditMode ? View.VISIBLE : View.GONE);
 			holder.term_btn_delete.setVisibility(mEditMode ? View.VISIBLE : View.GONE);
-			holder.term_btn_start.setVisibility(mEditMode && showEdit ? View.VISIBLE : View.GONE);
-			holder.term_btn_end.setVisibility(mEditMode && showEdit ? View.VISIBLE : View.GONE);
+			holder.term_btn_start.setVisibility(mEditMode && editThisRow ? View.VISIBLE : View.GONE);
+			holder.term_btn_end.setVisibility(mEditMode && editThisRow ? View.VISIBLE : View.GONE);
+
+			Calendar startDate = term.getStartDate();
+			Calendar endDate = term.getEndDate();
+			if (editThisRow && startDate != null) {
+				holder.term_btn_start.setText(LONG_DATE_FORMAT.format(startDate.getTime()));
+			}
+			else {
+				holder.term_btn_start.setText("Select Start");
+			}
+			if (editThisRow && endDate != null) {
+				holder.term_btn_end.setText(LONG_DATE_FORMAT.format(endDate.getTime()));
+			}
+			else {
+				holder.term_btn_start.setText("Select End");
+			}
 
 			if (mEditMode) {
 				holder.term_btn_delete.setOnClickListener(new OnClickListener() {
 					public void onClick(View view) {
-						final Term term = (Term) view.getTag();
-						mDeleteAlert.setTitle("Are you sure you want to delete this term?");
+						mDeleteAlert.setTitle("You will lose all your data associated with this term! Are you sure you want to delete this term?");
 						mDeleteAlert.setPositiveButton("Delete", new AlertDialog.OnClickListener() {
 							public void onClick(DialogInterface dialog, int which) {
 								TermArrayAdapter.this.remove(term);
 								if (TermArrayAdapter.this.isEmpty()) {
 									TermArrayAdapter.this.add(null);
 								}
+								mTermManager.delete(term);
+								mListener.onTermEdit(term);
 							}
 						});
 						mDeleteAlert.setNegativeButton("Cancel", new AlertDialog.OnClickListener() {
@@ -100,20 +137,22 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 						mDeleteAlertDialog.show();
 					}
 				});
-				if (showEdit) {
+				// THIS row is being edited
+				if (editThisRow) {
 					holder.term_btn_start.setOnClickListener(new OnClickListener() {
 						public void onClick(View v) {
-							showStartDateDialog(term.getStartDate(), term);
+							setStartDate(term.getStartDate(), term, holder.term_btn_start);
 						}
 					});
 					holder.term_btn_end.setOnClickListener(new OnClickListener() {
 						public void onClick(View v) {
-							showEndDateDialog(term.getEndDate(), term);
+							setEndDate(term.getEndDate(), term, holder.term_btn_end);
 						}
 					});
 				}
 			}
 		}
+		// No terms, show a message
 		else {
 			holder.term_adapter_tv_select.setText("No terms. Create a term first.");
 			holder.term_btn_delete.setVisibility(View.GONE);
@@ -124,35 +163,7 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 		return row;
 	}
 
-	@Override
-	public View getDropDownView(int position, View row, ViewGroup parent) {
-		ViewHolder holder = null;
-
-		// Only get the items from the layout once
-		if (row == null) {
-			LayoutInflater li = LayoutInflater.from(mContext);
-			row = li.inflate(R.layout.adapter_term_select, null);
-			holder = new ViewHolder();
-			holder.term_adapter_tv_select = (TextView) row.findViewById(R.id.term_adapter_tv_select);
-			row.setTag(holder);
-		} else {
-			holder = (ViewHolder) row.getTag();
-		}
-
-		// Get the item
-		Term term = mTerms.get(position);
-		String displayStr = null;
-		if (term != null) {
-			displayStr = term.toString();
-		} else {
-			displayStr = "Add New Term";
-		}
-		holder.term_adapter_tv_select.setText(displayStr);
-
-		return row;
-	}
-
-	private void showStartDateDialog(Calendar initDate, final Term iTerm) {
+	private void setStartDate(Calendar initDate, final Term iTerm, final Button iStartButton) {
 		if (initDate == null) {
 			initDate = Calendar.getInstance();
 		}
@@ -161,15 +172,21 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 			public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 				Calendar newDate = Calendar.getInstance();
 				newDate.set(year, monthOfYear, dayOfMonth);
-				iTerm.setStartDate(newDate);
-				notifyDataSetChanged();
+				if (newDate.after(iTerm.getEndDate())) {
+					Toast.makeText(mContext, "Term cannot start after it ends.", Toast.LENGTH_SHORT).show();
+				}
+				else {
+					iTerm.setStartDate(newDate);
+					notifyDataSetChanged();
+					mListener.onTermEdit(iTerm);
+				}
 			}
 		}, initDate.get(Calendar.YEAR), initDate.get(Calendar.MONTH), initDate.get(Calendar.DAY_OF_MONTH));
 		startDateDialog.setTitle("Set Term Start Date");
 		startDateDialog.show();
 	}
 
-	private void showEndDateDialog(Calendar initDate, final Term iTerm) {
+	private void setEndDate(Calendar initDate, final Term iTerm, final Button iEndButton) {
 		if (initDate == null) {
 			initDate = Calendar.getInstance();
 		}
@@ -178,8 +195,14 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 			public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 				Calendar newDate = Calendar.getInstance();
 				newDate.set(year, monthOfYear, dayOfMonth);
-				iTerm.setEndDate(newDate);
-				notifyDataSetChanged();
+				if (newDate.before(iTerm.getStartDate())) {
+					Toast.makeText(mContext, "Term cannot start after it ends.", Toast.LENGTH_SHORT).show();
+				}
+				else {
+					iTerm.setEndDate(newDate);
+					notifyDataSetChanged();
+					mListener.onTermEdit(iTerm);
+				}
 			}
 		}, initDate.get(Calendar.YEAR), initDate.get(Calendar.MONTH), initDate.get(Calendar.DAY_OF_MONTH));
 		endDateDialog.setTitle("Set Term End Date");

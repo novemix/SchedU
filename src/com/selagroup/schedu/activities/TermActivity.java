@@ -1,3 +1,4 @@
+
 /**
  * @author Nick Huebner and Mark Redden
  * @version 1.0
@@ -16,12 +17,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageButton;
 import android.widget.ToggleButton;
 
 import com.selagroup.schedu.R;
 import com.selagroup.schedu.ScheduApplication;
 import com.selagroup.schedu.adapters.TermArrayAdapter;
+import com.selagroup.schedu.adapters.TermArrayAdapter.TermEditListener;
 import com.selagroup.schedu.managers.TermManager;
 import com.selagroup.schedu.model.Term;
 
@@ -38,13 +39,21 @@ public class TermActivity extends ListActivity {
 
 	// Widgets
 	private ToggleButton term_btn_edit;
-	private ImageButton term_btn_add;
+	private ToggleButton term_btn_add;
 
 	// Data
+	private TermEditListener mTermEditListener = new TermEditListener() {
+		public void onTermEdit(Term iTerm) {
+			if (mAddMode) {
+				term_btn_add.setText(termIsValid(iTerm) ? "Done" : "Cancel");
+			}
+		}
+	};
 	private boolean mEditMode = false;
-	private List<Term> mTerms;
+	private boolean mAddMode = false;
 	private Term mNewTerm = null;
 	private Term mSelectedTerm;
+	private List<Term> mTerms;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +89,7 @@ public class TermActivity extends ListActivity {
 
 	private void initWidgets() {
 		term_btn_edit = (ToggleButton) findViewById(R.id.term_btn_edit);
-		term_btn_add = (ImageButton) findViewById(R.id.term_btn_add);
+		term_btn_add = (ToggleButton) findViewById(R.id.term_btn_add);
 
 		term_btn_edit.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -92,22 +101,45 @@ public class TermActivity extends ListActivity {
 
 		term_btn_add.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				if (mTerms.contains(null)) {
-					mTerms.clear();
+				if (!mAddMode) {
+					if (mTerms.contains(null)) {
+						mTerms.clear();
+					}
+					mNewTerm = new Term(-1, null, null);
+					mTerms.add(0, mNewTerm);
+					mTermAdapter.notifyDataSetChanged();
+					
+					mAddMode = true;
+					mTermAdapter.setEditMode(true);
+					mTermAdapter.setEditIndex(mTerms.indexOf(mNewTerm));
+					mTermAdapter.notifyDataSetChanged();
+					mTermEditListener.onTermEdit(mNewTerm);
 				}
-				mNewTerm = new Term(-1, null, null);
-				mTerms.add(0, mNewTerm);
-				mTermAdapter.notifyDataSetChanged();
-				mEditMode = true;
-				term_btn_edit.setChecked(mEditMode);
-				mTermAdapter.setEditMode(mEditMode);
-				mTermAdapter.setEditIndex(mTerms.indexOf(mNewTerm));
-				mTermAdapter.notifyDataSetChanged();
+				else {
+					// Done/Cancel, stop adding
+					mAddMode = false;
+					mTermAdapter.setEditMode(false);
+					
+					// Valid term, insert (Done button pressed)
+					if (termIsValid(mNewTerm)) {
+						mTermManager.insert(mNewTerm);
+						mTermEditListener.onTermEdit(mNewTerm);
+					}
+					// Invalid term, remove from list (Cancel button pressed)
+					else {
+						mTermAdapter.remove(mNewTerm);
+						mNewTerm = null;
+					}
+					
+					// Update list
+					mTermAdapter.notifyDataSetChanged();
+				}
 			}
 		});
 
 		// Set up spinner adapter
-		mTermAdapter = new TermArrayAdapter(this, R.layout.adapter_term_select, mTerms);
+		mTermAdapter = new TermArrayAdapter(this, R.layout.adapter_term_select, mTerms, mTermEditListener, mTermManager);
+		
 		mTermAdapter.setDropDownViewResource(R.layout.adapter_term_select);
 		setListAdapter(mTermAdapter);
 
@@ -128,13 +160,6 @@ public class TermActivity extends ListActivity {
 				}
 			}
 		});
-	}
-
-	/**
-	 * Updates the start date and end date buttons with the correct text for the selected term
-	 * @param selectedTerm The currently selected term
-	 */
-	private void updateButtonText(Term selectedTerm) {
 	}
 
 	/**
