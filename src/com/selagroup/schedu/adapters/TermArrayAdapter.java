@@ -111,13 +111,14 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 				holder.term_btn_end.setText(LONG_DATE_FORMAT.format(endDate.getTime()));
 			}
 			else {
-				holder.term_btn_start.setText("Select End");
+				holder.term_btn_end.setText("Select End");
 			}
 
 			if (mEditMode) {
 				holder.term_btn_delete.setOnClickListener(new OnClickListener() {
 					public void onClick(View view) {
-						mDeleteAlert.setTitle("You will lose all your data associated with this term! Are you sure you want to delete this term?");
+						mDeleteAlert.setTitle("Warning!");
+						mDeleteAlert.setMessage("You will lose all your data associated with this term! Are you sure you want to delete this term?");
 						mDeleteAlert.setPositiveButton("Delete", new AlertDialog.OnClickListener() {
 							public void onClick(DialogInterface dialog, int which) {
 								TermArrayAdapter.this.remove(term);

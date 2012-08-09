@@ -25,14 +25,6 @@
             android:layout_weight="1"
             android:textOff="@string/calendar_week_btn"
             android:textOn="@string/calendar_week_btn" />
-
-        <ToggleButton
-            android:id="@+id/calendar_btn_month"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textOff="@string/calendar_month_btn"
-            android:textOn="@string/calendar_month_btn" />
     </LinearLayout>
 
     <com.selagroup.schedu.HorizontalPanelSwitcher

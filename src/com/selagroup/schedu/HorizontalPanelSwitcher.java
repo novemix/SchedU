@@ -193,11 +193,12 @@ public class HorizontalPanelSwitcher extends RelativeLayout {
 	public boolean movePanels(MotionEvent event) {
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
-			mIsAnimating = false;
-			mDownX = event.getX();
-			mVelocityTracker = VelocityTracker.obtain();
-			mVelocityTracker.addMovement(event);
-			mDragDirectionDecided = false;
+			if (!mIsAnimating) {
+				mDownX = event.getX();
+				mVelocityTracker = VelocityTracker.obtain();
+				mVelocityTracker.addMovement(event);
+				mDragDirectionDecided = false;
+			}
 			break;
 
 		case MotionEvent.ACTION_MOVE:
