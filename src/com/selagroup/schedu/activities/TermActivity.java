@@ -119,6 +119,7 @@ public class TermActivity extends ListActivity {
 						mTermAdapter.notifyDataSetChanged();
 					}
 					else {
+						mSelectedTerm = mTermAdapter.getItem(pos);
 						Intent addCourseIntent = new Intent(TermActivity.this, AddCourseActivity.class);
 						((ScheduApplication) getApplication()).setCurrentTerm(mSelectedTerm);
 						addCourseIntent.putExtra("fromTerm", true);
