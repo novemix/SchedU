@@ -28,51 +28,68 @@
         </activity>
         <activity
             android:name=".activities.TermActivity"
-            android:label="@string/term_activity_title" >
+            android:label="@string/term_activity_title"
+            android:screenOrientation="nosensor" >
+        </activity>
+        <activity
+            android:name=".activities.AllCoursesActivity"
+            android:label="@string/allCourses_activity_title"
+            android:screenOrientation="nosensor" >
         </activity>
         <activity
             android:name=".activities.AddCourseActivity"
-            android:label="@string/addCourse_activity_title" >
+            android:label="@string/addCourse_activity_title"
+            android:screenOrientation="nosensor" >
         </activity>
         <activity
             android:name=".activities.AddTimeActivity"
-            android:label="@string/addTime_activity_title" >
+            android:label="@string/addTime_activity_title"
+            android:screenOrientation="nosensor" >
         </activity>
         <activity
             android:name=".activities.CalendarActivity"
-            android:label="@string/calendar_activity_title" >
+            android:label="@string/calendar_activity_title"
+            android:screenOrientation="nosensor" >
         </activity>
         <activity
             android:name=".activities.CourseActivity"
-            android:label="@string/course_activity_title" >
+            android:label="@string/course_activity_title"
+            android:screenOrientation="nosensor" >
         </activity>
         <activity
             android:name=".activities.InstructorActivity"
-            android:label="@string/instructor_activity_title" >
+            android:label="@string/instructor_activity_title"
+            android:screenOrientation="nosensor" >
         </activity>
         <activity
             android:name=".activities.NotesActivity"
-            android:label="@string/notes_activity_title" >
+            android:label="@string/notes_activity_title"
+            android:screenOrientation="nosensor" >
         </activity>
         <activity
             android:name=".activities.SketchNoteActivity"
-            android:label="@string/sketchNote_activity_title" >
+            android:label="@string/sketchNote_activity_title"
+            android:screenOrientation="nosensor" >
         </activity>
         <activity
             android:name=".activities.TextNoteActivity"
-            android:label="@string/textNote_activity_title" >
+            android:label="@string/textNote_activity_title"
+            android:screenOrientation="nosensor" >
         </activity>
         <activity
             android:name=".activities.CourseAssignActivity"
-            android:label="@string/course_activity_title" >
+            android:label="@string/course_activity_title"
+            android:screenOrientation="nosensor" >
         </activity>
         <activity
             android:name=".activities.NewExamActivity"
-            android:label="@string/newExam_activity_title" >
+            android:label="@string/newExam_activity_title"
+            android:screenOrientation="nosensor" >
         </activity>
         <activity
             android:name=".activities.ScheduPreferences"
-            android:label="@string/preferences_activity_title" >
+            android:label="@string/preferences_activity_title"
+            android:screenOrientation="nosensor" >
         </activity>
 
         <receiver android:name=".RebootBroadcastReceiver" >

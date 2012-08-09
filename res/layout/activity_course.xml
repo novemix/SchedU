@@ -206,7 +206,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawableTop="@android:drawable/ic_menu_edit"
-            android:text="Notes" />
+            android:text="@string/course_notes_btn" />
 
         <Button
             android:id="@+id/course_btn_reminders"
@@ -214,7 +214,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawableTop="@android:drawable/ic_menu_help"
-            android:text="Work" />
+            android:text="@string/course_work_btn" />
 
         <Button
             android:id="@+id/course_btn_assignments_exams"
@@ -222,7 +222,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawableTop="@android:drawable/ic_menu_agenda"
-            android:text="Exams" />
+            android:text="@string/course_exams_btn" />
     </LinearLayout>
 
 </RelativeLayout>

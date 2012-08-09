@@ -120,7 +120,7 @@ public class TermActivity extends ListActivity {
 					}
 					else {
 						mSelectedTerm = mTermAdapter.getItem(pos);
-						Intent addCourseIntent = new Intent(TermActivity.this, AddCourseActivity.class);
+						Intent addCourseIntent = new Intent(TermActivity.this, AllCoursesActivity.class);
 						((ScheduApplication) getApplication()).setCurrentTerm(mSelectedTerm);
 						addCourseIntent.putExtra("fromTerm", true);
 						startActivity(addCourseIntent);

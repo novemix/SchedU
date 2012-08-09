@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="allcourses_title">Courses</string>
+    <string name="allcourses_edit_btn_off">Edit</string>
+    <string name="allcourses_edit_btn_on">Done</string>
+</resources>

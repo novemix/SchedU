@@ -11,6 +11,7 @@
 	<dimen name="instructor_add_time_button_height">40dp</dimen>
 	
 	<!-- Activity Titles -->
+	<string name="allCourses_activity_title">Courses</string>
 	<string name="addCourse_activity_title">Add Course</string>
 	<string name="addTime_activity_title">Add Course Time</string>
 	<string name="officeHours_activity_title">Add Office Hours</string>
