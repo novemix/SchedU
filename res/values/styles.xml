@@ -2,7 +2,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="label" parent="@android:style/TextAppearance">
-        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textColor">@color/lightText</item>
         <item name="android:typeface">sans</item>
         <item name="android:textSize">18dp</item>
         <item name="android:gravity">center_vertical</item>
@@ -12,6 +12,10 @@
 
     <style name="label_small" parent="@style/label">
         <item name="android:textSize">12dp</item>
+    </style>
+
+    <style name="term_label" parent="@style/label">
+        <item name="android:textColor">@color/darkText</item>
     </style>
 
     <style name="divider">
@@ -27,7 +31,7 @@
     </style>
 
     <color name="dividerColor">#ffaaaaaa</color>
-    
-    <color name="red">#ffff0000</color>
+    <color name="darkText">#ff102d59</color>
+    <color name="lightText">#ffffffff</color>
 
 </resources>

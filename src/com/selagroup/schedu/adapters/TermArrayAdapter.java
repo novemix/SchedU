@@ -88,6 +88,8 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 			tmpHolder = (ViewHolder) row.getTag();
 		}
 		final ViewHolder holder = tmpHolder;
+		
+		row.setBackgroundResource(R.drawable.term_block);
 
 		// Get the item
 		final Term term = mTerms.get(position);
