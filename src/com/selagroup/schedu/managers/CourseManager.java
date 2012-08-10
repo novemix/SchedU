@@ -204,13 +204,9 @@ public class CourseManager extends Manager<Course> {
 			courseScheduleBlock.put(DBHelper.COL_COURSE_TIME_PLACE_BLOCK_CourseID, courseID);
 			courseScheduleBlock.put(DBHelper.COL_COURSE_TIME_PLACE_BLOCK_TimePlaceBlockID, block.getID());
 
-			try {
-				mDB.delete(DBHelper.TABLE_CourseTimePlaceBlock, DBHelper.COL_COURSE_TIME_PLACE_BLOCK_CourseID +
-						"=? AND " + DBHelper.COL_COURSE_TIME_PLACE_BLOCK_TimePlaceBlockID + "=?",
-						new String[] { "" + courseID, "" + block.getID() });
-			} catch (SQLiteConstraintException e) {
-				// record already exists in table
-			}
+			mDB.delete(DBHelper.TABLE_CourseTimePlaceBlock, DBHelper.COL_COURSE_TIME_PLACE_BLOCK_CourseID +
+					"=? AND " + DBHelper.COL_COURSE_TIME_PLACE_BLOCK_TimePlaceBlockID + "=?",
+					new String[] { "" + courseID, "" + block.getID() });
 			close();
 		}
 		iCourse.clearRemovedBlocks();
