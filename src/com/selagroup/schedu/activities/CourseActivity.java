@@ -141,10 +141,10 @@ public class CourseActivity extends Activity {
 			new CountDownTimer(difference, 1000) {
 
 				public void onTick(long millisUntilFinished) {
-					int days = (int) millisUntilFinished / Utility.MILLIS_PER_DAY;
-					int hours = (int) millisUntilFinished / Utility.MILLIS_PER_HOUR % Utility.HOURS_PER_DAY;
-					int minutes = (int) millisUntilFinished / Utility.MILLIS_PER_MINUTE % Utility.MINUTES_PER_HOUR;
-					int seconds = (int) millisUntilFinished / Utility.MILLIS_PER_SECOND % Utility.SECONDS_PER_MINUTE;
+					int days = (int) (millisUntilFinished / Utility.MILLIS_PER_DAY);
+					int hours = (int) (millisUntilFinished / Utility.MILLIS_PER_HOUR % Utility.HOURS_PER_DAY);
+					int minutes = (int) (millisUntilFinished / Utility.MILLIS_PER_MINUTE % Utility.MINUTES_PER_HOUR);
+					int seconds = (int) (millisUntilFinished / Utility.MILLIS_PER_SECOND % Utility.SECONDS_PER_MINUTE);
 					String dayText = days > 1 ? days + " days, " : days == 1 ? days + " day, " : "";
 					course_tv_countDown.setText(dayText + String.format("%02d : %02d : %02d", hours, minutes, seconds));
 				}

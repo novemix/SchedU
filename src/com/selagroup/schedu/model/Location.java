@@ -54,7 +54,7 @@ public class Location extends ContentValueItem {
 	@Override
 	public String toString() {
 		String retString = ((mBuilding == null) || mBuilding.equals("")) ?  "" : mBuilding;
-		retString += ((mRoom == null) || mRoom.equals("")) ? "" : " \u2014 " + mRoom;
+		retString += ((mRoom == null) || mRoom.equals("")) ? "" : ", " + mRoom;
 
 		return retString;
 	}

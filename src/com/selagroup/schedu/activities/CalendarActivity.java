@@ -16,7 +16,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -47,7 +46,7 @@ import com.selagroup.schedu.model.TimePlaceBlock;
  */
 public class CalendarActivity extends Activity {
 	private static final SimpleDateFormat DAY_FORMAT = new SimpleDateFormat("EEEE, MMM d, yyyy");
-	private static final SimpleDateFormat WEEK_FORMAT = new SimpleDateFormat("MMM d");
+	private static final SimpleDateFormat WEEK_FORMAT = new SimpleDateFormat("MMM d, yyyy");
 	private static final int DAYS_IN_WEEK = 7;
 	private static final int DAY_VIEW_BUFFER = 15;
 
@@ -131,6 +130,9 @@ public class CalendarActivity extends Activity {
 	private Calendar mThisDay;
 	private Calendar mNextDay;
 	private Calendar mPrevDay;
+	private Calendar mThisWeek;
+	private Calendar mNextWeek;
+	private Calendar mPrevWeek;
 	private Term mCurrentTerm;
 	private float mDensity;
 	private boolean mScrollLock = false;
@@ -156,6 +158,13 @@ public class CalendarActivity extends Activity {
 		mNextDay.roll(Calendar.DAY_OF_MONTH, true);
 		mPrevDay = (Calendar) mThisDay.clone();
 		mPrevDay.roll(Calendar.DAY_OF_MONTH, false);
+
+		mThisWeek = (Calendar) mThisDay.clone();
+		mThisWeek.set(Calendar.DAY_OF_WEEK, mThisDay.getFirstDayOfWeek());
+		mNextWeek = (Calendar) mThisWeek.clone();
+		mNextWeek.add(Calendar.WEEK_OF_YEAR, 1);
+		mPrevWeek = (Calendar) mThisWeek.clone();
+		mPrevWeek.add(Calendar.WEEK_OF_YEAR, -1);
 
 		mDensity = getResources().getDisplayMetrics().density;
 
@@ -283,20 +292,10 @@ public class CalendarActivity extends Activity {
 			public void onClick(View v) {
 				switch (v.getId()) {
 				case R.id.calendar_btn_day:
-					mDayMode = true;
-					calendar_btn_day.setChecked(true);
-					calendar_btn_week.setChecked(false);
-					calendar_switcher_day.setVisibility(View.VISIBLE);
-					calendar_switcher_week.setVisibility(View.GONE);
-					initDayView();
+					showDayView();
 					break;
 				case R.id.calendar_btn_week:
-					mDayMode = false;
-					calendar_btn_day.setChecked(false);
-					calendar_btn_week.setChecked(true);
-					calendar_switcher_day.setVisibility(View.GONE);
-					calendar_switcher_week.setVisibility(View.VISIBLE);
-					initWeekView();
+					showWeekView();
 					break;
 				}
 			}
@@ -320,8 +319,7 @@ public class CalendarActivity extends Activity {
 			public void onClick(View v) {
 				if (mDayMode) {
 					calendar_switcher_day.switchPanels(false);
-				}
-				else {
+				} else {
 					calendar_switcher_week.switchPanels(false);
 				}
 			}
@@ -391,17 +389,17 @@ public class CalendarActivity extends Activity {
 		// React to switching the week in the panel switcher
 		calendar_switcher_week.setOnPanelSwitchListener(new OnPanelSwitchListener() {
 			public void switchRight() {
-				mThisDay.add(Calendar.WEEK_OF_MONTH, 1);
-				mNextDay.add(Calendar.WEEK_OF_MONTH, 1);
-				mPrevDay.add(Calendar.WEEK_OF_MONTH, 1);
+				mThisWeek.add(Calendar.WEEK_OF_MONTH, 1);
+				mNextWeek.add(Calendar.WEEK_OF_MONTH, 1);
+				mPrevWeek.add(Calendar.WEEK_OF_MONTH, 1);
 
 				initWeekView();
 			}
 
 			public void switchLeft() {
-				mThisDay.add(Calendar.WEEK_OF_MONTH, -1);
-				mNextDay.add(Calendar.WEEK_OF_MONTH, -1);
-				mPrevDay.add(Calendar.WEEK_OF_MONTH, -1);
+				mThisWeek.add(Calendar.WEEK_OF_MONTH, -1);
+				mNextWeek.add(Calendar.WEEK_OF_MONTH, -1);
+				mPrevWeek.add(Calendar.WEEK_OF_MONTH, -1);
 
 				initWeekView();
 			}
@@ -457,27 +455,30 @@ public class CalendarActivity extends Activity {
 			}
 		});
 
-		// Add courses for current day
-		for (Course course : mCourses) {
-			List<TimePlaceBlock> blocks = course.getBlocksOnDay(mThisDay.get(Calendar.DAY_OF_WEEK) - 1);
-			for (TimePlaceBlock block : blocks) {
-				addCourseBlockToDay(course, block, mThisDay, mThisDayCourseBlocks, mThisDayCourses);
+		// Check if we are still in the current term
+		if (mCurrentTerm.getStartDate().before(mThisDay) && mCurrentTerm.getEndDate().after(mThisDay)) {
+			// Add courses for current day
+			for (Course course : mCourses) {
+				List<TimePlaceBlock> blocks = course.getBlocksOnDay(mThisDay.get(Calendar.DAY_OF_WEEK) - 1);
+				for (TimePlaceBlock block : blocks) {
+					addCourseBlockToDay(course, block, mThisDay, mThisDayCourseBlocks, mThisDayCourses);
+				}
 			}
-		}
 
-		// Add courses for next day
-		for (Course course : mCourses) {
-			List<TimePlaceBlock> blocks = course.getBlocksOnDay(mNextDay.get(Calendar.DAY_OF_WEEK) - 1);
-			for (TimePlaceBlock block : blocks) {
-				addCourseBlockToDay(course, block, mNextDay, mNextDayCourseBlocks, mNextDayCourses);
+			// Add courses for next day
+			for (Course course : mCourses) {
+				List<TimePlaceBlock> blocks = course.getBlocksOnDay(mNextDay.get(Calendar.DAY_OF_WEEK) - 1);
+				for (TimePlaceBlock block : blocks) {
+					addCourseBlockToDay(course, block, mNextDay, mNextDayCourseBlocks, mNextDayCourses);
+				}
 			}
-		}
 
-		// Add courses for previous day
-		for (Course course : mCourses) {
-			List<TimePlaceBlock> blocks = course.getBlocksOnDay(mPrevDay.get(Calendar.DAY_OF_WEEK) - 1);
-			for (TimePlaceBlock block : blocks) {
-				addCourseBlockToDay(course, block, mPrevDay, mPrevDayCourseBlocks, mPrevDayCourses);
+			// Add courses for previous day
+			for (Course course : mCourses) {
+				List<TimePlaceBlock> blocks = course.getBlocksOnDay(mPrevDay.get(Calendar.DAY_OF_WEEK) - 1);
+				for (TimePlaceBlock block : blocks) {
+					addCourseBlockToDay(course, block, mPrevDay, mPrevDayCourseBlocks, mPrevDayCourses);
+				}
 			}
 		}
 	}
@@ -488,23 +489,21 @@ public class CalendarActivity extends Activity {
 		mNextWeekLayout.removeAllViews();
 		mPrevWeekLayout.removeAllViews();
 
-		Calendar firstDayOfWeek = (Calendar) mThisDay.clone();
-		firstDayOfWeek.set(Calendar.DAY_OF_WEEK, mThisDay.getFirstDayOfWeek());
-		calendar_tv_date.setText("Week of " + WEEK_FORMAT.format(firstDayOfWeek.getTime()));
-		
+		calendar_tv_date.setText("Week of " + WEEK_FORMAT.format(mThisWeek.getTime()));
+
 		// Initialize the current week
-		initSingleWeek((Calendar) firstDayOfWeek.clone(), mThisWeekCourseBlocks, mThisWeekLayout);
-		
+		initSingleWeek(mThisWeek, mThisWeekCourseBlocks, mThisWeekLayout);
+
 		// Initialize the next week
-		firstDayOfWeek.add(Calendar.WEEK_OF_YEAR, 1);
-		initSingleWeek((Calendar) firstDayOfWeek.clone(), mNextWeekCourseBlocks, mNextWeekLayout);
-		
+		initSingleWeek(mNextWeek, mNextWeekCourseBlocks, mNextWeekLayout);
+
 		// Initialize the previous week
-		firstDayOfWeek.add(Calendar.WEEK_OF_YEAR, 1);
-		initSingleWeek(firstDayOfWeek, mPrevWeekCourseBlocks, mPrevWeekLayout);
+		initSingleWeek(mPrevWeek, mPrevWeekCourseBlocks, mPrevWeekLayout);
 	}
 
 	private void initSingleWeek(Calendar iFirstDay, LinkedList<TextView> iBlocks, LinearLayout iWeekLayout) {
+		Calendar day = (Calendar) iFirstDay.clone();
+
 		// Tree map to store sorted blocks and the associated courses
 		TreeMap<TimePlaceBlock, Course> courseBlocks = new TreeMap<TimePlaceBlock, Course>();
 
@@ -517,31 +516,47 @@ public class CalendarActivity extends Activity {
 			weekDayBlock = new TextView(this);
 			weekDayBlock.setTextColor(Color.BLACK);
 			weekDayBlock.setBackgroundColor(Color.LTGRAY);
-			weekDayBlock.setText(DAY_FORMAT.format(iFirstDay.getTime()));
+			weekDayBlock.setText(DAY_FORMAT.format(day.getTime()));
 			weekDayBlock.setBackgroundResource(R.drawable.calendar_block);
 			weekDayBlock.setLayoutParams(WEEK_LAYOUT_PARAMS);
+			weekDayBlock.setTag(day.clone());
+
+			weekDayBlock.setOnClickListener(new OnClickListener() {
+				public void onClick(View view) {
+					Calendar day = (Calendar) view.getTag();
+					mThisDay = (Calendar) day.clone();
+					mNextDay = (Calendar) mThisDay.clone();
+					mNextDay.add(Calendar.DAY_OF_YEAR, 1);
+					mPrevDay = (Calendar) mThisDay.clone();
+					mPrevDay.add(Calendar.DAY_OF_YEAR, -1);
+					showDayView();
+				}
+			});
 
 			// Add the week's day block to the list and the linear layout
 			iBlocks.add(weekDayBlock);
 			iWeekLayout.addView(weekDayBlock);
-
-			// Add time blocks to tree map for sorting by time of day
-			for (Course course : mCourses) {
-				List<TimePlaceBlock> blocks = course.getBlocksOnDay(i);
-				for (TimePlaceBlock block : blocks) {
-					courseBlocks.put(block, course);
+			
+			// If the day is in the current term
+			if (mCurrentTerm.getStartDate().before(day) && mCurrentTerm.getEndDate().after(day)) {
+				// Add time blocks to tree map for sorting by time of day
+				for (Course course : mCourses) {
+					List<TimePlaceBlock> blocks = course.getBlocksOnDay(i);
+					for (TimePlaceBlock block : blocks) {
+						courseBlocks.put(block, course);
+					}
 				}
-			}
 
-			// Add time blocks to the view in chronological order
-			for (Entry<TimePlaceBlock, Course> entry : courseBlocks.entrySet()) {
-				addCourseBlockToWeek(entry.getValue(), entry.getKey(), iFirstDay, iBlocks, iWeekLayout);
-			}
+				// Add time blocks to the view in chronological order
+				for (Entry<TimePlaceBlock, Course> entry : courseBlocks.entrySet()) {
+					addCourseBlockToWeek(entry.getValue(), entry.getKey(), day, iBlocks, iWeekLayout);
+				}
 
-			courseBlocks.clear();
+				courseBlocks.clear();
+			}
 
 			// Increment the day by 1
-			iFirstDay.add(Calendar.DAY_OF_WEEK, 1);
+			day.add(Calendar.DAY_OF_WEEK, 1);
 		}
 	}
 
@@ -586,7 +601,7 @@ public class CalendarActivity extends Activity {
 		TextView courseBlock = new TextView(this);
 		courseBlock.setTextColor(Color.BLACK);
 		courseBlock.setBackgroundColor(Color.GREEN);
-		courseBlock.setText(iCourse.toString() + "\n" + iBlock.getLocation());
+		courseBlock.setText(iCourse.toString() + "\n" + iBlock.toTimeString() + "\n" + iBlock.getLocation());
 		courseBlock.setBackgroundResource(R.drawable.course_block_low);
 		courseBlock.setClickable(true);
 		courseBlock.setOnClickListener(new CourseClickListener(iCourse.getID(), iBlock.getID()));
@@ -625,7 +640,7 @@ public class CalendarActivity extends Activity {
 	public boolean getScrollLock() {
 		return mScrollLock;
 	}
-	
+
 	private void fadeInOut(final View iView) {
 		iView.setEnabled(false);
 		iView.postDelayed(new Runnable() {
@@ -637,5 +652,23 @@ public class CalendarActivity extends Activity {
 			}
 		}, ANIMATION_TIME);
 		iView.startAnimation(FADE_OUT_ANIMATION);
+	}
+
+	private void showDayView() {
+		mDayMode = true;
+		calendar_btn_day.setChecked(true);
+		calendar_btn_week.setChecked(false);
+		calendar_switcher_day.setVisibility(View.VISIBLE);
+		calendar_switcher_week.setVisibility(View.GONE);
+		initDayView();
+	}
+
+	private void showWeekView() {
+		mDayMode = false;
+		calendar_btn_day.setChecked(false);
+		calendar_btn_week.setChecked(true);
+		calendar_switcher_day.setVisibility(View.GONE);
+		calendar_switcher_week.setVisibility(View.VISIBLE);
+		initWeekView();
 	}
 }

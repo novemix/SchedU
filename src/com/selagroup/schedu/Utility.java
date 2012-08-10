@@ -4,12 +4,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
-import com.selagroup.schedu.model.Instructor;
-import com.selagroup.schedu.model.TimePlaceBlock;
-
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import com.selagroup.schedu.model.TimePlaceBlock;
 
 public class Utility {
 	
