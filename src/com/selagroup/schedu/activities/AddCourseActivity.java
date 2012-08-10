@@ -141,8 +141,13 @@ public class AddCourseActivity extends Activity {
 		addcourse_btn_add.setOnClickListener(new OnClickListener() {
 			public void onClick(View view) {
 				if (mEditMode) {
-					editCourseHelper();
-					finish();
+					if (editCourseHelper()) {
+						Toast.makeText(AddCourseActivity.this, "Successfully updated course", Toast.LENGTH_SHORT).show();
+						finish();
+					}
+					else {
+						Toast.makeText(AddCourseActivity.this, "Please provide a course code and at least one time block.", Toast.LENGTH_LONG).show();
+					}
 				}
 				else {
 					// Try to add the course. If successful, reset fields and finish
@@ -181,13 +186,23 @@ public class AddCourseActivity extends Activity {
 		mScheduleAdapter.notifyDataSetChanged();
 	}
 
-	private void editCourseHelper() {
-		mCourseToEdit.setCode(addcourse_et_course_code.getText().toString());
-		mCourseToEdit.setName(addcourse_et_course_name.getText().toString());
-		
+	private boolean editCourseHelper() {
+		String code = addcourse_et_course_code.getText().toString();
+
 		// TODO: Update Instructor
-		
+
 		// TODO: Update TimePlaceBlocks
+
+		// Update course if it has a term, a code, and at least one schedule block
+		if (mCurrentTerm != null && !code.equals("") && mScheduleBlocks.size() > 0) {
+			mCourseToEdit.setCode(code);
+			mCourseToEdit.setName(addcourse_et_course_name.getText().toString());
+			mCourseManager.update(mCourseToEdit);
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	/**
