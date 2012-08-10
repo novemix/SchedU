@@ -11,7 +11,6 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
@@ -73,6 +72,7 @@ public class AddCourseActivity extends Activity {
 		// Get the course manager and the instructor manager
 		mCourseManager = myApp.getCourseManager();
 		mInstructorManager = myApp.getInstructorManager();
+		mInstructors = mInstructorManager.getAll();
 
 		initWidgets();
 		initListeners();
@@ -81,7 +81,6 @@ public class AddCourseActivity extends Activity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		Log.i("Test", "Request code: " + requestCode);
 		switch (requestCode) {
 		case sAddTimeCode:
 			if (resultCode == RESULT_OK) {
@@ -164,12 +163,10 @@ public class AddCourseActivity extends Activity {
 	 * Resets the activity's UI and data
 	 */
 	private void reset() {
-		mInstructors = mInstructorManager.getAll();
 		mScheduleBlocks.clear();
 		mScheduleAdapter.notifyDataSetChanged();
 		addcourse_et_course_code.setText("");
 		addcourse_et_course_name.setText("");
-		addcourse_et_instructor.setText("");
 	}
 
 	/**

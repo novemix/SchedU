@@ -163,7 +163,7 @@ public class CourseActivity extends Activity {
 		course_tv_date.setText(DATE_FORMAT.format(day.getTime()));
 		course_tv_time.setText(thisBlock.toTimeString());
 		setCourseTimer();
-		course_location.setText(thisLocation.getBuilding() + ", " + thisLocation.getRoom());
+		course_location.setText(thisLocation.toString());
 		if (thisInstructor != null) {
 			course_instructor.setText(thisInstructor.getName());
 			String building = thisInstructor.getLocation().getBuilding();

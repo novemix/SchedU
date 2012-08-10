@@ -31,9 +31,8 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 
 	private TermEditListener mListener;
 	private TermManager mTermManager;
-
-	private static final SimpleDateFormat SHORT_DATE_FORMAT = new SimpleDateFormat("MMM d");
-	private static final SimpleDateFormat LONG_DATE_FORMAT = new SimpleDateFormat("MMM d, yyyy");
+	
+	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MMM d, yyyy");
 
 	private Context mContext;
 	private List<Term> mTerms;
@@ -107,13 +106,13 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 			Calendar startDate = term.getStartDate();
 			Calendar endDate = term.getEndDate();
 			if (editThisRow && startDate != null) {
-				holder.term_btn_start.setText(LONG_DATE_FORMAT.format(startDate.getTime()));
+				holder.term_btn_start.setText(DATE_FORMAT.format(startDate.getTime()));
 			}
 			else {
 				holder.term_btn_start.setText("Select Start");
 			}
 			if (editThisRow && endDate != null) {
-				holder.term_btn_end.setText(LONG_DATE_FORMAT.format(endDate.getTime()));
+				holder.term_btn_end.setText(DATE_FORMAT.format(endDate.getTime()));
 			}
 			else {
 				holder.term_btn_end.setText("Select End");

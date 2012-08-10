@@ -23,6 +23,7 @@ public class MyDatabaseTest {
 		TimePlaceBlockManager timePlaceBlockManager = new TimePlaceBlockManager(helper, locationManager);
 		InstructorManager instructorManager = new InstructorManager(helper, locationManager, timePlaceBlockManager);
 		CourseManager courseManager = new CourseManager(helper, termManager, instructorManager, timePlaceBlockManager);
+		termManager.setCourseManager(courseManager);
 		NoteManager noteManager = new NoteManager(helper, courseManager);
 		AssignmentManager assignmentManager = new AssignmentManager(helper, courseManager);
 		ExamManager examManager = new ExamManager(helper, timePlaceBlockManager, courseManager);

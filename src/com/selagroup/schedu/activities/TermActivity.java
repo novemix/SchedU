@@ -46,6 +46,7 @@ public class TermActivity extends ListActivity {
 			if (mAddMode) {
 				term_btn_add.setText(termIsValid(iTerm) ? "Done" : "Cancel");
 			}
+			mTermManager.update(iTerm);
 		}
 	};
 	private boolean mEditMode = false;

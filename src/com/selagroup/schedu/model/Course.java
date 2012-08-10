@@ -6,8 +6,10 @@
 package com.selagroup.schedu.model;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+import java.util.TreeMap;
 
 import android.content.ContentValues;
 
@@ -18,6 +20,8 @@ import com.selagroup.schedu.database.DBHelper;
  */
 public class Course extends ContentValueItem {
 	private static final long serialVersionUID = 756404045035754144L;
+	
+	private static final int DAYS_IN_WEEK = 7;
 
 	private Term mTerm;
 	private String mCourseCode;

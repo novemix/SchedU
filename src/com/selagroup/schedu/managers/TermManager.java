@@ -1,16 +1,26 @@
 package com.selagroup.schedu.managers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.database.Cursor;
 
 import com.selagroup.schedu.Utility;
 import com.selagroup.schedu.database.DBHelper;
+import com.selagroup.schedu.model.Course;
 import com.selagroup.schedu.model.Term;
 
 public class TermManager extends Manager<Term> {
+	
+	CourseManager mCourseManager;
 
 	public TermManager(DBHelper iHelper) {
 		super(iHelper);
 	}
+
+	public void setCourseManager(CourseManager iCourseManager) {
+	    mCourseManager = iCourseManager;
+    }
 
 	@Override
 	public int insert(Term iTerm) {
@@ -33,11 +43,14 @@ public class TermManager extends Manager<Term> {
 
 	@Override
 	public void delete(Term iTerm) {
-		// Don't allow deletes for now
-		// If implemented, would need to update all classes in this term
-		// open(OPEN_MODE.WRITE);
-		// mDB.delete(DatabaseHelper.TABLE_Term, DatabaseHelper.COL_TERM_ID + "=?", new String[] { "" + iTerm.getID() });
-		// close();
+		// Delete all courses for this term
+		for (Course course : mCourseManager.getAllForTerm(iTerm.getID())) {
+			mCourseManager.delete(course);
+		}
+		
+		open(OPEN_MODE.WRITE);
+		mDB.delete(DBHelper.TABLE_Term, DBHelper.COL_TERM_ID + "=?", new String[] { "" + iTerm.getID() });
+		close();
 	}
 
 	@Override

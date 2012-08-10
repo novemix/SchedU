@@ -47,6 +47,7 @@ public class ScheduApplication extends Application {
 		mTimePlaceBlockManager = new TimePlaceBlockManager(mHelper, mLocationManager);
 		mInstructorManager = new InstructorManager(mHelper, mLocationManager, mTimePlaceBlockManager);
 		mCourseManager = new CourseManager(mHelper, mTermManager, mInstructorManager, mTimePlaceBlockManager);
+		mTermManager.setCourseManager(mCourseManager);
 		mNoteManager = new NoteManager(mHelper, mCourseManager);
 		mAssignmentManager = new AssignmentManager(mHelper, mCourseManager);
 		mExamManager = new ExamManager(mHelper, mTimePlaceBlockManager, mCourseManager);
