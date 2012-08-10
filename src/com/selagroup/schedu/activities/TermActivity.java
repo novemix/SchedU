@@ -89,13 +89,13 @@ public class TermActivity extends ListActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(getResources().getString(R.string.preferences));
+		menu.add(getResources().getString(R.string.menu_item_preferences));
 		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getTitle().equals(getResources().getString(R.string.preferences))) {
+		if (item.getTitle().equals(getResources().getString(R.string.menu_item_preferences))) {
 			startActivity(new Intent(TermActivity.this, ScheduPreferences.class));
 			return true;
 		}

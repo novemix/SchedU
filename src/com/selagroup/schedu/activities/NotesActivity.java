@@ -16,6 +16,8 @@ import android.content.Intent;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -28,6 +30,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.selagroup.schedu.R;
+import com.selagroup.schedu.Utility;
 
 /**
  * The Class NotesActivity.
@@ -90,6 +93,25 @@ public class NotesActivity extends Activity {
 		initListeners();
 	}
 
+	/**
+	 * Context menu
+	 */
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		Utility.buildOptionsMenu(menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (Utility.handleOptionsMenuSelection(NotesActivity.this, item)) {
+			return true;
+		}
+		else {
+			return super.onOptionsItemSelected(item);
+		}
+	}
+	
 	private void initListeners() {
 		((ImageButton) findViewById(R.id.notes_btn_sketch)).setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {

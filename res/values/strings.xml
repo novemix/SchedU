@@ -2,9 +2,10 @@
 <resources>
 
     <string name="app_name">Sched-U</string>
-    <string name="preferences">Preferences</string>
-    <string name="term_activity">Term select</string>
-    <string name="all_courses_activity">Course list</string>
+    <string name="menu_item_preferences">Preferences</string>
+    <string name="menu_item_term_activity">Term select</string>
+    <string name="menu_item_all_courses_activity">Course list</string>
+    <string name="menu_item_calendar_activity">Calendar</string>
     <dimen name="zero_dp">0dp</dimen>
     <dimen name="label_padding">10dp</dimen>
     <dimen name="calendar_hour_label_padding">10dp</dimen>

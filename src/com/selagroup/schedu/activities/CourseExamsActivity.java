@@ -5,10 +5,13 @@
 package com.selagroup.schedu.activities;
 
 import com.selagroup.schedu.R;
+import com.selagroup.schedu.Utility;
 
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
@@ -23,6 +26,25 @@ public class CourseExamsActivity extends ListActivity {
 		setContentView(R.layout.activity_course_exams);
 		
 		mockup();
+	}
+	
+	/**
+	 * Context menu
+	 */
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		Utility.buildOptionsMenu(menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (Utility.handleOptionsMenuSelection(CourseExamsActivity.this, item)) {
+			return true;
+		}
+		else {
+			return super.onOptionsItemSelected(item);
+		}
 	}
 	
 	private void mockup() {
