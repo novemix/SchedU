@@ -267,7 +267,6 @@ public class CalendarActivity extends Activity {
 		mNextWeekView = inflater.inflate(R.layout.layout_week, mNextWeekParentView);
 		mNextWeekLayout = (LinearLayout) mNextWeekView.findViewById(R.id.calendar_week_courses);
 		mNextWeekScroll = (ObservableScrollView) mNextWeekView.findViewById(R.id.calendar_sv_week);
-		mNextWeekScroll.setBackgroundColor(getResources().getColor(R.color.red));
 
 		// Initialize previous week
 		mPrevWeekView = inflater.inflate(R.layout.layout_week, mPrevWeekParentView);
@@ -285,19 +284,19 @@ public class CalendarActivity extends Activity {
 				switch (v.getId()) {
 				case R.id.calendar_btn_day:
 					mDayMode = true;
-					initDayView();
 					calendar_btn_day.setChecked(true);
 					calendar_btn_week.setChecked(false);
 					calendar_switcher_day.setVisibility(View.VISIBLE);
-					mThisWeekScroll.setVisibility(View.GONE);				// TODO: Some problem here
+					calendar_switcher_week.setVisibility(View.GONE);
+					initDayView();
 					break;
 				case R.id.calendar_btn_week:
 					mDayMode = false;
-					initWeekView();
 					calendar_btn_day.setChecked(false);
 					calendar_btn_week.setChecked(true);
 					calendar_switcher_day.setVisibility(View.GONE);
-					mThisWeekScroll.setVisibility(View.VISIBLE);
+					calendar_switcher_week.setVisibility(View.VISIBLE);
+					initWeekView();
 					break;
 				}
 			}

@@ -56,11 +56,14 @@
             android:layout_gravity="right"
             android:src="@android:drawable/ic_media_ff" />
     </LinearLayout>
+    
+    <!-- Day -->
 
     <com.selagroup.schedu.HorizontalPanelSwitcher
         android:id="@+id/calendar_switcher_day"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:visibility="visible" >
     </com.selagroup.schedu.HorizontalPanelSwitcher>
 
     <!-- Week -->
@@ -68,7 +71,8 @@
     <com.selagroup.schedu.HorizontalPanelSwitcher
         android:id="@+id/calendar_switcher_week"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:visibility="gone" >
     </com.selagroup.schedu.HorizontalPanelSwitcher>
 
 </LinearLayout>
