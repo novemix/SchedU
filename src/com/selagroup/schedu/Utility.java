@@ -39,7 +39,7 @@ public class Utility {
 			SimpleDateFormat sdf = new SimpleDateFormat("h:mm a");
 			for (TimePlaceBlock tpb : i_hours) {
 				TextView newTextView = new TextView(new_ll.getContext());
-				newTextView.setText(getDayString(tpb.getDayFlagArray()) + ": " + sdf.format(tpb.getStartTime().getTime()).toLowerCase() + " - " + sdf.format(tpb.getEndTime().getTime()).toLowerCase());
+				newTextView.setText(tpb.toDateTimeString());
 				new_ll.addView(newTextView);
 			}
 		}
