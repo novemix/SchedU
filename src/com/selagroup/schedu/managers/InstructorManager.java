@@ -105,6 +105,17 @@ public class InstructorManager extends Manager<Instructor> {
 		}
 	}
 
+	public void clearOfficeHours(Instructor iInstructor) {
+		for (TimePlaceBlock block : iInstructor.getOfficeBlocks()) {
+			mTimePlaceBlockManager.delete(block);
+			iInstructor.removeOfficeBlock(block);
+		}
+		open(OPEN_MODE.WRITE);
+		mDB.delete(DBHelper.TABLE_OfficeTimePlaceBlock, DBHelper.COL_OFFICE_TIME_PLACE_BLOCK_InstructorID + "=?",
+				new String [] {iInstructor.getID() + ""} );
+		close();
+	}
+	
 	@Override
 	protected Instructor itemFromCurrentPos(Cursor iCursor) {
 		int id = iCursor.getInt(iCursor.getColumnIndex(DBHelper.COL_INSTRUCTOR_ID));

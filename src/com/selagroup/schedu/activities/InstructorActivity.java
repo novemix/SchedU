@@ -45,6 +45,7 @@ public class InstructorActivity extends Activity {
 	EditText instructor_building;
 	EditText instructor_room;
 	Button instructor_btn_add_time;
+	Button instructor_btn_clear_time;
 	Button instructor_btn_done;
 	Button instructor_btn_cancel;
 
@@ -80,7 +81,7 @@ public class InstructorActivity extends Activity {
 		if (requestCode == ADDTIME_REQUEST_CODE && resultCode == RESULT_OK) {
 			// update location and time block displays
 			TimePlaceBlock block = (TimePlaceBlock) data.getSerializableExtra("block");
-			block.setLocation(thisLocation);
+			//block.setLocation(thisLocation); // commented out so that when deleting hours, location won't go with it
 			thisInstructor.addOfficeBlock(block);
 			setWidgetValues();
 		}
@@ -107,6 +108,7 @@ public class InstructorActivity extends Activity {
 		instructor_building = (EditText) findViewById(R.id.instructor_building);
 		instructor_room = (EditText) findViewById(R.id.instructor_room);
 		instructor_btn_add_time = (Button) findViewById(R.id.instructor_btn_add_time);
+		instructor_btn_clear_time = (Button) findViewById(R.id.instructor_btn_clear_time);
 		instructor_btn_done = (Button) findViewById(R.id.instructor_btn_done);
 		instructor_btn_cancel = (Button) findViewById(R.id.instructor_btn_cancel);
 
@@ -149,6 +151,12 @@ public class InstructorActivity extends Activity {
 				Intent intent = new Intent(InstructorActivity.this, AddTimeActivity.class);
 				intent.putExtra("instructor", true);
 				startActivityForResult(intent, ADDTIME_REQUEST_CODE);
+			}
+		});
+		instructor_btn_clear_time.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				mInstructorManager.clearOfficeHours(thisInstructor);
+				setWidgetValues();
 			}
 		});
 		instructor_btn_done.setOnClickListener(new OnClickListener() {
