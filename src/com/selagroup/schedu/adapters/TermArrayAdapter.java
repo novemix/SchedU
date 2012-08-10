@@ -27,6 +27,7 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 
 	public interface TermEditListener {
 		public void onTermEdit(Term iTerm);
+		public void onTermDelete(Term iTerm);
 	}
 
 	private TermEditListener mListener;
@@ -126,12 +127,7 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 						mDeleteAlert.setMessage("You will lose all your data associated with this term! Are you sure you want to delete this term?");
 						mDeleteAlert.setPositiveButton("Delete", new AlertDialog.OnClickListener() {
 							public void onClick(DialogInterface dialog, int which) {
-								TermArrayAdapter.this.remove(term);
-								if (TermArrayAdapter.this.isEmpty()) {
-									TermArrayAdapter.this.add(null);
-								}
-								mTermManager.delete(term);
-								mListener.onTermEdit(term);
+								mListener.onTermDelete(term);
 							}
 						});
 						mDeleteAlert.setNegativeButton("Cancel", new AlertDialog.OnClickListener() {

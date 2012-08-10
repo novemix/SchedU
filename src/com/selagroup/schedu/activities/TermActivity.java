@@ -46,7 +46,23 @@ public class TermActivity extends ListActivity {
 			if (mAddMode) {
 				term_btn_add.setText(termIsValid(iTerm) ? "Done" : "Cancel");
 			}
-			mTermManager.update(iTerm);
+			if (termIsValid(iTerm)) {
+				mTermManager.update(iTerm);
+			}
+		}
+
+		public void onTermDelete(Term iTerm) {
+			mTermAdapter.remove(iTerm);
+			if (mTermAdapter.isEmpty()) {
+				mTermAdapter.add(null);
+			}
+			mTermManager.delete(iTerm);
+			onTermEdit(iTerm);
+			mEditMode = false;
+			mTermAdapter.setEditEnabled(false);
+			term_btn_add.setEnabled(true);
+			term_btn_edit.setChecked(false);
+			mTermAdapter.notifyDataSetChanged();
 		}
 	};
 	private boolean mEditMode = false;
