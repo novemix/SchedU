@@ -4,16 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <!-- Activity Title -->
-
-    <TextView
-        android:id="@+id/instructor_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/instructor_title"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
     <!-- Instructor name -->
 
     <LinearLayout
