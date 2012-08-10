@@ -21,6 +21,7 @@ import android.widget.ToggleButton;
 
 import com.selagroup.schedu.R;
 import com.selagroup.schedu.ScheduApplication;
+import com.selagroup.schedu.Utility;
 import com.selagroup.schedu.adapters.CourseArrayAdapter;
 import com.selagroup.schedu.adapters.CourseArrayAdapter.CourseDeleteListener;
 import com.selagroup.schedu.managers.CourseManager;
@@ -80,14 +81,13 @@ public class AllCoursesActivity extends ListActivity {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(getResources().getString(R.string.preferences));
+		Utility.buildOptionsMenu(menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getTitle().equals(getResources().getString(R.string.preferences))) {
-			startActivity(new Intent(AllCoursesActivity.this, ScheduPreferences.class));
+		if (Utility.handleOptionsMenuSelection(AllCoursesActivity.this, item)) {
 			return true;
 		}
 		else {
