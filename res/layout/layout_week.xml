@@ -8,13 +8,21 @@
         android:id="@+id/calendar_sv_week"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
+        android:fillViewport="true"
         android:visibility="gone" >
 
         <LinearLayout
-            android:id="@+id/calendar_week_courses"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_height="720dp"
+            android:background="@color/red"
+            android:baselineAligned="false" >
+
+            <LinearLayout
+                android:id="@+id/calendar_week_courses"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+            </LinearLayout>
         </LinearLayout>
     </com.selagroup.schedu.ObservableScrollView>
 

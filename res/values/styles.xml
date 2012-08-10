@@ -27,5 +27,7 @@
     </style>
 
     <color name="dividerColor">#ffaaaaaa</color>
+    
+    <color name="red">#ffff0000</color>
 
 </resources>

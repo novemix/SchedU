@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 public class HorizontalPanelSwitcher extends RelativeLayout {
 	public interface OnDragListener {
 		public void dragStart();
+
 		public void dragEnd(boolean isSwitching);
 	}
 
@@ -122,7 +123,7 @@ public class HorizontalPanelSwitcher extends RelativeLayout {
 		super(context);
 		init();
 	}
-	
+
 	// Externally invoke a panel switch
 	public void switchPanels(boolean iSwitchRight) {
 		if (iSwitchRight) {
@@ -131,7 +132,9 @@ public class HorizontalPanelSwitcher extends RelativeLayout {
 			mDragDirectionDecided = true;
 			mIsAnimating = true;
 			mIsDragging = false;
-			mDragListener.dragEnd(false);
+			if (mDragListener != null) {
+				mDragListener.dragEnd(false);
+			}
 		}
 		else {
 			mTarget = mWidth;
@@ -139,7 +142,9 @@ public class HorizontalPanelSwitcher extends RelativeLayout {
 			mDragDirectionDecided = true;
 			mIsAnimating = true;
 			mIsDragging = false;
-			mDragListener.dragEnd(false);
+			if (mDragListener != null) {
+				mDragListener.dragEnd(false);
+			}
 		}
 	}
 
@@ -233,7 +238,9 @@ public class HorizontalPanelSwitcher extends RelativeLayout {
 				mVelocityTracker.computeCurrentVelocity(VELOCITY_SENSITIVITY);
 				if (Math.abs(mVelocityTracker.getXVelocity()) > Math.abs(mVelocityTracker.getYVelocity())) {
 					mIsDragging = true;
-					mDragListener.dragStart();
+					if (mDragListener != null) {
+						mDragListener.dragStart();
+					}
 				}
 				mDragDirectionDecided = true;
 			}
@@ -260,15 +267,21 @@ public class HorizontalPanelSwitcher extends RelativeLayout {
 				if (mDelta + xVelocity < -mWidth / 2 && mDelta < -mWidth / 8) {
 					mTarget = -mWidth;
 					mTargetPanel = PANEL_RIGHT;
-					mDragListener.dragEnd(true);
+					if (mDragListener != null) {
+						mDragListener.dragEnd(true);
+					}
 				} else if (mDelta + xVelocity > mWidth / 2 && mDelta > mWidth / 8) {
 					mTarget = mWidth;
 					mTargetPanel = PANEL_LEFT;
-					mDragListener.dragEnd(true);
+					if (mDragListener != null) {
+						mDragListener.dragEnd(true);
+					}
 				} else {
 					mTarget = 0;
 					mTargetPanel = PANEL_CENTER;
-					mDragListener.dragEnd(false);
+					if (mDragListener != null) {
+						mDragListener.dragEnd(false);
+					}
 				}
 				mIsAnimating = true;
 
