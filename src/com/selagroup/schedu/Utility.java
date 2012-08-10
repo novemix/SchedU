@@ -4,10 +4,18 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.selagroup.schedu.activities.AllCoursesActivity;
+import com.selagroup.schedu.activities.ScheduPreferences;
+import com.selagroup.schedu.activities.TermActivity;
 import com.selagroup.schedu.model.TimePlaceBlock;
 
 public class Utility {
@@ -53,5 +61,28 @@ public class Utility {
 			if (arr[i]) result += ("".equals(result) ? "" : ", ") + sDays[i];
 		}
 		return result;
+	}
+	
+	public static void buildOptionsMenu(Menu iMenu) {
+		iMenu.add(R.string.term_activity);
+		iMenu.add(R.string.all_courses_activity);
+		iMenu.add(R.string.preferences);
+	}
+	
+	public static boolean handleOptionsMenuSelection(Context iContext, MenuItem iItem) {
+		Resources res = iContext.getResources();
+		if (iItem.getTitle().equals(res.getString(R.string.term_activity))) {
+			iContext.startActivity(new Intent(iContext, TermActivity.class));
+			return true;
+		}
+		if (iItem.getTitle().equals(res.getString(R.string.all_courses_activity))) {
+			iContext.startActivity(new Intent(iContext, AllCoursesActivity.class));
+			return true;
+		}
+		if (iItem.getTitle().equals(res.getString(R.string.preferences))) {
+			iContext.startActivity(new Intent(iContext, ScheduPreferences.class));
+			return true;
+		}
+		return false;
 	}
 }

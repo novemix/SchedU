@@ -1,3 +1,4 @@
+
 /**
  * @author Nick Huebner and Mark Redden
  * @version 1.0
@@ -88,13 +89,13 @@ public class TermActivity extends ListActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add("xPreferences");
+		menu.add(getResources().getString(R.string.preferences));
 		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getTitle().equals("xPreferences")) {
+		if (item.getTitle().equals(getResources().getString(R.string.preferences))) {
 			startActivity(new Intent(TermActivity.this, ScheduPreferences.class));
 			return true;
 		}

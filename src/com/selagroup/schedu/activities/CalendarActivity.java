@@ -13,10 +13,14 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,6 +40,7 @@ import com.selagroup.schedu.ObservableScrollView;
 import com.selagroup.schedu.ObservableScrollView.ScrollViewListener;
 import com.selagroup.schedu.R;
 import com.selagroup.schedu.ScheduApplication;
+import com.selagroup.schedu.Utility;
 import com.selagroup.schedu.managers.CourseManager;
 import com.selagroup.schedu.model.Course;
 import com.selagroup.schedu.model.Term;
@@ -176,6 +181,25 @@ public class CalendarActivity extends Activity {
 		initDayView();
 	}
 
+	/**
+	 * Context menu
+	 */
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		Utility.buildOptionsMenu(menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (Utility.handleOptionsMenuSelection(CalendarActivity.this, item)) {
+			return true;
+		}
+		else {
+			return super.onOptionsItemSelected(item);
+		}
+	}
+	
 	/**
 	 * Initializes the widgets.
 	 */

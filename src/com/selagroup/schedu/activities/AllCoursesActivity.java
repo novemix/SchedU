@@ -10,6 +10,8 @@ import java.util.List;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -67,7 +69,24 @@ public class AllCoursesActivity extends ListActivity {
 		mCourseList.addAll(mCourseManager.getAllForTerm(mCurrentTerm.getID()));
 		mCourseAdapter.notifyDataSetChanged();
 	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(getResources().getString(R.string.preferences));
+		return super.onCreateOptionsMenu(menu);
+	}
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getTitle().equals(getResources().getString(R.string.preferences))) {
+			startActivity(new Intent(AllCoursesActivity.this, ScheduPreferences.class));
+			return true;
+		}
+		else {
+			return super.onOptionsItemSelected(item);
+		}
+	}
+	
 	protected void initWidgets() {
 		allcourses_btn_edit = (ToggleButton) findViewById(R.id.allcourses_btn_edit);
 		allcourses_btn_add = (ImageButton) findViewById(R.id.allcourses_btn_add);
