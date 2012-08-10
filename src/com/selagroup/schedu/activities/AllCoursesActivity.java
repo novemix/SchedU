@@ -4,13 +4,20 @@
  */
 package com.selagroup.schedu.activities;
 
+import java.util.List;
+
 import com.selagroup.schedu.R;
+import com.selagroup.schedu.ScheduApplication;
+import com.selagroup.schedu.adapters.CourseArrayAdapter;
+import com.selagroup.schedu.model.Course;
+import com.selagroup.schedu.model.Term;
 
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ToggleButton;
@@ -25,10 +32,18 @@ public class AllCoursesActivity extends ListActivity {
 	ImageButton allcourses_btn_add;
 	ImageButton allcourses_btn_calendar;
 	
+	Term mCurrentTerm;
+	List<Course> mCourseList;
+	CourseArrayAdapter mCourseAdapter;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_allcourses);
+		
+		ScheduApplication app = (ScheduApplication) getApplication();
+		mCurrentTerm = app.getCurrentTerm();
+		mCourseList = app.getCourseManager().getAllForTerm(mCurrentTerm.getID());
 		
 		initWidgets();
 		initListeners();
