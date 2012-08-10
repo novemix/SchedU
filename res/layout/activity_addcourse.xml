@@ -92,8 +92,7 @@
             style="@style/label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
+            android:layout_weight="2"
             android:text="@string/addcourse_schedule_label"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -103,7 +102,7 @@
             android:id="@+id/addcourse_btn_add_time"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="3"
             android:text="@string/addcourse_add_time_btn" />
     </LinearLayout>
 

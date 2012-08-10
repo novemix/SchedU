@@ -161,7 +161,7 @@ public class TermActivity extends ListActivity {
 		});
 
 		// Set up spinner adapter
-		mTermAdapter = new TermArrayAdapter(this, R.layout.adapter_term_select, mTerms, mTermEditListener, mTermManager);
+		mTermAdapter = new TermArrayAdapter(this, R.layout.adapter_term_select, mTerms, mTermEditListener);
 
 		mTermAdapter.setDropDownViewResource(R.layout.adapter_term_select);
 		setListAdapter(mTermAdapter);

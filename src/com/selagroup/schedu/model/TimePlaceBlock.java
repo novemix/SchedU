@@ -131,7 +131,7 @@ public class TimePlaceBlock extends ContentValueItem implements Comparable<TimeP
 				dayString.append(sDayAbbreviations[i]);
 			}
 		}
-		dayString.append(": ");
+		dayString.append("\n");
 
 		return dayString.substring(2);
 	}

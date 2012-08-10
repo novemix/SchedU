@@ -20,7 +20,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.selagroup.schedu.R;
-import com.selagroup.schedu.managers.TermManager;
 import com.selagroup.schedu.model.Term;
 
 public class TermArrayAdapter extends ArrayAdapter<Term> {
@@ -31,7 +30,6 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 	}
 
 	private TermEditListener mListener;
-	private TermManager mTermManager;
 	
 	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MMM d, yyyy");
 
@@ -52,12 +50,11 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 	}
 
 	public TermArrayAdapter(Context iContext, int textViewResourceId, List<Term> iTerms,
-			TermEditListener iListener, TermManager iTermManager) {
+			TermEditListener iListener) {
 		super(iContext, textViewResourceId, iTerms);
 		mContext = iContext;
 		mTerms = iTerms;
 		mListener = iListener;
-		mTermManager = iTermManager;
 		mDeleteAlert = new AlertDialog.Builder(mContext);
 	}
 
