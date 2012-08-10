@@ -13,9 +13,7 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -694,5 +692,13 @@ public class CalendarActivity extends Activity {
 		calendar_switcher_day.setVisibility(View.GONE);
 		calendar_switcher_week.setVisibility(View.VISIBLE);
 		initWeekView();
+	}
+	@Override
+	protected void onResume() {
+		mDayMode = true;
+		mCourses.clear();
+		mCourses.addAll(mCourseManager.getAllForTerm(mCurrentTerm.getID()));
+		initDayView();
+		super.onResume();
 	}
 }
