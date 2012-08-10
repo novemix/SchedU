@@ -36,7 +36,7 @@ public class SplashActivity extends Activity {
 			public void run() {
 				startApplication();
 			}
-		}, 3000);
+		}, 1000);
 
 	}
 

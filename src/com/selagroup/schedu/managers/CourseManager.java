@@ -164,8 +164,6 @@ public class CourseManager extends Manager<Course> {
 					new String[] { "" + iCourse.getID(), "" + block.getID() });
 			close();
 		}
-
-		// TODO: Also, delete all notes, exams, and assignments for this course?
 	}
 
 	@Override

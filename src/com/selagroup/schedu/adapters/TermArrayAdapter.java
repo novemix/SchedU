@@ -29,8 +29,8 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 		public void onTermDelete(Term iTerm);
 	}
 
-	private TermEditListener mListener;
-	
+	private TermEditListener mEditListener;
+
 	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MMM d, yyyy");
 
 	private Context mContext;
@@ -50,18 +50,18 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 	}
 
 	public TermArrayAdapter(Context iContext, int textViewResourceId, List<Term> iTerms,
-			TermEditListener iListener) {
+			TermEditListener iEditListener) {
 		super(iContext, textViewResourceId, iTerms);
 		mContext = iContext;
 		mTerms = iTerms;
-		mListener = iListener;
+		mEditListener = iEditListener;
 		mDeleteAlert = new AlertDialog.Builder(mContext);
 	}
 
 	public void setEditEnabled(boolean iEditEnabled) {
 		mEditEnabled = iEditEnabled;
 	}
-	
+
 	public void setAddEnabled(boolean iAddEnabled) {
 		mAddEnabled = iAddEnabled;
 	}
@@ -121,10 +121,12 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 				holder.term_btn_delete.setOnClickListener(new OnClickListener() {
 					public void onClick(View view) {
 						mDeleteAlert.setTitle("Warning!");
-						mDeleteAlert.setMessage("You will lose all your data associated with this term! Are you sure you want to delete this term?");
+						mDeleteAlert.setMessage("You will lose all data associated with this term! Are you sure you want to delete this term?");
 						mDeleteAlert.setPositiveButton("Delete", new AlertDialog.OnClickListener() {
 							public void onClick(DialogInterface dialog, int which) {
-								mListener.onTermDelete(term);
+								if (mEditListener != null) {
+									mEditListener.onTermDelete(term);
+								}
 							}
 						});
 						mDeleteAlert.setNegativeButton("Cancel", new AlertDialog.OnClickListener() {
@@ -178,7 +180,7 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 				else {
 					iTerm.setStartDate(newDate);
 					notifyDataSetChanged();
-					mListener.onTermEdit(iTerm);
+					mEditListener.onTermEdit(iTerm);
 				}
 			}
 		}, initDate.get(Calendar.YEAR), initDate.get(Calendar.MONTH), initDate.get(Calendar.DAY_OF_MONTH));
@@ -201,7 +203,7 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 				else {
 					iTerm.setEndDate(newDate);
 					notifyDataSetChanged();
-					mListener.onTermEdit(iTerm);
+					mEditListener.onTermEdit(iTerm);
 				}
 			}
 		}, initDate.get(Calendar.YEAR), initDate.get(Calendar.MONTH), initDate.get(Calendar.DAY_OF_MONTH));

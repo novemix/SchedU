@@ -5,11 +5,32 @@
     android:minHeight="60dp"
     android:orientation="horizontal" >
 
-    <TextView
-        android:id="@+id/course_adapter_tv_select"
-        style="@style/label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/course_adapter_tv_code"
+            style="@style/label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/course_adapter_tv_name"
+            style="@style/label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/course_adapter_btn_delete"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:drawableTop="@android:drawable/ic_delete"
+        android:focusable="false"
+        android:focusableInTouchMode="false" />
 
 </RelativeLayout>
