@@ -69,8 +69,8 @@ public class CourseArrayAdapter extends ArrayAdapter<Course> {
 		final ViewHolder holder = tmpHolder;
 
 		if (course != null) {
-			holder.course_adapter_tv_code.setText(course.getCourseCode());
-			holder.course_adapter_tv_name.setText(course.getCourseName());
+			holder.course_adapter_tv_code.setText(course.getCode());
+			holder.course_adapter_tv_name.setText(course.getName());
 
 			// If edit enabled, show delete button
 			if (mEditEnabled) {

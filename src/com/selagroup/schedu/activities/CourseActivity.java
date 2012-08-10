@@ -179,8 +179,8 @@ public class CourseActivity extends Activity {
 	
 	private void setValues() {
 		// Set values
-		course_course_code.setText(thisCourse.getCourseCode());
-		course_course_name.setText(thisCourse.getCourseName());
+		course_course_code.setText(thisCourse.getCode());
+		course_course_name.setText(thisCourse.getName());
 		course_tv_date.setText(DATE_FORMAT.format(day.getTime()));
 		course_tv_time.setText(thisBlock.toTimeString());
 		setCourseTimer();

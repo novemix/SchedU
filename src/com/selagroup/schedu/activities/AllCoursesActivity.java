@@ -38,7 +38,7 @@ public class AllCoursesActivity extends ListActivity {
 	private ToggleButton allcourses_btn_edit;
 	private ImageButton allcourses_btn_add;
 	private ImageButton allcourses_btn_calendar;
-	
+
 	// Data
 	private boolean mEditMode;
 	private Term mCurrentTerm;
@@ -78,7 +78,7 @@ public class AllCoursesActivity extends ListActivity {
 		mCourseList.addAll(mCourseManager.getAllForTerm(mCurrentTerm.getID()));
 		mCourseAdapter.notifyDataSetChanged();
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		Utility.buildOptionsMenu(AllCoursesActivity.this, menu);
@@ -94,7 +94,7 @@ public class AllCoursesActivity extends ListActivity {
 			return super.onOptionsItemSelected(item);
 		}
 	}
-	
+
 	protected void initWidgets() {
 		allcourses_btn_edit = (ToggleButton) findViewById(R.id.allcourses_btn_edit);
 		allcourses_btn_add = (ImageButton) findViewById(R.id.allcourses_btn_add);
@@ -109,7 +109,7 @@ public class AllCoursesActivity extends ListActivity {
 				mCourseAdapter.notifyDataSetChanged();
 			}
 		});
-		
+
 		allcourses_btn_add.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent(AllCoursesActivity.this, AddCourseActivity.class);
@@ -122,22 +122,30 @@ public class AllCoursesActivity extends ListActivity {
 				startActivity(new Intent(AllCoursesActivity.this, CalendarActivity.class));
 			}
 		});
-		
+
 		getListView().setOnItemClickListener(new OnItemClickListener() {
 
 			public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
-				Intent showCourseIntent = new Intent(AllCoursesActivity.this, CourseActivity.class);
 				Course course = mCourseList.get(pos);
-				
-				//TODO: need to get the next time/day for this course
-				Calendar day = null;
-				TimePlaceBlock nextBlock = course.getScheduleBlocks().get(0);
-				
-				showCourseIntent.putExtra("courseID", course.getID());
-				showCourseIntent.putExtra("blockID", nextBlock.getID());
-				showCourseIntent.putExtra("day", Calendar.getInstance());
-				startActivity(showCourseIntent);
-            }
+				if (mEditMode) {
+					Intent editCourseIntent = new Intent(AllCoursesActivity.this, AddCourseActivity.class);
+					editCourseIntent.putExtra("edit", true);
+					editCourseIntent.putExtra("course", course);
+					startActivity(editCourseIntent);
+				}
+				else {
+					Intent showCourseIntent = new Intent(AllCoursesActivity.this, CourseActivity.class);
+
+					// TODO: need to get the next time/day for this course
+					Calendar day = null;
+					TimePlaceBlock nextBlock = course.getScheduleBlocks().get(0);
+
+					showCourseIntent.putExtra("courseID", course.getID());
+					showCourseIntent.putExtra("blockID", nextBlock.getID());
+					showCourseIntent.putExtra("day", Calendar.getInstance());
+					startActivity(showCourseIntent);
+				}
+			}
 		});
 	}
 }

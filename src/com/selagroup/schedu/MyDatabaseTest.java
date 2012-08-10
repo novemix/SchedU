@@ -97,18 +97,18 @@ public class MyDatabaseTest {
 		Log.i(TAG, "Getting all courses for the term.");
 		List<Course> courses = courseManager.getAllForTerm(term.getID());
 		for (Course course : courses) {
-			Log.i(TAG, "Course: " + course.getCourseName() + " is in this term.");
+			Log.i(TAG, "Course: " + course.getName() + " is in this term.");
 		}
 		
 		// Test get all for instructor
 		Log.i(TAG, "Getting all courses for " + instructor1.getName());
 		courses = courseManager.getAllForInstructor(instructor1.getID());
 		for (Course course : courses) {
-			Log.i(TAG, "Course: " + course.getCourseName() + " is taught by " + instructor1.getName());
+			Log.i(TAG, "Course: " + course.getName() + " is taught by " + instructor1.getName());
 		}
 		
 		// Test gets
-		Log.i(TAG, "Get course: " + courseManager.get(chem101.getID()).getCourseName());
+		Log.i(TAG, "Get course: " + courseManager.get(chem101.getID()).getName());
 		Log.i(TAG, "Get instructor: " + instructorManager.get(instructor2.getID()).getName());
 		Log.i(TAG, "Get term, day of month start: " + termManager.get(term.getID()).getStartDate().get(Calendar.DAY_OF_MONTH));
 		Log.i(TAG, "Get exam: " + examManager.get(exam1.getID()).getDescription());

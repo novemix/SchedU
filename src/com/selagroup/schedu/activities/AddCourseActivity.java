@@ -52,10 +52,11 @@ public class AddCourseActivity extends Activity {
 	private ArrayAdapter<TimePlaceBlock> mScheduleAdapter;
 
 	// Data
+	private boolean mEditMode = false;
+	private Course mCourseToEdit = null;
 	private Term mCurrentTerm;
 	private List<TimePlaceBlock> mScheduleBlocks = new LinkedList<TimePlaceBlock>();
 	private List<Instructor> mInstructors;
-	private boolean mFromTerm;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -66,13 +67,16 @@ public class AddCourseActivity extends Activity {
 		// Get the selected term
 		ScheduApplication myApp = ((ScheduApplication) getApplication());
 		mCurrentTerm = myApp.getCurrentTerm();
-		
-		mFromTerm = getIntent().getBooleanExtra("fromTerm", false);
 
 		// Get the course manager and the instructor manager
 		mCourseManager = myApp.getCourseManager();
 		mInstructorManager = myApp.getInstructorManager();
 		mInstructors = mInstructorManager.getAll();
+
+		mEditMode = getIntent().getBooleanExtra("edit", false);
+		if (mEditMode) {
+			mCourseToEdit = (Course) getIntent().getSerializableExtra("course");
+		}
 
 		initWidgets();
 		initListeners();
@@ -129,31 +133,27 @@ public class AddCourseActivity extends Activity {
 		// Set up done button listener
 		addcourse_btn_cancel.setOnClickListener(new OnClickListener() {
 			public void onClick(View view) {
-				if (mFromTerm) {
-					startActivity(new Intent(AddCourseActivity.this, CalendarActivity.class));
-				}
-				else {
-					finish();
-				}
+				finish();
 			}
 		});
 
 		// Set up "add" button listener
 		addcourse_btn_add.setOnClickListener(new OnClickListener() {
 			public void onClick(View view) {
-				// Try to add the course. If successful, reset fields and finish
-				if (addCourseHelper()) {
-					Toast.makeText(AddCourseActivity.this, "Successfully added course" , Toast.LENGTH_SHORT).show();
-					reset();
-					if (mFromTerm) {
-						startActivity(new Intent(AddCourseActivity.this, CalendarActivity.class));
-					}
-					else {
-						finish();
-					}
+				if (mEditMode) {
+					editCourseHelper();
+					finish();
 				}
 				else {
-					Toast.makeText(AddCourseActivity.this, "Please provide a course code and at least one time block.", Toast.LENGTH_LONG).show();
+					// Try to add the course. If successful, reset fields and finish
+					if (addCourseHelper()) {
+						Toast.makeText(AddCourseActivity.this, "Successfully added course", Toast.LENGTH_SHORT).show();
+						reset();
+						finish();
+					}
+					else {
+						Toast.makeText(AddCourseActivity.this, "Please provide a course code and at least one time block.", Toast.LENGTH_LONG).show();
+					}
 				}
 			}
 		});
@@ -163,10 +163,31 @@ public class AddCourseActivity extends Activity {
 	 * Resets the activity's UI and data
 	 */
 	private void reset() {
-		mScheduleBlocks.clear();
+		// If editing, populate the data from the course
+		if (mEditMode) {
+			mScheduleBlocks.addAll(mCourseToEdit.getScheduleBlocks());
+			addcourse_et_course_code.setText(mCourseToEdit.getCode());
+			addcourse_et_course_name.setText(mCourseToEdit.getName());
+			Instructor instructor = mCourseToEdit.getInstructor();
+			addcourse_et_instructor.setText(instructor == null ? "" : instructor.toString());
+			addcourse_btn_add.setText("Save");
+		}
+		// If adding, clear data
+		else {
+			mScheduleBlocks.clear();
+			addcourse_et_course_code.setText("");
+			addcourse_et_course_name.setText("");
+		}
 		mScheduleAdapter.notifyDataSetChanged();
-		addcourse_et_course_code.setText("");
-		addcourse_et_course_name.setText("");
+	}
+
+	private void editCourseHelper() {
+		mCourseToEdit.setCode(addcourse_et_course_code.getText().toString());
+		mCourseToEdit.setName(addcourse_et_course_name.getText().toString());
+		
+		// TODO: Update Instructor
+		
+		// TODO: Update TimePlaceBlocks
 	}
 
 	/**

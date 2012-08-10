@@ -6,10 +6,8 @@
 package com.selagroup.schedu.model;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
-import java.util.TreeMap;
 
 import android.content.ContentValues;
 
@@ -24,8 +22,8 @@ public class Course extends ContentValueItem {
 	private static final int DAYS_IN_WEEK = 7;
 
 	private Term mTerm;
-	private String mCourseCode;
-	private String mCourseName;
+	private String mCode;
+	private String mName;
 	private Instructor mInstructor;
 	private List<TimePlaceBlock> mScheduleBlocks = new ArrayList<TimePlaceBlock>(2);
 
@@ -40,8 +38,8 @@ public class Course extends ContentValueItem {
 	public Course(int iID, Term iTerm, String iCourseCode, String iCourseName, Instructor iInstructor) {
 		super(iID);
 		mTerm = iTerm;
-		mCourseCode = iCourseCode;
-		mCourseName = iCourseName;
+		mCode = iCourseCode;
+		mName = iCourseName;
 		mInstructor = iInstructor;
 	}
 
@@ -68,8 +66,8 @@ public class Course extends ContentValueItem {
 
 	public ContentValues getValues() {
 		ContentValues values = new ContentValues();
-		values.put(DBHelper.COL_COURSE_CourseName, mCourseName);
-		values.put(DBHelper.COL_COURSE_CourseCode, mCourseCode);
+		values.put(DBHelper.COL_COURSE_CourseName, mName);
+		values.put(DBHelper.COL_COURSE_CourseCode, mCode);
 		if (mInstructor != null) {
 			values.put(DBHelper.COL_COURSE_InstructorID, mInstructor.getID());
 		}
@@ -81,12 +79,20 @@ public class Course extends ContentValueItem {
 		return mTerm;
 	}
 
-	public String getCourseCode() {
-		return mCourseCode;
+	public String getCode() {
+		return mCode;
+	}
+	
+	public void setCode(String iCode) {
+		mCode = iCode;
 	}
 
-	public String getCourseName() {
-		return mCourseName;
+	public String getName() {
+		return mName;
+	}
+	
+	public void setName(String iName) {
+		mName = iName;
 	}
 
 	public Instructor getInstructor() {
@@ -109,16 +115,16 @@ public class Course extends ContentValueItem {
 
 	@Override
 	public String toString() {
-		if (mCourseName.equals("")) {
-			return mCourseCode;
+		if (mName.equals("")) {
+			return mCode;
 		}
-		return mCourseName + " (" + mCourseCode + ")";
+		return mName + " (" + mCode + ")";
 	}
 
 	@Override
 	public boolean equals(Object other) {
 		if (other instanceof Course) {
-			return mCourseCode == ((Course) other).mCourseCode && mTerm.getID() == ((Course) other).mTerm.getID();
+			return mCode == ((Course) other).mCode && mTerm.getID() == ((Course) other).mTerm.getID();
 		}
 		return false;
 	}
