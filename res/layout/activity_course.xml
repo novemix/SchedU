@@ -208,6 +208,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:visibility="gone"
             android:drawableTop="@android:drawable/ic_menu_edit"
             android:text="@string/course_notes_btn" />
 
