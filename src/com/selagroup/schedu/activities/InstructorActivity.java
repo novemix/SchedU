@@ -113,7 +113,7 @@ public class InstructorActivity extends Activity {
 	}
 
 	private void setWidgetValues() {
-		instructor_course_code.setText(thisCourse.getCourseCode());
+		instructor_course_code.setText(thisCourse.getCode());
 		if (thisInstructor != null) {
 			instructor_name.setText(thisInstructor.getName());
 			instructor_email.setText(thisInstructor.getEmail());
