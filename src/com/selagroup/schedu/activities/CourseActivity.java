@@ -110,7 +110,7 @@ public class CourseActivity extends Activity {
 	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		Utility.buildOptionsMenu(menu);
+		Utility.buildOptionsMenu(CourseActivity.this, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 

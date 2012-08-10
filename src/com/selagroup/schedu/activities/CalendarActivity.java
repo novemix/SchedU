@@ -186,7 +186,7 @@ public class CalendarActivity extends Activity {
 	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		Utility.buildOptionsMenu(menu);
+		Utility.buildOptionsMenu(CalendarActivity.this, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 

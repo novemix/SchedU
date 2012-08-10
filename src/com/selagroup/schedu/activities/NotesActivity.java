@@ -98,7 +98,7 @@ public class NotesActivity extends Activity {
 	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		Utility.buildOptionsMenu(menu);
+		Utility.buildOptionsMenu(NotesActivity.this, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 

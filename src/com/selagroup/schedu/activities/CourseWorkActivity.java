@@ -34,7 +34,7 @@ public class CourseWorkActivity extends ListActivity {
 	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		Utility.buildOptionsMenu(menu);
+		Utility.buildOptionsMenu(CourseWorkActivity.this, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 

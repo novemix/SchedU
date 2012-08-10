@@ -64,10 +64,14 @@ public class Utility {
 		return result;
 	}
 	
-	public static void buildOptionsMenu(Menu iMenu) {
+	public static void buildOptionsMenu(Context iContext, Menu iMenu) {
 		iMenu.add(R.string.menu_item_term_activity);
-		iMenu.add(R.string.menu_item_all_courses_activity);
-		iMenu.add(R.string.menu_item_calendar_activity);
+		if (!(iContext instanceof AllCoursesActivity)) {
+			iMenu.add(R.string.menu_item_all_courses_activity);
+		}
+		if (!(iContext instanceof CalendarActivity)) {
+			iMenu.add(R.string.menu_item_calendar_activity);
+		}
 		iMenu.add(R.string.menu_item_preferences);
 	}
 	
