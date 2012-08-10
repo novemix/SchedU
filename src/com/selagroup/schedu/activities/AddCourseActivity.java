@@ -22,6 +22,8 @@ import android.widget.Toast;
 
 import com.selagroup.schedu.R;
 import com.selagroup.schedu.ScheduApplication;
+import com.selagroup.schedu.adapters.CourseBlockAdapter;
+import com.selagroup.schedu.adapters.CourseBlockAdapter.BlockDeleteListener;
 import com.selagroup.schedu.managers.CourseManager;
 import com.selagroup.schedu.managers.InstructorManager;
 import com.selagroup.schedu.model.Course;
@@ -49,7 +51,7 @@ public class AddCourseActivity extends Activity {
 	private Button addcourse_btn_add;
 
 	// Adapters
-	private ArrayAdapter<TimePlaceBlock> mScheduleAdapter;
+	private CourseBlockAdapter mScheduleAdapter;
 
 	// Data
 	private boolean mEditMode = false;
@@ -76,6 +78,7 @@ public class AddCourseActivity extends Activity {
 		mEditMode = getIntent().getBooleanExtra("edit", false);
 		if (mEditMode) {
 			mCourseToEdit = (Course) getIntent().getSerializableExtra("course");
+			setTitle("Edit Course");
 		}
 
 		initWidgets();
@@ -112,7 +115,15 @@ public class AddCourseActivity extends Activity {
 		addcourse_btn_add = (Button) findViewById(R.id.addcourse_btn_add);
 
 		// Set up list view adapter for schedule blocks
-		mScheduleAdapter = new ArrayAdapter<TimePlaceBlock>(this, android.R.layout.simple_list_item_1, mScheduleBlocks);
+		mScheduleAdapter = new CourseBlockAdapter(this, android.R.layout.simple_list_item_1, mScheduleBlocks, new BlockDeleteListener() {
+			public void onDelete(TimePlaceBlock iBlock) {
+				if (mEditMode) {
+					mCourseToEdit.removeScheduleBlock(iBlock);
+					mScheduleBlocks.remove(iBlock);
+					mScheduleAdapter.notifyDataSetChanged();
+				}
+			}
+		});
 		addcourse_lv_schedule.setAdapter(mScheduleAdapter);
 
 		// Set up adapter to auto complete instructor
@@ -182,21 +193,44 @@ public class AddCourseActivity extends Activity {
 			mScheduleBlocks.clear();
 			addcourse_et_course_code.setText("");
 			addcourse_et_course_name.setText("");
+			addcourse_et_course_code.requestFocus();
 		}
 		mScheduleAdapter.notifyDataSetChanged();
 	}
 
 	private boolean editCourseHelper() {
 		String code = addcourse_et_course_code.getText().toString();
-
-		// TODO: Update Instructor
-
-		// TODO: Update TimePlaceBlocks
+		String instructorName = addcourse_et_instructor.getText().toString();
 
 		// Update course if it has a term, a code, and at least one schedule block
 		if (mCurrentTerm != null && !code.equals("") && mScheduleBlocks.size() > 0) {
+			// Update course name/code
 			mCourseToEdit.setCode(code);
 			mCourseToEdit.setName(addcourse_et_course_name.getText().toString());
+
+			// Create and insert a new instructor or find an existing instructor
+			Instructor instructor = new Instructor(-1, instructorName, "", "");
+			if (instructorName.equals("")) {
+				instructor = null;
+			}
+			int index = mInstructors.indexOf(instructor);
+			if (index != -1) {
+				instructor = mInstructors.get(index);
+			}
+			else {
+				mInstructors.add(instructor);
+			}
+			mCourseToEdit.setInstructor(instructor);
+			
+			// Add new schedule blocks
+			List<TimePlaceBlock> existingBlocks = mCourseToEdit.getScheduleBlocks();
+			for (TimePlaceBlock block : mScheduleBlocks) {
+				if (!existingBlocks.contains(block)) {
+					mCourseToEdit.addScheduleBlock(block);
+				}
+			}
+			
+			// Database update
 			mCourseManager.update(mCourseToEdit);
 			return true;
 		}

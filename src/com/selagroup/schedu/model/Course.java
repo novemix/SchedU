@@ -7,6 +7,7 @@ package com.selagroup.schedu.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import android.content.ContentValues;
@@ -18,14 +19,13 @@ import com.selagroup.schedu.database.DBHelper;
  */
 public class Course extends ContentValueItem {
 	private static final long serialVersionUID = 756404045035754144L;
-	
-	private static final int DAYS_IN_WEEK = 7;
 
 	private Term mTerm;
 	private String mCode;
 	private String mName;
 	private Instructor mInstructor;
 	private List<TimePlaceBlock> mScheduleBlocks = new ArrayList<TimePlaceBlock>(2);
+	private List<TimePlaceBlock> mRemovedBlocks = new LinkedList<TimePlaceBlock>();
 
 	/**
 	 * Instantiates a new course.
@@ -48,7 +48,9 @@ public class Course extends ContentValueItem {
 	}
 
 	public void removeScheduleBlock(TimePlaceBlock iBlock) {
-		mScheduleBlocks.remove(iBlock);
+		if (mScheduleBlocks.remove(iBlock)) {
+			mRemovedBlocks.add(iBlock);
+		}
 	}
 
 	public List<TimePlaceBlock> getScheduleBlocks() {
@@ -127,5 +129,13 @@ public class Course extends ContentValueItem {
 			return mCode == ((Course) other).mCode && mTerm.getID() == ((Course) other).mTerm.getID();
 		}
 		return false;
+	}
+
+	public List<TimePlaceBlock> getRemovedBlocks() {
+		return mRemovedBlocks;
+	}
+	
+	public void clearRemovedBlocks() {
+		mRemovedBlocks.clear();
 	}
 }

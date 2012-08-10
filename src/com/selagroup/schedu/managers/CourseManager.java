@@ -10,7 +10,6 @@ import java.util.List;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
-import android.util.Log;
 
 import com.selagroup.schedu.database.DBHelper;
 import com.selagroup.schedu.model.Course;
@@ -28,7 +27,7 @@ public class CourseManager extends Manager<Course> {
 
 	/**
 	 * Instantiates a new course manager.
-	 *
+	 * 
 	 * @param iHelper the helper
 	 * @param iTermManager the term manager
 	 * @param iInstructorManager the instructor manager
@@ -40,25 +39,25 @@ public class CourseManager extends Manager<Course> {
 		mInstructorManager = iInstructorManager;
 		mTimePlaceBlockManager = iTimePlaceBlockManager;
 	}
-	
+
 	public List<Course> getAllForInstructor(int iInstructorID) {
 		List<Course> courses = new ArrayList<Course>();
-		
+
 		open(OPEN_MODE.READ);
-		Cursor cursor = mDB.rawQuery("SELECT " + DBHelper.COL_COURSE_ALL_COL + " FROM " + 
-				DBHelper.TABLE_Course + " INNER JOIN " + DBHelper.TABLE_Instructor + " ON " + 
-				DBHelper.TABLE_Instructor + "." + DBHelper.COL_INSTRUCTOR_ID + " = " + 
-				DBHelper.TABLE_Course + "." + DBHelper.COL_COURSE_InstructorID + 
-				" WHERE " + DBHelper.TABLE_Instructor + "." + DBHelper.COL_INSTRUCTOR_ID + " = ?", 
+		Cursor cursor = mDB.rawQuery("SELECT " + DBHelper.COL_COURSE_ALL_COL + " FROM " +
+				DBHelper.TABLE_Course + " INNER JOIN " + DBHelper.TABLE_Instructor + " ON " +
+				DBHelper.TABLE_Instructor + "." + DBHelper.COL_INSTRUCTOR_ID + " = " +
+				DBHelper.TABLE_Course + "." + DBHelper.COL_COURSE_InstructorID +
+				" WHERE " + DBHelper.TABLE_Instructor + "." + DBHelper.COL_INSTRUCTOR_ID + " = ?",
 				new String[] { "" + iInstructorID });
 		if (cursor.moveToFirst()) {
-			do{
+			do {
 				courses.add(itemFromCurrentPos(cursor));
 			} while (cursor.moveToNext());
 		}
 		cursor.close();
 		close();
-		
+
 		return courses;
 	}
 
@@ -79,39 +78,39 @@ public class CourseManager extends Manager<Course> {
 		return courses;
 	}
 
-//	public List<Course> getAllForTermAndDay(int iTermID, int iDayFlag) {
-//		List<Course> courses = new ArrayList<Course>();
-//
-//		// Open the database, query for all courses matching the termID and the day, and add them to the list
-//		open(OPEN_MODE.READ);
-//		Cursor cursor = mDB.rawQuery("SELECT " + DBHelper.COL_COURSE_ALL_COL + " FROM " + DBHelper.TABLE_Course +
-//				" INNER JOIN " + DBHelper.TABLE_CourseTimePlaceBlock + " ON " +
-//				DBHelper.TABLE_CourseTimePlaceBlock + "." + DBHelper.COL_COURSE_TIME_PLACE_BLOCK_CourseID + " = " +
-//				DBHelper.TABLE_Course + "." + DBHelper.COL_COURSE_ID +
-//				" INNER JOIN " + DBHelper.TABLE_TimePlaceBlock + " ON " +
-//				DBHelper.TABLE_TimePlaceBlock + "." + DBHelper.COL_TIME_PLACE_BLOCK_ID + " = " + 
-//				DBHelper.TABLE_CourseTimePlaceBlock + "." + DBHelper.COL_COURSE_TIME_PLACE_BLOCK_TimePlaceBlockID +
-//				" WHERE (" + DBHelper.TABLE_Course + "." + DBHelper.COL_COURSE_TermID + " = ?) AND (" + 
-//				DBHelper.TABLE_TimePlaceBlock + "." + DBHelper.COL_TIME_PLACE_BLOCK_DayFlag + " & ? > 0)",
-//				new String[] { "" + iTermID, "" + iDayFlag });
-//
-//		if (cursor.moveToFirst()) {
-//			do {
-//				courses.add(itemFromCurrentPos(cursor));
-//			} while (cursor.moveToNext());
-//		}
-//		cursor.close();
-//		close();
-//
-//		return courses;
-//	}
+	// public List<Course> getAllForTermAndDay(int iTermID, int iDayFlag) {
+	// List<Course> courses = new ArrayList<Course>();
+	//
+	// // Open the database, query for all courses matching the termID and the day, and add them to the list
+	// open(OPEN_MODE.READ);
+	// Cursor cursor = mDB.rawQuery("SELECT " + DBHelper.COL_COURSE_ALL_COL + " FROM " + DBHelper.TABLE_Course +
+	// " INNER JOIN " + DBHelper.TABLE_CourseTimePlaceBlock + " ON " +
+	// DBHelper.TABLE_CourseTimePlaceBlock + "." + DBHelper.COL_COURSE_TIME_PLACE_BLOCK_CourseID + " = " +
+	// DBHelper.TABLE_Course + "." + DBHelper.COL_COURSE_ID +
+	// " INNER JOIN " + DBHelper.TABLE_TimePlaceBlock + " ON " +
+	// DBHelper.TABLE_TimePlaceBlock + "." + DBHelper.COL_TIME_PLACE_BLOCK_ID + " = " +
+	// DBHelper.TABLE_CourseTimePlaceBlock + "." + DBHelper.COL_COURSE_TIME_PLACE_BLOCK_TimePlaceBlockID +
+	// " WHERE (" + DBHelper.TABLE_Course + "." + DBHelper.COL_COURSE_TermID + " = ?) AND (" +
+	// DBHelper.TABLE_TimePlaceBlock + "." + DBHelper.COL_TIME_PLACE_BLOCK_DayFlag + " & ? > 0)",
+	// new String[] { "" + iTermID, "" + iDayFlag });
+	//
+	// if (cursor.moveToFirst()) {
+	// do {
+	// courses.add(itemFromCurrentPos(cursor));
+	// } while (cursor.moveToNext());
+	// }
+	// cursor.close();
+	// close();
+	//
+	// return courses;
+	// }
 
 	@Override
 	public int insert(Course iCourse) {
 		if (iCourse == null) {
 			return -1;
 		}
-		
+
 		// If the course already exists, just update the entry
 		if (get(iCourse.getID()) != null) {
 			update(iCourse);
@@ -169,7 +168,7 @@ public class CourseManager extends Manager<Course> {
 	@Override
 	public void update(Course iCourse) {
 		int courseID = iCourse.getID();
-		
+
 		// Update instructor
 		mInstructorManager.update(iCourse.getInstructor());
 
@@ -191,10 +190,30 @@ public class CourseManager extends Manager<Course> {
 			try {
 				mDB.insertOrThrow(DBHelper.TABLE_CourseTimePlaceBlock, null, courseScheduleBlock);
 			} catch (SQLiteConstraintException e) {
-				// record already exists in coursetimeplaceblock table
+				// record already exists in table
 			}
 			close();
 		}
+
+		// Delete removed blocks
+		for (TimePlaceBlock block : iCourse.getRemovedBlocks()) {
+			mTimePlaceBlockManager.delete(block);
+			open(OPEN_MODE.WRITE);
+
+			courseScheduleBlock = new ContentValues();
+			courseScheduleBlock.put(DBHelper.COL_COURSE_TIME_PLACE_BLOCK_CourseID, courseID);
+			courseScheduleBlock.put(DBHelper.COL_COURSE_TIME_PLACE_BLOCK_TimePlaceBlockID, block.getID());
+
+			try {
+				mDB.delete(DBHelper.TABLE_CourseTimePlaceBlock, DBHelper.COL_COURSE_TIME_PLACE_BLOCK_CourseID +
+						"=? AND " + DBHelper.COL_COURSE_TIME_PLACE_BLOCK_TimePlaceBlockID + "=?",
+						new String[] { "" + courseID, "" + block.getID() });
+			} catch (SQLiteConstraintException e) {
+				// record already exists in table
+			}
+			close();
+		}
+		iCourse.clearRemovedBlocks();
 	}
 
 	@Override
