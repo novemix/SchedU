@@ -31,11 +31,12 @@ public class CourseArrayAdapter extends ArrayAdapter<Course> {
 
 	private boolean mEditEnabled;
 
-	public CourseArrayAdapter(Context iContext, int textViewResourceId, List<Course> iCourses/*, CourseDeleteListener iDeleteListener*/) {
+	public CourseArrayAdapter(Context iContext, int textViewResourceId, List<Course> iCourses, CourseDeleteListener iDeleteListener) {
 		super(iContext, textViewResourceId, iCourses);
 		mContext = iContext;
 		mCourses = iCourses;
-		// mDeleteListener = iDeleteListener;
+		mDeleteListener = iDeleteListener;
+		mDeleteAlert = new AlertDialog.Builder(mContext);
 	}
 
 	private static class ViewHolder {
@@ -71,8 +72,9 @@ public class CourseArrayAdapter extends ArrayAdapter<Course> {
 			holder.course_adapter_tv_code.setText(course.getCourseCode());
 			holder.course_adapter_tv_name.setText(course.getCourseName());
 
-			// If edit enabled, show editing options
+			// If edit enabled, show delete button
 			if (mEditEnabled) {
+				holder.course_adapter_btn_delete.setVisibility(View.VISIBLE);
 				holder.course_adapter_btn_delete.setOnClickListener(new OnClickListener() {
 					public void onClick(View view) {
 						mDeleteAlert.setTitle("Warning!");
@@ -95,9 +97,12 @@ public class CourseArrayAdapter extends ArrayAdapter<Course> {
 				});
 			}
 			else {
-				holder.course_adapter_tv_code.setText("No courses for this term.");
-				holder.course_adapter_tv_name.setText("Please add another course.");
+				holder.course_adapter_btn_delete.setVisibility(View.GONE);
 			}
+		}
+		else {
+			holder.course_adapter_tv_code.setText("No courses for this term.");
+			holder.course_adapter_tv_name.setText("Please add another course.");
 		}
 
 		return row;

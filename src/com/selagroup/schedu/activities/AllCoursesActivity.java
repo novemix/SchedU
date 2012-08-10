@@ -22,6 +22,7 @@ import android.widget.ToggleButton;
 import com.selagroup.schedu.R;
 import com.selagroup.schedu.ScheduApplication;
 import com.selagroup.schedu.adapters.CourseArrayAdapter;
+import com.selagroup.schedu.adapters.CourseArrayAdapter.CourseDeleteListener;
 import com.selagroup.schedu.managers.CourseManager;
 import com.selagroup.schedu.model.Course;
 import com.selagroup.schedu.model.Term;
@@ -32,13 +33,13 @@ import com.selagroup.schedu.model.TimePlaceBlock;
  */
 public class AllCoursesActivity extends ListActivity {
 
-	private static final int ADD_COURSE_CODE = 1;
-
 	// Widgets
 	private ToggleButton allcourses_btn_edit;
 	private ImageButton allcourses_btn_add;
 	private ImageButton allcourses_btn_calendar;
-
+	
+	// Data
+	private boolean mEditMode;
 	private Term mCurrentTerm;
 	private List<Course> mCourseList;
 	private CourseArrayAdapter mCourseAdapter;
@@ -55,7 +56,14 @@ public class AllCoursesActivity extends ListActivity {
 		mCurrentTerm = app.getCurrentTerm();
 		mCourseList = mCourseManager.getAllForTerm(mCurrentTerm.getID());
 
-		mCourseAdapter = new CourseArrayAdapter(this, R.layout.adapter_course_select, mCourseList);
+		mCourseAdapter = new CourseArrayAdapter(this, R.layout.adapter_course_select, mCourseList, new CourseDeleteListener() {
+			public void onDelete(Course iCourse) {
+				mCourseManager.delete(iCourse);
+				mCourseList.remove(iCourse);
+				mCourseAdapter.notifyDataSetChanged();
+				iCourse = null;
+			}
+		});
 		setListAdapter(mCourseAdapter);
 
 		initWidgets();
@@ -94,6 +102,14 @@ public class AllCoursesActivity extends ListActivity {
 	}
 
 	protected void initListeners() {
+		allcourses_btn_edit.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				mEditMode = !mEditMode;
+				mCourseAdapter.setEditEnabled(mEditMode);
+				mCourseAdapter.notifyDataSetChanged();
+			}
+		});
+		
 		allcourses_btn_add.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent(AllCoursesActivity.this, AddCourseActivity.class);
