@@ -6,7 +6,7 @@
     android:orientation="horizontal" >
 
     <TextView
-        android:id="@+id/term_adapter_tv_select"
+        android:id="@+id/term_tv_select"
         style="@style/label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -14,27 +14,40 @@
         android:textColor="@color/darkText" />
 
     <Button
-        android:id="@+id/term_btn_delete"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:id="@+id/term_btn_edit"
+        style="@style/button1"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
         android:layout_alignParentRight="true"
-        android:drawableTop="@android:drawable/ic_delete"
+        android:drawableTop="@android:drawable/ic_menu_edit"
+        android:focusable="false"
+        android:focusableInTouchMode="false" />
+
+    <Button
+        android:id="@+id/term_btn_delete"
+        style="@style/button1"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_toLeftOf="@id/term_btn_edit"
+        android:drawableTop="@android:drawable/ic_menu_delete"
         android:focusable="false"
         android:focusableInTouchMode="false" />
 
     <Button
         android:id="@+id/term_btn_start"
+        style="@style/button1"
         android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/term_adapter_tv_select"
-        android:text="Select Start" />
+        android:layout_height="55dp"
+        android:layout_below="@id/term_tv_select"
+        android:text="Start Date" />
 
     <Button
         android:id="@+id/term_btn_end"
+        style="@style/button1"
         android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/term_adapter_tv_select"
+        android:layout_height="55dp"
+        android:layout_below="@id/term_tv_select"
         android:layout_toRightOf="@id/term_btn_start"
-        android:text="Select End" />
+        android:text="End Date" />
 
 </RelativeLayout>

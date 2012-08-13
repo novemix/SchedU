@@ -67,6 +67,7 @@ public class CourseArrayAdapter extends ArrayAdapter<Course> {
 		}
 		final Course course = mCourses.get(position);
 		final ViewHolder holder = tmpHolder;
+		row.setBackgroundResource(R.drawable.term_block);
 
 		if (course != null) {
 			holder.course_adapter_tv_code.setText(course.getCode());

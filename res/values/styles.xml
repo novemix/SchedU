@@ -11,7 +11,7 @@
     </style>
 
     <style name="label_small" parent="@style/label">
-        <item name="android:textSize">12dp</item>
+        <item name="android:textSize">16dp</item>
     </style>
 
     <style name="term_label" parent="@style/label">
@@ -27,7 +27,8 @@
     </style>
 
     <style name="button1" parent="android:style/Widget.Button">
-        <item name="android:textSize">10dp</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">@color/darkText</item>t
     </style>
 
     <color name="dividerColor">#ffaaaaaa</color>

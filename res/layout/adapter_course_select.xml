@@ -15,13 +15,16 @@
             android:id="@+id/course_adapter_tv_code"
             style="@style/label"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="@color/darkText"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/course_adapter_tv_name"
-            style="@style/label"
+            style="@style/label_small"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="@color/darkText" />
     </LinearLayout>
 
     <Button

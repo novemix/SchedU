@@ -1,4 +1,3 @@
-
 /**
  * @author Nick Huebner and Mark Redden
  * @version 1.0
@@ -17,6 +16,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ToggleButton;
 
 import com.selagroup.schedu.R;
@@ -38,8 +38,7 @@ public class TermActivity extends ListActivity {
 	private TermArrayAdapter mTermAdapter;
 
 	// Widgets
-	private ToggleButton term_btn_edit;
-	private ToggleButton term_btn_add;
+	private Button term_btn_add;
 
 	// Data
 	private TermEditListener mTermEditListener = new TermEditListener() {
@@ -60,9 +59,7 @@ public class TermActivity extends ListActivity {
 			mTermManager.delete(iTerm);
 			onTermEdit(iTerm);
 			mEditMode = false;
-			mTermAdapter.setEditEnabled(false);
 			term_btn_add.setEnabled(true);
-			term_btn_edit.setChecked(false);
 			mTermAdapter.notifyDataSetChanged();
 		}
 	};
@@ -105,17 +102,7 @@ public class TermActivity extends ListActivity {
 	}
 
 	private void initWidgets() {
-		term_btn_edit = (ToggleButton) findViewById(R.id.term_btn_edit);
-		term_btn_add = (ToggleButton) findViewById(R.id.term_btn_add);
-
-		term_btn_edit.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				mEditMode = !mEditMode;
-				mTermAdapter.setEditEnabled(mEditMode);
-				term_btn_add.setEnabled(!mEditMode);
-				mTermAdapter.notifyDataSetChanged();
-			}
-		});
+		term_btn_add = (Button) findViewById(R.id.term_btn_add);
 
 		term_btn_add.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -128,7 +115,6 @@ public class TermActivity extends ListActivity {
 					mTermAdapter.notifyDataSetChanged();
 
 					mAddMode = true;
-					mTermAdapter.setEditEnabled(true);
 					mTermAdapter.setEditIndex(mTerms.indexOf(mNewTerm));
 					mTermAdapter.notifyDataSetChanged();
 					mTermEditListener.onTermEdit(mNewTerm);
@@ -136,12 +122,13 @@ public class TermActivity extends ListActivity {
 				else {
 					// Done/Cancel, stop adding
 					mAddMode = false;
-					mTermAdapter.setEditEnabled(false);
+					mTermAdapter.setEditIndex(-1);
 
 					// Valid term, insert (Done button pressed)
 					if (termIsValid(mNewTerm)) {
 						mTermManager.insert(mNewTerm);
 						mTermEditListener.onTermEdit(mNewTerm);
+						term_btn_add.setText("Add");
 					}
 					// Invalid term, remove from list (Cancel button pressed)
 					else {
@@ -156,8 +143,6 @@ public class TermActivity extends ListActivity {
 					mTermAdapter.notifyDataSetChanged();
 					getListView().invalidate();
 				}
-				mTermAdapter.setAddEnabled(mAddMode);
-				term_btn_edit.setEnabled(!mAddMode);
 			}
 		});
 
@@ -171,18 +156,12 @@ public class TermActivity extends ListActivity {
 			public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
 				if (getListView().getItemAtPosition(pos) != null) {
 					if (!mAddMode) {
-						// Edit
-						if (mEditMode) {
-							mTermAdapter.setEditIndex(pos);
-							mTermAdapter.notifyDataSetChanged();
-						}
+						
 						// Select
-						else {
-							mSelectedTerm = mTermAdapter.getItem(pos);
-							Intent addCourseIntent = new Intent(TermActivity.this, AllCoursesActivity.class);
-							((ScheduApplication) getApplication()).setCurrentTerm(mSelectedTerm);
-							startActivity(addCourseIntent);
-						}
+						mSelectedTerm = mTermAdapter.getItem(pos);
+						Intent addCourseIntent = new Intent(TermActivity.this, AllCoursesActivity.class);
+						((ScheduApplication) getApplication()).setCurrentTerm(mSelectedTerm);
+						startActivity(addCourseIntent);
 					}
 				}
 			}

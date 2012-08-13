@@ -12,7 +12,7 @@
         android:color="@android:color/white" />
 
     <padding
-        android:left="10dp"
+        android:left="5dp"
         android:top="5dp" />
 
     <size android:height="30dp" />

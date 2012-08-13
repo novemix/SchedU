@@ -1,5 +1,7 @@
 package com.selagroup.schedu.activities;
 
+import java.util.Calendar;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -9,8 +11,12 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.widget.Toast;
 
 import com.selagroup.schedu.R;
+import com.selagroup.schedu.ScheduApplication;
+import com.selagroup.schedu.managers.TermManager;
+import com.selagroup.schedu.model.Term;
 
 public class SplashActivity extends Activity {
 
@@ -40,7 +46,35 @@ public class SplashActivity extends Activity {
 
 	}
 
+	/**
+	 * Starts the application. If the current time falls within a defined term, show the calendar for that term
+	 */
 	private void startApplication() {
-		startActivity(new Intent(SplashActivity.this, TermActivity.class));
+		Calendar currentTime = Calendar.getInstance();
+		ScheduApplication application = ((ScheduApplication) getApplication());
+		TermManager termManager = application.getTermManager();
+		List<Term> allTerms = termManager.getAll();
+		Term currentTerm = null;
+		int termCount = 0;
+		for (Term term : allTerms) {
+			if (currentTime.after(term.getStartDate()) && currentTime.before(term.getEndDate())) {
+				currentTerm = term;
+				++termCount;
+			}
+		}
+		if (termCount > 1 || currentTerm == null) {
+			if (termCount > 1) {
+				runOnUiThread(new Runnable() {
+					public void run() {
+						Toast.makeText(SplashActivity.this, "Today falls within multiple terms. Please choose one.", Toast.LENGTH_LONG).show();
+					}
+				});
+			}
+			startActivity(new Intent(SplashActivity.this, TermActivity.class));
+		}
+		else {
+			application.setCurrentTerm(currentTerm);
+			startActivity(new Intent(SplashActivity.this, AllCoursesActivity.class));
+		}
 	}
 }

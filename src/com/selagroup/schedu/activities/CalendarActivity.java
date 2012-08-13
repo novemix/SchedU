@@ -333,6 +333,7 @@ public class CalendarActivity extends Activity {
 				} else {
 					calendar_switcher_week.switchPanels(true);
 				}
+				fadeInOut(calendar_tv_date);
 			}
 		});
 
@@ -344,6 +345,7 @@ public class CalendarActivity extends Activity {
 				} else {
 					calendar_switcher_week.switchPanels(false);
 				}
+				fadeInOut(calendar_tv_date);
 			}
 		});
 
@@ -361,7 +363,6 @@ public class CalendarActivity extends Activity {
 				mThisDay.add(Calendar.DAY_OF_MONTH, 1);
 				mNextDay.add(Calendar.DAY_OF_MONTH, 1);
 				mPrevDay.add(Calendar.DAY_OF_MONTH, 1);
-
 				initDayView();
 			}
 
@@ -369,7 +370,6 @@ public class CalendarActivity extends Activity {
 				mThisDay.add(Calendar.DAY_OF_MONTH, -1);
 				mNextDay.add(Calendar.DAY_OF_MONTH, -1);
 				mPrevDay.add(Calendar.DAY_OF_MONTH, -1);
-
 				initDayView();
 			}
 		});
@@ -414,7 +414,6 @@ public class CalendarActivity extends Activity {
 				mThisWeek.add(Calendar.WEEK_OF_MONTH, 1);
 				mNextWeek.add(Calendar.WEEK_OF_MONTH, 1);
 				mPrevWeek.add(Calendar.WEEK_OF_MONTH, 1);
-
 				initWeekView();
 			}
 
@@ -422,7 +421,6 @@ public class CalendarActivity extends Activity {
 				mThisWeek.add(Calendar.WEEK_OF_MONTH, -1);
 				mNextWeek.add(Calendar.WEEK_OF_MONTH, -1);
 				mPrevWeek.add(Calendar.WEEK_OF_MONTH, -1);
-
 				initWeekView();
 			}
 		});

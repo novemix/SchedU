@@ -26,17 +26,17 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 
 	public interface TermEditListener {
 		public void onTermEdit(Term iTerm);
+
 		public void onTermDelete(Term iTerm);
 	}
 
 	private TermEditListener mEditListener;
 
-	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MMM d, yyyy");
+	private static final SimpleDateFormat DATE_FORMAT1 = new SimpleDateFormat("MMM d");
+	private static final SimpleDateFormat DATE_FORMAT2 = new SimpleDateFormat("yyyy");
 
 	private Context mContext;
 	private List<Term> mTerms;
-	private boolean mEditEnabled = false;
-	private boolean mAddEnabled = false;
 	private int mEditIndex = -1;
 
 	private static AlertDialog.Builder mDeleteAlert;
@@ -44,6 +44,7 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 
 	private static class ViewHolder {
 		private TextView term_adapter_tv_select;
+		private Button term_btn_edit;
 		private Button term_btn_delete;
 		private Button term_btn_start;
 		private Button term_btn_end;
@@ -56,14 +57,6 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 		mTerms = iTerms;
 		mEditListener = iEditListener;
 		mDeleteAlert = new AlertDialog.Builder(mContext);
-	}
-
-	public void setEditEnabled(boolean iEditEnabled) {
-		mEditEnabled = iEditEnabled;
-	}
-
-	public void setAddEnabled(boolean iAddEnabled) {
-		mAddEnabled = iAddEnabled;
 	}
 
 	public void setEditIndex(int iEditIndex) {
@@ -79,7 +72,8 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 			LayoutInflater li = LayoutInflater.from(mContext);
 			row = li.inflate(R.layout.adapter_term_select, null);
 			tmpHolder = new ViewHolder();
-			tmpHolder.term_adapter_tv_select = (TextView) row.findViewById(R.id.term_adapter_tv_select);
+			tmpHolder.term_adapter_tv_select = (TextView) row.findViewById(R.id.term_tv_select);
+			tmpHolder.term_btn_edit = (Button) row.findViewById(R.id.term_btn_edit);
 			tmpHolder.term_btn_delete = (Button) row.findViewById(R.id.term_btn_delete);
 			tmpHolder.term_btn_start = (Button) row.findViewById(R.id.term_btn_start);
 			tmpHolder.term_btn_end = (Button) row.findViewById(R.id.term_btn_end);
@@ -88,7 +82,7 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 			tmpHolder = (ViewHolder) row.getTag();
 		}
 		final ViewHolder holder = tmpHolder;
-		
+
 		row.setBackgroundResource(R.drawable.term_block);
 
 		// Get the item
@@ -98,28 +92,38 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 		if (term != null) {
 			boolean editThisRow = mEditIndex == position;
 			holder.term_adapter_tv_select.setText(term.toString());
-			holder.term_adapter_tv_select.setVisibility(!editThisRow || !mEditEnabled ? View.VISIBLE : View.GONE);
-			holder.term_btn_delete.setVisibility(mEditEnabled && !mAddEnabled ? View.VISIBLE : View.GONE);
-			holder.term_btn_start.setVisibility(mEditEnabled && editThisRow ? View.VISIBLE : View.GONE);
-			holder.term_btn_end.setVisibility(mEditEnabled && editThisRow ? View.VISIBLE : View.GONE);
+			holder.term_adapter_tv_select.setVisibility(editThisRow ? View.GONE : View.VISIBLE);
+			holder.term_btn_start.setVisibility(editThisRow ? View.VISIBLE : View.GONE);
+			holder.term_btn_end.setVisibility(editThisRow ? View.VISIBLE : View.GONE);
+			holder.term_btn_delete.setVisibility(editThisRow ? View.VISIBLE : View.GONE);
+			holder.term_btn_edit.setVisibility(View.VISIBLE);
 
 			Calendar startDate = term.getStartDate();
 			Calendar endDate = term.getEndDate();
 			if (editThisRow && startDate != null) {
-				holder.term_btn_start.setText(DATE_FORMAT.format(startDate.getTime()));
+				holder.term_btn_start.setText(DATE_FORMAT1.format(startDate.getTime()) + "\n" +
+						DATE_FORMAT2.format(startDate.getTime()));
 			}
 			else {
 				holder.term_btn_start.setText("Select Start");
 			}
 			if (editThisRow && endDate != null) {
-				holder.term_btn_end.setText(DATE_FORMAT.format(endDate.getTime()));
+				holder.term_btn_end.setText(DATE_FORMAT1.format(endDate.getTime()) + "\n" +
+						DATE_FORMAT2.format(startDate.getTime()));
 			}
 			else {
 				holder.term_btn_end.setText("Select End");
 			}
 
 			// If edit enabled, show editing options
-			if (mEditEnabled) {
+			if (editThisRow) {
+				//holder.term_btn_edit.setText("Done");
+				holder.term_btn_edit.setOnClickListener(new OnClickListener() {
+					public void onClick(View v) {
+						mEditIndex = -1;
+						notifyDataSetChanged();
+					}
+				});
 				holder.term_btn_delete.setOnClickListener(new OnClickListener() {
 					public void onClick(View view) {
 						mDeleteAlert.setTitle("Warning!");
@@ -127,6 +131,7 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 						mDeleteAlert.setPositiveButton("Delete", new AlertDialog.OnClickListener() {
 							public void onClick(DialogInterface dialog, int which) {
 								if (mEditListener != null) {
+									mEditIndex = -1;
 									mEditListener.onTermDelete(term);
 								}
 							}
@@ -140,25 +145,33 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 						mDeleteAlertDialog.show();
 					}
 				});
-				// THIS row is being edited
-				if (editThisRow) {
-					holder.term_btn_start.setOnClickListener(new OnClickListener() {
-						public void onClick(View v) {
-							setStartDate(term.getStartDate(), term, holder.term_btn_start);
-						}
-					});
-					holder.term_btn_end.setOnClickListener(new OnClickListener() {
-						public void onClick(View v) {
-							setEndDate(term.getEndDate(), term, holder.term_btn_end);
-						}
-					});
-				}
+				holder.term_btn_start.setOnClickListener(new OnClickListener() {
+					public void onClick(View v) {
+						setStartDate(term.getStartDate(), term, holder.term_btn_start);
+					}
+				});
+				holder.term_btn_end.setOnClickListener(new OnClickListener() {
+					public void onClick(View v) {
+						setEndDate(term.getEndDate(), term, holder.term_btn_end);
+					}
+				});
+			}
+			else {
+				//holder.term_btn_edit.setText("Edit");
+				holder.term_btn_edit.setTag(position);
+				holder.term_btn_edit.setOnClickListener(new OnClickListener() {
+					public void onClick(View view) {
+						mEditIndex = (Integer) view.getTag();
+						notifyDataSetChanged();
+					}
+				});
 			}
 		}
 		// No terms, show a message
 		else {
 			holder.term_adapter_tv_select.setVisibility(View.VISIBLE);
 			holder.term_adapter_tv_select.setText("No terms. Create a term first.");
+			holder.term_btn_edit.setVisibility(View.GONE);
 			holder.term_btn_delete.setVisibility(View.GONE);
 			holder.term_btn_start.setVisibility(View.GONE);
 			holder.term_btn_end.setVisibility(View.GONE);

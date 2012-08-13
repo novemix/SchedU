@@ -47,30 +47,22 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
 
-                <ToggleButton
-                    android:id="@+id/term_btn_edit"
-                    android:layout_width="75dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="left"
-                    android:textOff="@string/term_btn_edit_text_off"
-                    android:textOn="@string/term_btn_edit_text_on" />
-
                 <TextView
                     android:id="@+id/term_tv_spinnerTitle"
                     style="@style/label"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:gravity="center"
+                    android:gravity="left"
+                    android:layout_marginLeft="5dp"
                     android:text="@string/term_spinnerTitle_label" />
 
-                <ToggleButton
+                <Button
                     android:id="@+id/term_btn_add"
-                    android:layout_width="75dp"
-                    android:layout_height="50dp"
+                    android:layout_width="100dp"
+                    android:layout_height="55dp"
                     android:layout_gravity="right"
-                    android:textOff="Add"
-                    android:textOn="Done" />
+                    android:text="Add" />
             </LinearLayout>
 
             <!-- Select term spinner -->
