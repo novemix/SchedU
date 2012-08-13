@@ -157,18 +157,18 @@
             android:layout_alignParentBottom="true" >
 
             <Button
-                android:id="@+id/new_exam_btn_next"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/new_exam_next_btn" />
-
-            <Button
                 android:id="@+id/new_exam_btn_done"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/new_exam_done_btn" />
+
+            <Button
+                android:id="@+id/new_exam_btn_cancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/new_exam_cancel_btn" />
         </LinearLayout>
     </RelativeLayout>
     

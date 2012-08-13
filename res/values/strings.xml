@@ -11,7 +11,7 @@
     <dimen name="calendar_hour_label_padding">10dp</dimen>
     <dimen name="new_note_button_height">40dp</dimen>
 	<dimen name="new_assign_button_height">40dp</dimen>
-	<dimen name="dialog_new_assignment_date_picker_padding">20dp</dimen>
+	<dimen name="dialog_work_date_picker_padding">20dp</dimen>
 	<dimen name="instructor_add_time_button_height">40dp</dimen>
 	
 	<!-- Activity Titles -->

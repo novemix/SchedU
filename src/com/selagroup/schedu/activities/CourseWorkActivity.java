@@ -52,7 +52,7 @@ public class CourseWorkActivity extends ListActivity {
 		final Dialog dlgNewAssignment = new Dialog(this);
 		//dlgNewAssignment.setTitle(R.string.dialog_new_assignment_title);
 		dlgNewAssignment.requestWindowFeature(Window.FEATURE_NO_TITLE);
- 		dlgNewAssignment.setContentView(R.layout.dialog_new_assignment);
+ 		dlgNewAssignment.setContentView(R.layout.dialog_work);
 		((ImageButton) findViewById(R.id.course_work_btn_add)).setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				dlgNewAssignment.show();
