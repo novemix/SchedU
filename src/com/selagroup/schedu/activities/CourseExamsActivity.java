@@ -5,7 +5,9 @@
 package com.selagroup.schedu.activities;
 
 import com.selagroup.schedu.R;
+import com.selagroup.schedu.ScheduApplication;
 import com.selagroup.schedu.Utility;
+import com.selagroup.schedu.model.Course;
 
 import android.app.ListActivity;
 import android.content.Intent;
@@ -15,15 +17,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 /**
  * The Class CourseExamsActivity.
  */
 public class CourseExamsActivity extends ListActivity {
+	
+	Course mCourse;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_course_exams);
+		
+		mCourse = ((ScheduApplication) getApplication()).getCourseManager().get(getIntent().getIntExtra("courseID", -1));
+		((TextView) findViewById(R.id.course_exams_course_code)).setText(mCourse.getCode());
 		
 		mockup();
 	}

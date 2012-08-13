@@ -216,14 +216,18 @@ public class CourseActivity extends Activity {
 		course_btn_work.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
-				startActivity(new Intent(CourseActivity.this, CourseWorkActivity.class));
+				Intent intent = new Intent(CourseActivity.this, CourseWorkActivity.class);
+				intent.putExtra("courseID", courseID);
+				startActivity(intent);
 			}
 		});
 		
 		course_btn_exams.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
-				startActivity(new Intent(CourseActivity.this, CourseExamsActivity.class));
+				Intent intent = new Intent(CourseActivity.this, CourseExamsActivity.class);
+				intent.putExtra("courseID", courseID);
+				startActivity(intent);
 			}
 		});
 	}

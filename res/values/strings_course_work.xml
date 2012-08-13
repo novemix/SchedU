@@ -5,4 +5,6 @@
     <string name="course_work_edit_btn_on">Cancel</string>
     <string name="course_work_due_date_label">Due Date</string>
     <string name="course_work_description_label">Description</string>
+    <string name="work_adapter_due_btn_label">Set</string>
+    <string name="work_adapter_et_hint">Enter description</string>
 </resources>
