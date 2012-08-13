@@ -61,6 +61,12 @@ public class DBHelper extends SQLiteOpenHelper {
 	public static final String COL_TIME_PLACE_BLOCK_StartTime = "StartTime";
 	public static final String COL_TIME_PLACE_BLOCK_EndTime = "EndTime";
 	public static final String COL_TIME_PLACE_BLOCK_LocationID = "Location_ID";		// Foreign key: Location.ID
+	public static final String COL_TIME_PLACE_BLOCK_ALL_COL = 
+		TABLE_TimePlaceBlock+  "." + COL_TIME_PLACE_BLOCK_ID + ", " + 
+		TABLE_TimePlaceBlock+  "." + COL_TIME_PLACE_BLOCK_DayFlag + ", " + 
+		TABLE_TimePlaceBlock+  "." + COL_TIME_PLACE_BLOCK_StartTime + ", " + 
+		TABLE_TimePlaceBlock+  "." + COL_TIME_PLACE_BLOCK_EndTime + ", " + 
+		TABLE_TimePlaceBlock+  "." + COL_TIME_PLACE_BLOCK_LocationID;
 
 	// CourseTimePlaceBlocks table (connecting table)
 	public static final String TABLE_CourseTimePlaceBlock = "CourseTimePlaceBlock";

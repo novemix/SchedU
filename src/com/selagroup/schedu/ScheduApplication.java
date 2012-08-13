@@ -21,7 +21,7 @@ public class ScheduApplication extends Application {
 	// Managers for content stored in the database
 	private TermManager mTermManager;
 	private LocationManager mLocationManager;					// Keep private, operations handled by other managers
-	private TimePlaceBlockManager mTimePlaceBlockManager;		// Keep private, operations handled by other managers
+	private TimePlaceBlockManager mTimePlaceBlockManager;
 	private InstructorManager mInstructorManager;
 	private CourseManager mCourseManager;
 	private NoteManager mNoteManager;
@@ -67,6 +67,10 @@ public class ScheduApplication extends Application {
 	
 	public CourseManager getCourseManager() {
 		return mCourseManager;
+	}
+	
+	public TimePlaceBlockManager getTimePlaceBlockManager() {
+		return mTimePlaceBlockManager;
 	}
 	
 	public NoteManager getNoteManager() {

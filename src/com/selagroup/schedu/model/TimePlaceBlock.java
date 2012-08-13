@@ -95,8 +95,20 @@ public class TimePlaceBlock extends ContentValueItem implements Comparable<TimeP
 		}
 	}
 
-	public int compareTo(TimePlaceBlock another) {
-		return mStartTime.compareTo(another.mStartTime);
+	private String daysToString() {
+		StringBuilder dayString = new StringBuilder();
+
+		boolean dayFlagArray[] = getDayFlagArray();
+
+		for (int i = 0; i < sDaysInWeek; ++i) {
+			if (dayFlagArray[i]) {
+				dayString.append(", ");
+				dayString.append(sDayAbbreviations[i]);
+			}
+		}
+		dayString.append("\n");
+
+		return dayString.substring(2);
 	}
 	
 	public int getMinutesAfterMidnight() {
@@ -120,19 +132,7 @@ public class TimePlaceBlock extends ContentValueItem implements Comparable<TimeP
 		return toDateTimeString() + "\n" + mLocation.toString();
 	}
 
-	private String daysToString() {
-		StringBuilder dayString = new StringBuilder();
-
-		boolean dayFlagArray[] = getDayFlagArray();
-
-		for (int i = 0; i < sDaysInWeek; ++i) {
-			if (dayFlagArray[i]) {
-				dayString.append(", ");
-				dayString.append(sDayAbbreviations[i]);
-			}
-		}
-		dayString.append("\n");
-
-		return dayString.substring(2);
+	public int compareTo(TimePlaceBlock another) {
+		return mStartTime.compareTo(another.mStartTime);
 	}
 }
