@@ -56,9 +56,6 @@ public class CourseWorkActivity extends ListActivity {
 	ImageButton course_work_btn_cancel;
 	
 	private WorkEditListener mWorkEditListener = new WorkEditListener() {
-		public void onWorkEdit(Assignment iWorkItem) {
-			
-		}
 		public void onWorkDelete(final Assignment iWorkItem) {
 			AlertDialog.Builder dlg = new AlertDialog.Builder(CourseWorkActivity.this);
 			String msg = getResources().getString(R.string.course_work_delete_dialog_text) + "\n" + iWorkItem.getName();
@@ -133,7 +130,8 @@ public class CourseWorkActivity extends ListActivity {
 						mAddMode = false;
 						Assignment newWorkItem = new Assignment(-1, course_work_et_desc.getText().toString(), (Calendar) course_work_btn_due.getTag(), mCourse);
 						mWorkManager.insert(newWorkItem);
-						mWorkList.add(newWorkItem);
+						mWorkList.clear();
+						mWorkList.addAll(mWorkManager.getAllForCourse(mCourse.getID()));
 						resetInputs();
 					}
 					else { // input not valid

@@ -22,7 +22,6 @@ import android.widget.TextView;
 public class WorkArrayAdapter extends ArrayAdapter<Assignment> {
 	
 	public interface WorkEditListener {
-		public void onWorkEdit(Assignment iWorkItem);
 		public void onWorkDelete(Assignment iWorkItem);
 	}
 	

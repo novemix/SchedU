@@ -38,6 +38,7 @@ public class ExamManager extends Manager<Exam> {
 				exams.add(itemFromCurrentPos(cursor));
 			} while (cursor.moveToNext());
 		}
+		cursor.close();
 		close();
 		
 		return exams;

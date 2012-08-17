@@ -23,12 +23,13 @@ public class AssignmentManager extends Manager<Assignment> {
 		
 		// Open the database, query for all assignments matching the courseID, and add them to the list
 		open(OPEN_MODE.READ);
-		Cursor cursor = mDB.query(DBHelper.TABLE_Assignment, null, DBHelper.COL_ASSIGNMENT_CourseID + "=?", new String[]{ "" + iCourseID }, null, null, null);
+		Cursor cursor = mDB.query(DBHelper.TABLE_Assignment, null, DBHelper.COL_ASSIGNMENT_CourseID + "=?", new String[]{ "" + iCourseID }, null, null, DBHelper.COL_ASSIGNMENT_DueDate);
 		if (cursor.moveToFirst()) {
 			do {
 				assignments.add(itemFromCurrentPos(cursor));
 			} while (cursor.moveToNext());
 		}
+		cursor.close();
 		close();
 		
 		return assignments;
