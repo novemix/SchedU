@@ -1,5 +1,6 @@
 package com.selagroup.schedu;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Map;
@@ -20,15 +21,26 @@ import android.util.Log;
 import com.selagroup.schedu.activities.CourseActivity;
 import com.selagroup.schedu.activities.ScheduPreferences;
 import com.selagroup.schedu.model.Course;
+import com.selagroup.schedu.model.Location;
 import com.selagroup.schedu.model.TimePlaceBlock;
 
 public class AlarmSystem {
+	private static final SimpleDateFormat CLASS_NOTIFICATION_FORMAT = new SimpleDateFormat("h:mma");
+
 	public static final String ALARM_SET_NEXT_DAY_EVENTS = "com.selagroup.schedu.ALARM_SET_NEXT_DAY_EVENTS";
 	public static final int ALARM_CODE_SET_NEXT_DAY_EVENTS = -1;
-	
+
 	public static final int SHOW_COURSE_BLOCK = -2;
+
 	public static final String ALARM_SET_SILENT_MODE = "com.selagroup.schedu.ALARM_SET_SILENT_MODE";
-	
+
+	public static final String ALARM_SET_COURSE_REMINDER = "com.selagroup.schedu.ALARM_SET_COURSE_REMINDER";
+	public static final int ALARM_CODE_SET_COURSE_REMINDER = -3;
+
+	private Context mContext;
+	private NotificationManager notificationMgr;
+	private AlarmManager mAlarmManager;
+
 	private final BroadcastReceiver silentModeReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -38,34 +50,52 @@ public class AlarmSystem {
 			audioMgr.setRingerMode(silent ? AudioManager.RINGER_MODE_SILENT : AudioManager.RINGER_MODE_NORMAL);
 		}
 	};
-	
-	private final BroadcastReceiver setNextDayReceiver = new BroadcastReceiver() {
+
+	private final BroadcastReceiver nextDayReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			Bundle bundle = intent.getExtras();
 			ArrayList<Course> courses = (ArrayList<Course>) bundle.getSerializable("courses");
 			Calendar day = (Calendar) bundle.getSerializable("day");
-			scheduleEventsForDay(courses, day);
+			scheduleEventsForDay(courses, day, true);
 		}
 	};
 
-	private Context mContext;
-	private NotificationManager notificationMgr;
-	private AlarmManager mAlarmManager;
+	private final BroadcastReceiver courseReminderReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			Bundle bundle = intent.getExtras();
+			Course course = (Course) bundle.getSerializable("course");
+			TimePlaceBlock block = (TimePlaceBlock) bundle.getSerializable("block");
+			Calendar day = (Calendar) bundle.getSerializable("day");
+			showCourseNotification(course, block, day);
+		}
+	};
 
+	/**
+	 * @param iContext Application context
+	 */
 	public AlarmSystem(Context iContext) {
 		mContext = iContext;
 		mAlarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
 		notificationMgr = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
 
 		mContext.registerReceiver(silentModeReceiver, new IntentFilter(ALARM_SET_SILENT_MODE));
-		mContext.registerReceiver(setNextDayReceiver, new IntentFilter(ALARM_SET_NEXT_DAY_EVENTS));
+		mContext.registerReceiver(nextDayReceiver, new IntentFilter(ALARM_SET_NEXT_DAY_EVENTS));
+		mContext.registerReceiver(courseReminderReceiver, new IntentFilter(ALARM_SET_COURSE_REMINDER));
 	}
-	
-	public void scheduleEventsForDay(ArrayList<Course> iCourses, Calendar iDay) {
+
+	/**
+	 * Schedules class events for a given day
+	 * @param iCourses Courses for the current term
+	 * @param iDay Day to schedule events for
+	 */
+	public void scheduleEventsForDay(ArrayList<Course> iCourses, Calendar iDay, boolean iNewNotifications) {
 		Map<String, ?> allPreferences = PreferenceManager.getDefaultSharedPreferences(mContext).getAll();
 		boolean silentMode = (Boolean) allPreferences.get(ScheduPreferences.PREF_KEY_SILENT);
-		
+		boolean courseReminders = (Boolean) allPreferences.get(ScheduPreferences.PREF_KEY_ASSSIGN_REMIND);
+		int reminderLeadTime = Integer.parseInt((String) allPreferences.get(ScheduPreferences.PREF_KEY_COURSE_REMIND_TIME));
+
 		/*
 		 * For each class block, schedule alarms for:
 		 * - Phone silence/unsilence for the next class
@@ -73,19 +103,30 @@ public class AlarmSystem {
 		 */
 		for (Course course : iCourses) {
 			for (TimePlaceBlock block : course.getBlocksOnDay(iDay.get(Calendar.DAY_OF_WEEK) - 1)) {
-				
+				Calendar start = (Calendar) block.getStartTime();
+				Calendar end = (Calendar) block.getEndTime();
+				start.set(iDay.get(Calendar.YEAR), iDay.get(Calendar.MONTH), iDay.get(Calendar.DAY_OF_MONTH));
+				end.set(iDay.get(Calendar.YEAR), iDay.get(Calendar.MONTH), iDay.get(Calendar.DAY_OF_MONTH));
+
 				// If in silent mode, schedule the silence events
 				if (silentMode) {
-					Calendar start = (Calendar) block.getStartTime();
-					Calendar end = (Calendar) block.getEndTime();
-					start.set(iDay.get(Calendar.YEAR), iDay.get(Calendar.MONTH), iDay.get(Calendar.DAY_OF_MONTH));
-					end.set(iDay.get(Calendar.YEAR), iDay.get(Calendar.MONTH), iDay.get(Calendar.DAY_OF_MONTH));
-					scheduleSilentMode(true, start, block.getID());
-					scheduleSilentMode(false, end, block.getID());
+					if (end.before(Calendar.getInstance())) {
+						scheduleSilentMode(true, start, block.getID());
+						scheduleSilentMode(false, end, block.getID());
+					}
+				}
+
+				// If course reminders are on, schedule notifications
+				if (courseReminders && iNewNotifications) {
+					Calendar reminderTime = (Calendar) start.clone();
+					reminderTime.add(Calendar.MINUTE, -reminderLeadTime);
+					if (start.after(Calendar.getInstance())) {
+						scheduleCourseReminder(reminderTime, course, block, start);
+					}
 				}
 			}
 		}
-		
+
 		// Set alarm to reschedule all events for tomorrow
 		Calendar tomorrow = Calendar.getInstance();
 		tomorrow.set(Calendar.HOUR_OF_DAY, 0);
@@ -106,11 +147,21 @@ public class AlarmSystem {
 	public void scheduleSilentMode(final boolean iSilence, Calendar iAlarmTime, int iBlockID) {
 		Intent intent = new Intent(ALARM_SET_SILENT_MODE);
 		intent.putExtra("silent", iSilence);
-		PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, iSilence ? (-2 * (iBlockID + 4)) : (-2 * (iBlockID + 4) + 1), intent, PendingIntent.FLAG_CANCEL_CURRENT);
+		PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, iSilence ? (2 * (iBlockID + 4)) : (2 * (iBlockID + 4) + 1), intent, PendingIntent.FLAG_CANCEL_CURRENT);
 		mAlarmManager.set(AlarmManager.RTC_WAKEUP, iAlarmTime.getTimeInMillis(), pendingIntent);
 	}
 
-	private void showNotification() {
+	private void scheduleCourseReminder(Calendar iReminderTime, Course iCourse, TimePlaceBlock iBlock, Calendar iDay) {
+		Intent intent = new Intent(ALARM_SET_COURSE_REMINDER);
+		intent.putExtra("course", iCourse);
+		intent.putExtra("block", iBlock);
+		intent.putExtra("day", iDay);
+
+		PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, ALARM_CODE_SET_COURSE_REMINDER, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+		mAlarmManager.set(AlarmManager.RTC_WAKEUP, iReminderTime.getTimeInMillis(), pendingIntent);
+	}
+
+	private void showCourseNotification(Course iCourse, TimePlaceBlock iBlock, Calendar iStart) {
 		Notification notification = new Notification(R.drawable.ic_launcher, "Notification", System.currentTimeMillis());
 		notification.number = 1;
 		notification.vibrate = new long[] { 200, 200, 200, 200 };
@@ -118,13 +169,14 @@ public class AlarmSystem {
 
 		// Show course intent
 		Intent showCourseIntent = new Intent(mContext, CourseActivity.class);
-		showCourseIntent.putExtra("courseID", -1);
-		showCourseIntent.putExtra("blockID", -1);
-		showCourseIntent.putExtra("day", Calendar.getInstance());
+		showCourseIntent.putExtra("courseID", iCourse.getID());
+		showCourseIntent.putExtra("blockID", iBlock.getID());
+		showCourseIntent.putExtra("day", iStart);
 
-		notification.contentIntent = PendingIntent.getActivity(mContext, SHOW_COURSE_BLOCK, showCourseIntent, Intent.FLAG_ACTIVITY_NEW_TASK);
-		// notification.setLatestEventInfo(mContext, "Title", "Content text", contentIntent);
-
-		notificationMgr.notify(1, notification);
+		PendingIntent contentIntent = PendingIntent.getActivity(mContext, iCourse.getID(), showCourseIntent, Intent.FLAG_ACTIVITY_NEW_TASK);
+		Location location = iBlock.getLocation();
+		notification.setLatestEventInfo(mContext, iCourse + " starts at " + CLASS_NOTIFICATION_FORMAT.format(iStart.getTime()), location
+		        + (location == null || location.toString().equals("") ? "" : ": ") + iBlock.toTimeString(), contentIntent);
+		notificationMgr.notify(iCourse.getID(), notification);
 	}
 }

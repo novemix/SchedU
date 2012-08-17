@@ -5,6 +5,7 @@
 
 package com.selagroup.schedu.activities;
 
+import java.util.Calendar;
 import java.util.List;
 
 import android.app.ListActivity;
@@ -156,11 +157,13 @@ public class TermActivity extends ListActivity {
 			public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
 				if (getListView().getItemAtPosition(pos) != null) {
 					if (!mAddMode) {
-						
-						// Select
+						// Term selected
+						ScheduApplication app = (ScheduApplication) getApplication();
 						mSelectedTerm = mTermAdapter.getItem(pos);
 						Intent addCourseIntent = new Intent(TermActivity.this, AllCoursesActivity.class);
-						((ScheduApplication) getApplication()).setCurrentTerm(mSelectedTerm);
+						app.setCurrentTerm(mSelectedTerm);
+						app.getAlarmSystem().scheduleEventsForDay(app.getCourseManager().getAllForTerm(
+								mSelectedTerm.getID()), Calendar.getInstance(), true);
 						startActivity(addCourseIntent);
 					}
 				}

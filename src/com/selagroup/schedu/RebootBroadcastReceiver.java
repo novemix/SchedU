@@ -30,6 +30,6 @@ public class RebootBroadcastReceiver extends BroadcastReceiver {
 		
 		List<Term> allTerms = termManager.getAll();
 		Term term = Utility.getCurrentTerm(allTerms, Calendar.getInstance());
-		alarmSystem.scheduleEventsForDay(courseManager.getAllForTerm(term.getID()), Calendar.getInstance());
+		alarmSystem.scheduleEventsForDay(courseManager.getAllForTerm(term.getID()), Calendar.getInstance(), true);
 	}
 }

@@ -22,11 +22,14 @@ import com.selagroup.schedu.ScheduApplication;
  */
 public class ScheduPreferences extends PreferenceActivity implements OnSharedPreferenceChangeListener {
 	public static final String PREF_KEY_SILENT = "autoSilence";
+	
 	public static final String PREF_KEY_COURSE_REMIND = "remindCourse";
 	public static final String PREF_KEY_COURSE_REMIND_TIME = "courseLeadTime";
+	
 	public static final String PREF_KEY_ASSSIGN_REMIND = "remindAssign";
 	public static final String PREF_KEY_ASSSIGN_REMIND_TIME1 = "assignLeadTime1";
 	public static final String PREF_KEY_ASSSIGN_REMIND_TIME2 = "assignLeadTime2";
+	
 	public static final String PREF_KEY_HIGHLIGHT_RED = "highlightRed";
 	public static final String PREF_KEY_HIGHLIGHT_YELLOW = "highlightYellow";
 
@@ -48,12 +51,10 @@ public class ScheduPreferences extends PreferenceActivity implements OnSharedPre
 
 		if (key.equals(PREF_KEY_SILENT)) {
 			if ((Boolean) mAllPreferences.get(PREF_KEY_SILENT)) {
-				// TODO: If during class, silence phone
-				
-				// TODO: Schedule alarms
+				// Schedule alarms
 				ScheduApplication app = (ScheduApplication) getApplication();
 				app.getAlarmSystem().scheduleEventsForDay(
-						app.getCourseManager().getAllForTerm(app.getCurrentTerm().getID()), Calendar.getInstance());
+						app.getCourseManager().getAllForTerm(app.getCurrentTerm().getID()), Calendar.getInstance(), false);
 				
 			} else {
 				// Turn ringer on
