@@ -8,26 +8,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
-            <ToggleButton
-                android:visibility="invisible"
-                android:id="@+id/course_work_btn_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:textOff="@string/course_work_edit_btn_off"
-                android:textOn="@string/course_work_edit_btn_on" />
-
             <TextView
-                android:id="@+id/course_work_title"
+                android:id="@+id/course_work_course_code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/course_work_btn_edit"
-                android:layout_alignTop="@+id/course_work_btn_edit"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
                 android:layout_toLeftOf="@+id/course_work_btn_add"
-                android:layout_toRightOf="@+id/course_work_btn_edit"
+                android:layout_alignBottom="@+id/course_work_btn_add"
                 android:gravity="center"
-                android:text="@string/course_work_title"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <Button
@@ -39,25 +28,6 @@
                 android:text="@string/course_work_add_btn_label" />
         </RelativeLayout>
 
-        <!-- Course code -->
-
-        <TextView
-            android:id="@+id/course_work_course_code"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:hint="--course code--"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-  
-    <!-- Divider -->
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="2dp"
-        android:scaleType="fitXY"
-        android:src="@android:drawable/divider_horizontal_dark" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -77,7 +47,16 @@
             android:layout_weight="3"
             android:text="@string/course_work_description_label" />
     </LinearLayout>
+    
+    <!-- Divider -->
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="2dp"
+        android:scaleType="fitXY"
+        android:src="@android:drawable/divider_horizontal_dark" />
+    
     <LinearLayout
         android:id="@+id/course_work_ll_add"
         android:visibility="gone"
@@ -111,23 +90,7 @@
         android:src="@android:drawable/ic_delete" />
         
     </LinearLayout>
-    <!-- RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-    <Button
-        android:layout_width="125dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/course_work_btn_delete"
-        android:text="@string/course_work_done_btn_label" />
-    <Button
-        android:id="@+id/course_work_btn_delete"
-        android:layout_width="75dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:text="@string/course_work_cancel_btn_label" />    
-    </RelativeLayout -->
+    
     
     </LinearLayout>
     
