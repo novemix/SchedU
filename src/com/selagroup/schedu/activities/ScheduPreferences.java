@@ -9,11 +9,11 @@ import java.util.Map;
 
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.media.AudioManager;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 
+import com.selagroup.schedu.AlarmSystem;
 import com.selagroup.schedu.R;
 import com.selagroup.schedu.ScheduApplication;
 
@@ -50,15 +50,16 @@ public class ScheduPreferences extends PreferenceActivity implements OnSharedPre
 		mAllPreferences = sharedPref.getAll();
 
 		if (key.equals(PREF_KEY_SILENT)) {
+			ScheduApplication app = (ScheduApplication) getApplication();
+			AlarmSystem alarmSys = app.getAlarmSystem();
 			if ((Boolean) mAllPreferences.get(PREF_KEY_SILENT)) {
 				// Schedule alarms
-				ScheduApplication app = (ScheduApplication) getApplication();
-				app.getAlarmSystem().scheduleEventsForDay(
+				alarmSys.scheduleEventsForDay(
 						app.getCourseManager().getAllForTerm(app.getCurrentTerm().getID()), Calendar.getInstance(), false);
 				
 			} else {
-				// Turn ringer on
-				((AudioManager) getSystemService(AUDIO_SERVICE)).setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+				// Restore ringer mode
+				alarmSys.restoreRingerMode();
 				
 				// TODO: Clear alarms
 				

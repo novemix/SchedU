@@ -21,6 +21,7 @@ import android.widget.Button;
 
 import com.selagroup.schedu.R;
 import com.selagroup.schedu.ScheduApplication;
+import com.selagroup.schedu.Utility;
 import com.selagroup.schedu.adapters.TermArrayAdapter;
 import com.selagroup.schedu.adapters.TermArrayAdapter.TermEditListener;
 import com.selagroup.schedu.managers.TermManager;
@@ -48,6 +49,10 @@ public class TermActivity extends ListActivity {
 			}
 			if (termIsValid(iTerm)) {
 				mTermManager.update(iTerm);
+				
+				ScheduApplication app = (ScheduApplication) getApplication();
+				app.getAlarmSystem().scheduleEventsForDay(app.getCourseManager().getAllForTerm(
+						Utility.getCurrentTerm(mTerms, Calendar.getInstance()).getID()), Calendar.getInstance(), true);
 			}
 		}
 
@@ -162,8 +167,6 @@ public class TermActivity extends ListActivity {
 						mSelectedTerm = mTermAdapter.getItem(pos);
 						Intent addCourseIntent = new Intent(TermActivity.this, AllCoursesActivity.class);
 						app.setCurrentTerm(mSelectedTerm);
-						app.getAlarmSystem().scheduleEventsForDay(app.getCourseManager().getAllForTerm(
-								mSelectedTerm.getID()), Calendar.getInstance(), true);
 						startActivity(addCourseIntent);
 					}
 				}

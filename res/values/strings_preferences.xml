@@ -3,8 +3,8 @@
     <string name="preferences_title">Preferences</string>
     <string name="preferences_auto_silence_category_title">Auto-silence</string>
     <string name="preferences_auto_silence_title">Auto-silence</string>
-    <string name="preferences_auto_silence_summary_on">You will NOT receive audio alerts during course times</string>
-    <string name="preferences_auto_silence_summary_off">You WILL receive audio alerts during course times, if enabled otherwise</string>
+    <string name="preferences_auto_silence_summary_on">Your ringer mode will be set to VIBRATE during class, unless already silent.</string>
+    <string name="preferences_auto_silence_summary_off">Your ringer mode will NOT be changed during class.\n</string>
 	<string name="preferences_course_reminders_category_title">Course reminders</string>
     <string name="preferences_course_reminders_title">Course reminders</string>
     <string name="preferences_course_reminders_summary_on">You will be reminded about upcoming courses</string>

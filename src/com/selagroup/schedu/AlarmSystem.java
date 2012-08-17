@@ -16,7 +16,6 @@ import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import com.selagroup.schedu.activities.CourseActivity;
 import com.selagroup.schedu.activities.ScheduPreferences;
@@ -41,13 +40,20 @@ public class AlarmSystem {
 	private NotificationManager notificationMgr;
 	private AlarmManager mAlarmManager;
 
-	private final BroadcastReceiver silentModeReceiver = new BroadcastReceiver() {
+	private int mPrevRingerMode;
+	private boolean mIgnoreNextRingerChange = false;
+
+	private final BroadcastReceiver ringerModeReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			boolean silent = intent.getExtras().getBoolean("silent", false);
-			Log.i("Test", silent ? "Phone silenced." : "Phone unsilenced.");
+			int mode = intent.getExtras().getInt("mode", AudioManager.RINGER_MODE_NORMAL);
 			AudioManager audioMgr = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-			audioMgr.setRingerMode(silent ? AudioManager.RINGER_MODE_SILENT : AudioManager.RINGER_MODE_NORMAL);
+			
+			// Do not set phone to vibrate if it's on silent
+			if (!(mode == AudioManager.RINGER_MODE_VIBRATE && mPrevRingerMode == AudioManager.RINGER_MODE_SILENT)) {
+				mIgnoreNextRingerChange = true;
+				audioMgr.setRingerMode(mode);
+			}
 		}
 	};
 
@@ -72,6 +78,17 @@ public class AlarmSystem {
 		}
 	};
 
+	private final BroadcastReceiver userRingerModeReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (!mIgnoreNextRingerChange) {
+				mPrevRingerMode = intent.getExtras().getInt(AudioManager.EXTRA_RINGER_MODE);
+			} else {
+				mIgnoreNextRingerChange = false;
+			}
+		}
+	};
+
 	/**
 	 * @param iContext Application context
 	 */
@@ -80,9 +97,12 @@ public class AlarmSystem {
 		mAlarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
 		notificationMgr = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
 
-		mContext.registerReceiver(silentModeReceiver, new IntentFilter(ALARM_SET_SILENT_MODE));
+		mContext.registerReceiver(ringerModeReceiver, new IntentFilter(ALARM_SET_SILENT_MODE));
 		mContext.registerReceiver(nextDayReceiver, new IntentFilter(ALARM_SET_NEXT_DAY_EVENTS));
 		mContext.registerReceiver(courseReminderReceiver, new IntentFilter(ALARM_SET_COURSE_REMINDER));
+		mContext.registerReceiver(userRingerModeReceiver, new IntentFilter(AudioManager.RINGER_MODE_CHANGED_ACTION));
+
+		mPrevRingerMode = ((AudioManager) iContext.getSystemService(Context.AUDIO_SERVICE)).getRingerMode();
 	}
 
 	/**
@@ -97,10 +117,10 @@ public class AlarmSystem {
 		int reminderLeadTime = Integer.parseInt((String) allPreferences.get(ScheduPreferences.PREF_KEY_COURSE_REMIND_TIME));
 
 		/*
-		 * For each class block, schedule alarms for:
-		 * - Phone silence/unsilence for the next class
-		 * - Reminder before next class
+		 * For each class block, schedule alarms for: - Phone silence/unsilence for the next class - Reminder before next class
 		 */
+		AudioManager audioMgr = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
+		mPrevRingerMode = audioMgr.getRingerMode();
 		for (Course course : iCourses) {
 			for (TimePlaceBlock block : course.getBlocksOnDay(iDay.get(Calendar.DAY_OF_WEEK) - 1)) {
 				Calendar start = (Calendar) block.getStartTime();
@@ -110,9 +130,9 @@ public class AlarmSystem {
 
 				// If in silent mode, schedule the silence events
 				if (silentMode) {
-					if (end.before(Calendar.getInstance())) {
-						scheduleSilentMode(true, start, block.getID());
-						scheduleSilentMode(false, end, block.getID());
+					if (end.after(Calendar.getInstance())) {
+						scheduleSilentMode(AudioManager.RINGER_MODE_VIBRATE, start, block.getID());
+						scheduleSilentMode(mPrevRingerMode, end, block.getID());
 					}
 				}
 
@@ -144,10 +164,10 @@ public class AlarmSystem {
 	 * @param iSilence True to silence the phone, false to unsilence
 	 * @param alarmTime Time to silence the phone
 	 */
-	public void scheduleSilentMode(final boolean iSilence, Calendar iAlarmTime, int iBlockID) {
+	public void scheduleSilentMode(final int iMode, Calendar iAlarmTime, int iBlockID) {
 		Intent intent = new Intent(ALARM_SET_SILENT_MODE);
-		intent.putExtra("silent", iSilence);
-		PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, iSilence ? (2 * (iBlockID + 4)) : (2 * (iBlockID + 4) + 1), intent, PendingIntent.FLAG_CANCEL_CURRENT);
+		intent.putExtra("mode", iMode);
+		PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, (3 * (iBlockID + 4)) + iMode, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 		mAlarmManager.set(AlarmManager.RTC_WAKEUP, iAlarmTime.getTimeInMillis(), pendingIntent);
 	}
 
@@ -162,21 +182,31 @@ public class AlarmSystem {
 	}
 
 	private void showCourseNotification(Course iCourse, TimePlaceBlock iBlock, Calendar iStart) {
-		Notification notification = new Notification(R.drawable.ic_launcher, "Notification", System.currentTimeMillis());
+		Notification notification = new Notification(R.drawable.ic_launcher, "SchedU", System.currentTimeMillis());
 		notification.number = 1;
 		notification.vibrate = new long[] { 200, 200, 200, 200 };
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;
 
 		// Show course intent
 		Intent showCourseIntent = new Intent(mContext, CourseActivity.class);
+		showCourseIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		showCourseIntent.putExtra("courseID", iCourse.getID());
 		showCourseIntent.putExtra("blockID", iBlock.getID());
 		showCourseIntent.putExtra("day", iStart);
 
-		PendingIntent contentIntent = PendingIntent.getActivity(mContext, iCourse.getID(), showCourseIntent, Intent.FLAG_ACTIVITY_NEW_TASK);
+		// Broadcast
+		PendingIntent contentIntent = PendingIntent.getActivity(mContext, iCourse.getID(), showCourseIntent, PendingIntent.FLAG_ONE_SHOT | Intent.FLAG_ACTIVITY_NEW_TASK);
 		Location location = iBlock.getLocation();
+
 		notification.setLatestEventInfo(mContext, iCourse + " starts at " + CLASS_NOTIFICATION_FORMAT.format(iStart.getTime()), location
-		        + (location == null || location.toString().equals("") ? "" : ": ") + iBlock.toTimeString(), contentIntent);
+				+ (location == null || location.toString().equals("") ? "" : ": ") + iBlock.toTimeString(), contentIntent);
+
 		notificationMgr.notify(iCourse.getID(), notification);
+	}
+
+	public void restoreRingerMode() {
+		AudioManager audioMgr = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
+		mIgnoreNextRingerChange = true;
+		audioMgr.setRingerMode(mPrevRingerMode);
 	}
 }
