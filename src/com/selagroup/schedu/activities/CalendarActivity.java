@@ -463,17 +463,21 @@ public class CalendarActivity extends Activity {
 
 		calendar_tv_date.setText(DAY_FORMAT.format(mThisDay.getTime()));
 
+		// Scroll prev/next days to the current day scroll
 		mPrevDayScroll.post(new Runnable() {
 			public void run() {
 				mPrevDayScroll.scrollTo(0, (int) mThisDayScroll.getScrollY());
 			}
 		});
-
 		mNextDayScroll.post(new Runnable() {
 			public void run() {
 				mNextDayScroll.scrollTo(0, (int) mThisDayScroll.getScrollY());
 			}
 		});
+		
+		addTimeLinesToView(mThisDayCourses);
+		addTimeLinesToView(mNextDayCourses);
+		addTimeLinesToView(mPrevDayCourses);
 
 		// Check if we are still in the current term
 		if (mCurrentTerm.getStartDate().before(mThisDay) && mCurrentTerm.getEndDate().after(mThisDay)) {
@@ -502,6 +506,18 @@ public class CalendarActivity extends Activity {
 			}
 		}
 	}
+
+	private void addTimeLinesToView(RelativeLayout iView) {
+		for (int i = 0; i < 2 * Utility.HOURS_PER_DAY; ++i) {
+			// Sets the block distance from the top of the layout
+			RelativeLayout hourLine = new RelativeLayout(this);
+			hourLine.setBackgroundResource((i % 2 == 0) ? R.drawable.hour_line : R.drawable.halfhour_line);
+			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, 2);
+			params.setMargins(0, (int) ((30 * i + DAY_VIEW_BUFFER - 1) * mDensity + 0.5f), 0, 0);
+			hourLine.setLayoutParams(params);
+			iView.addView(hourLine);
+		}
+    }
 
 	private void initWeekView() {
 		// Remove any existing week views
@@ -622,7 +638,7 @@ public class CalendarActivity extends Activity {
 		courseBlock.setTextColor(Color.BLACK);
 		courseBlock.setBackgroundColor(Color.GREEN);
 		courseBlock.setText(iCourse.toString() + "\n" + iBlock.toTimeString() + "\n" + iBlock.getLocation());
-		courseBlock.setBackgroundResource(R.drawable.course_block_low);
+		courseBlock.setBackgroundResource(R.drawable.class_block_green);
 		courseBlock.setClickable(true);
 		courseBlock.setOnClickListener(new CourseClickListener(iCourse.getID(), iBlock.getID()));
 		return courseBlock;

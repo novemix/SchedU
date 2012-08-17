@@ -6,7 +6,6 @@
 package com.selagroup.schedu.managers;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;

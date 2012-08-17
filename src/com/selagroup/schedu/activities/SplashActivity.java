@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import android.widget.Toast;
 
 import com.selagroup.schedu.R;
 import com.selagroup.schedu.ScheduApplication;
@@ -62,5 +61,6 @@ public class SplashActivity extends Activity {
 			application.setCurrentTerm(currentTerm);
 			startActivity(new Intent(SplashActivity.this, AllCoursesActivity.class));
 		}
+		finish();
 	}
 }

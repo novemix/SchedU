@@ -7,8 +7,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
@@ -69,6 +69,8 @@ public class CourseArrayAdapter extends ArrayAdapter<Course> {
 		final ViewHolder holder = tmpHolder;
 		row.setBackgroundResource(R.drawable.term_block);
 
+		holder.course_adapter_tv_code.setVisibility(View.VISIBLE);
+		holder.course_adapter_tv_name.setVisibility(View.VISIBLE);
 		if (course != null) {
 			holder.course_adapter_tv_code.setText(course.getCode());
 			holder.course_adapter_tv_name.setText(course.getName());
@@ -96,14 +98,13 @@ public class CourseArrayAdapter extends ArrayAdapter<Course> {
 						mDeleteAlertDialog.show();
 					}
 				});
-			}
-			else {
+			} else {
 				holder.course_adapter_btn_delete.setVisibility(View.GONE);
 			}
-		}
-		else {
+		} else {
+			holder.course_adapter_btn_delete.setVisibility(View.GONE);
 			holder.course_adapter_tv_code.setText("No courses for this term.");
-			holder.course_adapter_tv_name.setText("Please add another course.");
+			holder.course_adapter_tv_name.setText("Please add a course.");
 		}
 
 		return row;

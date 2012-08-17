@@ -47,6 +47,18 @@ public class AllCoursesActivity extends ListActivity {
 
 	private CourseManager mCourseManager;
 
+	private CourseDeleteListener mDeleteListener = new CourseDeleteListener() {
+		public void onDelete(Course iCourse) {
+			mCourseManager.delete(iCourse);
+			mCourseList.remove(iCourse);
+			if (mCourseList.isEmpty()) {
+				mCourseList.add(null);
+			}
+			mCourseAdapter.notifyDataSetChanged();
+			iCourse = null;
+		}
+	};
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -56,19 +68,15 @@ public class AllCoursesActivity extends ListActivity {
 		mCourseManager = app.getCourseManager();
 		mCurrentTerm = app.getCurrentTerm();
 		mCourseList = mCourseManager.getAllForTerm(mCurrentTerm.getID());
-
-		mCourseAdapter = new CourseArrayAdapter(this, R.layout.adapter_course_select, mCourseList, new CourseDeleteListener() {
-			public void onDelete(Course iCourse) {
-				mCourseManager.delete(iCourse);
-				mCourseList.remove(iCourse);
-				mCourseAdapter.notifyDataSetChanged();
-				iCourse = null;
-			}
-		});
-		setListAdapter(mCourseAdapter);
+		if (mCourseList.isEmpty()) {
+			mCourseList.add(null);
+		}
 
 		initWidgets();
 		initListeners();
+
+		mCourseAdapter = new CourseArrayAdapter(this, R.layout.adapter_course_select, mCourseList, mDeleteListener);
+		setListAdapter(mCourseAdapter);
 	}
 
 	@Override
@@ -76,6 +84,9 @@ public class AllCoursesActivity extends ListActivity {
 		super.onResume();
 		mCourseList.clear();
 		mCourseList.addAll(mCourseManager.getAllForTerm(mCurrentTerm.getID()));
+		if (mCourseList.isEmpty()) {
+			mCourseList.add(null);
+		}
 		mCourseAdapter.notifyDataSetChanged();
 	}
 
@@ -89,8 +100,7 @@ public class AllCoursesActivity extends ListActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (Utility.handleOptionsMenuSelection(AllCoursesActivity.this, item)) {
 			return true;
-		}
-		else {
+		} else {
 			return super.onOptionsItemSelected(item);
 		}
 	}
@@ -127,23 +137,24 @@ public class AllCoursesActivity extends ListActivity {
 
 			public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
 				Course course = mCourseList.get(pos);
-				if (mEditMode) {
-					Intent editCourseIntent = new Intent(AllCoursesActivity.this, AddCourseActivity.class);
-					editCourseIntent.putExtra("edit", true);
-					editCourseIntent.putExtra("course", course);
-					startActivity(editCourseIntent);
-				}
-				else {
-					Intent showCourseIntent = new Intent(AllCoursesActivity.this, CourseActivity.class);
+				if (course != null) {
+					if (mEditMode) {
+						Intent editCourseIntent = new Intent(AllCoursesActivity.this, AddCourseActivity.class);
+						editCourseIntent.putExtra("edit", true);
+						editCourseIntent.putExtra("course", course);
+						startActivity(editCourseIntent);
+					} else {
+						Intent showCourseIntent = new Intent(AllCoursesActivity.this, CourseActivity.class);
 
-					// TODO: need to get the next time/day for this course
-					Calendar day = null;
-					TimePlaceBlock nextBlock = course.getScheduleBlocks().get(0);
+						// TODO: need to get the next time/day for this course
+						Calendar day = null;
+						TimePlaceBlock nextBlock = course.getScheduleBlocks().get(0);
 
-					showCourseIntent.putExtra("courseID", course.getID());
-					showCourseIntent.putExtra("blockID", nextBlock.getID());
-					showCourseIntent.putExtra("day", Calendar.getInstance());
-					startActivity(showCourseIntent);
+						showCourseIntent.putExtra("courseID", course.getID());
+						showCourseIntent.putExtra("blockID", nextBlock.getID());
+						showCourseIntent.putExtra("day", Calendar.getInstance());
+						startActivity(showCourseIntent);
+					}
 				}
 			}
 		});

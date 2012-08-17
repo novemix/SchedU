@@ -17,18 +17,6 @@
             android:textOff="@string/allcourses_edit_btn_off"
             android:textOn="@string/allcourses_edit_btn_on" />
         
-        <TextView
-            android:id="@+id/allcourses_tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/allcourses_btn_add"
-            android:layout_toRightOf="@+id/allcourses_btn_edit"
-            android:layout_alignBottom="@+id/allcourses_btn_edit"
-            android:gravity="center"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/allcourses_title" />
-        
         <ImageButton
             android:id="@+id/allcourses_btn_add"
             android:layout_width="wrap_content"

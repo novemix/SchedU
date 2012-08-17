@@ -4,19 +4,6 @@
  */
 package com.selagroup.schedu.activities;
 
-import java.text.SimpleDateFormat;
-import java.util.List;
-
-import com.selagroup.schedu.ScheduApplication;
-import com.selagroup.schedu.R;
-import com.selagroup.schedu.Utility;
-import com.selagroup.schedu.managers.CourseManager;
-import com.selagroup.schedu.managers.InstructorManager;
-import com.selagroup.schedu.model.Course;
-import com.selagroup.schedu.model.Instructor;
-import com.selagroup.schedu.model.Location;
-import com.selagroup.schedu.model.TimePlaceBlock;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,10 +11,19 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ScrollView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.selagroup.schedu.R;
+import com.selagroup.schedu.ScheduApplication;
+import com.selagroup.schedu.Utility;
+import com.selagroup.schedu.managers.CourseManager;
+import com.selagroup.schedu.managers.InstructorManager;
+import com.selagroup.schedu.model.Course;
+import com.selagroup.schedu.model.Instructor;
+import com.selagroup.schedu.model.Location;
+import com.selagroup.schedu.model.TimePlaceBlock;
 
 /**
  * The Class InstructorActivity.

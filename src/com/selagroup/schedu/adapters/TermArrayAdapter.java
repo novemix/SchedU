@@ -165,7 +165,6 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 				});
 			}
 			else {
-				//holder.term_btn_edit.setText("Edit");
 				holder.term_btn_edit.setTag(position);
 				holder.term_btn_edit.setOnClickListener(new OnClickListener() {
 					public void onClick(View view) {

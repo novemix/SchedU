@@ -7,15 +7,6 @@ package com.selagroup.schedu.activities;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.selagroup.schedu.R;
-import com.selagroup.schedu.ScheduApplication;
-import com.selagroup.schedu.Utility;
-import com.selagroup.schedu.adapters.TermArrayAdapter;
-import com.selagroup.schedu.adapters.WorkArrayAdapter;
-import com.selagroup.schedu.managers.AssignmentManager;
-import com.selagroup.schedu.model.Assignment;
-import com.selagroup.schedu.model.Course;
-
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.os.Bundle;
@@ -26,6 +17,14 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.selagroup.schedu.R;
+import com.selagroup.schedu.ScheduApplication;
+import com.selagroup.schedu.Utility;
+import com.selagroup.schedu.adapters.WorkArrayAdapter;
+import com.selagroup.schedu.managers.AssignmentManager;
+import com.selagroup.schedu.model.Assignment;
+import com.selagroup.schedu.model.Course;
 
 /**
  * The Class CourseWorkActivity.
@@ -81,7 +80,7 @@ public class CourseWorkActivity extends ListActivity {
 			return super.onOptionsItemSelected(item);
 		}
 	}
-	
+	/*
 	private void mockup() {
 		final Dialog dlgNewAssignment = new Dialog(this);
 		//dlgNewAssignment.setTitle(R.string.dialog_new_assignment_title);
@@ -98,4 +97,5 @@ public class CourseWorkActivity extends ListActivity {
 			}
 		});
 	}
+	*/
 }
