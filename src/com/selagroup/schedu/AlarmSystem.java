@@ -3,6 +3,7 @@ package com.selagroup.schedu;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.LinkedList;
 import java.util.Map;
 
 import android.app.AlarmManager;
@@ -39,6 +40,8 @@ public class AlarmSystem {
 	private Context mContext;
 	private NotificationManager notificationMgr;
 	private AlarmManager mAlarmManager;
+	
+	private ArrayList<PendingIntent> mAllAlarmIntents = new ArrayList<PendingIntent>();
 
 	private int mPrevRingerMode;
 	private boolean mIgnoreNextRingerChange = false;
@@ -48,7 +51,7 @@ public class AlarmSystem {
 		public void onReceive(Context context, Intent intent) {
 			int mode = intent.getExtras().getInt("mode", AudioManager.RINGER_MODE_NORMAL);
 			AudioManager audioMgr = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-			
+
 			// Do not set phone to vibrate if it's on silent
 			if (!(mode == AudioManager.RINGER_MODE_VIBRATE && mPrevRingerMode == AudioManager.RINGER_MODE_SILENT)) {
 				mIgnoreNextRingerChange = true;
@@ -111,13 +114,20 @@ public class AlarmSystem {
 	 * @param iDay Day to schedule events for
 	 */
 	public void scheduleEventsForDay(ArrayList<Course> iCourses, Calendar iDay, boolean iNewNotifications) {
+		// Clear all previous alarms
+		for (PendingIntent intent : mAllAlarmIntents) {
+			mAlarmManager.cancel(intent);
+		}
+		mAllAlarmIntents.clear();
+		
+		// Get preferences
 		Map<String, ?> allPreferences = PreferenceManager.getDefaultSharedPreferences(mContext).getAll();
 		boolean silentMode = (Boolean) allPreferences.get(ScheduPreferences.PREF_KEY_SILENT);
 		boolean courseReminders = (Boolean) allPreferences.get(ScheduPreferences.PREF_KEY_ASSSIGN_REMIND);
 		int reminderLeadTime = Integer.parseInt((String) allPreferences.get(ScheduPreferences.PREF_KEY_COURSE_REMIND_TIME));
 
 		/*
-		 * For each class block, schedule alarms for: - Phone silence/unsilence for the next class - Reminder before next class
+		 * For each class block, schedule alarms for: Phone silence/unsilence for the next class, reminder before next class
 		 */
 		AudioManager audioMgr = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
 		mPrevRingerMode = audioMgr.getRingerMode();
@@ -156,6 +166,7 @@ public class AlarmSystem {
 		intent.putExtra("courses", iCourses);
 		intent.putExtra("day", iDay);
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, ALARM_CODE_SET_NEXT_DAY_EVENTS, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+		mAllAlarmIntents.add(pendingIntent);
 		mAlarmManager.set(AlarmManager.RTC_WAKEUP, tomorrow.getTimeInMillis(), pendingIntent);
 	}
 
@@ -168,6 +179,7 @@ public class AlarmSystem {
 		Intent intent = new Intent(ALARM_SET_SILENT_MODE);
 		intent.putExtra("mode", iMode);
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, (3 * (iBlockID + 4)) + iMode, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+		mAllAlarmIntents.add(pendingIntent);
 		mAlarmManager.set(AlarmManager.RTC_WAKEUP, iAlarmTime.getTimeInMillis(), pendingIntent);
 	}
 
@@ -178,6 +190,7 @@ public class AlarmSystem {
 		intent.putExtra("day", iDay);
 
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, ALARM_CODE_SET_COURSE_REMINDER, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+		mAllAlarmIntents.add(pendingIntent);
 		mAlarmManager.set(AlarmManager.RTC_WAKEUP, iReminderTime.getTimeInMillis(), pendingIntent);
 	}
 

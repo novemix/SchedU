@@ -26,12 +26,21 @@
             android:layout_height="wrap_content"
             android:textColor="@color/darkText" />
     </LinearLayout>
+    
+    <Button
+        android:id="@+id/course_adapter_btn_edit"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:drawableTop="@android:drawable/ic_menu_edit"
+        android:focusable="false"
+        android:focusableInTouchMode="false" />
 
     <Button
         android:id="@+id/course_adapter_btn_delete"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_alignParentRight="true"
+        android:layout_toLeftOf="@id/course_adapter_btn_edit"
         android:drawableTop="@android:drawable/ic_delete"
         android:focusable="false"
         android:focusableInTouchMode="false" />
