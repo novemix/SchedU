@@ -59,11 +59,27 @@ public class CourseWorkActivity extends ListActivity {
 		public void onWorkEdit(Assignment iWorkItem) {
 			
 		}
-		public void onWorkDelete(Assignment iWorkItem) {
-			mWorkList.remove(iWorkItem);
-			mWorkManager.delete(iWorkItem);
-			
-			mWorkAdapter.notifyDataSetChanged();
+		public void onWorkDelete(final Assignment iWorkItem) {
+			AlertDialog.Builder dlg = new AlertDialog.Builder(CourseWorkActivity.this);
+			String msg = getResources().getString(R.string.course_work_delete_dialog_text) + "\n" + iWorkItem.getName();
+			dlg
+				.setTitle(R.string.course_work_delete_dialog_confirm_label)
+				.setMessage(msg)
+				.setPositiveButton(R.string.course_work_delete_dialog_confirm_label,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int which) {
+								mWorkList.remove(iWorkItem);
+								mWorkManager.delete(iWorkItem);
+								mWorkAdapter.notifyDataSetChanged();
+							}
+						})
+				.setNegativeButton(R.string.course_work_cancel_btn_label,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int which) {
+								dialog.dismiss();
+							}
+						})
+				.show();
 		}
 	};
 	
@@ -76,6 +92,16 @@ public class CourseWorkActivity extends ListActivity {
 		
 		initWidgets();
 		initListeners();
+	}
+	
+	@Override
+	public void onBackPressed() {
+		if (mAddMode) {
+			cancelAdd();
+		}
+		else {
+			super.onBackPressed();
+		}
 	}
 	
 	protected void initActivity() {
@@ -100,26 +126,27 @@ public class CourseWorkActivity extends ListActivity {
 		course_work_btn_add.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (mAddMode) { // User tapped Done
-					if (validateInputs()) {
-					Utility.hideSoftKeyboard(CourseWorkActivity.this, course_work_et_desc.getWindowToken());
-					course_work_btn_add.setText(R.string.course_work_add_btn_label);
-					course_work_ll_add.setVisibility(View.GONE);
-					mAddMode = false;
-					//TODO: input validation
-					Assignment newWorkItem = new Assignment(-1, course_work_et_desc.getText().toString(), (Calendar) course_work_btn_due.getTag(), mCourse);
-					mWorkManager.insert(newWorkItem);
-					mWorkList.add(newWorkItem);
-					resetInputs();
+					if (validateInputs()) { // input is valid
+						Utility.hideSoftKeyboard(CourseWorkActivity.this, course_work_et_desc.getWindowToken());
+						course_work_btn_add.setText(R.string.course_work_add_btn_label);
+						course_work_ll_add.setVisibility(View.GONE);
+						mAddMode = false;
+						Assignment newWorkItem = new Assignment(-1, course_work_et_desc.getText().toString(), (Calendar) course_work_btn_due.getTag(), mCourse);
+						mWorkManager.insert(newWorkItem);
+						mWorkList.add(newWorkItem);
+						resetInputs();
 					}
-					else {
+					else { // input not valid
 						AlertDialog.Builder dlg = new AlertDialog.Builder(CourseWorkActivity.this);
 						dlg
-							.setTitle("xInvalid item")
-							.setMessage("xPlease set a date and description")
-							.setPositiveButton("xOK", new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog, int which) {
-								}
-							})
+							.setTitle(R.string.course_work_invalid_dialog_title)
+							.setMessage(R.string.course_work_invalid_dialog_text)
+							.setPositiveButton(R.string.course_work_invalid_dialog_OK_btn_label,
+									new DialogInterface.OnClickListener() {
+										public void onClick(DialogInterface dialog, int which) {
+											dialog.dismiss();
+										}
+									})
 							.show();
 					}
 				}
@@ -133,11 +160,7 @@ public class CourseWorkActivity extends ListActivity {
 		
 		course_work_btn_cancel.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				Utility.hideSoftKeyboard(CourseWorkActivity.this, course_work_et_desc.getWindowToken());
-				resetInputs();
-				course_work_btn_add.setText(R.string.course_work_add_btn_label);
-				course_work_ll_add.setVisibility(View.GONE);
-				mAddMode = false;
+				cancelAdd();
 			}
 		});
 		
@@ -155,6 +178,14 @@ public class CourseWorkActivity extends ListActivity {
 				dlg.show();
 			}
 		});
+	}
+	
+	protected void cancelAdd() {
+		Utility.hideSoftKeyboard(CourseWorkActivity.this, course_work_et_desc.getWindowToken());
+		resetInputs();
+		course_work_btn_add.setText(R.string.course_work_add_btn_label);
+		course_work_ll_add.setVisibility(View.GONE);
+		mAddMode = false;
 	}
 	
 	protected boolean validateInputs() {
