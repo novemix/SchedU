@@ -17,6 +17,7 @@ import com.selagroup.schedu.activities.AllCoursesActivity;
 import com.selagroup.schedu.activities.CalendarActivity;
 import com.selagroup.schedu.activities.ScheduPreferences;
 import com.selagroup.schedu.activities.TermActivity;
+import com.selagroup.schedu.model.Term;
 import com.selagroup.schedu.model.TimePlaceBlock;
 
 public class Utility {
@@ -93,5 +94,17 @@ public class Utility {
 			return true;
 		}
 		return false;
+	}
+	
+	public static Term getCurrentTerm(List<Term> terms, Calendar iNow) {
+		Term currentTerm = null;
+		int termCount = 0;
+		for (Term term : terms) {
+			if (iNow.after(term.getStartDate()) && iNow.before(term.getEndDate())) {
+				currentTerm = term;
+				++termCount;
+			}
+		}
+		return currentTerm;
 	}
 }

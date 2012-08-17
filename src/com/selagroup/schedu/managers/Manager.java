@@ -85,7 +85,7 @@ public abstract class Manager<T extends ContentValueItem> {
 	 * Gets all items of type T from database
 	 * @return all items in an ArrayList
 	 */
-	public final List<T> getAll() {
+	public final ArrayList<T> getAll() {
 		mItemsTmp.clear();
 		open(OPEN_MODE.READ);
 		

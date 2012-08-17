@@ -1,0 +1,130 @@
+package com.selagroup.schedu;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Map;
+
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.media.AudioManager;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
+
+import com.selagroup.schedu.activities.CourseActivity;
+import com.selagroup.schedu.activities.ScheduPreferences;
+import com.selagroup.schedu.model.Course;
+import com.selagroup.schedu.model.TimePlaceBlock;
+
+public class AlarmSystem {
+	public static final String ALARM_SET_NEXT_DAY_EVENTS = "com.selagroup.schedu.ALARM_SET_NEXT_DAY_EVENTS";
+	public static final int ALARM_CODE_SET_NEXT_DAY_EVENTS = -1;
+	
+	public static final int SHOW_COURSE_BLOCK = -2;
+	public static final String ALARM_SET_SILENT_MODE = "com.selagroup.schedu.ALARM_SET_SILENT_MODE";
+	
+	private final BroadcastReceiver silentModeReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			boolean silent = intent.getExtras().getBoolean("silent", false);
+			Log.i("Test", silent ? "Phone silenced." : "Phone unsilenced.");
+			AudioManager audioMgr = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+			audioMgr.setRingerMode(silent ? AudioManager.RINGER_MODE_SILENT : AudioManager.RINGER_MODE_NORMAL);
+		}
+	};
+	
+	private final BroadcastReceiver setNextDayReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			Bundle bundle = intent.getExtras();
+			ArrayList<Course> courses = (ArrayList<Course>) bundle.getSerializable("courses");
+			Calendar day = (Calendar) bundle.getSerializable("day");
+			scheduleEventsForDay(courses, day);
+		}
+	};
+
+	private Context mContext;
+	private NotificationManager notificationMgr;
+	private AlarmManager mAlarmManager;
+
+	public AlarmSystem(Context iContext) {
+		mContext = iContext;
+		mAlarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
+		notificationMgr = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+
+		mContext.registerReceiver(silentModeReceiver, new IntentFilter(ALARM_SET_SILENT_MODE));
+		mContext.registerReceiver(setNextDayReceiver, new IntentFilter(ALARM_SET_NEXT_DAY_EVENTS));
+	}
+	
+	public void scheduleEventsForDay(ArrayList<Course> iCourses, Calendar iDay) {
+		Map<String, ?> allPreferences = PreferenceManager.getDefaultSharedPreferences(mContext).getAll();
+		boolean silentMode = (Boolean) allPreferences.get(ScheduPreferences.PREF_KEY_SILENT);
+		
+		/*
+		 * For each class block, schedule alarms for:
+		 * - Phone silence/unsilence for the next class
+		 * - Reminder before next class
+		 */
+		for (Course course : iCourses) {
+			for (TimePlaceBlock block : course.getBlocksOnDay(iDay.get(Calendar.DAY_OF_WEEK) - 1)) {
+				
+				// If in silent mode, schedule the silence events
+				if (silentMode) {
+					Calendar start = (Calendar) block.getStartTime();
+					Calendar end = (Calendar) block.getEndTime();
+					start.set(iDay.get(Calendar.YEAR), iDay.get(Calendar.MONTH), iDay.get(Calendar.DAY_OF_MONTH));
+					end.set(iDay.get(Calendar.YEAR), iDay.get(Calendar.MONTH), iDay.get(Calendar.DAY_OF_MONTH));
+					scheduleSilentMode(true, start, block.getID());
+					scheduleSilentMode(false, end, block.getID());
+				}
+			}
+		}
+		
+		// Set alarm to reschedule all events for tomorrow
+		Calendar tomorrow = Calendar.getInstance();
+		tomorrow.set(Calendar.HOUR_OF_DAY, 0);
+		tomorrow.set(Calendar.MINUTE, 0);
+		tomorrow.add(Calendar.DAY_OF_YEAR, 1);
+		Intent intent = new Intent(ALARM_SET_NEXT_DAY_EVENTS);
+		intent.putExtra("courses", iCourses);
+		intent.putExtra("day", iDay);
+		PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, ALARM_CODE_SET_NEXT_DAY_EVENTS, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+		mAlarmManager.set(AlarmManager.RTC_WAKEUP, tomorrow.getTimeInMillis(), pendingIntent);
+	}
+
+	/**
+	 * Set up an alarm to silence/unsilence the phone at the specified time
+	 * @param iSilence True to silence the phone, false to unsilence
+	 * @param alarmTime Time to silence the phone
+	 */
+	public void scheduleSilentMode(final boolean iSilence, Calendar iAlarmTime, int iBlockID) {
+		Intent intent = new Intent(ALARM_SET_SILENT_MODE);
+		intent.putExtra("silent", iSilence);
+		PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, iSilence ? (-2 * (iBlockID + 4)) : (-2 * (iBlockID + 4) + 1), intent, PendingIntent.FLAG_CANCEL_CURRENT);
+		mAlarmManager.set(AlarmManager.RTC_WAKEUP, iAlarmTime.getTimeInMillis(), pendingIntent);
+	}
+
+	private void showNotification() {
+		Notification notification = new Notification(R.drawable.ic_launcher, "Notification", System.currentTimeMillis());
+		notification.number = 1;
+		notification.vibrate = new long[] { 200, 200, 200, 200 };
+		notification.flags |= Notification.FLAG_AUTO_CANCEL;
+
+		// Show course intent
+		Intent showCourseIntent = new Intent(mContext, CourseActivity.class);
+		showCourseIntent.putExtra("courseID", -1);
+		showCourseIntent.putExtra("blockID", -1);
+		showCourseIntent.putExtra("day", Calendar.getInstance());
+
+		notification.contentIntent = PendingIntent.getActivity(mContext, SHOW_COURSE_BLOCK, showCourseIntent, Intent.FLAG_ACTIVITY_NEW_TASK);
+		// notification.setLatestEventInfo(mContext, "Title", "Content text", contentIntent);
+
+		notificationMgr.notify(1, notification);
+	}
+}

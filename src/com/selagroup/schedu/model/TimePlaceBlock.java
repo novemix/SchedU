@@ -42,6 +42,8 @@ public class TimePlaceBlock extends ContentValueItem implements Comparable<TimeP
 		mLocation = iLocation;
 		mStartTime = iStartTime;
 		mEndTime = iEndTime;
+		mStartTime.set(Calendar.MILLISECOND, 0);
+		mEndTime.set(Calendar.MILLISECOND, 0);
 		setDayFlagArray(iDayFlag);
 	}
 

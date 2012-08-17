@@ -4,17 +4,10 @@
  */
 package com.selagroup.schedu.managers;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.SortedMap;
-import java.util.TreeMap;
-
 import android.database.Cursor;
-import android.util.SparseArray;
 
 import com.selagroup.schedu.Utility;
 import com.selagroup.schedu.database.DBHelper;
-import com.selagroup.schedu.model.Course;
 import com.selagroup.schedu.model.Location;
 import com.selagroup.schedu.model.TimePlaceBlock;
 
@@ -97,10 +90,11 @@ public class TimePlaceBlockManager extends Manager<TimePlaceBlock> {
 	 * @param iNow The current time
 	 * @param iCourse The course to get the next block for, or null for any course
 	 * @param oBlock Output, the next block from the current time
-	 * @param oDay The day the next block occurs on
+	 * @param oStartDateTime The day the next block occurs on
 	 * @param oCourseID The ID of the course associated with the block returned
 	 */
-	public void nextBlock(Calendar iNow, Course iCourse, TimePlaceBlock oBlock, Calendar oDay, Integer oCourseID) {
+	/*
+	public void nextBlock(Calendar iNow, Course iCourse, TimePlaceBlock oBlock, Calendar oStartDateTime, Integer oCourseID) {
 		String selectedCourseIDs = "*";
 		if (iCourse != null) {
 			selectedCourseIDs = "" + iCourse.getID();
@@ -147,8 +141,9 @@ public class TimePlaceBlockManager extends Manager<TimePlaceBlock> {
 
 		// Find the closest course block and return the data for it
 		SortedMap<Calendar, TimePlaceBlock> tmpMap = startTimes.tailMap(iNow);
-		oDay = tmpMap.firstKey();
-		oBlock = tmpMap.get(oDay);
+		oStartDateTime = tmpMap.firstKey();
+		oBlock = tmpMap.get(oStartDateTime);
 		oCourseID = blockToCourse.get(oBlock.getID());
 	}
+	*/
 }

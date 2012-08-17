@@ -38,6 +38,7 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 	private Context mContext;
 	private List<Term> mTerms;
 	private int mEditIndex = -1;
+	private boolean mAddMode = false;
 
 	private static AlertDialog.Builder mDeleteAlert;
 	private AlertDialog mDeleteAlertDialog;
@@ -61,6 +62,10 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 
 	public void setEditIndex(int iEditIndex) {
 		mEditIndex = iEditIndex;
+	}
+	
+	public void setAddMode(boolean iAddMode) {
+		mAddMode = iAddMode;
 	}
 
 	@Override
@@ -96,7 +101,10 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 			holder.term_btn_start.setVisibility(editThisRow ? View.VISIBLE : View.GONE);
 			holder.term_btn_end.setVisibility(editThisRow ? View.VISIBLE : View.GONE);
 			holder.term_btn_delete.setVisibility(editThisRow ? View.VISIBLE : View.GONE);
-			holder.term_btn_edit.setVisibility(View.VISIBLE);
+			holder.term_btn_edit.setVisibility(mAddMode ? View.GONE : View.VISIBLE);
+			
+			holder.term_btn_edit.setFocusable(false);
+			holder.term_btn_edit.setFocusableInTouchMode(false);
 
 			Calendar startDate = term.getStartDate();
 			Calendar endDate = term.getEndDate();

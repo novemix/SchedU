@@ -5,6 +5,7 @@
 
 package com.selagroup.schedu.activities;
 
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -171,6 +172,8 @@ public class AddCourseActivity extends Activity {
 						Toast.makeText(AddCourseActivity.this, "Please provide a course code and at least one time block.", Toast.LENGTH_LONG).show();
 					}
 				}
+				ScheduApplication app = (ScheduApplication)getApplication();
+				app.getAlarmSystem().scheduleEventsForDay(mCourseManager.getAllForTerm(mCurrentTerm.getID()), Calendar.getInstance());
 			}
 		});
 	}

@@ -40,8 +40,8 @@ public class CourseManager extends Manager<Course> {
 		mTimePlaceBlockManager = iTimePlaceBlockManager;
 	}
 
-	public List<Course> getAllForInstructor(int iInstructorID) {
-		List<Course> courses = new ArrayList<Course>();
+	public ArrayList<Course> getAllForInstructor(int iInstructorID) {
+		ArrayList<Course> courses = new ArrayList<Course>();
 
 		open(OPEN_MODE.READ);
 		Cursor cursor = mDB.rawQuery("SELECT " + DBHelper.COL_COURSE_ALL_COL + " FROM " +
@@ -61,8 +61,8 @@ public class CourseManager extends Manager<Course> {
 		return courses;
 	}
 
-	public List<Course> getAllForTerm(int iTermID) {
-		List<Course> courses = new ArrayList<Course>();
+	public ArrayList<Course> getAllForTerm(int iTermID) {
+		ArrayList<Course> courses = new ArrayList<Course>();
 
 		// Open the database, query for all courses matching the termID, and add them to the list
 		open(OPEN_MODE.READ);

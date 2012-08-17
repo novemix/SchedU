@@ -29,7 +29,7 @@ public class ScheduApplication extends Application {
 	private ExamManager mExamManager;
 
 	// Alarm system
-	private ScheduleAlarmSystem mScheduleAlarmSystem;
+	private AlarmSystem mAlarmSystem;
 	
 	// The current term
 	private Term mCurrentTerm;
@@ -53,7 +53,7 @@ public class ScheduApplication extends Application {
 		mExamManager = new ExamManager(mHelper, mTimePlaceBlockManager, mCourseManager);
 		
 		// Create alarm manager
-		mScheduleAlarmSystem = new ScheduleAlarmSystem(getApplicationContext());
+		mAlarmSystem = new AlarmSystem(getApplicationContext());
 	}
 	
 	// Getters for database access managers
@@ -86,8 +86,8 @@ public class ScheduApplication extends Application {
 	}
 	
 	// Alarm system
-	public ScheduleAlarmSystem getScheduleAlarmSystem() {
-		return mScheduleAlarmSystem;
+	public AlarmSystem getAlarmSystem() {
+		return mAlarmSystem;
 	}
 	
 	// Term get/set

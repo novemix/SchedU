@@ -4,6 +4,7 @@
  */
 package com.selagroup.schedu.activities;
 
+import java.util.Calendar;
 import java.util.Map;
 
 import android.content.SharedPreferences;
@@ -12,9 +13,9 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import com.selagroup.schedu.R;
+import com.selagroup.schedu.ScheduApplication;
 
 /**
  * The Class PreferencesActivity.
@@ -45,14 +46,21 @@ public class ScheduPreferences extends PreferenceActivity implements OnSharedPre
 
 		mAllPreferences = sharedPref.getAll();
 
-		AudioManager audioMgr = (AudioManager) getSystemService(AUDIO_SERVICE);
 		if (key.equals(PREF_KEY_SILENT)) {
 			if ((Boolean) mAllPreferences.get(PREF_KEY_SILENT)) {
-				// audioMgr.setRingerMode(AudioManager.RINGER_MODE_SILENT);
-				Log.i("Test", "Ringer mode: silent");
+				// TODO: If during class, silence phone
+				
+				// TODO: Schedule alarms
+				ScheduApplication app = (ScheduApplication) getApplication();
+				app.getAlarmSystem().scheduleEventsForDay(
+						app.getCourseManager().getAllForTerm(app.getCurrentTerm().getID()), Calendar.getInstance());
+				
 			} else {
-				// audioMgr.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-				Log.i("Test", "Ringer mode: normal");
+				// Turn ringer on
+				((AudioManager) getSystemService(AUDIO_SERVICE)).setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+				
+				// TODO: Clear alarms
+				
 			}
 		} else if (key.equals(PREF_KEY_COURSE_REMIND)) {
 

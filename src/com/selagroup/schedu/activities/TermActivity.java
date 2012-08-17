@@ -17,7 +17,6 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
-import android.widget.ToggleButton;
 
 import com.selagroup.schedu.R;
 import com.selagroup.schedu.ScheduApplication;
@@ -58,12 +57,10 @@ public class TermActivity extends ListActivity {
 			}
 			mTermManager.delete(iTerm);
 			onTermEdit(iTerm);
-			mEditMode = false;
 			term_btn_add.setEnabled(true);
 			mTermAdapter.notifyDataSetChanged();
 		}
 	};
-	private boolean mEditMode = false;
 	private boolean mAddMode = false;
 	private Term mNewTerm = null;
 	private Term mSelectedTerm;
@@ -110,11 +107,13 @@ public class TermActivity extends ListActivity {
 					if (mTerms.contains(null)) {
 						mTerms.clear();
 					}
-					mNewTerm = new Term(-1, null, null);
-					mTerms.add(0, mNewTerm);
-					mTermAdapter.notifyDataSetChanged();
 
 					mAddMode = true;
+					mTermAdapter.setAddMode(true);
+					
+					mNewTerm = new Term(-1, null, null);
+					mTerms.add(0, mNewTerm);
+					
 					mTermAdapter.setEditIndex(mTerms.indexOf(mNewTerm));
 					mTermAdapter.notifyDataSetChanged();
 					mTermEditListener.onTermEdit(mNewTerm);
@@ -122,6 +121,7 @@ public class TermActivity extends ListActivity {
 				else {
 					// Done/Cancel, stop adding
 					mAddMode = false;
+					mTermAdapter.setAddMode(false);
 					mTermAdapter.setEditIndex(-1);
 
 					// Valid term, insert (Done button pressed)
