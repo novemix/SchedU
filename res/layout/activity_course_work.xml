@@ -9,6 +9,7 @@
             android:layout_height="wrap_content" >
 
             <ToggleButton
+                android:visibility="invisible"
                 android:id="@+id/course_work_btn_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -29,13 +30,13 @@
                 android:text="@string/course_work_title"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <ImageButton
+            <Button
                 android:id="@+id/course_work_btn_add"
-                android:layout_width="wrap_content"
+                android:layout_width="75dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
-                android:src="@android:drawable/ic_input_add" />
+                android:text="@string/course_work_add_btn_label" />
         </RelativeLayout>
 
         <!-- Course code -->
@@ -77,6 +78,59 @@
             android:text="@string/course_work_description_label" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/course_work_ll_add"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+        
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    <Button
+        android:id="@+id/course_work_btn_due"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:text="@string/course_work_due_btn_label" />
+    
+    <EditText
+        android:id="@+id/course_work_et_desc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="5"
+        android:inputType="text"
+        android:hint="@string/course_work_et_hint" />
+    
+    <ImageButton
+        android:id="@+id/course_work_btn_cancel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:src="@android:drawable/ic_delete" />
+        
+    </LinearLayout>
+    <!-- RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    <Button
+        android:layout_width="125dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/course_work_btn_delete"
+        android:text="@string/course_work_done_btn_label" />
+    <Button
+        android:id="@+id/course_work_btn_delete"
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:text="@string/course_work_cancel_btn_label" />    
+    </RelativeLayout -->
+    
+    </LinearLayout>
+    
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"

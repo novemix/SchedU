@@ -3,20 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
     
-    <Button
-        android:id="@+id/work_adapter_btn_due"
+    <TextView
+        android:id="@+id/work_adapter_tv_due"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:text="@string/work_adapter_due_btn_label" />
+        android:layout_weight="2" />
     
-    <EditText
-        android:id="@+id/work_adapter_et_desc"
+    <TextView
+        android:id="@+id/work_adapter_tv_desc"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="5"
-        android:inputType="text"
-        android:hint="@string/work_adapter_et_hint" />
+        android:layout_weight="5" />
     
     <ImageButton
         android:id="@+id/work_adapter_btn_delete"

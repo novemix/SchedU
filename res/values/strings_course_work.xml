@@ -3,8 +3,11 @@
     <string name="course_work_title">Course work:</string>
     <string name="course_work_edit_btn_off">Edit</string>
     <string name="course_work_edit_btn_on">Cancel</string>
+    <string name="course_work_add_btn_label">Add</string>
     <string name="course_work_due_date_label">Due Date</string>
     <string name="course_work_description_label">Description</string>
-    <string name="work_adapter_due_btn_label">Set</string>
-    <string name="work_adapter_et_hint">Enter description</string>
+    <string name="course_work_done_btn_label">Done</string>
+    <string name="course_work_cancel_btn_label">Cancel</string>
+    <string name="course_work_due_btn_label">Set</string>
+    <string name="course_work_et_hint">Enter description</string>
 </resources>

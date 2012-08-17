@@ -73,7 +73,7 @@ public class AssignmentManager extends Manager<Assignment> {
 		// Get assignment data
 		int assignmentID = iCursor.getInt(iCursor.getColumnIndex(DBHelper.COL_ASSIGNMENT_ID));
 		String name = iCursor.getString(iCursor.getColumnIndex(DBHelper.COL_ASSIGNMENT_Name));
-		int dueDateMillis = iCursor.getInt(iCursor.getColumnIndex(DBHelper.COL_ASSIGNMENT_DueDate));
+		long dueDateMillis = iCursor.getLong(iCursor.getColumnIndex(DBHelper.COL_ASSIGNMENT_DueDate));
 		int courseID = iCursor.getInt(iCursor.getColumnIndex(DBHelper.COL_ASSIGNMENT_CourseID));
 		
 		Calendar dueDate = Calendar.getInstance();

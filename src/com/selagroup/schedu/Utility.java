@@ -7,14 +7,17 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.os.IBinder;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.selagroup.schedu.activities.AllCoursesActivity;
 import com.selagroup.schedu.activities.CalendarActivity;
+import com.selagroup.schedu.activities.CourseWorkActivity;
 import com.selagroup.schedu.activities.ScheduPreferences;
 import com.selagroup.schedu.activities.TermActivity;
 import com.selagroup.schedu.model.Term;
@@ -106,5 +109,10 @@ public class Utility {
 			}
 		}
 		return currentTerm;
+	}
+	
+	public static void hideSoftKeyboard(Context iContext, IBinder iToken) {
+		InputMethodManager imm = (InputMethodManager) iContext.getSystemService(Context.INPUT_METHOD_SERVICE); 
+		imm.hideSoftInputFromWindow(iToken, 0);
 	}
 }
