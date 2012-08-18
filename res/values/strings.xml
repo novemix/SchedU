@@ -24,7 +24,7 @@
 	<string name="courseWork_activity_title">Course Work</string>
 	<string name="courseExams_activity_title">Exams</string>
 	<string name="instructor_activity_title">Instructor</string>
-	<string name="newExam_activity_title">Exam</string>
+	<string name="newExam_activity_title">Add New Exam</string>
 	<string name="notes_activity_title">Notes</string>
     <string name="preferences_activity_title">Preferences</string>
     <string name="sketchNote_activity_title">Sketch Note</string>

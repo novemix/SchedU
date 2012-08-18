@@ -31,10 +31,29 @@ public class CourseExamsActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_course_exams);
 		
+		initActivity();
+		
+		initWidgets();
+		initListeners();
+	}
+	
+	private void initActivity() {
 		mCourse = ((ScheduApplication) getApplication()).getCourseManager().get(getIntent().getIntExtra("courseID", -1));
 		((TextView) findViewById(R.id.course_exams_course_code)).setText(mCourse.getCode());
+	}
+
+	private void initWidgets() {
 		
-		mockup();
+	}
+
+	private void initListeners() {
+		((ImageButton) findViewById(R.id.course_exams_btn_add)).setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent(CourseExamsActivity.this, NewExamActivity.class);
+				intent.putExtra("courseID", mCourse.getID());
+				startActivity(intent);
+			}
+		});
 	}
 	
 	/**
@@ -54,15 +73,5 @@ public class CourseExamsActivity extends ListActivity {
 		else {
 			return super.onOptionsItemSelected(item);
 		}
-	}
-	
-	private void mockup() {
-		((ImageButton) findViewById(R.id.course_exams_btn_add)).setOnClickListener(new OnClickListener() {
-			
-			public void onClick(View v) {
-				startActivity(new Intent(CourseExamsActivity.this, NewExamActivity.class));
-			}
-		});
-		
 	}
 }

@@ -197,6 +197,7 @@ public class CourseWorkActivity extends ListActivity {
 	
 	protected void resetInputs() {
 		course_work_btn_due.setText(R.string.course_work_due_btn_label);
+		course_work_btn_due.setTag(null);
 		course_work_et_desc.setText("");
 	}
 	

@@ -8,25 +8,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
-            <ToggleButton
-                android:id="@+id/course_exams_btn_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:textOff="@string/course_exams_edit_btn_off"
-                android:textOn="@string/course_exams_edit_btn_on" />
-
             <TextView
-                android:id="@+id/course_exams_title"
+                android:id="@+id/course_exams_course_code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/course_exams_btn_edit"
-                android:layout_alignTop="@+id/course_exams_btn_edit"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignBottom="@+id/course_exams_btn_add"
                 android:layout_toLeftOf="@+id/course_exams_btn_add"
-                android:layout_toRightOf="@+id/course_exams_btn_edit"
                 android:gravity="center"
-                android:text="@string/course_exams_title"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <ImageButton
@@ -37,26 +27,6 @@
                 android:layout_alignParentTop="true"
                 android:src="@android:drawable/ic_input_add" />
         </RelativeLayout>
-
-        <!-- Course code -->
-
-        <TextView
-            android:id="@+id/course_exams_course_code"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:hint="--course code--"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-  
-    <!-- Divider -->
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="2dp"
-        android:scaleType="fitXY"
-        android:src="@android:drawable/divider_horizontal_dark" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -77,6 +47,15 @@
             android:text="@string/course_exams_description_label" />
     </LinearLayout>
 
+	<!-- Divider -->
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="2dp"
+        android:scaleType="fitXY"
+        android:src="@android:drawable/divider_horizontal_dark" />
+    
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
