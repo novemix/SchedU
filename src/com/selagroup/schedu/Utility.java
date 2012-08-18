@@ -1,6 +1,5 @@
 package com.selagroup.schedu;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
@@ -8,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.IBinder;
+import android.util.FloatMath;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.selagroup.schedu.activities.AllCoursesActivity;
 import com.selagroup.schedu.activities.CalendarActivity;
-import com.selagroup.schedu.activities.CourseWorkActivity;
 import com.selagroup.schedu.activities.ScheduPreferences;
 import com.selagroup.schedu.activities.TermActivity;
 import com.selagroup.schedu.model.Term;
@@ -30,6 +29,7 @@ public class Utility {
 	public static final int SECONDS_PER_MINUTE = 60;
 	public static final int MINUTES_PER_HOUR = 60;
 	public static final int HOURS_PER_DAY = 24;
+	public static final int DAYS_PER_WEEK = 7;
 	public static final int MILLIS_PER_MINUTE = MILLIS_PER_SECOND * SECONDS_PER_MINUTE;
 	public static final int MILLIS_PER_HOUR = MILLIS_PER_MINUTE * MINUTES_PER_HOUR;
 	public static final int MILLIS_PER_DAY = MILLIS_PER_HOUR * HOURS_PER_DAY;
@@ -49,7 +49,6 @@ public class Utility {
 		new_ll.setOrientation(LinearLayout.VERTICAL);
 
 		if (i_hours != null) {
-			SimpleDateFormat sdf = new SimpleDateFormat("h:mm a");
 			for (TimePlaceBlock tpb : i_hours) {
 				TextView newTextView = new TextView(new_ll.getContext());
 				newTextView.setText(tpb.toDateTimeString());
@@ -120,6 +119,6 @@ public class Utility {
 	}
 
 	public static float distance(float x1, float y1, float x2, float y2) {
-		return (float) Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+		return (float) FloatMath.sqrt((float) (Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2)));
     }
 }

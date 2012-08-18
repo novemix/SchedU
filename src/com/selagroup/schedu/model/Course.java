@@ -6,12 +6,16 @@
 package com.selagroup.schedu.model;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.TreeSet;
 
 import android.content.ContentValues;
+import android.util.Pair;
 
+import com.selagroup.schedu.Utility;
 import com.selagroup.schedu.database.DBHelper;
 
 /**
@@ -105,14 +109,32 @@ public class Course extends ContentValueItem {
 		mInstructor = iInstructor;
 	}
 
+	/**
+	 * Gets a sorted list of blocks for a given day
+	 * @param iDayIndex Day index to get blocks for (0 = Sunday, 1 = Monday, etc)
+	 * @return List of blocks for the day, sorted by start time
+	 */
 	public List<TimePlaceBlock> getBlocksOnDay(int iDayIndex) {
-		ArrayList<TimePlaceBlock> blocks = new ArrayList<TimePlaceBlock>(2);
+		TreeSet<TimePlaceBlock> blocks = new TreeSet<TimePlaceBlock>();
 		for (TimePlaceBlock block : mScheduleBlocks) {
 			if (block.getDayFlagArray()[iDayIndex]) {
 				blocks.add(block);
 			}
 		}
-		return blocks;
+		return new ArrayList<TimePlaceBlock>(blocks);
+	}
+	
+	/**
+	 * Gets the next block (and the day) for this course given a start time
+	 * @param iStart Start time
+	 * @return Pair: block and the associated day
+	 */
+	public Pair<TimePlaceBlock, Calendar> getNextBlock(Calendar iStart) {
+		for (int i = 0; i < Utility.DAYS_PER_WEEK; ++i) {
+			// TODO: Implement!
+			getBlocksOnDay(i);
+		}
+		return null;
 	}
 
 	@Override
