@@ -1,5 +1,6 @@
 package com.selagroup.schedu.adapters;
 
+import java.util.Calendar;
 import java.util.List;
 
 import android.app.AlertDialog;
@@ -16,7 +17,9 @@ import android.widget.TextView;
 
 import com.selagroup.schedu.R;
 import com.selagroup.schedu.activities.AddCourseActivity;
+import com.selagroup.schedu.activities.CourseActivity;
 import com.selagroup.schedu.model.Course;
+import com.selagroup.schedu.model.TimePlaceBlock;
 
 public class CourseArrayAdapter extends ArrayAdapter<Course> {
 	private static AlertDialog.Builder mDeleteAlert;
@@ -67,13 +70,15 @@ public class CourseArrayAdapter extends ArrayAdapter<Course> {
 			holder.course_adapter_tv_name = (TextView) row.findViewById(R.id.course_adapter_tv_name);
 			holder.course_adapter_btn_delete = (Button) row.findViewById(R.id.course_adapter_btn_delete);
 			holder.course_adapter_btn_edit = (Button) row.findViewById(R.id.course_adapter_btn_edit);
+			holder.course_adapter_btn_edit.setFocusable(false);
+			holder.course_adapter_btn_edit.setFocusableInTouchMode(false);
 			row.setTag(holder);
 		} else {
 			holder = (ViewHolder) row.getTag();
 		}
 		final Course course = mCourses.get(position);
 		final ViewHolder holderFinalRef = holder;
-		row.setBackgroundResource(R.drawable.term_block);
+		row.setBackgroundResource(R.drawable.list_block_selector);
 
 		holderFinalRef.course_adapter_tv_code.setVisibility(View.VISIBLE);
 		holderFinalRef.course_adapter_tv_name.setVisibility(View.VISIBLE);
@@ -112,6 +117,21 @@ public class CourseArrayAdapter extends ArrayAdapter<Course> {
 			holderFinalRef.course_adapter_tv_code.setText("No courses for this term.");
 			holderFinalRef.course_adapter_tv_name.setText("Please add a course.");
 		}
+
+		row.setOnClickListener(new OnClickListener() {
+			public void onClick(View view) {
+				Intent showCourseIntent = new Intent(mContext, CourseActivity.class);
+
+				// TODO: need to get the next time/day for this course
+				Calendar day = null;
+				TimePlaceBlock nextBlock = course.getScheduleBlocks().get(0);
+
+				showCourseIntent.putExtra("courseID", course.getID());
+				showCourseIntent.putExtra("blockID", nextBlock.getID());
+				showCourseIntent.putExtra("day", Calendar.getInstance());
+				mContext.startActivity(showCourseIntent);
+			}
+		});
 
 		return row;
 	}

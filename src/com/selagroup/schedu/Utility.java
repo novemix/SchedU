@@ -118,4 +118,8 @@ public class Utility {
 		InputMethodManager imm = (InputMethodManager) iContext.getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(iToken, 0);
 	}
+
+	public static float distance(float x1, float y1, float x2, float y2) {
+		return (float) Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+    }
 }

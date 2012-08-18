@@ -15,8 +15,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 
 import com.selagroup.schedu.AlarmSystem;
@@ -25,6 +23,7 @@ import com.selagroup.schedu.ScheduApplication;
 import com.selagroup.schedu.Utility;
 import com.selagroup.schedu.adapters.TermArrayAdapter;
 import com.selagroup.schedu.adapters.TermArrayAdapter.TermEditListener;
+import com.selagroup.schedu.adapters.TermArrayAdapter.TermSelectListener;
 import com.selagroup.schedu.managers.TermManager;
 import com.selagroup.schedu.model.Term;
 
@@ -43,6 +42,11 @@ public class TermActivity extends ListActivity {
 	private Button term_btn_add;
 
 	// Data
+	private boolean mAddMode = false;
+	private Term mNewTerm = null;
+	private List<Term> mTerms;
+	
+	// Listeners
 	private TermEditListener mTermEditListener = new TermEditListener() {
 		public void onTermEdit(Term iTerm) {
 			if (mAddMode) {
@@ -73,10 +77,15 @@ public class TermActivity extends ListActivity {
 			term_btn_add.setEnabled(true);
 		}
 	};
-	private boolean mAddMode = false;
-	private Term mNewTerm = null;
-	private Term mSelectedTerm;
-	private List<Term> mTerms;
+
+	private TermSelectListener mTermSelectListener = new TermSelectListener() {
+		public void onTermSelect(Term iTerm) {
+			ScheduApplication app = (ScheduApplication) getApplication();
+			Intent addCourseIntent = new Intent(TermActivity.this, AllCoursesActivity.class);
+			app.setCurrentTerm(iTerm);
+			startActivity(addCourseIntent);
+		}
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -157,25 +166,10 @@ public class TermActivity extends ListActivity {
 		});
 
 		// Set up spinner adapter
-		mTermAdapter = new TermArrayAdapter(this, R.layout.adapter_term_select, mTerms, mTermEditListener);
+		mTermAdapter = new TermArrayAdapter(this, R.layout.adapter_term_select, mTerms, mTermEditListener, mTermSelectListener);
 
 		mTermAdapter.setDropDownViewResource(R.layout.adapter_term_select);
 		setListAdapter(mTermAdapter);
-
-		getListView().setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
-				if (getListView().getItemAtPosition(pos) != null) {
-					if (!mAddMode) {
-						// Term selected
-						ScheduApplication app = (ScheduApplication) getApplication();
-						mSelectedTerm = mTermAdapter.getItem(pos);
-						Intent addCourseIntent = new Intent(TermActivity.this, AllCoursesActivity.class);
-						app.setCurrentTerm(mSelectedTerm);
-						startActivity(addCourseIntent);
-					}
-				}
-			}
-		});
 	}
 
 	/**

@@ -30,7 +30,12 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 		public void onTermDelete(Term iTerm);
 	}
 
+	public interface TermSelectListener {
+		public void onTermSelect(Term iTerm);
+	}
+
 	private TermEditListener mEditListener;
+	private TermSelectListener mSelectListener;
 
 	private static final SimpleDateFormat DATE_FORMAT1 = new SimpleDateFormat("MMM d");
 	private static final SimpleDateFormat DATE_FORMAT2 = new SimpleDateFormat("yyyy");
@@ -51,19 +56,19 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 		private Button term_btn_end;
 	}
 
-	public TermArrayAdapter(Context iContext, int textViewResourceId, List<Term> iTerms,
-			TermEditListener iEditListener) {
+	public TermArrayAdapter(Context iContext, int textViewResourceId, List<Term> iTerms, TermEditListener iEditListener, TermSelectListener iSelectListener) {
 		super(iContext, textViewResourceId, iTerms);
 		mContext = iContext;
 		mTerms = iTerms;
 		mEditListener = iEditListener;
+		mSelectListener = iSelectListener;
 		mDeleteAlert = new AlertDialog.Builder(mContext);
 	}
 
 	public void setEditIndex(int iEditIndex) {
 		mEditIndex = iEditIndex;
 	}
-	
+
 	public void setAddMode(boolean iAddMode) {
 		mAddMode = iAddMode;
 	}
@@ -88,7 +93,7 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 		}
 		final ViewHolder holder = tmpHolder;
 
-		row.setBackgroundResource(R.drawable.term_block);
+		row.setBackgroundResource(R.drawable.list_block_selector);
 
 		// Get the item
 		final Term term = mTerms.get(position);
@@ -102,30 +107,37 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 			holder.term_btn_end.setVisibility(editThisRow ? View.VISIBLE : View.GONE);
 			holder.term_btn_delete.setVisibility(editThisRow ? View.VISIBLE : View.GONE);
 			holder.term_btn_edit.setVisibility(mAddMode ? View.GONE : View.VISIBLE);
-			
+
 			holder.term_btn_edit.setFocusable(false);
 			holder.term_btn_edit.setFocusableInTouchMode(false);
 
 			Calendar startDate = term.getStartDate();
 			Calendar endDate = term.getEndDate();
 			if (editThisRow && startDate != null) {
-				holder.term_btn_start.setText(DATE_FORMAT1.format(startDate.getTime()) + "\n" +
-						DATE_FORMAT2.format(startDate.getTime()));
-			}
-			else {
+				holder.term_btn_start.setText(DATE_FORMAT1.format(startDate.getTime()) + "\n" + DATE_FORMAT2.format(startDate.getTime()));
+			} else {
 				holder.term_btn_start.setText("Select Start");
 			}
 			if (editThisRow && endDate != null) {
-				holder.term_btn_end.setText(DATE_FORMAT1.format(endDate.getTime()) + "\n" +
-						DATE_FORMAT2.format(endDate.getTime()));
-			}
-			else {
+				holder.term_btn_end.setText(DATE_FORMAT1.format(endDate.getTime()) + "\n" + DATE_FORMAT2.format(endDate.getTime()));
+			} else {
 				holder.term_btn_end.setText("Select End");
 			}
 
+			// Term selected
+			row.setOnClickListener(new OnClickListener() {
+				public void onClick(View v) {
+					if (!mAddMode) {
+						if (mEditIndex == -1) {
+							mSelectListener.onTermSelect(term);
+						}
+					}
+				}
+			});
+
 			// If edit enabled, show editing options
 			if (editThisRow) {
-				//holder.term_btn_edit.setText("Done");
+				// holder.term_btn_edit.setText("Done");
 				holder.term_btn_edit.setOnClickListener(new OnClickListener() {
 					public void onClick(View v) {
 						mEditIndex = -1;
@@ -163,8 +175,7 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 						setEndDate(term.getEndDate(), term, holder.term_btn_end);
 					}
 				});
-			}
-			else {
+			} else {
 				holder.term_btn_edit.setTag(position);
 				holder.term_btn_edit.setOnClickListener(new OnClickListener() {
 					public void onClick(View view) {
@@ -198,8 +209,7 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 				newDate.set(year, monthOfYear, dayOfMonth);
 				if (newDate.after(iTerm.getEndDate())) {
 					Toast.makeText(mContext, "Term cannot start after it ends.", Toast.LENGTH_SHORT).show();
-				}
-				else {
+				} else {
 					iTerm.setStartDate(newDate);
 					notifyDataSetChanged();
 					mEditListener.onTermEdit(iTerm);
@@ -221,8 +231,7 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 				newDate.set(year, monthOfYear, dayOfMonth);
 				if (newDate.before(iTerm.getStartDate())) {
 					Toast.makeText(mContext, "Term cannot start after it ends.", Toast.LENGTH_SHORT).show();
-				}
-				else {
+				} else {
 					iTerm.setEndDate(newDate);
 					notifyDataSetChanged();
 					mEditListener.onTermEdit(iTerm);

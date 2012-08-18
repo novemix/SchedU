@@ -5,20 +5,13 @@
 
 package com.selagroup.schedu.model;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.selagroup.schedu.R;
-import com.selagroup.schedu.activities.InstructorActivity;
-import com.selagroup.schedu.database.DBHelper;
-
 import android.content.ContentValues;
-import android.content.Context;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
+
+import com.selagroup.schedu.database.DBHelper;
 
 /**
  * The Class Instructor.

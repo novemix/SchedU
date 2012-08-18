@@ -4,7 +4,6 @@
  */
 package com.selagroup.schedu.activities;
 
-import java.util.Calendar;
 import java.util.List;
 
 import android.app.ListActivity;
@@ -14,8 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageButton;
 
 import com.selagroup.schedu.R;
@@ -26,7 +23,6 @@ import com.selagroup.schedu.adapters.CourseArrayAdapter.CourseDeleteListener;
 import com.selagroup.schedu.managers.CourseManager;
 import com.selagroup.schedu.model.Course;
 import com.selagroup.schedu.model.Term;
-import com.selagroup.schedu.model.TimePlaceBlock;
 
 /**
  * The Class AllCoursesActivity.
@@ -38,7 +34,6 @@ public class AllCoursesActivity extends ListActivity {
 	private ImageButton allcourses_btn_calendar;
 
 	// Data
-	private boolean mEditMode;
 	private Term mCurrentTerm;
 	private List<Course> mCourseList;
 	private CourseArrayAdapter mCourseAdapter;
@@ -119,27 +114,6 @@ public class AllCoursesActivity extends ListActivity {
 		allcourses_btn_calendar.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				startActivity(new Intent(AllCoursesActivity.this, CalendarActivity.class));
-			}
-		});
-
-		getListView().setOnItemClickListener(new OnItemClickListener() {
-
-			public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
-				Course course = mCourseList.get(pos);
-				if (course != null) {
-					if (!mEditMode) {
-						Intent showCourseIntent = new Intent(AllCoursesActivity.this, CourseActivity.class);
-
-						// TODO: need to get the next time/day for this course
-						Calendar day = null;
-						TimePlaceBlock nextBlock = course.getScheduleBlocks().get(0);
-
-						showCourseIntent.putExtra("courseID", course.getID());
-						showCourseIntent.putExtra("blockID", nextBlock.getID());
-						showCourseIntent.putExtra("day", Calendar.getInstance());
-						startActivity(showCourseIntent);
-					}
-				}
 			}
 		});
 	}
