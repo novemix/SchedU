@@ -201,7 +201,7 @@ public class AlarmSystem {
 	}
 
 	private void showCourseNotification(Course iCourse, TimePlaceBlock iBlock, Calendar iStart) {
-		Notification notification = new Notification(R.drawable.ic_launcher, "SchedU", System.currentTimeMillis());
+		Notification notification = new Notification(R.drawable.schedu_icon, "SchedU", System.currentTimeMillis());
 		notification.number = 1;
 		notification.vibrate = new long[] { 200, 200, 200, 200 };
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;
