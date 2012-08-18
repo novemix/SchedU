@@ -120,16 +120,18 @@ public class CourseArrayAdapter extends ArrayAdapter<Course> {
 
 		row.setOnClickListener(new OnClickListener() {
 			public void onClick(View view) {
-				Intent showCourseIntent = new Intent(mContext, CourseActivity.class);
+				if (course != null) {
+					Intent showCourseIntent = new Intent(mContext, CourseActivity.class);
 
-				// TODO: need to get the next time/day for this course
-				Calendar day = null;
-				TimePlaceBlock nextBlock = course.getScheduleBlocks().get(0);
+					// TODO: need to get the next time/day for this course
+					Calendar day = null;
+					TimePlaceBlock nextBlock = course.getScheduleBlocks().get(0);
 
-				showCourseIntent.putExtra("courseID", course.getID());
-				showCourseIntent.putExtra("blockID", nextBlock.getID());
-				showCourseIntent.putExtra("day", Calendar.getInstance());
-				mContext.startActivity(showCourseIntent);
+					showCourseIntent.putExtra("courseID", course.getID());
+					showCourseIntent.putExtra("blockID", nextBlock.getID());
+					showCourseIntent.putExtra("day", Calendar.getInstance());
+					mContext.startActivity(showCourseIntent);
+				}
 			}
 		});
 

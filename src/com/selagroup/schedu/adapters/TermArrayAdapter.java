@@ -127,10 +127,8 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 			// Term selected
 			row.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
-					if (!mAddMode) {
-						if (mEditIndex == -1) {
-							mSelectListener.onTermSelect(term);
-						}
+					if (term != null && !mAddMode && mEditIndex == -1) {
+						mSelectListener.onTermSelect(term);
 					}
 				}
 			});

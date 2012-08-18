@@ -6,6 +6,8 @@
 package com.selagroup.schedu.activities;
 
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import android.app.ListActivity;
@@ -45,7 +47,22 @@ public class TermActivity extends ListActivity {
 	private boolean mAddMode = false;
 	private Term mNewTerm = null;
 	private List<Term> mTerms;
-	
+
+	// Comparator
+	private static final Comparator<Term> mTermComparator = new Comparator<Term>() {
+		// -1 = lhs < rhs, 1 = lhs > rhs
+		public int compare(Term lhs, Term rhs) {
+			if (lhs == null || lhs.getStartDate() == null || lhs.getEndDate() == null) {
+				return -1;
+			}
+			if (rhs == null || rhs.getStartDate() == null || rhs.getEndDate() == null) {
+				return 1;
+			}
+			int retVal = rhs.getStartDate().compareTo(lhs.getStartDate());
+			return retVal;
+		}
+	};
+
 	// Listeners
 	private TermEditListener mTermEditListener = new TermEditListener() {
 		public void onTermEdit(Term iTerm) {
@@ -54,6 +71,7 @@ public class TermActivity extends ListActivity {
 			}
 			if (termIsValid(iTerm)) {
 				mTermManager.update(iTerm);
+				Collections.sort(mTerms, mTermComparator);
 
 				ScheduApplication app = (ScheduApplication) getApplication();
 				Term currentTerm = Utility.getCurrentTerm(mTerms, Calendar.getInstance());
@@ -98,6 +116,7 @@ public class TermActivity extends ListActivity {
 		if (mTerms.isEmpty()) {
 			mTerms.add(null);
 		}
+		Collections.sort(mTerms, mTermComparator);
 
 		initWidgets();
 	}
@@ -148,6 +167,9 @@ public class TermActivity extends ListActivity {
 					if (termIsValid(mNewTerm)) {
 						mTermManager.insert(mNewTerm);
 						mTermEditListener.onTermEdit(mNewTerm);
+
+						// Sort terms by start date
+						Collections.sort(mTerms, mTermComparator);
 					}
 					// Invalid term, remove from list (Cancel button pressed)
 					else {
