@@ -17,7 +17,6 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageButton;
-import android.widget.ToggleButton;
 
 import com.selagroup.schedu.R;
 import com.selagroup.schedu.ScheduApplication;
@@ -35,7 +34,6 @@ import com.selagroup.schedu.model.TimePlaceBlock;
 public class AllCoursesActivity extends ListActivity {
 
 	// Widgets
-	private ToggleButton allcourses_btn_edit;
 	private ImageButton allcourses_btn_add;
 	private ImageButton allcourses_btn_calendar;
 
@@ -106,20 +104,11 @@ public class AllCoursesActivity extends ListActivity {
 	}
 
 	protected void initWidgets() {
-		allcourses_btn_edit = (ToggleButton) findViewById(R.id.allcourses_btn_edit);
 		allcourses_btn_add = (ImageButton) findViewById(R.id.allcourses_btn_add);
 		allcourses_btn_calendar = (ImageButton) findViewById(R.id.allcourses_btn_calendar);
 	}
 
 	protected void initListeners() {
-		allcourses_btn_edit.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				mEditMode = !mEditMode;
-				mCourseAdapter.setEditEnabled(mEditMode);
-				mCourseAdapter.notifyDataSetChanged();
-			}
-		});
-
 		allcourses_btn_add.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent(AllCoursesActivity.this, AddCourseActivity.class);
@@ -138,12 +127,7 @@ public class AllCoursesActivity extends ListActivity {
 			public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
 				Course course = mCourseList.get(pos);
 				if (course != null) {
-					if (mEditMode) {
-						Intent editCourseIntent = new Intent(AllCoursesActivity.this, AddCourseActivity.class);
-						editCourseIntent.putExtra("edit", true);
-						editCourseIntent.putExtra("course", course);
-						startActivity(editCourseIntent);
-					} else {
+					if (!mEditMode) {
 						Intent showCourseIntent = new Intent(AllCoursesActivity.this, CourseActivity.class);
 
 						// TODO: need to get the next time/day for this course

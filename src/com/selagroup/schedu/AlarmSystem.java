@@ -3,7 +3,6 @@ package com.selagroup.schedu;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.LinkedList;
 import java.util.Map;
 
 import android.app.AlarmManager;

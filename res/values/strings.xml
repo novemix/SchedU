@@ -15,13 +15,13 @@
 	<dimen name="instructor_add_time_button_height">40dp</dimen>
 	
 	<!-- Activity Titles -->
-	<string name="allCourses_activity_title">Courses</string>
+	<string name="allCourses_activity_title">Course List</string>
 	<string name="addCourse_activity_title">Add Course</string>
 	<string name="addTime_activity_title">Add Course Time</string>
 	<string name="officeHours_activity_title">Add Office Hours</string>
 	<string name="calendar_activity_title">Calendar</string>
 	<string name="course_activity_title">Course</string>
-	<string name="courseWork_activity_title">Course work</string>
+	<string name="courseWork_activity_title">Course Work</string>
 	<string name="courseExams_activity_title">Exams</string>
 	<string name="instructor_activity_title">Instructor</string>
 	<string name="newExam_activity_title">Exam</string>

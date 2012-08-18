@@ -7,21 +7,12 @@
     <RelativeLayout 
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <ToggleButton
-            android:id="@+id/allcourses_btn_edit"
-            android:layout_width="75dp"
-            android:layout_height="0dp"
-            android:layout_alignBottom="@+id/allcourses_btn_add"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:textOff="@string/allcourses_edit_btn_off"
-            android:textOn="@string/allcourses_edit_btn_on" />
         
         <ImageButton
             android:id="@+id/allcourses_btn_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/allcourses_btn_calendar"
+            android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:src="@android:drawable/ic_menu_add" />
         
@@ -29,7 +20,7 @@
             android:id="@+id/allcourses_btn_calendar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:src="@android:drawable/ic_menu_my_calendar" />
 
