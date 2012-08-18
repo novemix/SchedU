@@ -114,11 +114,7 @@ public class AlarmSystem {
 	 * @param iDay Day to schedule events for
 	 */
 	public void scheduleEventsForDay(ArrayList<Course> iCourses, Calendar iDay, boolean iNewNotifications) {
-		// Clear all previous alarms
-		for (PendingIntent intent : mAllAlarmIntents) {
-			mAlarmManager.cancel(intent);
-		}
-		mAllAlarmIntents.clear();
+		clearAlarms();
 		
 		// Get preferences
 		Map<String, ?> allPreferences = PreferenceManager.getDefaultSharedPreferences(mContext).getAll();
@@ -169,6 +165,16 @@ public class AlarmSystem {
 		mAllAlarmIntents.add(pendingIntent);
 		mAlarmManager.set(AlarmManager.RTC_WAKEUP, tomorrow.getTimeInMillis(), pendingIntent);
 	}
+
+	/**
+	 * Clear all previously set alarms
+	 */
+	public void clearAlarms() {
+		for (PendingIntent intent : mAllAlarmIntents) {
+			mAlarmManager.cancel(intent);
+		}
+		mAllAlarmIntents.clear();
+    }
 
 	/**
 	 * Set up an alarm to silence/unsilence the phone at the specified time

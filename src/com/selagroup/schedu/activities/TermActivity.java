@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 
+import com.selagroup.schedu.AlarmSystem;
 import com.selagroup.schedu.R;
 import com.selagroup.schedu.ScheduApplication;
 import com.selagroup.schedu.Utility;
@@ -49,10 +50,15 @@ public class TermActivity extends ListActivity {
 			}
 			if (termIsValid(iTerm)) {
 				mTermManager.update(iTerm);
-				
+
 				ScheduApplication app = (ScheduApplication) getApplication();
-				app.getAlarmSystem().scheduleEventsForDay(app.getCourseManager().getAllForTerm(
-						Utility.getCurrentTerm(mTerms, Calendar.getInstance()).getID()), Calendar.getInstance(), true);
+				Term currentTerm = Utility.getCurrentTerm(mTerms, Calendar.getInstance());
+				AlarmSystem alarmSys = app.getAlarmSystem();
+				if (currentTerm != null) {
+					alarmSys.scheduleEventsForDay(app.getCourseManager().getAllForTerm(currentTerm.getID()), Calendar.getInstance(), true);
+				} else {
+					alarmSys.clearAlarms();
+				}
 			}
 		}
 
@@ -98,8 +104,7 @@ public class TermActivity extends ListActivity {
 		if (item.getTitle().equals(getResources().getString(R.string.menu_item_preferences))) {
 			startActivity(new Intent(TermActivity.this, ScheduPreferences.class));
 			return true;
-		}
-		else {
+		} else {
 			return super.onOptionsItemSelected(item);
 		}
 	}
@@ -116,25 +121,24 @@ public class TermActivity extends ListActivity {
 
 					mAddMode = true;
 					mTermAdapter.setAddMode(true);
-					
+
 					mNewTerm = new Term(-1, null, null);
 					mTerms.add(0, mNewTerm);
-					
+
 					mTermAdapter.setEditIndex(mTerms.indexOf(mNewTerm));
 					mTermAdapter.notifyDataSetChanged();
 					mTermEditListener.onTermEdit(mNewTerm);
-				}
-				else {
+				} else {
 					// Done/Cancel, stop adding
 					mAddMode = false;
 					mTermAdapter.setAddMode(false);
 					mTermAdapter.setEditIndex(-1);
+					term_btn_add.setText("Add");
 
 					// Valid term, insert (Done button pressed)
 					if (termIsValid(mNewTerm)) {
 						mTermManager.insert(mNewTerm);
 						mTermEditListener.onTermEdit(mNewTerm);
-						term_btn_add.setText("Add");
 					}
 					// Invalid term, remove from list (Cancel button pressed)
 					else {
