@@ -24,8 +24,8 @@ import com.selagroup.schedu.model.Term;
 import com.selagroup.schedu.model.TimePlaceBlock;
 
 public class Utility {
-	
-	public static final String[] sDays = {"Sun","Mon","Tue","Wed","Thu","Fri","Sat"};
+
+	public static final String[] sDays = { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
 	public static final int MILLIS_PER_SECOND = 1000;
 	public static final int SECONDS_PER_MINUTE = 60;
 	public static final int MINUTES_PER_HOUR = 60;
@@ -33,21 +33,21 @@ public class Utility {
 	public static final int MILLIS_PER_MINUTE = MILLIS_PER_SECOND * SECONDS_PER_MINUTE;
 	public static final int MILLIS_PER_HOUR = MILLIS_PER_MINUTE * MINUTES_PER_HOUR;
 	public static final int MILLIS_PER_DAY = MILLIS_PER_HOUR * HOURS_PER_DAY;
-	
+
 	public static long intFromCalendar(Calendar iCalendar) {
 		return iCalendar.getTimeInMillis();
 	}
-	
+
 	public static Calendar calendarFromInt(long iTimeInMillis) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(iTimeInMillis);
 		return calendar;
 	}
-	
+
 	public static void populateInstructorHours(ScrollView i_sv, List<TimePlaceBlock> i_hours) {
 		LinearLayout new_ll = new LinearLayout(i_sv.getContext());
 		new_ll.setOrientation(LinearLayout.VERTICAL);
-		
+
 		if (i_hours != null) {
 			SimpleDateFormat sdf = new SimpleDateFormat("h:mm a");
 			for (TimePlaceBlock tpb : i_hours) {
@@ -59,15 +59,16 @@ public class Utility {
 		i_sv.removeAllViews();
 		i_sv.addView(new_ll);
 	}
-	
+
 	public static String getDayString(boolean[] arr) {
 		String result = "";
-		for (int i = 0 ; i < 7 ; i++) {
-			if (arr[i]) result += ("".equals(result) ? "" : ", ") + sDays[i];
+		for (int i = 0; i < 7; i++) {
+			if (arr[i])
+				result += ("".equals(result) ? "" : ", ") + sDays[i];
 		}
 		return result;
 	}
-	
+
 	public static void buildOptionsMenu(Context iContext, Menu iMenu) {
 		iMenu.add(R.string.menu_item_term_activity);
 		if (!(iContext instanceof AllCoursesActivity)) {
@@ -78,7 +79,7 @@ public class Utility {
 		}
 		iMenu.add(R.string.menu_item_preferences);
 	}
-	
+
 	public static boolean handleOptionsMenuSelection(Context iContext, MenuItem iItem) {
 		Resources res = iContext.getResources();
 		if (iItem.getTitle().equals(res.getString(R.string.menu_item_term_activity))) {
@@ -98,21 +99,23 @@ public class Utility {
 		}
 		return false;
 	}
-	
+
 	public static Term getCurrentTerm(List<Term> terms, Calendar iNow) {
 		Term currentTerm = null;
 		int termCount = 0;
 		for (Term term : terms) {
-			if (iNow.after(term.getStartDate()) && iNow.before(term.getEndDate())) {
-				currentTerm = term;
-				++termCount;
+			if (term != null) {
+				if (iNow.after(term.getStartDate()) && iNow.before(term.getEndDate())) {
+					currentTerm = term;
+					++termCount;
+				}
 			}
 		}
 		return currentTerm;
 	}
-	
+
 	public static void hideSoftKeyboard(Context iContext, IBinder iToken) {
-		InputMethodManager imm = (InputMethodManager) iContext.getSystemService(Context.INPUT_METHOD_SERVICE); 
+		InputMethodManager imm = (InputMethodManager) iContext.getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(iToken, 0);
 	}
 }

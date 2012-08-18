@@ -8,6 +8,7 @@ import java.util.TimerTask;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -35,7 +36,12 @@ public class SplashActivity extends Activity {
 				return false;
 			}
 		});
-
+		
+		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+	}
+	
+	@Override
+	protected void onResume() {
 		mTimer = new Timer(true);
 		mTimer.schedule(new TimerTask() {
 			@Override
@@ -43,7 +49,7 @@ public class SplashActivity extends Activity {
 				startApplication();
 			}
 		}, 1000);
-
+		super.onResume();
 	}
 
 	/**

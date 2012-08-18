@@ -63,14 +63,14 @@ public class TermActivity extends ListActivity {
 		}
 
 		public void onTermDelete(Term iTerm) {
-			mTermAdapter.remove(iTerm);
-			if (mTermAdapter.isEmpty()) {
-				mTermAdapter.add(null);
+			mTerms.remove(iTerm);
+			if (mTerms.isEmpty()) {
+				mTerms.add(null);
 			}
 			mTermManager.delete(iTerm);
+			mTermAdapter.notifyDataSetChanged();
 			onTermEdit(iTerm);
 			term_btn_add.setEnabled(true);
-			mTermAdapter.notifyDataSetChanged();
 		}
 	};
 	private boolean mAddMode = false;

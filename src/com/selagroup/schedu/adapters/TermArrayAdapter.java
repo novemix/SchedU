@@ -117,7 +117,7 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 			}
 			if (editThisRow && endDate != null) {
 				holder.term_btn_end.setText(DATE_FORMAT1.format(endDate.getTime()) + "\n" +
-						DATE_FORMAT2.format(startDate.getTime()));
+						DATE_FORMAT2.format(endDate.getTime()));
 			}
 			else {
 				holder.term_btn_end.setText("Select End");
