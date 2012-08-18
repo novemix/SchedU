@@ -2,6 +2,7 @@
 <resources>
     <string name="new_exam_title">Add New Exam</string>
     <string name="new_exam_course_label">Course:</string>
+    <string name="new_exam_desc_label">Desc:</string>
     <string name="new_exam_building_label">Building:</string>
     <string name="new_exam_room_label">Room:</string>
     <string name="new_exam_date_label">Date:</string>
