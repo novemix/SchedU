@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -123,13 +124,18 @@ public class CourseArrayAdapter extends ArrayAdapter<Course> {
 				if (course != null) {
 					Intent showCourseIntent = new Intent(mContext, CourseActivity.class);
 
-					// TODO: need to get the next time/day for this course
-					Calendar day = null;
-					TimePlaceBlock nextBlock = course.getScheduleBlocks().get(0);
+					Calendar day = Calendar.getInstance();
+					Pair<TimePlaceBlock, Calendar> nextBlockPair = course.getNextBlock(day);
 
-					showCourseIntent.putExtra("courseID", course.getID());
-					showCourseIntent.putExtra("blockID", nextBlock.getID());
-					showCourseIntent.putExtra("day", Calendar.getInstance());
+					if (nextBlockPair == null) {
+						showCourseIntent.putExtra("courseID", course.getID());
+						showCourseIntent.putExtra("blockID", -1);
+						showCourseIntent.putExtra("day", Calendar.getInstance());
+					} else {
+						showCourseIntent.putExtra("courseID", course.getID());
+						showCourseIntent.putExtra("blockID", nextBlockPair.first.getID());
+						showCourseIntent.putExtra("day", nextBlockPair.second);
+					}
 					mContext.startActivity(showCourseIntent);
 				}
 			}

@@ -10,7 +10,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.TreeSet;
+import java.util.TreeMap;
 
 import android.content.ContentValues;
 import android.util.Pair;
@@ -88,7 +88,7 @@ public class Course extends ContentValueItem {
 	public String getCode() {
 		return mCode;
 	}
-	
+
 	public void setCode(String iCode) {
 		mCode = iCode;
 	}
@@ -96,7 +96,7 @@ public class Course extends ContentValueItem {
 	public String getName() {
 		return mName;
 	}
-	
+
 	public void setName(String iName) {
 		mName = iName;
 	}
@@ -104,7 +104,7 @@ public class Course extends ContentValueItem {
 	public Instructor getInstructor() {
 		return mInstructor;
 	}
-	
+
 	public void setInstructor(Instructor iInstructor) {
 		mInstructor = iInstructor;
 	}
@@ -115,26 +115,43 @@ public class Course extends ContentValueItem {
 	 * @return List of blocks for the day, sorted by start time
 	 */
 	public List<TimePlaceBlock> getBlocksOnDay(int iDayIndex) {
-		TreeSet<TimePlaceBlock> blocks = new TreeSet<TimePlaceBlock>();
+		ArrayList<TimePlaceBlock> blocks = new ArrayList<TimePlaceBlock>();
 		for (TimePlaceBlock block : mScheduleBlocks) {
 			if (block.getDayFlagArray()[iDayIndex]) {
 				blocks.add(block);
 			}
 		}
-		return new ArrayList<TimePlaceBlock>(blocks);
+		Collections.sort(blocks);
+		return blocks;
 	}
-	
+
 	/**
 	 * Gets the next block (and the day) for this course given a start time
-	 * @param iStart Start time
+	 * @param iStart Start date and time
 	 * @return Pair: block and the associated day
 	 */
 	public Pair<TimePlaceBlock, Calendar> getNextBlock(Calendar iStart) {
-		for (int i = 0; i < Utility.DAYS_PER_WEEK; ++i) {
-			// TODO: Implement!
-			getBlocksOnDay(i);
+		TreeMap<Calendar, TimePlaceBlock> blockStartTimes = new TreeMap<Calendar, TimePlaceBlock>();
+		for (TimePlaceBlock block : mScheduleBlocks) {
+			for (int i = 0; i < Utility.DAYS_PER_WEEK; ++i) {
+				if (block.getDayFlagArray()[i]) {
+					Calendar blockStart = (Calendar) block.getStartTime().clone();
+					blockStart.set(Calendar.YEAR, iStart.get(Calendar.YEAR));
+					blockStart.set(Calendar.WEEK_OF_YEAR, iStart.get(Calendar.WEEK_OF_YEAR));
+					blockStart.set(Calendar.DAY_OF_WEEK, i + 1);
+					if (blockStart.before(iStart)) {
+						blockStart.add(Calendar.WEEK_OF_YEAR, 1);
+					}
+					blockStartTimes.put(blockStart, block);
+				}
+			}
 		}
-		return null;
+		if (blockStartTimes.isEmpty()) {
+			return null;
+		} else {
+			Calendar firstKey = blockStartTimes.firstKey();
+			return new Pair<TimePlaceBlock, Calendar>(blockStartTimes.get(firstKey), firstKey);
+		}
 	}
 
 	@Override
@@ -156,7 +173,7 @@ public class Course extends ContentValueItem {
 	public List<TimePlaceBlock> getRemovedBlocks() {
 		return mRemovedBlocks;
 	}
-	
+
 	public void clearRemovedBlocks() {
 		mRemovedBlocks.clear();
 	}
