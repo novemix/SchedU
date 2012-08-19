@@ -32,12 +32,12 @@ import com.selagroup.schedu.model.TimePlaceBlock;
  * The Class CourseActivity.
  */
 public class CourseActivity extends Activity {
-	
+
 	public static final int INSTRUCTOR_EDIT_CODE = 1;
-	
-	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MMMM d, yyyy");
+
+	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("EEEE MMMM d, yyyy");
 	public static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("h:mm a");
-	
+
 	private TextView course_course_code;
 	private TextView course_course_name;
 	private TextView course_countDown_label;
@@ -48,12 +48,12 @@ public class CourseActivity extends Activity {
 	private TextView course_instructor;
 	private TextView course_instructor_location;
 	private ScrollView course_sv_instructor_hours;
-	
+
 	private Button course_btn_edit_instructor;
 	private Button course_btn_notes;
 	private Button course_btn_work;
 	private Button course_btn_exams;
-	
+
 	private Calendar day;
 	private int duration;
 	private int courseID;
@@ -61,24 +61,24 @@ public class CourseActivity extends Activity {
 	private TimePlaceBlock thisBlock;
 	private Location thisLocation;
 	private Instructor thisInstructor;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_course);
-	
+
 		Intent intent = getIntent();
 		courseID = intent.getIntExtra("courseID", -1);
 		int blockID = intent.getIntExtra("blockID", -1);
 		day = (Calendar) intent.getSerializableExtra("day");
-		
+
 		thisCourse = ((ScheduApplication) getApplication()).getCourseManager().get(courseID);
 		thisBlock = thisCourse.getScheduleBlock(blockID);
 		duration = (int) (thisBlock.getEndTime().getTimeInMillis() - thisBlock.getStartTime().getTimeInMillis());
 		updateDayWithBlockTime();
 		thisLocation = thisBlock.getLocation();
 		thisInstructor = thisCourse.getInstructor();
-		
+
 		initWidgets();
 		setValues();
 		initListeners();
@@ -92,19 +92,19 @@ public class CourseActivity extends Activity {
 			setValues();
 		}
 	}
-	
+
 	private void updateDayWithBlockTime() {
 		int year = day.get(Calendar.YEAR);
 		int month = day.get(Calendar.MONTH);
 		int dayOfMonth = day.get(Calendar.DAY_OF_MONTH);
-		
+
 		Calendar start = thisBlock.getStartTime();
 		int hour = start.get(Calendar.HOUR_OF_DAY);
 		int minute = start.get(Calendar.MINUTE);
-		
+
 		day.set(year, month, dayOfMonth, hour, minute, 0);
 	}
-	
+
 	/**
 	 * Context menu
 	 */
@@ -118,25 +118,24 @@ public class CourseActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (Utility.handleOptionsMenuSelection(CourseActivity.this, item)) {
 			return true;
-		}
-		else {
+		} else {
 			return super.onOptionsItemSelected(item);
 		}
 	}
-	
+
 	private void initWidgets() {
 		// Initialize widget handles
 		course_course_code = (TextView) findViewById(R.id.course_course_code);
 		course_course_name = (TextView) findViewById(R.id.course_course_name);
 		course_tv_date = (TextView) findViewById(R.id.course_tv_date);
-		course_tv_time = (TextView) 		findViewById(R.id.course_tv_time);
+		course_tv_time = (TextView) findViewById(R.id.course_tv_time);
 		course_countDown_label = (TextView) findViewById(R.id.course_countDown_label);
 		course_tv_countDown = (TextView) findViewById(R.id.course_tv_countDown);
 		course_location = (TextView) findViewById(R.id.course_location);
 		course_instructor = (TextView) findViewById(R.id.course_instructor);
 		course_instructor_location = (TextView) findViewById(R.id.course_instructor_location);
 		course_sv_instructor_hours = (ScrollView) findViewById(R.id.course_sv_instructor_hours);
-		
+
 		course_btn_edit_instructor = (Button) findViewById(R.id.course_btn_edit_instructor);
 		course_btn_notes = (Button) findViewById(R.id.course_btn_notes);
 		course_btn_work = (Button) findViewById(R.id.course_btn_work);
@@ -154,8 +153,7 @@ public class CourseActivity extends Activity {
 			if (difference <= 0) { // it's now after the end time
 				course_tv_countDown.setText("00 : 00 : 00");
 			}
-		}
-		else { // it's before the start time, set the label
+		} else { // it's before the start time, set the label
 			course_countDown_label.setText(R.string.course_course_begins);
 		}
 		if (difference > 0) { // before start time, or before end time, do the same thing
@@ -176,54 +174,52 @@ public class CourseActivity extends Activity {
 			}.start();
 		}
 	}
-	
+
 	private void setValues() {
 		// Set values
 		course_course_code.setText(thisCourse.getCode());
 		course_course_name.setText(thisCourse.getName());
 		course_tv_date.setText(DATE_FORMAT.format(day.getTime()));
-		course_tv_time.setText(thisBlock.toTimeString());
+		course_tv_time.setText(thisBlock.toDateTimeString());
 		setCourseTimer();
 		course_location.setText(thisLocation.toString());
 		if (thisInstructor != null) {
 			course_instructor.setText(thisInstructor.getName());
 			String building = thisInstructor.getLocation().getBuilding();
 			String room = thisInstructor.getLocation().getRoom();
-			course_instructor_location.setText(building
-					+ ("".equals(building) || "".equals(room) ? "" : ", ")
-					+ room);
+			course_instructor_location.setText(building + ("".equals(building) || "".equals(room) ? "" : ", ") + room);
 			Utility.populateInstructorHours(course_sv_instructor_hours, thisInstructor.getOfficeBlocks());
 		}
 	}
-	
+
 	private void initListeners() {
 		course_btn_edit_instructor.setOnClickListener(new OnClickListener() {
-			
+
 			public void onClick(View v) {
 				Intent intent = new Intent(CourseActivity.this, InstructorActivity.class);
 				intent.putExtra("courseID", thisCourse.getID());
 				startActivityForResult(intent, INSTRUCTOR_EDIT_CODE);
 			}
 		});
-		
+
 		course_btn_notes.setOnClickListener(new OnClickListener() {
-			
+
 			public void onClick(View v) {
 				startActivity(new Intent(CourseActivity.this, NotesActivity.class));
 			}
 		});
-		
+
 		course_btn_work.setOnClickListener(new OnClickListener() {
-			
+
 			public void onClick(View v) {
 				Intent intent = new Intent(CourseActivity.this, CourseWorkActivity.class);
 				intent.putExtra("courseID", courseID);
 				startActivity(intent);
 			}
 		});
-		
+
 		course_btn_exams.setOnClickListener(new OnClickListener() {
-			
+
 			public void onClick(View v) {
 				Intent intent = new Intent(CourseActivity.this, CourseExamsActivity.class);
 				intent.putExtra("courseID", courseID);
