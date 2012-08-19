@@ -9,6 +9,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
@@ -85,6 +87,8 @@ public class CalendarActivity extends Activity {
 
 	// Day widgets
 	private HorizontalPanelSwitcher calendar_switcher_day;
+	private View mCurrentTimeLine;
+	private RelativeLayout.LayoutParams mCurrentTimeLineParams;
 
 	private View mThisDayView;
 	private RelativeLayout mThisDayParentView;
@@ -192,12 +196,11 @@ public class CalendarActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (Utility.handleOptionsMenuSelection(CalendarActivity.this, item)) {
 			return true;
-		}
-		else {
+		} else {
 			return super.onOptionsItemSelected(item);
 		}
 	}
-	
+
 	/**
 	 * Initializes the widgets.
 	 */
@@ -474,10 +477,36 @@ public class CalendarActivity extends Activity {
 				mNextDayScroll.scrollTo(0, (int) mThisDayScroll.getScrollY());
 			}
 		});
-		
+
+		// Add hour and half-hour markers to the view
 		addTimeLinesToView(mThisDayCourses);
 		addTimeLinesToView(mNextDayCourses);
 		addTimeLinesToView(mPrevDayCourses);
+
+		// If viewing today show a red line for current time
+		Calendar currentDay = Calendar.getInstance();
+		if (mThisDay.get(Calendar.YEAR) == currentDay.get(Calendar.YEAR) && mThisDay.get(Calendar.DAY_OF_YEAR) == currentDay.get(Calendar.DAY_OF_YEAR)) {
+			mCurrentTimeLine = new View(this);
+			mCurrentTimeLine.setBackgroundResource(R.drawable.calendar_line);
+			mCurrentTimeLineParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, 4);
+			mCurrentTimeLineParams.setMargins(0, (int) ((Utility.minFromMidnight(Calendar.getInstance()) + DAY_VIEW_BUFFER - 1) * mDensity + 0.5f), 0, 0);
+			mCurrentTimeLine.setLayoutParams(mCurrentTimeLineParams);
+			mThisDayCourses.addView(mCurrentTimeLine);
+			
+			TimerTask updateLine = new TimerTask() {
+				@Override
+				public void run() {
+					mCurrentTimeLine.post(new Runnable() {
+						public void run() {
+							mCurrentTimeLineParams.setMargins(0, (int) ((Utility.minFromMidnight(Calendar.getInstance()) + DAY_VIEW_BUFFER - 1) * mDensity + 0.5f), 0, 0);
+							mCurrentTimeLine.setLayoutParams(mCurrentTimeLineParams);
+						}
+					});
+				}
+			};
+			Timer timer = new Timer(true);
+			timer.scheduleAtFixedRate(updateLine, 1000 - Calendar.getInstance().get(Calendar.MILLISECOND), 1000);
+		}
 
 		// Check if we are still in the current term
 		if (mCurrentTerm.getStartDate().before(mThisDay) && mCurrentTerm.getEndDate().after(mThisDay)) {
@@ -510,14 +539,14 @@ public class CalendarActivity extends Activity {
 	private void addTimeLinesToView(RelativeLayout iView) {
 		for (int i = 0; i < 2 * Utility.HOURS_PER_DAY; ++i) {
 			// Sets the block distance from the top of the layout
-			RelativeLayout hourLine = new RelativeLayout(this);
-			hourLine.setBackgroundResource((i % 2 == 0) ? R.drawable.hour_line : R.drawable.halfhour_line);
+			View line = new View(this);
+			line.setBackgroundResource((i % 2 == 0) ? R.drawable.hour_line : R.drawable.halfhour_line);
 			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, 2);
 			params.setMargins(0, (int) ((30 * i + DAY_VIEW_BUFFER - 1) * mDensity + 0.5f), 0, 0);
-			hourLine.setLayoutParams(params);
-			iView.addView(hourLine);
+			line.setLayoutParams(params);
+			iView.addView(line);
 		}
-    }
+	}
 
 	private void initWeekView() {
 		// Remove any existing week views
@@ -572,7 +601,7 @@ public class CalendarActivity extends Activity {
 			// Add the week's day block to the list and the linear layout
 			iBlocks.add(weekDayBlock);
 			iWeekLayout.addView(weekDayBlock);
-			
+
 			// If the day is in the current term
 			if (mCurrentTerm.getStartDate().before(day) && mCurrentTerm.getEndDate().after(day)) {
 				// Add time blocks to tree map for sorting by time of day
@@ -707,6 +736,7 @@ public class CalendarActivity extends Activity {
 		calendar_switcher_week.setVisibility(View.VISIBLE);
 		initWeekView();
 	}
+
 	@Override
 	protected void onResume() {
 		mDayMode = true;

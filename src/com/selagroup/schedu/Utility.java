@@ -121,4 +121,8 @@ public class Utility {
 	public static float distance(float x1, float y1, float x2, float y2) {
 		return (float) FloatMath.sqrt((float) (Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2)));
     }
+
+	public static int minFromMidnight(Calendar iCalendar) {
+	    return iCalendar.get(Calendar.MINUTE) + MINUTES_PER_HOUR * iCalendar.get(Calendar.HOUR_OF_DAY);
+    }
 }
