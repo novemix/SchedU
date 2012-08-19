@@ -1,15 +1,8 @@
 package com.selagroup.schedu.adapters;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 
-import com.selagroup.schedu.R;
-import com.selagroup.schedu.ScheduApplication;
-import com.selagroup.schedu.model.Assignment;
-
-import android.app.Application;
-import android.app.DatePickerDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +11,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.selagroup.schedu.R;
+import com.selagroup.schedu.model.Assignment;
 
 public class WorkArrayAdapter extends ArrayAdapter<Assignment> {
 	

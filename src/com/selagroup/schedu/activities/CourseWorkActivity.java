@@ -5,14 +5,12 @@
 package com.selagroup.schedu.activities;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -20,8 +18,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -219,22 +215,4 @@ public class CourseWorkActivity extends ListActivity {
 			return super.onOptionsItemSelected(item);
 		}
 	}
-	/*
-	private void mockup() {
-		final Dialog dlgNewAssignment = new Dialog(this);
-		//dlgNewAssignment.setTitle(R.string.dialog_new_assignment_title);
-		dlgNewAssignment.requestWindowFeature(Window.FEATURE_NO_TITLE);
- 		dlgNewAssignment.setContentView(R.layout.dialog_work);
- 		dlgNewAssignment.findViewById(R.id.dialog_work_btn_cancel).setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				dlgNewAssignment.dismiss();
-			}
-		});
-		((ImageButton) findViewById(R.id.course_work_btn_add)).setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				dlgNewAssignment.show();
-			}
-		});
-	}
-	*/
 }
