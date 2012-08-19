@@ -6,3 +6,29 @@ Normal / xhdpi	640x960							320 dpi
 Nice to support:
 Xlarge / mdpi	WXGA (1280x800), 1024x768, 1280x768			160 dpi
 Large / mdpi	WVGA800 (480x800), WVGA854 (480x854), 600x1024		160 dpi
+
+
+These icons should just be a graphic with a transparent background.
+We will make the button default and depressed looks for the background.
+The one resolution is OK because it will be automatically scaled down.
+In-Screen icons:
+Edit icon (. . . or pencil)	72x72	
+Done icon (checkmark)		72x72
+Delete icon (x)			72x72
+Add icon (+)			72x72
+Calendar icon			72x72
+Forward and back arrows		72x72
+Work icon			72x72
+Exams icon			72x72
+
+Menu icons:
+Term select			72x72
+Course list			72x72
+Calendar			72x72
+Preferences			72x72
+
+Sched-U logo, transparent background		160 width, 240 width, 320 width
+
+We will make:
+Default button shapes
+Depressed button shapes

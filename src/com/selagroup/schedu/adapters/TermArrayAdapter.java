@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,7 +52,7 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 	private static class ViewHolder {
 		private TextView term_adapter_tv_select;
 		private Button term_btn_edit;
-		private Button term_btn_delete;
+		private ImageButton term_btn_delete;
 		private Button term_btn_start;
 		private Button term_btn_end;
 	}
@@ -84,7 +85,7 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 			tmpHolder = new ViewHolder();
 			tmpHolder.term_adapter_tv_select = (TextView) row.findViewById(R.id.term_tv_select);
 			tmpHolder.term_btn_edit = (Button) row.findViewById(R.id.term_btn_edit);
-			tmpHolder.term_btn_delete = (Button) row.findViewById(R.id.term_btn_delete);
+			tmpHolder.term_btn_delete = (ImageButton) row.findViewById(R.id.term_btn_delete);
 			tmpHolder.term_btn_start = (Button) row.findViewById(R.id.term_btn_start);
 			tmpHolder.term_btn_end = (Button) row.findViewById(R.id.term_btn_end);
 			row.setTag(tmpHolder);
@@ -105,7 +106,7 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 			holder.term_adapter_tv_select.setVisibility(editThisRow ? View.GONE : View.VISIBLE);
 			holder.term_btn_start.setVisibility(editThisRow ? View.VISIBLE : View.GONE);
 			holder.term_btn_end.setVisibility(editThisRow ? View.VISIBLE : View.GONE);
-			holder.term_btn_delete.setVisibility(editThisRow ? View.VISIBLE : View.GONE);
+			holder.term_btn_delete.setVisibility(editThisRow && !mAddMode ? View.VISIBLE : View.GONE);
 			holder.term_btn_edit.setVisibility(mAddMode ? View.GONE : View.VISIBLE);
 
 			holder.term_btn_edit.setFocusable(false);
