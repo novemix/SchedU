@@ -135,6 +135,7 @@ public class NewExamActivity extends Activity {
 				break;
 			case R.id.new_exam_btn_done:
 				addNewExam();
+				setResult(RESULT_OK);
 				finish();
 				break;
 			case R.id.new_exam_btn_cancel:
