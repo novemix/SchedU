@@ -13,6 +13,6 @@
     <string name="course_work_invalid_dialog_title">Invalid item</string>
     <string name="course_work_invalid_dialog_text">Please set a date and description</string>
     <string name="course_work_invalid_dialog_OK_btn_label">OK</string>
-    <string name="course_work_delete_dialog_text">Please confirm deletion of:</string>
+    <string name="course_work_delete_dialog_text">Delete work item?</string>
     <string name="course_work_delete_dialog_confirm_label">Confirm</string>
 </resources>

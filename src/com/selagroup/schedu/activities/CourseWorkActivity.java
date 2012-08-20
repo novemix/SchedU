@@ -56,7 +56,6 @@ public class CourseWorkActivity extends ListActivity {
 			AlertDialog.Builder dlg = new AlertDialog.Builder(CourseWorkActivity.this);
 			String msg = getResources().getString(R.string.course_work_delete_dialog_text) + "\n" + iWorkItem.getName();
 			dlg
-				.setTitle(R.string.course_work_delete_dialog_confirm_label)
 				.setMessage(msg)
 				.setPositiveButton(R.string.course_work_delete_dialog_confirm_label,
 						new DialogInterface.OnClickListener() {
