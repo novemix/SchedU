@@ -18,6 +18,7 @@ import android.text.format.Time;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -74,6 +75,7 @@ public class NewExamActivity extends Activity {
 			mCourse = ((ScheduApplication) getApplication()).getCourseManager().get(courseID);
 		} else {
 			setTitle(R.string.new_exam_edit_title);
+			((ImageButton) findViewById(R.id.new_exam_btn_delete)).setVisibility(View.VISIBLE);
 			editExam = true;
 			exam = mExamManager.get(intent.getIntExtra("examID", -1));
 			mCourse = exam.getCourse();
