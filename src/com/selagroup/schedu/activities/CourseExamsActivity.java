@@ -20,7 +20,10 @@ import com.selagroup.schedu.R;
 import com.selagroup.schedu.ScheduApplication;
 import com.selagroup.schedu.Utility;
 import com.selagroup.schedu.adapters.ExamArrayAdapter;
+import com.selagroup.schedu.adapters.ExamArrayAdapter.ExamEditListener;
+import com.selagroup.schedu.adapters.WorkArrayAdapter.WorkEditListener;
 import com.selagroup.schedu.managers.ExamManager;
+import com.selagroup.schedu.model.Assignment;
 import com.selagroup.schedu.model.Course;
 import com.selagroup.schedu.model.Exam;
 
@@ -36,6 +39,17 @@ public class CourseExamsActivity extends ListActivity {
 	
 	ImageButton course_exams_btn_add;
 	
+	private int EXAM_ADD_CODE = 1;
+	private int EXAM_EDIT_CODE = 2;
+	
+	private ExamEditListener mExamEditListener = new ExamEditListener() {
+		public void onExamEdit(Exam iExam) {
+			Intent intent = new Intent(CourseExamsActivity.this, NewExamActivity.class);
+			intent.putExtra("examID", iExam.getID());
+			startActivityForResult(intent, EXAM_EDIT_CODE);
+		}
+	};
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -48,23 +62,21 @@ public class CourseExamsActivity extends ListActivity {
 	}
 	
 	@Override
-	protected void onResume() {
-		super.onResume();
-		//TODO: start add/edit activity with result, and only update list if they didn't cancel
-		if (mExamList != null) {
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == RESULT_OK) {
 			mExamList.clear();
 			mExamList.addAll(mExamManager.getAllForCourse(mCourse.getID()));
 			mExamAdapter.notifyDataSetChanged();
 		}
 	}
-	
+		
 	private void initActivity() {
 		mCourse = ((ScheduApplication) getApplication()).getCourseManager().get(getIntent().getIntExtra("courseID", -1));
 		((TextView) findViewById(R.id.course_exams_course_code)).setText(mCourse.getCode());
 		
 		mExamManager = ((ScheduApplication) getApplication()).getExamManager();
 		mExamList = mExamManager.getAllForCourse(mCourse.getID());
-		mExamAdapter = new ExamArrayAdapter(CourseExamsActivity.this, R.layout.adapter_exam_select, mExamList);
+		mExamAdapter = new ExamArrayAdapter(CourseExamsActivity.this, R.layout.adapter_exam_select, mExamList, mExamEditListener);
 		setListAdapter(mExamAdapter);
 	}
 
@@ -77,7 +89,7 @@ public class CourseExamsActivity extends ListActivity {
 			public void onClick(View v) {
 				Intent intent = new Intent(CourseExamsActivity.this, NewExamActivity.class);
 				intent.putExtra("courseID", mCourse.getID());
-				startActivity(intent);
+				startActivityForResult(intent, EXAM_ADD_CODE);
 			}
 		});
 	}

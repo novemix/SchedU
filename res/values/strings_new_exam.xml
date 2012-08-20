@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="new_exam_title">Add New Exam</string>
+    <string name="new_exam_edit_title">Edit Exam</string>
     <string name="new_exam_course_label">Course:</string>
     <string name="new_exam_desc_label">Desc:</string>
     <string name="new_exam_building_label">Building:</string>

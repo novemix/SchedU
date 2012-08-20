@@ -12,9 +12,9 @@ import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.Time;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -36,8 +36,10 @@ import com.selagroup.schedu.model.TimePlaceBlock;
  */
 public class NewExamActivity extends Activity {
 	
+	Boolean editExam = false;
 	ExamManager mExamManager;
 	Course mCourse;
+	Exam exam;
 	
 	EditText new_exam_et_desc;
 	EditText new_exam_et_bldg;
@@ -57,12 +59,27 @@ public class NewExamActivity extends Activity {
 		initWidgets();
 		initListeners();
 	}
-
+	
+	@Override
+	public void onBackPressed() {
+		cancel();
+	}
+	
 	private void initActivity() {
-		mCourse = ((ScheduApplication) getApplication()).getCourseManager().get(getIntent().getIntExtra("courseID", -1));
-		((TextView) findViewById(R.id.new_exam_tv_course_code)).setText(mCourse.getCode());
-		
 		mExamManager = ((ScheduApplication) getApplication()).getExamManager();
+		
+		Intent intent = getIntent();
+		int courseID = intent.getIntExtra("courseID", -1);
+		if (courseID != -1) {
+			mCourse = ((ScheduApplication) getApplication()).getCourseManager().get(courseID);
+		} else {
+			setTitle(R.string.new_exam_edit_title);
+			editExam = true;
+			exam = mExamManager.get(intent.getIntExtra("examID", -1));
+			mCourse = exam.getCourse();
+		}
+		
+		((TextView) findViewById(R.id.new_exam_tv_course_code)).setText(mCourse.getCode());
 	}
 	
 	private void initWidgets() {
@@ -121,12 +138,10 @@ public class NewExamActivity extends Activity {
 				finish();
 				break;
 			case R.id.new_exam_btn_cancel:
-				finish();
+				cancel();
 				break;
 			}
 		}
-
-		
 	};
 	
 	private void addNewExam() {
@@ -148,5 +163,11 @@ public class NewExamActivity extends Activity {
 		Exam exam = new Exam(-1, new_exam_et_desc.getText().toString(), mCourse, block);
 		
 		mExamManager.insert(exam);
+	}
+	
+	private void cancel() {
+		Intent returnIntent = new Intent();
+		setResult(RESULT_CANCELED, returnIntent);
+		finish();
 	}
 }
