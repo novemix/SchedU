@@ -159,16 +159,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="fill_parent" >
-<TextView
-            android:id="@+id/instructor_hours_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignBottom="@+id/instructor_btn_add_time"
-            android:gravity="center_vertical"
-            android:text="@string/instructor_hours_label"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <Button
             android:id="@+id/instructor_btn_add_time"
@@ -190,7 +180,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/instructor_bottom_buttons"
-            android:layout_below="@+id/instructor_hours_label" >
+            android:layout_below="@+id/instructor_btn_add_time" >
 
             <LinearLayout
                 android:id="@+id/instructor_ll_hours"

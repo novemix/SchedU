@@ -9,8 +9,10 @@
     <string name="instructor_building_label">Building:</string>
     <string name="instructor_room_label">Room:</string>
     <string name="instructor_hours_label">Office Hours:</string>
-    <string name="instructor_add_time_btn">Add Hours</string>
+    <string name="instructor_add_time_btn">Add Office Hours</string>
     <string name="instructor_clear_time_btn">Clear Hours</string>
     <string name="instructor_cancel_btn">Cancel</string>
     <string name="instructor_done_btn">Done</string>
+    <string name="instructor_clear_hours_confirm_text">Clear office hours?</string>
+    <string name="instructor_clear_hours_btn_confirm">Confirm</string>
 </resources>
