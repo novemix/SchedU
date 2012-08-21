@@ -14,4 +14,6 @@
     <string name="new_exam_end_btn">Select end time</string>
     <string name="new_exam_done_btn">Done</string>
     <string name="new_exam_cancel_btn">Cancel</string>
+    <string name="new_exam_dialog_validate_text">Please specify a description, date, start and end times</string>
+    <string name="new_exam_dialog_validate_OK_btn_label">OK</string>
 </resources>

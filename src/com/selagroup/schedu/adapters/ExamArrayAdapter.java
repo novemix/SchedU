@@ -46,7 +46,10 @@ public class ExamArrayAdapter extends ArrayAdapter<Exam> {
 		((TextView) row.findViewById(R.id.exam_adapter_tv_date)).setText((new SimpleDateFormat("MM/dd")).format(exam.getBlock().getStartTime().getTime()));
 		((TextView) row.findViewById(R.id.exam_adapter_tv_desc)).setText(exam.getDescription());
 		Location location = exam.getBlock().getLocation();
-		String location_text = location.getBuilding() + ", " + location.getRoom();
+		String building = location.getBuilding();
+		String room = location.getRoom();
+		String separator = "".equals(building) || "".equals(room) ? "" : ", ";
+		String location_text = building + separator + room;
 		((TextView) row.findViewById(R.id.exam_adapter_tv_location)).setText(location_text);
 		SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
 		Calendar start = exam.getBlock().getStartTime();

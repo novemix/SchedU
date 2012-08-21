@@ -8,10 +8,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.Time;
@@ -123,6 +125,13 @@ public class NewExamActivity extends Activity {
 		((Button) findViewById(R.id.new_exam_btn_cancel)).setOnClickListener(btnListener);
 	}
 	
+	private boolean validate() {
+		return ( ! "".equals(new_exam_et_desc.getText().toString())
+				&& new_exam_btn_date.getTag() != null
+				&& new_exam_btn_start_time.getTag() != null
+				&& new_exam_btn_end_time.getTag() != null);
+	}
+	
 	private OnClickListener btnListener = new OnClickListener() {
 		
 		final Calendar examDate = Calendar.getInstance();
@@ -157,9 +166,20 @@ public class NewExamActivity extends Activity {
 					}}, end.hour, end.minute, false)).show();
 				break;
 			case R.id.new_exam_btn_done:
-				addNewExam();
-				setResult(RESULT_OK);
-				finish();
+				if (validate()) {
+					addNewExam();
+					setResult(RESULT_OK);
+					finish();
+				} else {
+					(new AlertDialog.Builder(NewExamActivity.this))
+					.setMessage(R.string.new_exam_dialog_validate_text)
+					.setPositiveButton(R.string.new_exam_dialog_validate_OK_btn_label, new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+							dialog.dismiss();
+						}
+					})
+					.show();
+				}
 				break;
 			case R.id.new_exam_btn_cancel:
 				cancel();
