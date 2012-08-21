@@ -16,4 +16,7 @@
     <string name="new_exam_cancel_btn">Cancel</string>
     <string name="new_exam_dialog_validate_text">Please specify a description, date, start and end times</string>
     <string name="new_exam_dialog_validate_OK_btn_label">OK</string>
+    <string name="new_exam_dialog_delete_text">Delete this exam?</string>
+    <string name="new_exam_dialog_delete_confirm_btn_label">Confirm</string>
+    <string name="new_exam_dialog_delete_cancel_btn_label">Cancel</string>
 </resources>

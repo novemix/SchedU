@@ -40,6 +40,10 @@ public class Exam extends ContentValueItem {
 		return mDescription;
 	}
 	
+	public void setDescription(String iDescription) {
+		mDescription = iDescription;
+	}
+	
 	public Course getCourse() {
 		return mCourse;
 	}

@@ -58,9 +58,17 @@ public class TimePlaceBlock extends ContentValueItem implements Comparable<TimeP
 	public Calendar getStartTime() {
 		return mStartTime;
 	}
+	
+	public void setStartTime(Calendar iStartTime) {
+		mStartTime = iStartTime;
+	}
 
 	public Calendar getEndTime() {
 		return mEndTime;
+	}
+	
+	public void setEndTime(Calendar iEndTime) {
+		mEndTime = iEndTime;
 	}
 
 	public ContentValues getValues() {

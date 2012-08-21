@@ -51,9 +51,13 @@ public class NewExamActivity extends Activity {
 	private Button new_exam_btn_start_time;
 	private Button new_exam_btn_end_time;
 	private Button new_exam_btn_done;
+	private ImageButton new_exam_btn_delete;
 	
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM dd, yyyy");
 	private SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
+	
+	private Calendar start;
+	private Calendar end;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +85,6 @@ public class NewExamActivity extends Activity {
 			mCourse = ((ScheduApplication) getApplication()).getCourseManager().get(courseID);
 		} else {
 			setTitle(R.string.new_exam_edit_title);
-			((ImageButton) findViewById(R.id.new_exam_btn_delete)).setVisibility(View.VISIBLE);
 			editExam = true;
 			exam = mExamManager.get(intent.getIntExtra("examID", -1));
 			mCourse = exam.getCourse();
@@ -98,6 +101,10 @@ public class NewExamActivity extends Activity {
 		new_exam_btn_start_time = (Button) findViewById(R.id.new_exam_btn_start_time);
 		new_exam_btn_end_time = (Button) findViewById(R.id.new_exam_btn_end_time);
 		new_exam_btn_done = (Button) findViewById(R.id.new_exam_btn_done);
+		if (editExam) {
+			new_exam_btn_delete = (ImageButton) findViewById(R.id.new_exam_btn_delete);
+			new_exam_btn_delete.setVisibility(View.VISIBLE);
+		}
 	}
 	
 	private void setValues() {
@@ -107,13 +114,17 @@ public class NewExamActivity extends Activity {
 		new_exam_et_room.setText(location.getRoom());
 		if (editExam) {
 			new_exam_et_desc.setText(exam.getDescription());
-			Calendar start = block.getStartTime();
-			Calendar end = block.getEndTime();
+			start = block.getStartTime();
+			end = block.getEndTime();
 			new_exam_btn_date.setText(dateFormat.format(start.getTime()));
 			new_exam_btn_date.setTag(start);
-			
-			new_exam_btn_start_time.setText(timeFormat.format(start.getTime()));
-			new_exam_btn_end_time.setText(timeFormat.format(end.getTime()));
+			new_exam_btn_start_time.setText(timeFormat.format(start.getTime()).toLowerCase());
+			new_exam_btn_start_time.setTag(start);
+			new_exam_btn_end_time.setText(timeFormat.format(end.getTime()).toLowerCase());
+			new_exam_btn_end_time.setTag(end);
+		} else {
+			start = Calendar.getInstance();
+			end = Calendar.getInstance();
 		}
 	}
 	
@@ -123,6 +134,9 @@ public class NewExamActivity extends Activity {
 		new_exam_btn_end_time.setOnClickListener(btnListener);
 		new_exam_btn_done.setOnClickListener(btnListener);
 		((Button) findViewById(R.id.new_exam_btn_cancel)).setOnClickListener(btnListener);
+		if (editExam) {
+			new_exam_btn_delete.setOnClickListener(btnListener);
+		}
 	}
 	
 	private boolean validate() {
@@ -134,36 +148,52 @@ public class NewExamActivity extends Activity {
 	
 	private OnClickListener btnListener = new OnClickListener() {
 		
-		final Calendar examDate = Calendar.getInstance();
-		final Time start = new Time();
-		final Time end = new Time();
-		
 		public void onClick(View v) {
 			switch(v.getId()) {
 			case R.id.new_exam_btn_date:
 				(new DatePickerDialog(NewExamActivity.this, new OnDateSetListener() {
 					public void onDateSet(DatePicker view, int year, int month, int day) {
-						examDate.set(year, month, day);
-						new_exam_btn_date.setText(dateFormat.format(examDate.getTime()));
-						new_exam_btn_date.setTag(examDate);
+						start.set(year, month, day);
+						end.set(year, month, day);
+						new_exam_btn_date.setText(dateFormat.format(start.getTime()));
+						new_exam_btn_date.setTag(start);
 					}
-				}, examDate.get(Calendar.YEAR), examDate.get(Calendar.MONTH), examDate.get(Calendar.DAY_OF_MONTH))).show();
+				}, start.get(Calendar.YEAR), start.get(Calendar.MONTH), start.get(Calendar.DAY_OF_MONTH))).show();
 				break;
 			case R.id.new_exam_btn_start_time:
 				(new TimePickerDialog(NewExamActivity.this, new OnTimeSetListener() {
 					public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-						start.set(0, minute, hourOfDay, start.monthDay, start.month, start.year);
-						new_exam_btn_start_time.setText(start.format("%I:%M %P"));
+						start.set(start.get(Calendar.YEAR), start.get(Calendar.MONTH), start.get(Calendar.DAY_OF_MONTH)
+								, hourOfDay, minute, 0);
+						new_exam_btn_start_time.setText(timeFormat.format(start.getTime()));
 						new_exam_btn_start_time.setTag(start);
-					}}, start.hour, start.minute, false)).show();
+					}}, start.get(Calendar.HOUR_OF_DAY), start.get(Calendar.MINUTE), false)).show();
 				break;
 			case R.id.new_exam_btn_end_time:
 				(new TimePickerDialog(NewExamActivity.this, new OnTimeSetListener() {
 					public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-						end.set(0, minute, hourOfDay, end.monthDay, end.month, end.year);
-						new_exam_btn_end_time.setText(end.format("%I:%M %P"));
+						end.set(end.get(Calendar.YEAR), end.get(Calendar.MONTH), end.get(Calendar.DAY_OF_MONTH)
+								, hourOfDay, minute, 0);
+						new_exam_btn_end_time.setText(timeFormat.format(end.getTime()));
 						new_exam_btn_end_time.setTag(end);
-					}}, end.hour, end.minute, false)).show();
+					}}, end.get(Calendar.HOUR_OF_DAY), end.get(Calendar.MINUTE), false)).show();
+				break;
+			case R.id.new_exam_btn_delete:
+				(new AlertDialog.Builder(NewExamActivity.this))
+				.setMessage(R.string.new_exam_dialog_delete_text)
+				.setPositiveButton(R.string.new_exam_dialog_delete_confirm_btn_label, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						mExamManager.delete(exam);
+						setResult(RESULT_OK);
+						finish();
+					}
+				})
+				.setNegativeButton(R.string.new_exam_dialog_delete_cancel_btn_label, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				})
+				.show();
 				break;
 			case R.id.new_exam_btn_done:
 				if (validate()) {
@@ -189,24 +219,24 @@ public class NewExamActivity extends Activity {
 	};
 	
 	private void addNewExam() {
-		Calendar start = ((Calendar) new_exam_btn_date.getTag());
-		Calendar end = Calendar.getInstance();
-		int year = start.get(Calendar.YEAR);
-		int month = start.get(Calendar.MONTH);
-		int day = start.get(Calendar.DAY_OF_MONTH);
-		
-		Time start_time = (Time) new_exam_btn_start_time.getTag();
-		Time end_time = (Time) new_exam_btn_end_time.getTag();
-		
-		start.set(year, month, day, start_time.hour, start_time.minute, 0);
-		end.set(year, month, day, end_time.hour, end_time.minute, 0);
-		
-		Location location = new Location(-1, new_exam_et_bldg.getText().toString(), new_exam_et_room.getText().toString(), null);
-		TimePlaceBlock block = new TimePlaceBlock(-1, location, start, end, 0);
-		
-		Exam exam = new Exam(-1, new_exam_et_desc.getText().toString(), mCourse, block);
-		
-		mExamManager.insert(exam);
+		// TODO: account for an edit rather than a new
+		if (!editExam) {
+			Location location = new Location(-1, new_exam_et_bldg.getText().toString(), new_exam_et_room.getText().toString(), null);
+			TimePlaceBlock block = new TimePlaceBlock(-1, location, start, end, 0);
+
+			Exam newExam = new Exam(-1, new_exam_et_desc.getText().toString(), mCourse, block);
+
+			mExamManager.insert(newExam);
+		} else {
+			exam.setDescription(new_exam_et_desc.getText().toString());
+			Location location = exam.getBlock().getLocation();
+			location.setBuilding(new_exam_et_bldg.getText().toString());
+			location.setRoom(new_exam_et_room.getText().toString());
+			TimePlaceBlock block = exam.getBlock();
+			block.setStartTime(start);
+			block.setEndTime(end);
+			mExamManager.insert(exam);
+		}
 	}
 	
 	private void cancel() {
