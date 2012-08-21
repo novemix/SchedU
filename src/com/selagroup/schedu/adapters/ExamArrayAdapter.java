@@ -5,7 +5,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,8 +14,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.selagroup.schedu.R;
-import com.selagroup.schedu.activities.NewExamActivity;
-import com.selagroup.schedu.model.Assignment;
 import com.selagroup.schedu.model.Exam;
 import com.selagroup.schedu.model.Location;
 
@@ -43,7 +40,7 @@ public class ExamArrayAdapter extends ArrayAdapter<Exam> {
 			row = li.inflate(R.layout.adapter_exam_select, null);
 		}
 		final Exam exam = mExamList.get(position);
-		((TextView) row.findViewById(R.id.exam_adapter_tv_date)).setText((new SimpleDateFormat("MM/dd")).format(exam.getBlock().getStartTime().getTime()));
+		((TextView) row.findViewById(R.id.exam_adapter_tv_date)).setText((new SimpleDateFormat("M/dd")).format(exam.getBlock().getStartTime().getTime()));
 		((TextView) row.findViewById(R.id.exam_adapter_tv_desc)).setText(exam.getDescription());
 		Location location = exam.getBlock().getLocation();
 		String building = location.getBuilding();
