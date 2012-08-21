@@ -21,9 +21,7 @@ import com.selagroup.schedu.ScheduApplication;
 import com.selagroup.schedu.Utility;
 import com.selagroup.schedu.adapters.ExamArrayAdapter;
 import com.selagroup.schedu.adapters.ExamArrayAdapter.ExamEditListener;
-import com.selagroup.schedu.adapters.WorkArrayAdapter.WorkEditListener;
 import com.selagroup.schedu.managers.ExamManager;
-import com.selagroup.schedu.model.Assignment;
 import com.selagroup.schedu.model.Course;
 import com.selagroup.schedu.model.Exam;
 
