@@ -12,7 +12,7 @@ public class HorizontalPanelSwitcher extends RelativeLayout {
 	public interface OnDragListener {
 		public void dragStart();
 
-		public void dragEnd(boolean isSwitching);
+		public void dragEnd(boolean isSwitching, int targetPanel);
 	}
 
 	public interface OnPanelSwitchListener {
@@ -133,7 +133,7 @@ public class HorizontalPanelSwitcher extends RelativeLayout {
 			mIsAnimating = true;
 			mIsDragging = false;
 			if (mDragListener != null) {
-				mDragListener.dragEnd(false);
+				mDragListener.dragEnd(false, mTargetPanel);
 			}
 		}
 		else {
@@ -143,7 +143,7 @@ public class HorizontalPanelSwitcher extends RelativeLayout {
 			mIsAnimating = true;
 			mIsDragging = false;
 			if (mDragListener != null) {
-				mDragListener.dragEnd(false);
+				mDragListener.dragEnd(false, mTargetPanel);
 			}
 		}
 	}
@@ -268,19 +268,19 @@ public class HorizontalPanelSwitcher extends RelativeLayout {
 					mTarget = -mWidth;
 					mTargetPanel = PANEL_RIGHT;
 					if (mDragListener != null) {
-						mDragListener.dragEnd(true);
+						mDragListener.dragEnd(true, mTargetPanel);
 					}
 				} else if (mDelta + xVelocity > mWidth / 2 && mDelta > mWidth / 8) {
 					mTarget = mWidth;
 					mTargetPanel = PANEL_LEFT;
 					if (mDragListener != null) {
-						mDragListener.dragEnd(true);
+						mDragListener.dragEnd(true, mTargetPanel);
 					}
 				} else {
 					mTarget = 0;
 					mTargetPanel = PANEL_CENTER;
 					if (mDragListener != null) {
-						mDragListener.dragEnd(false);
+						mDragListener.dragEnd(false, mTargetPanel);
 					}
 				}
 				mIsAnimating = true;
