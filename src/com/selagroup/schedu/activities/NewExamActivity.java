@@ -37,18 +37,21 @@ import com.selagroup.schedu.model.TimePlaceBlock;
  */
 public class NewExamActivity extends Activity {
 	
-	Boolean editExam = false;
-	ExamManager mExamManager;
-	Course mCourse;
-	Exam exam;
+	private Boolean editExam = false;
+	private ExamManager mExamManager;
+	private Course mCourse;
+	private Exam exam;
 	
-	EditText new_exam_et_desc;
-	EditText new_exam_et_bldg;
-	EditText new_exam_et_room;
-	Button new_exam_btn_date;
-	Button new_exam_btn_start_time;
-	Button new_exam_btn_end_time;
-	Button new_exam_btn_done;
+	private EditText new_exam_et_desc;
+	private EditText new_exam_et_bldg;
+	private EditText new_exam_et_room;
+	private Button new_exam_btn_date;
+	private Button new_exam_btn_start_time;
+	private Button new_exam_btn_end_time;
+	private Button new_exam_btn_done;
+	
+	private SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM dd, yyyy");
+	private SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +61,7 @@ public class NewExamActivity extends Activity {
 		initActivity();
 		
 		initWidgets();
+		setValues();
 		initListeners();
 	}
 	
@@ -94,6 +98,23 @@ public class NewExamActivity extends Activity {
 		new_exam_btn_done = (Button) findViewById(R.id.new_exam_btn_done);
 	}
 	
+	private void setValues() {
+		TimePlaceBlock block = (editExam ? exam.getBlock() : mCourse.getScheduleBlocks().get(0));
+		Location location = block.getLocation();
+		new_exam_et_bldg.setText(location.getBuilding());
+		new_exam_et_room.setText(location.getRoom());
+		if (editExam) {
+			new_exam_et_desc.setText(exam.getDescription());
+			Calendar start = block.getStartTime();
+			Calendar end = block.getEndTime();
+			new_exam_btn_date.setText(dateFormat.format(start.getTime()));
+			new_exam_btn_date.setTag(start);
+			
+			new_exam_btn_start_time.setText(timeFormat.format(start.getTime()));
+			new_exam_btn_end_time.setText(timeFormat.format(end.getTime()));
+		}
+	}
+	
 	private void initListeners() {
 		new_exam_btn_date.setOnClickListener(btnListener);
 		new_exam_btn_start_time.setOnClickListener(btnListener);
@@ -114,7 +135,7 @@ public class NewExamActivity extends Activity {
 				(new DatePickerDialog(NewExamActivity.this, new OnDateSetListener() {
 					public void onDateSet(DatePicker view, int year, int month, int day) {
 						examDate.set(year, month, day);
-						new_exam_btn_date.setText((new SimpleDateFormat("EEE, MMM dd, yyyy")).format(examDate.getTime()));
+						new_exam_btn_date.setText(dateFormat.format(examDate.getTime()));
 						new_exam_btn_date.setTag(examDate);
 					}
 				}, examDate.get(Calendar.YEAR), examDate.get(Calendar.MONTH), examDate.get(Calendar.DAY_OF_MONTH))).show();
@@ -169,8 +190,7 @@ public class NewExamActivity extends Activity {
 	}
 	
 	private void cancel() {
-		Intent returnIntent = new Intent();
-		setResult(RESULT_CANCELED, returnIntent);
+		setResult(RESULT_CANCELED);
 		finish();
 	}
 }
