@@ -13,43 +13,47 @@
         android:layout_alignParentLeft="true"
         android:textColor="@color/darkText" />
 
-    <Button
+    <ImageView
         android:id="@+id/term_btn_edit"
         style="@style/button1"
         android:layout_width="55dp"
         android:layout_height="55dp"
         android:layout_alignParentRight="true"
-        android:background="@drawable/button_selector"
+        android:background="@android:color/transparent"
         android:focusable="false"
-        android:focusableInTouchMode="false" />
+        android:focusableInTouchMode="false"
+        android:src="@drawable/edit_layer_list" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/term_btn_delete"
         style="@style/button1"
         android:layout_width="55dp"
         android:layout_height="55dp"
         android:layout_toLeftOf="@id/term_btn_edit"
-        android:background="@drawable/button_selector"
+        android:background="@android:color/transparent"
         android:focusable="false"
         android:focusableInTouchMode="false"
-        android:src="@drawable/ic_delete"
-        android:scaleType="centerInside" />
+        android:scaleType="fitCenter"
+        android:src="@drawable/delete_layer_list" />
 
     <Button
         android:id="@+id/term_btn_start"
         style="@style/button1"
-        android:layout_width="100dp"
+        android:layout_width="80dp"
         android:layout_height="55dp"
         android:layout_below="@id/term_tv_select"
+        android:background="@drawable/button_selector"
         android:text="Start Date" />
 
     <Button
         android:id="@+id/term_btn_end"
         style="@style/button1"
-        android:layout_width="100dp"
+        android:layout_width="80dp"
         android:layout_height="55dp"
         android:layout_below="@id/term_tv_select"
+        android:layout_marginLeft="5dp"
         android:layout_toRightOf="@id/term_btn_start"
+        android:background="@drawable/button_selector"
         android:text="End Date" />
 
 </RelativeLayout>

@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,8 +51,8 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 
 	private static class ViewHolder {
 		private TextView term_adapter_tv_select;
-		private Button term_btn_edit;
-		private ImageButton term_btn_delete;
+		private ImageView term_btn_edit;
+		private ImageView term_btn_delete;
 		private Button term_btn_start;
 		private Button term_btn_end;
 	}
@@ -84,8 +84,8 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 			row = li.inflate(R.layout.adapter_term_select, null);
 			tmpHolder = new ViewHolder();
 			tmpHolder.term_adapter_tv_select = (TextView) row.findViewById(R.id.term_tv_select);
-			tmpHolder.term_btn_edit = (Button) row.findViewById(R.id.term_btn_edit);
-			tmpHolder.term_btn_delete = (ImageButton) row.findViewById(R.id.term_btn_delete);
+			tmpHolder.term_btn_edit = (ImageView) row.findViewById(R.id.term_btn_edit);
+			tmpHolder.term_btn_delete = (ImageView) row.findViewById(R.id.term_btn_delete);
 			tmpHolder.term_btn_start = (Button) row.findViewById(R.id.term_btn_start);
 			tmpHolder.term_btn_end = (Button) row.findViewById(R.id.term_btn_end);
 			row.setTag(tmpHolder);
@@ -136,7 +136,7 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 
 			// If edit enabled, show editing options
 			if (editThisRow) {
-				// holder.term_btn_edit.setText("Done");
+				holder.term_btn_edit.setImageResource(R.drawable.done_layer_list);
 				holder.term_btn_edit.setOnClickListener(new OnClickListener() {
 					public void onClick(View v) {
 						mEditIndex = -1;
@@ -175,6 +175,7 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 					}
 				});
 			} else {
+				holder.term_btn_edit.setImageResource(R.drawable.edit_layer_list);
 				holder.term_btn_edit.setTag(position);
 				holder.term_btn_edit.setOnClickListener(new OnClickListener() {
 					public void onClick(View view) {

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/activity_background"
     android:orientation="vertical" >
 
     <!-- Upper Section -->
@@ -16,10 +17,10 @@
 
         <ImageView
             android:id="@+id/term_iv_sela_logo"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:src="@android:drawable/star_big_on" />
+            android:src="@drawable/logo" />
 
         <!-- Title and Spinner -->
 
@@ -27,18 +28,6 @@
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:orientation="vertical" >
-
-            <!-- Application title -->
-
-            <TextView
-                android:id="@+id/term_tv_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:contentDescription="@string/term_title_desc"
-                android:paddingBottom="25dp"
-                android:text="@string/app_name"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <!-- Spinner title -->
 
@@ -52,16 +41,20 @@
                     style="@style/label"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
                     android:layout_weight="2"
                     android:gravity="left"
-                    android:layout_marginLeft="5dp"
                     android:text="@string/term_spinnerTitle_label" />
 
-                <Button
+                <ImageView
                     android:id="@+id/term_btn_add"
-                    android:layout_width="100dp"
+                    style="@style/button1"
+                    android:layout_width="55dp"
                     android:layout_height="55dp"
                     android:layout_gravity="right"
+                    android:layout_marginRight="5dp"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/add_layer_list"
                     android:text="Add" />
             </LinearLayout>
 

@@ -12,12 +12,16 @@ import java.util.List;
 
 import android.app.ListActivity;
 import android.content.Intent;
+import android.graphics.PixelFormat;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.view.Window;
+import android.widget.ImageView;
 
 import com.selagroup.schedu.AlarmSystem;
 import com.selagroup.schedu.R;
@@ -41,7 +45,7 @@ public class TermActivity extends ListActivity {
 	private TermArrayAdapter mTermAdapter;
 
 	// Widgets
-	private Button term_btn_add;
+	private ImageView term_btn_add;
 
 	// Data
 	private boolean mAddMode = false;
@@ -67,7 +71,8 @@ public class TermActivity extends ListActivity {
 	private TermEditListener mTermEditListener = new TermEditListener() {
 		public void onTermEdit(Term iTerm) {
 			if (mAddMode) {
-				term_btn_add.setText(termIsValid(iTerm) ? "Done" : "Cancel");
+				term_btn_add.setImageResource(termIsValid(iTerm) ? R.drawable.done_layer_list : R.drawable.cancel_layer_list);
+				term_btn_add.invalidate();
 			}
 			if (termIsValid(iTerm)) {
 				mTermManager.update(iTerm);
@@ -122,6 +127,15 @@ public class TermActivity extends ListActivity {
 	}
 
 	@Override
+	public void onBackPressed() {
+		if (mAddMode) {
+			cancelAdd();
+		} else {
+			super.onBackPressed();
+		}
+	}
+
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(getResources().getString(R.string.menu_item_preferences));
 		return super.onCreateOptionsMenu(menu);
@@ -138,7 +152,7 @@ public class TermActivity extends ListActivity {
 	}
 
 	private void initWidgets() {
-		term_btn_add = (Button) findViewById(R.id.term_btn_add);
+		term_btn_add = (ImageView) findViewById(R.id.term_btn_add);
 
 		term_btn_add.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -149,6 +163,7 @@ public class TermActivity extends ListActivity {
 
 					mAddMode = true;
 					mTermAdapter.setAddMode(true);
+					term_btn_add.setImageResource(R.drawable.cancel_layer_list);
 
 					mNewTerm = new Term(-1, null, null);
 					mTerms.add(0, mNewTerm);
@@ -157,32 +172,14 @@ public class TermActivity extends ListActivity {
 					mTermAdapter.notifyDataSetChanged();
 					mTermEditListener.onTermEdit(mNewTerm);
 				} else {
-					// Done/Cancel, stop adding
-					mAddMode = false;
-					mTermAdapter.setAddMode(false);
-					mTermAdapter.setEditIndex(-1);
-					term_btn_add.setText("Add");
-
 					// Valid term, insert (Done button pressed)
 					if (termIsValid(mNewTerm)) {
-						mTermManager.insert(mNewTerm);
-						mTermEditListener.onTermEdit(mNewTerm);
-
-						// Sort terms by start date
-						Collections.sort(mTerms, mTermComparator);
+						addTerm();
 					}
 					// Invalid term, remove from list (Cancel button pressed)
 					else {
-						mTermAdapter.remove(mNewTerm);
-						mNewTerm = null;
-						if (mTermAdapter.isEmpty()) {
-							mTerms.add(null);
-						}
+						cancelAdd();
 					}
-
-					// Update list
-					mTermAdapter.notifyDataSetChanged();
-					getListView().invalidate();
 				}
 			}
 		});
@@ -201,5 +198,42 @@ public class TermActivity extends ListActivity {
 	 */
 	private boolean termIsValid(Term term) {
 		return term != null && term.getStartDate() != null && term.getEndDate() != null;
+	}
+	
+	private void cancelAdd() {
+		mAddMode = false;
+		mTermAdapter.setAddMode(false);
+		mTermAdapter.setEditIndex(-1);
+		
+		mTermAdapter.remove(mNewTerm);
+		mNewTerm = null;
+		if (mTermAdapter.isEmpty()) {
+			mTerms.add(null);
+		}
+		term_btn_add.setImageResource(R.drawable.add_layer_list);
+		term_btn_add.invalidate();
+		mTermAdapter.notifyDataSetChanged();
+	}
+	
+	private void addTerm() {
+		mAddMode = false;
+		mTermAdapter.setAddMode(false);
+		mTermAdapter.setEditIndex(-1);
+		
+		mTermManager.insert(mNewTerm);
+		mTermEditListener.onTermEdit(mNewTerm);
+
+		// Sort terms by start date
+		Collections.sort(mTerms, mTermComparator);
+		term_btn_add.setImageResource(R.drawable.add_layer_list);
+		term_btn_add.invalidate();
+		mTermAdapter.notifyDataSetChanged();
+	}
+	
+	@Override
+	public void onAttachedToWindow() {
+	    super.onAttachedToWindow();
+	    Window window = getWindow();
+	    window.setFormat(PixelFormat.RGBA_8888);
 	}
 }
