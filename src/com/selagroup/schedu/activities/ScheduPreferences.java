@@ -41,6 +41,7 @@ public class ScheduPreferences extends PreferenceActivity implements OnSharedPre
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_preferences);
 		addPreferencesFromResource(R.xml.preferences);
+		getListView().setCacheColorHint(0); // make listview bg transparent
 
 		sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 	}
