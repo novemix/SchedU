@@ -19,7 +19,6 @@ import com.selagroup.schedu.R;
 import com.selagroup.schedu.ScheduApplication;
 import com.selagroup.schedu.Utility;
 import com.selagroup.schedu.adapters.CourseArrayAdapter;
-import com.selagroup.schedu.adapters.CourseArrayAdapter.CourseDeleteListener;
 import com.selagroup.schedu.managers.CourseManager;
 import com.selagroup.schedu.model.Course;
 import com.selagroup.schedu.model.Term;
@@ -40,18 +39,6 @@ public class AllCoursesActivity extends ListActivity {
 
 	private CourseManager mCourseManager;
 
-	private CourseDeleteListener mDeleteListener = new CourseDeleteListener() {
-		public void onDelete(Course iCourse) {
-			mCourseManager.delete(iCourse);
-			mCourseList.remove(iCourse);
-			if (mCourseList.isEmpty()) {
-				mCourseList.add(null);
-			}
-			mCourseAdapter.notifyDataSetChanged();
-			iCourse = null;
-		}
-	};
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -68,7 +55,7 @@ public class AllCoursesActivity extends ListActivity {
 		initWidgets();
 		initListeners();
 
-		mCourseAdapter = new CourseArrayAdapter(this, R.layout.adapter_course_select, mCourseList, mDeleteListener);
+		mCourseAdapter = new CourseArrayAdapter(this, R.layout.adapter_course_select, mCourseList);
 		setListAdapter(mCourseAdapter);
 	}
 
