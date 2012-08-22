@@ -9,9 +9,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import android.app.Activity;
@@ -27,7 +27,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.LinearInterpolator;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -51,7 +51,7 @@ import com.selagroup.schedu.model.TimePlaceBlock;
  * The Class CalendarActivity.
  */
 public class CalendarActivity extends Activity {
-	private static final SimpleDateFormat DAY_FORMAT = new SimpleDateFormat("EEEE, MMM d, yyyy");
+	private static final SimpleDateFormat DAY_FORMAT = new SimpleDateFormat("EEEE, MMM d");
 	private static final SimpleDateFormat WEEK_FORMAT = new SimpleDateFormat("MMM d, yyyy");
 	private static final int DAYS_IN_WEEK = 7;
 	private static final int DAY_VIEW_BUFFER = 15;
@@ -83,8 +83,8 @@ public class CalendarActivity extends Activity {
 	private ToggleButton calendar_btn_day;
 	private ToggleButton calendar_btn_week;
 	private TextView calendar_tv_date;
-	private ImageButton calendar_btn_next;
-	private ImageButton calendar_btn_prev;
+	private ImageView calendar_btn_next;
+	private ImageView calendar_btn_prev;
 
 	// Day widgets
 	private HorizontalPanelSwitcher calendar_switcher_day;
@@ -222,9 +222,11 @@ public class CalendarActivity extends Activity {
 		calendar_btn_day.setChecked(true);
 		calendar_btn_week = (ToggleButton) findViewById(R.id.calendar_btn_week);
 
-		calendar_btn_next = (ImageButton) findViewById(R.id.calendar_btn_next);
-		calendar_btn_prev = (ImageButton) findViewById(R.id.calendar_btn_prev);
+		calendar_btn_next = (ImageView) findViewById(R.id.calendar_btn_next);
+		calendar_btn_prev = (ImageView) findViewById(R.id.calendar_btn_prev);
 		calendar_tv_date = (TextView) findViewById(R.id.calendar_tv_date);
+
+		calendar_tv_date.setText(DAY_FORMAT.format(mThisDay.getTime()));
 
 		// Construct the day calendar view
 		calendar_switcher_day = (HorizontalPanelSwitcher) findViewById(R.id.calendar_switcher_day);
@@ -275,8 +277,8 @@ public class CalendarActivity extends Activity {
 		calendar_btn_week.setChecked(false);
 		calendar_btn_week = (ToggleButton) findViewById(R.id.calendar_btn_week);
 
-		calendar_btn_next = (ImageButton) findViewById(R.id.calendar_btn_next);
-		calendar_btn_prev = (ImageButton) findViewById(R.id.calendar_btn_prev);
+		calendar_btn_next = (ImageView) findViewById(R.id.calendar_btn_next);
+		calendar_btn_prev = (ImageView) findViewById(R.id.calendar_btn_prev);
 		calendar_tv_date = (TextView) findViewById(R.id.calendar_tv_date);
 
 		// Construct the week calendar view
@@ -415,18 +417,22 @@ public class CalendarActivity extends Activity {
 			public void dragEnd(boolean isSwitching, final int targetPanel) {
 				setScrollLock(false);
 				if (isSwitching) {
+					if (targetPanel == HorizontalPanelSwitcher.PANEL_LEFT) {
+						mThisDay.add(Calendar.DAY_OF_MONTH, -1);
+						mNextDay.add(Calendar.DAY_OF_MONTH, -1);
+						mPrevDay.add(Calendar.DAY_OF_MONTH, -1);
+					}
+					else if (targetPanel == HorizontalPanelSwitcher.PANEL_RIGHT) {
+						mThisDay.add(Calendar.DAY_OF_MONTH, 1);
+						mNextDay.add(Calendar.DAY_OF_MONTH, 1);
+						mPrevDay.add(Calendar.DAY_OF_MONTH, 1);
+					}
 					fadeInOut(calendar_tv_date, new StartFadeInListener() {
 						public void onStartFadeIn() {
 							if (targetPanel == HorizontalPanelSwitcher.PANEL_LEFT) {
-								mThisDay.add(Calendar.DAY_OF_MONTH, -1);
-								mNextDay.add(Calendar.DAY_OF_MONTH, -1);
-								mPrevDay.add(Calendar.DAY_OF_MONTH, -1);
 								calendar_tv_date.setText(DAY_FORMAT.format(mThisDay.getTime()));
 							}
 							else if (targetPanel == HorizontalPanelSwitcher.PANEL_RIGHT) {
-								mThisDay.add(Calendar.DAY_OF_MONTH, 1);
-								mNextDay.add(Calendar.DAY_OF_MONTH, 1);
-								mPrevDay.add(Calendar.DAY_OF_MONTH, 1);
 								calendar_tv_date.setText(DAY_FORMAT.format(mThisDay.getTime()));
 							}
 						}
@@ -475,19 +481,23 @@ public class CalendarActivity extends Activity {
 			public void dragEnd(boolean isSwitching, final int targetPanel) {
 				setScrollLock(false);
 				if (isSwitching) {
+					if (targetPanel == HorizontalPanelSwitcher.PANEL_LEFT) {
+						mPrevWeek.add(Calendar.WEEK_OF_YEAR, -1);
+						mThisWeek.add(Calendar.WEEK_OF_YEAR, -1);
+						mNextWeek.add(Calendar.WEEK_OF_YEAR, -1);
+					}
+					else if (targetPanel == HorizontalPanelSwitcher.PANEL_RIGHT) {
+						mPrevWeek.add(Calendar.WEEK_OF_YEAR, 1);
+						mThisWeek.add(Calendar.WEEK_OF_YEAR, 1);
+						mNextWeek.add(Calendar.WEEK_OF_YEAR, 1);
+					}
 					fadeInOut(calendar_tv_date, new StartFadeInListener() {
 						public void onStartFadeIn() {
 							if (targetPanel == HorizontalPanelSwitcher.PANEL_LEFT) {
-								mThisDay.add(Calendar.DAY_OF_MONTH, -1);
-								mNextDay.add(Calendar.DAY_OF_MONTH, -1);
-								mPrevDay.add(Calendar.DAY_OF_MONTH, -1);
-								calendar_tv_date.setText(DAY_FORMAT.format(mThisDay.getTime()));
+								calendar_tv_date.setText("Week of " + WEEK_FORMAT.format(mThisWeek.getTime()));
 							}
 							else if (targetPanel == HorizontalPanelSwitcher.PANEL_RIGHT) {
-								mThisDay.add(Calendar.DAY_OF_MONTH, 1);
-								mNextDay.add(Calendar.DAY_OF_MONTH, 1);
-								mPrevDay.add(Calendar.DAY_OF_MONTH, 1);
-								calendar_tv_date.setText(DAY_FORMAT.format(mThisDay.getTime()));
+								calendar_tv_date.setText("Week of " + WEEK_FORMAT.format(mThisWeek.getTime()));
 							}
 						}
 					});
@@ -516,8 +526,6 @@ public class CalendarActivity extends Activity {
 		mThisDayCourses.removeAllViews();
 		mNextDayCourses.removeAllViews();
 		mPrevDayCourses.removeAllViews();
-		
-		calendar_tv_date.setText(DAY_FORMAT.format(mThisDay.getTime()));
 
 		// Scroll prev/next days to the current day scroll
 		mPrevDayScroll.post(new Runnable() {
@@ -561,6 +569,7 @@ public class CalendarActivity extends Activity {
 			timer.scheduleAtFixedRate(updateLine, 1000 - Calendar.getInstance().get(Calendar.MILLISECOND), 1000);
 		}
 
+		Log.i("Test", "Day: " + mThisDay.get(Calendar.DAY_OF_WEEK));
 		// Check if we are still in the current term
 		if (mCurrentTerm.getStartDate().before(mThisDay) && mCurrentTerm.getEndDate().after(mThisDay)) {
 			// Add courses for current day
@@ -606,8 +615,6 @@ public class CalendarActivity extends Activity {
 		mThisWeekLayout.removeAllViews();
 		mNextWeekLayout.removeAllViews();
 		mPrevWeekLayout.removeAllViews();
-		
-		calendar_tv_date.setText(DAY_FORMAT.format(mThisWeek.getTime()));
 
 		// Initialize the current week
 		initSingleWeek(mThisWeek, mThisWeekCourseBlocks, mThisWeekLayout);
@@ -776,7 +783,9 @@ public class CalendarActivity extends Activity {
 	private void showDayView() {
 		mDayMode = true;
 		calendar_btn_day.setChecked(true);
+		calendar_btn_day.setBackgroundResource(R.drawable.button_depressed);
 		calendar_btn_week.setChecked(false);
+		calendar_btn_week.setBackgroundResource(R.drawable.button_default);
 		calendar_switcher_day.setVisibility(View.VISIBLE);
 		calendar_switcher_week.setVisibility(View.GONE);
 		calendar_tv_date.setText(DAY_FORMAT.format(mThisDay.getTime()));
@@ -786,10 +795,12 @@ public class CalendarActivity extends Activity {
 	private void showWeekView() {
 		mDayMode = false;
 		calendar_btn_day.setChecked(false);
+		calendar_btn_day.setBackgroundResource(R.drawable.button_default);
 		calendar_btn_week.setChecked(true);
+		calendar_btn_week.setBackgroundResource(R.drawable.button_depressed);
 		calendar_switcher_day.setVisibility(View.GONE);
 		calendar_switcher_week.setVisibility(View.VISIBLE);
-		calendar_tv_date.setText(DAY_FORMAT.format(mThisWeek.getTime()));
+		calendar_tv_date.setText("Week of " + WEEK_FORMAT.format(mThisWeek.getTime()));
 		initWeekView();
 	}
 
