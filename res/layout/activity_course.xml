@@ -218,7 +218,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:drawableTop="@android:drawable/ic_menu_help"
+            android:drawableTop="@drawable/ic_work"
             android:text="@string/course_work_btn" />
 
         <Button
@@ -226,7 +226,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:drawableTop="@android:drawable/ic_menu_agenda"
+            android:drawableTop="@drawable/ic_exam"
             android:text="@string/course_exams_btn" />
     </LinearLayout>
 
