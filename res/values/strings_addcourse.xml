@@ -9,5 +9,8 @@
     <string name="addcourse_add_time_btn">Add Time</string>
     <string name="addcourse_add_btn">Add</string>
     <string name="addcourse_cancel_btn">Cancel</string>
-
+    <string name="addcourse_delete_btn">Delete</string>
+    <string name="addcourse_dialog_delete_title">Warning!</string>
+    <string name="addcourse_dialog_delete_text">You will lose all data associated with this course! Are you sure you want to delete this course?</string>
+    
 </resources>

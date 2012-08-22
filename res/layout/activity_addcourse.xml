@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_alignParentTop="true"
-    android:orientation="vertical"
-    android:background="@drawable/activity_background" >
+    android:background="@drawable/activity_background"
+    android:orientation="vertical" >
 
     <!-- Course Code -->
 
@@ -143,6 +143,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/addcourse_cancel_btn" />
+
+            <Button
+                android:id="@+id/addcourse_btn_delete"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/addcourse_delete_btn"
+                android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>
 

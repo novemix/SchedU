@@ -10,6 +10,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -50,6 +52,7 @@ public class AddCourseActivity extends Activity {
 	private Button addcourse_btn_add_time;
 	private Button addcourse_btn_cancel;
 	private Button addcourse_btn_add;
+	private Button addcourse_btn_delete;
 
 	// Adapters
 	private CourseBlockAdapter mScheduleAdapter;
@@ -114,9 +117,12 @@ public class AddCourseActivity extends Activity {
 		addcourse_btn_add_time = (Button) findViewById(R.id.addcourse_btn_add_time);
 		addcourse_btn_cancel = (Button) findViewById(R.id.addcourse_btn_cancel);
 		addcourse_btn_add = (Button) findViewById(R.id.addcourse_btn_add);
+		addcourse_btn_delete = (Button) findViewById(R.id.addcourse_btn_delete);
 		
 		if (!mEditMode) {
 			addcourse_et_course_code.requestFocus();
+		} else {
+			addcourse_btn_delete.setVisibility(View.VISIBLE);
 		}
 
 		// Set up list view adapter for schedule blocks
@@ -180,6 +186,28 @@ public class AddCourseActivity extends Activity {
 				app.getAlarmSystem().scheduleEventsForDay(mCourseManager.getAllForTerm(mCurrentTerm.getID()), Calendar.getInstance(), true);
 			}
 		});
+		
+		if (mEditMode) {
+			addcourse_btn_delete.setOnClickListener(new OnClickListener() {
+				public void onClick(View v) {
+					(new AlertDialog.Builder(AddCourseActivity.this))
+						.setTitle(R.string.addcourse_dialog_delete_title)
+						.setMessage(R.string.addcourse_dialog_delete_text)
+						.setNegativeButton(R.string.addcourse_cancel_btn, new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int which) {
+								dialog.dismiss();
+							}
+						})
+						.setPositiveButton(R.string.addcourse_delete_btn, new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int which) {
+								mCourseManager.delete(mCourseToEdit);
+								finish();
+							}
+						})
+						.show();
+				}
+			});
+		}
 	}
 
 	/**
