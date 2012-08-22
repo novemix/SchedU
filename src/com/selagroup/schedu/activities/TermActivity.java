@@ -149,26 +149,30 @@ public class TermActivity extends ListActivity {
 		}
 	}
 
+	public void goAddMode() {
+		if (mTerms.contains(null)) {
+			mTerms.clear();
+		}
+
+		mAddMode = true;
+		mTermAdapter.setAddMode(true);
+		term_btn_add.setImageResource(R.drawable.layer_list_cancel);
+
+		mNewTerm = new Term(-1, null, null);
+		mTerms.add(0, mNewTerm);
+
+		mTermAdapter.setEditIndex(mTerms.indexOf(mNewTerm));
+		mTermAdapter.notifyDataSetChanged();
+		mTermEditListener.onTermEdit(mNewTerm);
+	}
+	
 	private void initWidgets() {
 		term_btn_add = (ImageView) findViewById(R.id.term_btn_add);
 
 		term_btn_add.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (!mAddMode) {
-					if (mTerms.contains(null)) {
-						mTerms.clear();
-					}
-
-					mAddMode = true;
-					mTermAdapter.setAddMode(true);
-					term_btn_add.setImageResource(R.drawable.layer_list_cancel);
-
-					mNewTerm = new Term(-1, null, null);
-					mTerms.add(0, mNewTerm);
-
-					mTermAdapter.setEditIndex(mTerms.indexOf(mNewTerm));
-					mTermAdapter.notifyDataSetChanged();
-					mTermEditListener.onTermEdit(mNewTerm);
+					goAddMode();
 				} else {
 					// Valid term, insert (Done button pressed)
 					if (termIsValid(mNewTerm)) {

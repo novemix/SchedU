@@ -9,7 +9,6 @@ import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.selagroup.schedu.R;
+import com.selagroup.schedu.activities.TermActivity;
 import com.selagroup.schedu.model.Term;
 
 public class TermArrayAdapter extends ArrayAdapter<Term> {
@@ -196,7 +196,7 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 			holder.term_btn_end.setVisibility(View.GONE);
 			row.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
-					//TODO: implement
+					((TermActivity) mContext).goAddMode();
 				}
 			});
 		}
