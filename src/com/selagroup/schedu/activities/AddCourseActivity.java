@@ -11,6 +11,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,7 +22,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.selagroup.schedu.R;
 import com.selagroup.schedu.ScheduApplication;
@@ -64,6 +64,8 @@ public class AddCourseActivity extends Activity {
 	private List<TimePlaceBlock> mScheduleBlocks = new LinkedList<TimePlaceBlock>();
 	private List<Instructor> mInstructors;
 
+	private AlertDialog.Builder validateDialog;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -139,6 +141,15 @@ public class AddCourseActivity extends Activity {
 
 		// Set up adapter to auto complete instructor
 		addcourse_et_instructor.setAdapter(new ArrayAdapter<Instructor>(this, android.R.layout.simple_dropdown_item_1line, mInstructors));
+	
+		validateDialog = new AlertDialog.Builder(AddCourseActivity.this);
+		validateDialog
+			.setMessage(R.string.addcourse_dialog_validate_text)
+			.setPositiveButton(R.string.addcourse_dialog_validate_OK_btn, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+			});
 	}
 
 	/**
@@ -164,22 +175,20 @@ public class AddCourseActivity extends Activity {
 			public void onClick(View view) {
 				if (mEditMode) {
 					if (editCourseHelper()) {
-						Toast.makeText(AddCourseActivity.this, "Successfully updated course", Toast.LENGTH_SHORT).show();
 						finish();
 					}
 					else {
-						Toast.makeText(AddCourseActivity.this, "Please provide a course code and at least one time block.", Toast.LENGTH_LONG).show();
+						validateDialog.show();
 					}
 				}
 				else {
 					// Try to add the course. If successful, reset fields and finish
 					if (addCourseHelper()) {
-						Toast.makeText(AddCourseActivity.this, "Successfully added course", Toast.LENGTH_SHORT).show();
 						reset();
 						finish();
 					}
 					else {
-						Toast.makeText(AddCourseActivity.this, "Please provide a course code and at least one time block.", Toast.LENGTH_LONG).show();
+						validateDialog.show();
 					}
 				}
 				ScheduApplication app = (ScheduApplication)getApplication();
