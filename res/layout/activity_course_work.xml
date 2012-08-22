@@ -2,33 +2,33 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/activity_background" >
+    android:background="@drawable/activity_background"
+    android:orientation="vertical" >
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/course_work_course_code"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_toLeftOf="@+id/course_work_btn_add"
-                android:layout_alignBottom="@+id/course_work_btn_add"
-                android:gravity="center"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+        <TextView
+            android:id="@+id/course_work_course_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/course_work_btn_add"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/course_work_btn_add"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <Button
-                android:id="@+id/course_work_btn_add"
-                android:layout_width="75dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:text="@string/course_work_add_btn_label" />
-        </RelativeLayout>
-
+        <ImageView
+            android:id="@+id/course_work_btn_add"
+            android:layout_width="@dimen/icon_button_size"
+            android:layout_height="@dimen/icon_button_size"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="5dp"
+            android:src="@drawable/layer_list_add" />
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -48,7 +48,7 @@
             android:layout_weight="3"
             android:text="@string/course_work_description_label" />
     </LinearLayout>
-    
+
     <!-- Divider -->
 
     <ImageView
@@ -57,49 +57,46 @@
         android:padding="2dp"
         android:scaleType="fitXY"
         android:src="@android:drawable/divider_horizontal_dark" />
-    
+
     <LinearLayout
         android:id="@+id/course_work_ll_add"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
-        
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-    <Button
-        android:id="@+id/course_work_btn_due"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:text="@string/course_work_due_btn_label" />
-    
-    <EditText
-        android:id="@+id/course_work_et_desc"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="5"
-        android:inputType="text"
-        android:hint="@string/course_work_et_hint" />
-    
-    <ImageButton
-        android:id="@+id/course_work_btn_cancel"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:src="@android:drawable/ic_delete" />
-        
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:id="@+id/course_work_btn_due"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/course_work_due_btn_label" />
+
+            <EditText
+                android:id="@+id/course_work_et_desc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:hint="@string/course_work_et_hint"
+                android:inputType="text" />
+
+            <ImageButton
+                android:id="@+id/course_work_btn_cancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@android:drawable/ic_delete" />
+        </LinearLayout>
     </LinearLayout>
-    
-    
-    </LinearLayout>
-    
+
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
     </ListView>
-
 
 </LinearLayout>

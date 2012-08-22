@@ -336,7 +336,6 @@ public class CalendarActivity extends Activity {
 		// Move to next day when hitting the next button
 		calendar_btn_next.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				Log.i("Test", "Day mode: " + mDayMode);
 				if (mDayMode) {
 					calendar_switcher_day.switchPanels(true);
 					fadeInOut(calendar_tv_date, new StartFadeInListener() {

@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -39,17 +40,17 @@ import com.selagroup.schedu.model.Course;
  */
 public class CourseWorkActivity extends ListActivity {
 	
-	AssignmentManager mWorkManager;
-	WorkArrayAdapter mWorkAdapter;
-	List<Assignment> mWorkList;
-	Course mCourse;
-	Boolean mAddMode = false;
+	private AssignmentManager mWorkManager;
+	private WorkArrayAdapter mWorkAdapter;
+	private List<Assignment> mWorkList;
+	private Course mCourse;
+	private Boolean mAddMode = false;
 	
-	Button course_work_btn_add;
-	LinearLayout course_work_ll_add;
-	Button course_work_btn_due;
-	EditText course_work_et_desc;
-	ImageButton course_work_btn_cancel;
+	private ImageView course_work_btn_add;
+	private LinearLayout course_work_ll_add;
+	private Button course_work_btn_due;
+	private EditText course_work_et_desc;
+	private ImageButton course_work_btn_cancel;
 	
 	private WorkEditListener mWorkEditListener = new WorkEditListener() {
 		public void onWorkDelete(final Assignment iWorkItem) {
@@ -107,7 +108,7 @@ public class CourseWorkActivity extends ListActivity {
 	}
 	
 	protected void initWidgets() {
-		course_work_btn_add = (Button) findViewById(R.id.course_work_btn_add);
+		course_work_btn_add = (ImageView) findViewById(R.id.course_work_btn_add);
 		course_work_ll_add = (LinearLayout) findViewById(R.id.course_work_ll_add);
 		course_work_btn_due = (Button) findViewById(R.id.course_work_btn_due);
 		course_work_et_desc = (EditText) findViewById(R.id.course_work_et_desc);
@@ -120,7 +121,7 @@ public class CourseWorkActivity extends ListActivity {
 				if (mAddMode) { // User tapped Done
 					if (validateInputs()) { // input is valid
 						Utility.hideSoftKeyboard(CourseWorkActivity.this, course_work_et_desc.getWindowToken());
-						course_work_btn_add.setText(R.string.course_work_add_btn_label);
+						course_work_btn_add.setImageResource(R.drawable.layer_list_add);
 						course_work_ll_add.setVisibility(View.GONE);
 						mAddMode = false;
 						Assignment newWorkItem = new Assignment(-1, course_work_et_desc.getText().toString(), (Calendar) course_work_btn_due.getTag(), mCourse);
@@ -145,7 +146,7 @@ public class CourseWorkActivity extends ListActivity {
 				}
 				else { // User tapped Add
 					mAddMode = true;
-					course_work_btn_add.setText(R.string.course_work_done_btn_label);
+					course_work_btn_add.setImageResource(R.drawable.done_layer_list);
 					course_work_ll_add.setVisibility(View.VISIBLE);
 				}
 			}
@@ -176,7 +177,7 @@ public class CourseWorkActivity extends ListActivity {
 	protected void cancelAdd() {
 		Utility.hideSoftKeyboard(CourseWorkActivity.this, course_work_et_desc.getWindowToken());
 		resetInputs();
-		course_work_btn_add.setText(R.string.course_work_add_btn_label);
+		course_work_btn_add.setImageResource(R.drawable.layer_list_add);
 		course_work_ll_add.setVisibility(View.GONE);
 		mAddMode = false;
 	}

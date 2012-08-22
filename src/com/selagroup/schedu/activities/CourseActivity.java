@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -49,7 +50,7 @@ public class CourseActivity extends Activity {
 	private TextView course_instructor_location;
 	private ScrollView course_sv_instructor_hours;
 
-	private Button course_btn_edit_instructor;
+	private ImageView course_btn_edit_instructor;
 	private Button course_btn_work;
 	private Button course_btn_exams;
 
@@ -135,7 +136,7 @@ public class CourseActivity extends Activity {
 		course_instructor_location = (TextView) findViewById(R.id.course_instructor_location);
 		course_sv_instructor_hours = (ScrollView) findViewById(R.id.course_sv_instructor_hours);
 
-		course_btn_edit_instructor = (Button) findViewById(R.id.course_btn_edit_instructor);
+		course_btn_edit_instructor = (ImageView) findViewById(R.id.course_btn_edit_instructor);
 		course_btn_work = (Button) findViewById(R.id.course_btn_work);
 		course_btn_exams = (Button) findViewById(R.id.course_btn_exams);
 

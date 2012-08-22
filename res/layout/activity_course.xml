@@ -166,11 +166,12 @@
                 </LinearLayout>
             </ScrollView>
 
-            <Button
+            <ImageView
                 android:id="@+id/course_btn_edit_instructor"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/icon_button_size"
+                android:layout_height="@dimen/icon_button_size"
                 android:layout_alignParentRight="true"
+                android:src="@drawable/layer_list_edit"
                 android:text="@string/course_instructor_edit_btn" />
 
             <!-- Divider -->

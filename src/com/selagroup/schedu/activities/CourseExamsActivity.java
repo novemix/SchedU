@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.selagroup.schedu.R;
@@ -30,12 +31,12 @@ import com.selagroup.schedu.model.Exam;
  */
 public class CourseExamsActivity extends ListActivity {
 	
-	ExamManager mExamManager;
-	ExamArrayAdapter mExamAdapter;
-	List<Exam> mExamList;
-	Course mCourse;
+	private ExamManager mExamManager;
+	private ExamArrayAdapter mExamAdapter;
+	private List<Exam> mExamList;
+	private Course mCourse;
 	
-	ImageButton course_exams_btn_add;
+	private ImageView course_exams_btn_add;
 	
 	private int EXAM_ADD_CODE = 1;
 	private int EXAM_EDIT_CODE = 2;
@@ -79,7 +80,7 @@ public class CourseExamsActivity extends ListActivity {
 	}
 
 	private void initWidgets() {
-		course_exams_btn_add = (ImageButton) findViewById(R.id.course_exams_btn_add);
+		course_exams_btn_add = (ImageView) findViewById(R.id.course_exams_btn_add);
 	}
 
 	private void initListeners() {

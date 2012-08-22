@@ -22,8 +22,8 @@
 
         <ImageView
             android:id="@+id/course_exams_btn_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/icon_button_size"
+            android:layout_height="@dimen/icon_button_size"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_margin="5dp"
