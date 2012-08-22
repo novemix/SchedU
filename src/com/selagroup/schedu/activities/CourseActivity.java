@@ -50,7 +50,6 @@ public class CourseActivity extends Activity {
 	private ScrollView course_sv_instructor_hours;
 
 	private Button course_btn_edit_instructor;
-	private Button course_btn_notes;
 	private Button course_btn_work;
 	private Button course_btn_exams;
 
@@ -137,7 +136,6 @@ public class CourseActivity extends Activity {
 		course_sv_instructor_hours = (ScrollView) findViewById(R.id.course_sv_instructor_hours);
 
 		course_btn_edit_instructor = (Button) findViewById(R.id.course_btn_edit_instructor);
-		course_btn_notes = (Button) findViewById(R.id.course_btn_notes);
 		course_btn_work = (Button) findViewById(R.id.course_btn_work);
 		course_btn_exams = (Button) findViewById(R.id.course_btn_exams);
 
@@ -199,13 +197,6 @@ public class CourseActivity extends Activity {
 				Intent intent = new Intent(CourseActivity.this, InstructorActivity.class);
 				intent.putExtra("courseID", thisCourse.getID());
 				startActivityForResult(intent, INSTRUCTOR_EDIT_CODE);
-			}
-		});
-
-		course_btn_notes.setOnClickListener(new OnClickListener() {
-
-			public void onClick(View v) {
-				startActivity(new Intent(CourseActivity.this, NotesActivity.class));
 			}
 		});
 

@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/activity_background" >
+    android:background="@drawable/activity_background"
+    android:orientation="vertical" >
 
     <!-- Course Info -->
 
@@ -116,18 +116,6 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
-        <!--
-    Map 
-
-    <com.google.android.maps.MapView
-        android:id="@+id/mapView"
-        android:layout_width="match_parent"
-        android:layout_height="175dp"
-        android:apiKey="0PMCzGHsH0MYV5nrRFobO9J4fvMZ12hLIeowaHw"
-        android:clickable="true" />
-        -->
-
-
         <!-- Divider -->
 
         <ImageView
@@ -205,19 +193,12 @@
         android:orientation="horizontal" >
 
         <Button
-            android:id="@+id/course_btn_notes"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableTop="@android:drawable/ic_menu_edit"
-            android:text="@string/course_notes_btn"
-            android:visibility="gone" />
-
-        <Button
             android:id="@+id/course_btn_work"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:layout_weight="1"
+            android:background="@drawable/button_selector"
             android:drawableTop="@drawable/ic_work"
             android:text="@string/course_work_btn" />
 
@@ -225,7 +206,9 @@
             android:id="@+id/course_btn_exams"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:layout_weight="1"
+            android:background="@drawable/button_selector"
             android:drawableTop="@drawable/ic_exam"
             android:text="@string/course_exams_btn" />
     </LinearLayout>

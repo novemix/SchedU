@@ -22,7 +22,7 @@
         android:background="@android:color/transparent"
         android:focusable="false"
         android:focusableInTouchMode="false"
-        android:src="@drawable/edit_layer_list" />
+        android:src="@drawable/layer_list_edit" />
 
     <ImageView
         android:id="@+id/term_btn_delete"
@@ -34,7 +34,7 @@
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:scaleType="fitCenter"
-        android:src="@drawable/delete_layer_list" />
+        android:src="@drawable/layer_list_delete" />
 
     <Button
         android:id="@+id/term_btn_start"

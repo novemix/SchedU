@@ -13,12 +13,10 @@ import java.util.List;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.graphics.PixelFormat;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.ImageView;
@@ -71,7 +69,7 @@ public class TermActivity extends ListActivity {
 	private TermEditListener mTermEditListener = new TermEditListener() {
 		public void onTermEdit(Term iTerm) {
 			if (mAddMode) {
-				term_btn_add.setImageResource(termIsValid(iTerm) ? R.drawable.done_layer_list : R.drawable.cancel_layer_list);
+				term_btn_add.setImageResource(termIsValid(iTerm) ? R.drawable.done_layer_list : R.drawable.layer_list_cancel);
 				term_btn_add.invalidate();
 			}
 			if (termIsValid(iTerm)) {
@@ -163,7 +161,7 @@ public class TermActivity extends ListActivity {
 
 					mAddMode = true;
 					mTermAdapter.setAddMode(true);
-					term_btn_add.setImageResource(R.drawable.cancel_layer_list);
+					term_btn_add.setImageResource(R.drawable.layer_list_cancel);
 
 					mNewTerm = new Term(-1, null, null);
 					mTerms.add(0, mNewTerm);
@@ -210,7 +208,7 @@ public class TermActivity extends ListActivity {
 		if (mTermAdapter.isEmpty()) {
 			mTerms.add(null);
 		}
-		term_btn_add.setImageResource(R.drawable.add_layer_list);
+		term_btn_add.setImageResource(R.drawable.layer_list_add);
 		term_btn_add.invalidate();
 		mTermAdapter.notifyDataSetChanged();
 	}
@@ -225,7 +223,7 @@ public class TermActivity extends ListActivity {
 
 		// Sort terms by start date
 		Collections.sort(mTerms, mTermComparator);
-		term_btn_add.setImageResource(R.drawable.add_layer_list);
+		term_btn_add.setImageResource(R.drawable.layer_list_add);
 		term_btn_add.invalidate();
 		mTermAdapter.notifyDataSetChanged();
 	}

@@ -7,7 +7,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp" >
 
         <ImageView
             android:id="@+id/term_iv_logo"
@@ -19,12 +20,13 @@
         <ImageView
             android:id="@+id/term_btn_add"
             style="@style/button1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
+            android:layout_margin="5dp"
             android:background="@android:color/transparent"
-            android:src="@drawable/add_layer_list"
+            android:src="@drawable/layer_list_add"
             android:text="Add" />
     </RelativeLayout>
 
