@@ -114,6 +114,10 @@ public class AddCourseActivity extends Activity {
 		addcourse_btn_add_time = (Button) findViewById(R.id.addcourse_btn_add_time);
 		addcourse_btn_cancel = (Button) findViewById(R.id.addcourse_btn_cancel);
 		addcourse_btn_add = (Button) findViewById(R.id.addcourse_btn_add);
+		
+		if (!mEditMode) {
+			addcourse_et_course_code.requestFocus();
+		}
 
 		// Set up list view adapter for schedule blocks
 		mScheduleAdapter = new CourseBlockAdapter(this, android.R.layout.simple_list_item_1, mScheduleBlocks, new BlockDeleteListener() {
