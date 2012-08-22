@@ -142,7 +142,8 @@ public class NewExamActivity extends Activity {
 		return ( ! "".equals(new_exam_et_desc.getText().toString())
 				&& new_exam_btn_date.getTag() != null
 				&& new_exam_btn_start_time.getTag() != null
-				&& new_exam_btn_end_time.getTag() != null);
+				&& new_exam_btn_end_time.getTag() != null
+				&& start.compareTo(end) == -1);
 	}
 	
 	private OnClickListener btnListener = new OnClickListener() {
@@ -218,7 +219,6 @@ public class NewExamActivity extends Activity {
 	};
 	
 	private void addNewExam() {
-		// TODO: account for an edit rather than a new
 		if (!editExam) {
 			Location location = new Location(-1, new_exam_et_bldg.getText().toString(), new_exam_et_room.getText().toString(), null);
 			TimePlaceBlock block = new TimePlaceBlock(-1, location, start, end, 0);
