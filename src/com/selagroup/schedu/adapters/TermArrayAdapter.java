@@ -9,6 +9,7 @@ import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -175,7 +176,7 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 					}
 				});
 			} else {
-				holder.term_btn_edit.setImageResource(R.drawable.edit_layer_list);
+				holder.term_btn_edit.setImageResource(R.drawable.layer_list_edit);
 				holder.term_btn_edit.setTag(position);
 				holder.term_btn_edit.setOnClickListener(new OnClickListener() {
 					public void onClick(View view) {
@@ -188,11 +189,16 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 		// No terms, show a message
 		else {
 			holder.term_adapter_tv_select.setVisibility(View.VISIBLE);
-			holder.term_adapter_tv_select.setText("No terms. Create a term first.");
+			holder.term_adapter_tv_select.setText("No terms. Please create a new term.");
 			holder.term_btn_edit.setVisibility(View.GONE);
 			holder.term_btn_delete.setVisibility(View.GONE);
 			holder.term_btn_start.setVisibility(View.GONE);
 			holder.term_btn_end.setVisibility(View.GONE);
+			row.setOnClickListener(new OnClickListener() {
+				public void onClick(View v) {
+					//TODO: implement
+				}
+			});
 		}
 
 		return row;

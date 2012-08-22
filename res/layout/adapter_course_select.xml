@@ -37,14 +37,4 @@
         android:focusable="false"
         android:focusableInTouchMode="false" />
 
-    <Button
-        android:id="@+id/course_adapter_btn_delete"
-        style="@style/button1"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:layout_toLeftOf="@id/course_adapter_btn_edit"
-        android:drawableTop="@android:drawable/ic_delete"
-        android:focusable="false"
-        android:focusableInTouchMode="false" />
-
 </RelativeLayout>
