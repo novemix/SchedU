@@ -53,6 +53,7 @@ public class CourseExamsActivity extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_course_exams);
+		getListView().setCacheColorHint(0); // make listview bg transparent
 		
 		initActivity();
 		
