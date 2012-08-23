@@ -30,28 +30,21 @@
     </PreferenceCategory>
 
     <PreferenceCategory 
-        android:title="@string/preferences_assign_reminders_category_title">
+        android:title="@string/preferences_exam_reminders_category_title">
         <CheckBoxPreference
-            android:key="remindAssign"
+            android:key="remindExam"
             android:defaultValue="true"
-            android:summaryOn="@string/preferences_assign_reminders_summary_on"
-            android:summaryOff="@string/preferences_assign_reminders_summary_off"
-            android:title="@string/preferences_assign_reminders_title" />
+            android:summaryOn="@string/preferences_exam_reminders_summary_on"
+            android:summaryOff="@string/preferences_exam_reminders_summary_off"
+            android:title="@string/preferences_exam_reminders_title" />
         <ListPreference
-            android:entries="@array/preferences_assign_lead_time_display_array"
-            android:entryValues="@array/preferences_assign_lead_time_value_array"
+            android:entries="@array/preferences_exam_lead_time_display_array"
+            android:entryValues="@array/preferences_exam_lead_time_value_array"
             android:key="assignLeadTime1"
             android:defaultValue="2"
-            android:summary="@string/preferences_assign_first_reminder_summary"
-            android:title="@string/preferences_assign_first_reminder_title" />
-        <ListPreference
-            android:entries="@array/preferences_assign_lead_time_display_array"
-            android:entryValues="@array/preferences_assign_lead_time_value_array"
-            android:key="assignLeadTime2"
-            android:defaultValue="1"
-            android:summary="@string/preferences_assign_second_reminder_summary"
-            android:title="@string/preferences_assign_second_reminder_title" />
-        </PreferenceCategory>
+            android:summary="@string/preferences_exam_first_reminder_summary"
+            android:title="@string/preferences_exam_first_reminder_title" />
+    </PreferenceCategory>
         
     <PreferenceCategory
         android:title="@string/preferences_highlight_category_title" >
