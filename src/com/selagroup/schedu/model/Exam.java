@@ -4,9 +4,9 @@
  */
 package com.selagroup.schedu.model;
 
-import com.selagroup.schedu.database.DBHelper;
-
 import android.content.ContentValues;
+
+import com.selagroup.schedu.database.DBHelper;
 
 /**
  * The Class Exam.
@@ -51,4 +51,9 @@ public class Exam extends ContentValueItem {
 	public TimePlaceBlock getBlock() {
 	    return mBlock;
     }
+	
+	@Override
+	public String toString() {
+		return "Exam for " + mCourse.getCode() + " on " + mDescription;
+	}
 }

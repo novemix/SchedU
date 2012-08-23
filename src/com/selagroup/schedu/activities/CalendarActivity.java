@@ -6,6 +6,7 @@
 package com.selagroup.schedu.activities;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
@@ -137,7 +138,7 @@ public class CalendarActivity extends Activity {
 
 	// Data
 	private List<Course> mCourses;
-	private List<Exam> mExams;
+	private List<Exam> mExams = new ArrayList<Exam>();
 	private Calendar mThisDay;
 	private Calendar mNextDay;
 	private Calendar mPrevDay;
@@ -186,7 +187,7 @@ public class CalendarActivity extends Activity {
 
 		// Get all courses for the current term
 		mCourses = mCourseManager.getAllForTerm(mCurrentTerm.getID());
-		
+
 		// Get all exams for these courses
 		for (Course course : mCourses) {
 			mExams.addAll(mExamManager.getAllForCourse(course.getID()));
@@ -555,17 +556,21 @@ public class CalendarActivity extends Activity {
 
 		// Check if we are still in the current term
 		if (mCurrentTerm.getStartDate().before(mThisDay) && mCurrentTerm.getEndDate().after(mThisDay)) {
-			// Add courses for current day
+			// Add courses to the current day
 			for (Course course : mCourses) {
 				List<TimePlaceBlock> blocks = course.getBlocksOnDay(mThisDay.get(Calendar.DAY_OF_WEEK) - 1);
 				for (TimePlaceBlock block : blocks) {
 					addCourseBlockToDay(course, block, mThisDay, mThisDayCourseBlocks, mThisDayCourses);
 				}
 			}
-			
-			// TODO: Add exams for current day
+
+			// Add exams to the current day
 			for (Exam exam : mExams) {
-				// if (exam.get)
+				Calendar start = exam.getBlock().getStartTime();
+				if (start.get(Calendar.YEAR) == mThisDay.get(Calendar.YEAR) &&
+						start.get(Calendar.DAY_OF_YEAR) == mThisDay.get(Calendar.DAY_OF_YEAR)) {
+					addExamToDay(exam, mThisDay, mThisDayCourseBlocks, mThisDayCourses);
+				}
 			}
 		}
 
@@ -592,27 +597,31 @@ public class CalendarActivity extends Activity {
 		// If viewing today show a red line for current time
 		Calendar currentDay = Calendar.getInstance();
 		if (mThisDay.get(Calendar.YEAR) == currentDay.get(Calendar.YEAR) && mThisDay.get(Calendar.DAY_OF_YEAR) == currentDay.get(Calendar.DAY_OF_YEAR)) {
-			mCurrentTimeLine = new View(this);
-			mCurrentTimeLine.setBackgroundResource(R.drawable.calendar_line);
-			mCurrentTimeLineParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, 4);
-			mCurrentTimeLineParams.setMargins(0, (int) ((Utility.minFromMidnight(Calendar.getInstance()) + DAY_VIEW_BUFFER - 1) * mDensity + 0.5f), 0, 0);
-			mCurrentTimeLine.setLayoutParams(mCurrentTimeLineParams);
-			mThisDayCourses.addView(mCurrentTimeLine);
-
-			TimerTask updateLine = new TimerTask() {
-				@Override
-				public void run() {
-					mCurrentTimeLine.post(new Runnable() {
-						public void run() {
-							mCurrentTimeLineParams.setMargins(0, (int) ((Utility.minFromMidnight(Calendar.getInstance()) + DAY_VIEW_BUFFER - 1) * mDensity + 0.5f), 0, 0);
-							mCurrentTimeLine.setLayoutParams(mCurrentTimeLineParams);
-						}
-					});
-				}
-			};
-			Timer timer = new Timer(true);
-			timer.scheduleAtFixedRate(updateLine, 1000 - Calendar.getInstance().get(Calendar.MILLISECOND), 1000);
+			addCurrentTimeLine();
 		}
+	}
+
+	private void addCurrentTimeLine() {
+		mCurrentTimeLine = new View(this);
+		mCurrentTimeLine.setBackgroundResource(R.drawable.calendar_line);
+		mCurrentTimeLineParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, 4);
+		mCurrentTimeLineParams.setMargins(0, (int) ((Utility.minFromMidnight(Calendar.getInstance()) + DAY_VIEW_BUFFER - 1) * mDensity + 0.5f), 0, 0);
+		mCurrentTimeLine.setLayoutParams(mCurrentTimeLineParams);
+		mThisDayCourses.addView(mCurrentTimeLine);
+
+		TimerTask updateLine = new TimerTask() {
+			@Override
+			public void run() {
+				mCurrentTimeLine.post(new Runnable() {
+					public void run() {
+						mCurrentTimeLineParams.setMargins(0, (int) ((Utility.minFromMidnight(Calendar.getInstance()) + DAY_VIEW_BUFFER - 1) * mDensity + 0.5f), 0, 0);
+						mCurrentTimeLine.setLayoutParams(mCurrentTimeLineParams);
+					}
+				});
+			}
+		};
+		Timer timer = new Timer(true);
+		timer.scheduleAtFixedRate(updateLine, 1000 - Calendar.getInstance().get(Calendar.MILLISECOND), 1000);
 	}
 
 	private void addTimeLinesToView(RelativeLayout iView) {
@@ -648,36 +657,10 @@ public class CalendarActivity extends Activity {
 
 		// Tree map to store sorted blocks and the associated courses
 		TreeMap<TimePlaceBlock, Course> courseBlocks = new TreeMap<TimePlaceBlock, Course>();
-
-		// Set the day to the first day of the current week
-		TextView weekDayBlock;
-
 		// Add blocks for each day
 		for (int i = 0; i < DAYS_IN_WEEK; ++i) {
 			// Initialize the day header block
-			weekDayBlock = new TextView(this);
-			weekDayBlock.setTextColor(Color.BLACK);
-			weekDayBlock.setBackgroundColor(Color.LTGRAY);
-			weekDayBlock.setText(DAY_FORMAT.format(day.getTime()));
-			weekDayBlock.setBackgroundResource(R.drawable.calendar_block);
-			weekDayBlock.setLayoutParams(WEEK_LAYOUT_PARAMS);
-			weekDayBlock.setTag(day.clone());
-
-			weekDayBlock.setOnClickListener(new OnClickListener() {
-				public void onClick(View view) {
-					Calendar day = (Calendar) view.getTag();
-					mThisDay = (Calendar) day.clone();
-					mNextDay = (Calendar) mThisDay.clone();
-					mNextDay.add(Calendar.DAY_OF_YEAR, 1);
-					mPrevDay = (Calendar) mThisDay.clone();
-					mPrevDay.add(Calendar.DAY_OF_YEAR, -1);
-					showDayView();
-				}
-			});
-
-			// Add the week's day block to the list and the linear layout
-			iBlocks.add(weekDayBlock);
-			iWeekLayout.addView(weekDayBlock);
+			addWeekDayBlock(day, iBlocks, iWeekLayout);
 
 			// If the day is in the current term
 			if (mCurrentTerm.getStartDate().before(day) && mCurrentTerm.getEndDate().after(day)) {
@@ -702,6 +685,30 @@ public class CalendarActivity extends Activity {
 		}
 	}
 
+	private void addWeekDayBlock(Calendar day, LinkedList<TextView> iBlockList, LinearLayout iLayout) {
+		TextView weekDayBlock = new TextView(this);
+		weekDayBlock.setTextColor(Color.BLACK);
+		weekDayBlock.setBackgroundColor(Color.LTGRAY);
+		weekDayBlock.setText(DAY_FORMAT.format(day.getTime()));
+		weekDayBlock.setBackgroundResource(R.drawable.calendar_block);
+		weekDayBlock.setLayoutParams(WEEK_LAYOUT_PARAMS);
+		weekDayBlock.setTag(day.clone());
+
+		weekDayBlock.setOnClickListener(new OnClickListener() {
+			public void onClick(View view) {
+				Calendar day = (Calendar) view.getTag();
+				mThisDay = (Calendar) day.clone();
+				mNextDay = (Calendar) mThisDay.clone();
+				mNextDay.add(Calendar.DAY_OF_YEAR, 1);
+				mPrevDay = (Calendar) mThisDay.clone();
+				mPrevDay.add(Calendar.DAY_OF_YEAR, -1);
+				showDayView();
+			}
+		});
+		iBlockList.add(weekDayBlock);
+		iLayout.addView(weekDayBlock);
+	}
+
 	private void addCourseBlockToDay(Course iCourse, TimePlaceBlock iBlock, Calendar iDay, LinkedList<TextView> iBlockList, RelativeLayout iLayout) {
 
 		// Initialize the block's colors, text, and listeners
@@ -719,6 +726,26 @@ public class CalendarActivity extends Activity {
 		// Add the block to the list of blocks and the layout
 		iBlockList.add(courseDayBlock);
 		iLayout.addView(courseDayBlock);
+	}
+
+	private void addExamToDay(Exam iExam, Calendar iDay, LinkedList<TextView> iDayBlocks, RelativeLayout iDayLayout) {
+		// Initialize the block's colors, text, and listeners
+		TextView examBlock = getExamBlock(iExam);
+
+		// Sets the block height appropriately (1 minute = 1 dp)
+		int startOffset = Utility.minFromMidnight(iExam.getBlock().getStartTime());
+		int blockSize = Utility.minFromMidnight(iExam.getBlock().getEndTime()) - startOffset;
+		int blockHeight_dp = (int) (blockSize * mDensity + 0.5f);
+
+		// Sets the block distance from the top of the layout
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, blockHeight_dp);
+		params.setMargins(0, (int) ((startOffset + DAY_VIEW_BUFFER) * mDensity + 0.5f), 0, 0);
+		examBlock.setLayoutParams(params);
+		examBlock.setTag(iDay.clone());
+
+		// Add the block to the list of blocks and the layout
+		iDayBlocks.add(examBlock);
+		iDayLayout.addView(examBlock);
 	}
 
 	private void addCourseBlockToWeek(Course iCourse, TimePlaceBlock iBlock, Calendar iDay, LinkedList<TextView> iCourseBlocks, LinearLayout iWeekLayout) {
@@ -748,6 +775,17 @@ public class CalendarActivity extends Activity {
 		courseBlock.setClickable(true);
 		courseBlock.setOnClickListener(new CourseClickListener(iCourse.getID(), iBlock.getID()));
 		return courseBlock;
+	}
+	
+	private TextView getExamBlock(Exam iExam) {
+		TextView examBlock = new TextView(this);
+		examBlock.setTextColor(Color.BLACK);
+		examBlock.setBackgroundColor(Color.GREEN);
+		examBlock.setText(iExam.toString());
+		examBlock.setBackgroundResource(R.drawable.class_block_green);
+		examBlock.setClickable(true);
+		// examBlock.setOnClickListener(new CourseClickListener(iCourse.getID(), iBlock.getID()));
+		return examBlock;
 	}
 
 	private class CourseClickListener implements OnClickListener {
