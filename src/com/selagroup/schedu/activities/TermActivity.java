@@ -47,6 +47,7 @@ public class TermActivity extends ListActivity {
 
 	// Data
 	private boolean mAddMode = false;
+	private boolean mEditMode = false;
 	private Term mNewTerm = null;
 	private List<Term> mTerms;
 
@@ -124,12 +125,20 @@ public class TermActivity extends ListActivity {
 		initWidgets();
 	}
 
+	public void setEditMode(boolean iMode) {
+		mEditMode = iMode;
+	}
+	
 	@Override
 	public void onBackPressed() {
 		if (mAddMode) {
 			cancelAdd();
 		} else {
-			super.onBackPressed();
+			if (mEditMode) {
+				mTermAdapter.cancelEditMode();
+			} else {
+				super.onBackPressed();
+			}
 		}
 	}
 

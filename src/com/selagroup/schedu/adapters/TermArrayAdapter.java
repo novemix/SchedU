@@ -74,6 +74,11 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 	public void setAddMode(boolean iAddMode) {
 		mAddMode = iAddMode;
 	}
+	
+	public void cancelEditMode() {
+		mEditIndex = -1;
+		notifyDataSetChanged();
+	}
 
 	@Override
 	public View getView(int position, View row, ViewGroup parent) {
@@ -140,8 +145,8 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 				holder.term_btn_edit.setImageResource(R.drawable.done_layer_list);
 				holder.term_btn_edit.setOnClickListener(new OnClickListener() {
 					public void onClick(View v) {
-						mEditIndex = -1;
-						notifyDataSetChanged();
+						((TermActivity) mContext).setEditMode(false);
+						cancelEditMode();
 					}
 				});
 				holder.term_btn_delete.setOnClickListener(new OnClickListener() {
@@ -180,6 +185,7 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 				holder.term_btn_edit.setTag(position);
 				holder.term_btn_edit.setOnClickListener(new OnClickListener() {
 					public void onClick(View view) {
+						((TermActivity) mContext).setEditMode(true);
 						mEditIndex = (Integer) view.getTag();
 						notifyDataSetChanged();
 					}
