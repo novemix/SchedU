@@ -38,7 +38,7 @@ public class WorkArrayAdapter extends ArrayAdapter<Assignment> {
 			row = li.inflate(R.layout.adapter_work_select, null);
 		}
 		final Assignment workItem = mWorkList.get(position);
-		((TextView) row.findViewById(R.id.work_adapter_tv_due)).setText((new SimpleDateFormat("MM/dd")).format(workItem.getDueDate().getTime()));
+		((TextView) row.findViewById(R.id.work_adapter_tv_due)).setText((new SimpleDateFormat("M/dd")).format(workItem.getDueDate().getTime()));
 		((TextView) row.findViewById(R.id.work_adapter_tv_desc)).setText(workItem.getName());
 		((ImageButton) row.findViewById(R.id.work_adapter_btn_delete)).setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {

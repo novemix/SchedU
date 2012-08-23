@@ -7,13 +7,15 @@
         android:id="@+id/work_adapter_tv_due"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2" />
+        android:layout_weight="2"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
     
     <TextView
         android:id="@+id/work_adapter_tv_desc"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="5" />
+        android:layout_weight="5"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
     
     <ImageButton
         android:id="@+id/work_adapter_btn_delete"
