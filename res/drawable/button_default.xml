@@ -4,8 +4,8 @@
 
     <gradient
         android:angle="90"
-        android:endColor="#ffe0e0f0"
-        android:startColor="#ffaaaaaa" />
+        android:endColor="@color/buttonDefaultEnd"
+        android:startColor="@color/buttonDefaultStart" />
 
     <corners android:radius="7dp" />
 

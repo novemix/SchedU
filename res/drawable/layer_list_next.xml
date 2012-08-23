@@ -2,16 +2,16 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:bottom="2dp"
-        android:drawable="@drawable/button_selector"
-        android:left="2dp"
-        android:right="2dp"
-        android:top="2dp"/>
+        android:bottom="3dp"
+        android:drawable="@drawable/round_button_selector"
+        android:left="4dp"
+        android:right="3dp"
+        android:top="4dp"/>
     <item
-        android:bottom="8dp"
+        android:bottom="0dp"
         android:drawable="@drawable/ic_arrow_right"
-        android:left="8dp"
-        android:right="8dp"
-        android:top="8dp"/>
+        android:left="0dp"
+        android:right="0dp"
+        android:top="0dp"/>
 
 </layer-list>

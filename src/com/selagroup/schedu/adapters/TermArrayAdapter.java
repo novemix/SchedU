@@ -142,7 +142,7 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 
 			// If edit enabled, show editing options
 			if (editThisRow) {
-				holder.term_btn_edit.setImageResource(R.drawable.done_layer_list);
+				holder.term_btn_edit.setImageResource(R.drawable.layer_list_done);
 				holder.term_btn_edit.setOnClickListener(new OnClickListener() {
 					public void onClick(View v) {
 						((TermActivity) mContext).setEditMode(false);

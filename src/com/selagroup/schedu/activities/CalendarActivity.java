@@ -18,7 +18,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,7 +42,9 @@ import com.selagroup.schedu.R;
 import com.selagroup.schedu.ScheduApplication;
 import com.selagroup.schedu.Utility;
 import com.selagroup.schedu.managers.CourseManager;
+import com.selagroup.schedu.managers.ExamManager;
 import com.selagroup.schedu.model.Course;
+import com.selagroup.schedu.model.Exam;
 import com.selagroup.schedu.model.Term;
 import com.selagroup.schedu.model.TimePlaceBlock;
 
@@ -132,9 +133,11 @@ public class CalendarActivity extends Activity {
 
 	// Managers
 	private CourseManager mCourseManager;
+	private ExamManager mExamManager;
 
 	// Data
 	private List<Course> mCourses;
+	private List<Exam> mExams;
 	private Calendar mThisDay;
 	private Calendar mNextDay;
 	private Calendar mPrevDay;
@@ -157,6 +160,7 @@ public class CalendarActivity extends Activity {
 
 		ScheduApplication myApp = ((ScheduApplication) getApplication());
 		mCourseManager = myApp.getCourseManager();
+		mExamManager = myApp.getExamManager();
 
 		// Set up the correct day to view
 		mThisDay = Calendar.getInstance();
@@ -182,6 +186,11 @@ public class CalendarActivity extends Activity {
 
 		// Get all courses for the current term
 		mCourses = mCourseManager.getAllForTerm(mCurrentTerm.getID());
+		
+		// Get all exams for these courses
+		for (Course course : mCourses) {
+			mExams.addAll(mExamManager.getAllForCourse(course.getID()));
+		}
 
 		initWidgets();
 		initListeners();
@@ -544,6 +553,42 @@ public class CalendarActivity extends Activity {
 		addTimeLinesToView(mNextDayCourses);
 		addTimeLinesToView(mPrevDayCourses);
 
+		// Check if we are still in the current term
+		if (mCurrentTerm.getStartDate().before(mThisDay) && mCurrentTerm.getEndDate().after(mThisDay)) {
+			// Add courses for current day
+			for (Course course : mCourses) {
+				List<TimePlaceBlock> blocks = course.getBlocksOnDay(mThisDay.get(Calendar.DAY_OF_WEEK) - 1);
+				for (TimePlaceBlock block : blocks) {
+					addCourseBlockToDay(course, block, mThisDay, mThisDayCourseBlocks, mThisDayCourses);
+				}
+			}
+			
+			// TODO: Add exams for current day
+			for (Exam exam : mExams) {
+				// if (exam.get)
+			}
+		}
+
+		if (mCurrentTerm.getStartDate().before(mNextDay) && mCurrentTerm.getEndDate().after(mNextDay)) {
+			// Add courses for next day
+			for (Course course : mCourses) {
+				List<TimePlaceBlock> blocks = course.getBlocksOnDay(mNextDay.get(Calendar.DAY_OF_WEEK) - 1);
+				for (TimePlaceBlock block : blocks) {
+					addCourseBlockToDay(course, block, mNextDay, mNextDayCourseBlocks, mNextDayCourses);
+				}
+			}
+		}
+
+		if (mCurrentTerm.getStartDate().before(mPrevDay) && mCurrentTerm.getEndDate().after(mPrevDay)) {
+			// Add courses for previous day
+			for (Course course : mCourses) {
+				List<TimePlaceBlock> blocks = course.getBlocksOnDay(mPrevDay.get(Calendar.DAY_OF_WEEK) - 1);
+				for (TimePlaceBlock block : blocks) {
+					addCourseBlockToDay(course, block, mPrevDay, mPrevDayCourseBlocks, mPrevDayCourses);
+				}
+			}
+		}
+
 		// If viewing today show a red line for current time
 		Calendar currentDay = Calendar.getInstance();
 		if (mThisDay.get(Calendar.YEAR) == currentDay.get(Calendar.YEAR) && mThisDay.get(Calendar.DAY_OF_YEAR) == currentDay.get(Calendar.DAY_OF_YEAR)) {
@@ -567,34 +612,6 @@ public class CalendarActivity extends Activity {
 			};
 			Timer timer = new Timer(true);
 			timer.scheduleAtFixedRate(updateLine, 1000 - Calendar.getInstance().get(Calendar.MILLISECOND), 1000);
-		}
-
-		Log.i("Test", "Day: " + mThisDay.get(Calendar.DAY_OF_WEEK));
-		// Check if we are still in the current term
-		if (mCurrentTerm.getStartDate().before(mThisDay) && mCurrentTerm.getEndDate().after(mThisDay)) {
-			// Add courses for current day
-			for (Course course : mCourses) {
-				List<TimePlaceBlock> blocks = course.getBlocksOnDay(mThisDay.get(Calendar.DAY_OF_WEEK) - 1);
-				for (TimePlaceBlock block : blocks) {
-					addCourseBlockToDay(course, block, mThisDay, mThisDayCourseBlocks, mThisDayCourses);
-				}
-			}
-
-			// Add courses for next day
-			for (Course course : mCourses) {
-				List<TimePlaceBlock> blocks = course.getBlocksOnDay(mNextDay.get(Calendar.DAY_OF_WEEK) - 1);
-				for (TimePlaceBlock block : blocks) {
-					addCourseBlockToDay(course, block, mNextDay, mNextDayCourseBlocks, mNextDayCourses);
-				}
-			}
-
-			// Add courses for previous day
-			for (Course course : mCourses) {
-				List<TimePlaceBlock> blocks = course.getBlocksOnDay(mPrevDay.get(Calendar.DAY_OF_WEEK) - 1);
-				for (TimePlaceBlock block : blocks) {
-					addCourseBlockToDay(course, block, mPrevDay, mPrevDayCourseBlocks, mPrevDayCourses);
-				}
-			}
 		}
 	}
 

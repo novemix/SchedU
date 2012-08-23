@@ -27,14 +27,15 @@
             android:textColor="@color/darkText" />
     </LinearLayout>
 
-    <Button
+    <ImageView
         android:id="@+id/course_adapter_btn_edit"
         style="@style/button1"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
+        android:layout_width="@dimen/icon_button_size"
+        android:layout_height="@dimen/icon_button_size"
         android:layout_alignParentRight="true"
-        android:drawableTop="@android:drawable/ic_menu_edit"
+        android:background="@android:color/transparent"
         android:focusable="false"
-        android:focusableInTouchMode="false" />
+        android:focusableInTouchMode="false"
+        android:src="@drawable/layer_list_edit" />
 
 </RelativeLayout>

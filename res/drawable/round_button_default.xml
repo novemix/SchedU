@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle" >
+    android:shape="oval" >
 
     <gradient
         android:angle="90"
-        android:endColor="@color/buttonDepressedEnd"
-        android:startColor="@color/buttonDepressedStart" />
-
-    <corners android:radius="7dp" />
+        android:endColor="@color/buttonDefaultEnd"
+        android:startColor="@color/buttonDefaultStart" />
 
     <stroke
         android:width="1dp"
-        android:color="#90909090" />
+        android:color="#90aaaaaa" />
 
     <padding
         android:bottom="0dp"

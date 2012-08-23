@@ -70,7 +70,7 @@ public class TermActivity extends ListActivity {
 	private TermEditListener mTermEditListener = new TermEditListener() {
 		public void onTermEdit(Term iTerm) {
 			if (mAddMode) {
-				term_btn_add.setImageResource(termIsValid(iTerm) ? R.drawable.done_layer_list : R.drawable.layer_list_cancel);
+				term_btn_add.setImageResource(termIsValid(iTerm) ? R.drawable.layer_list_done : R.drawable.layer_list_cancel);
 				term_btn_add.invalidate();
 			}
 			if (termIsValid(iTerm)) {

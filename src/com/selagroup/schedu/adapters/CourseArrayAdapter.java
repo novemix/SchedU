@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.selagroup.schedu.R;
@@ -34,7 +34,7 @@ public class CourseArrayAdapter extends ArrayAdapter<Course> {
 	private static class ViewHolder {
 		private TextView course_adapter_tv_code;
 		private TextView course_adapter_tv_name;
-		private Button course_adapter_btn_edit;
+		private ImageView course_adapter_btn_edit;
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class CourseArrayAdapter extends ArrayAdapter<Course> {
 			holder = new ViewHolder();
 			holder.course_adapter_tv_code = (TextView) row.findViewById(R.id.course_adapter_tv_code);
 			holder.course_adapter_tv_name = (TextView) row.findViewById(R.id.course_adapter_tv_name);
-			holder.course_adapter_btn_edit = (Button) row.findViewById(R.id.course_adapter_btn_edit);
+			holder.course_adapter_btn_edit = (ImageView) row.findViewById(R.id.course_adapter_btn_edit);
 			holder.course_adapter_btn_edit.setFocusable(false);
 			holder.course_adapter_btn_edit.setFocusableInTouchMode(false);
 			row.setTag(holder);

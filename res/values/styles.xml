@@ -31,6 +31,11 @@
         <item name="android:textColor">@color/darkText</item>t
     </style>
 
+    <color name="buttonDefaultStart">#ffe0d0e0</color>
+    <color name="buttonDefaultEnd">#ffa0a0a0</color>
+    <color name="buttonDepressedStart">#fffffff0</color>
+    <color name="buttonDepressedEnd">#fff0c040</color>
+    
     <color name="dividerColor">#ffaaaaaa</color>
     <color name="darkText">#ff102d59</color>
     <color name="lightText">#ffffffff</color>

@@ -14,12 +14,15 @@
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true" />
 
-        <Button
+        <ImageView
             android:id="@+id/addcourse_btn_blockDelete"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            style="@style/button1"
+            android:layout_width="@dimen/icon_button_size"
+            android:layout_height="@dimen/icon_button_size"
             android:layout_alignParentRight="true"
-            android:drawableTop="@android:drawable/ic_delete"
+            android:src="@drawable/layer_list_delete"
+            android:layout_margin="5dp"
+            android:background="@android:color/transparent"
             android:focusable="false"
             android:focusableInTouchMode="false" />
     </RelativeLayout>

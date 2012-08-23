@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.selagroup.schedu.R;
@@ -33,7 +33,7 @@ public class CourseBlockAdapter extends ArrayAdapter<TimePlaceBlock> {
 
 	private static class ViewHolder {
 		private TextView addcourse_tv_blockInfo;
-		private Button addcourse_btn_blockDelete;
+		private ImageView addcourse_btn_blockDelete;
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class CourseBlockAdapter extends ArrayAdapter<TimePlaceBlock> {
 			row = li.inflate(R.layout.adapter_addcourse_block, null);
 			tmpHolder = new ViewHolder();
 			tmpHolder.addcourse_tv_blockInfo = (TextView) row.findViewById(R.id.addcourse_tv_blockInfo);
-			tmpHolder.addcourse_btn_blockDelete = (Button) row.findViewById(R.id.addcourse_btn_blockDelete);
+			tmpHolder.addcourse_btn_blockDelete = (ImageView) row.findViewById(R.id.addcourse_btn_blockDelete);
 			row.setTag(tmpHolder);
 		} else {
 			tmpHolder = (ViewHolder) row.getTag();
