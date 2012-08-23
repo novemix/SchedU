@@ -87,9 +87,11 @@
             <ImageButton
                 android:id="@+id/course_work_btn_cancel"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_weight="1"
-                android:src="@android:drawable/ic_delete" />
+                android:src="@android:drawable/ic_delete"
+                android:scaleType="centerCrop" />
+            
         </LinearLayout>
     </LinearLayout>
 

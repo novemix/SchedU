@@ -14,10 +14,14 @@ import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnKeyListener;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -52,6 +56,8 @@ public class CourseWorkActivity extends ListActivity {
 	private EditText course_work_et_desc;
 	private ImageButton course_work_btn_cancel;
 	
+	boolean validInputs;
+	
 	private WorkEditListener mWorkEditListener = new WorkEditListener() {
 		public void onWorkDelete(final Assignment iWorkItem) {
 			AlertDialog.Builder dlg = new AlertDialog.Builder(CourseWorkActivity.this);
@@ -80,7 +86,8 @@ public class CourseWorkActivity extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_course_work);
-		
+		getListView().setCacheColorHint(0); // make listview bg transparent
+
 		initActivity();
 		
 		initWidgets();
@@ -118,35 +125,9 @@ public class CourseWorkActivity extends ListActivity {
 	protected void initListeners() {
 		course_work_btn_add.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				if (mAddMode) { // User tapped Done
-					if (validateInputs()) { // input is valid
-						Utility.hideSoftKeyboard(CourseWorkActivity.this, course_work_et_desc.getWindowToken());
-						course_work_btn_add.setImageResource(R.drawable.layer_list_add);
-						course_work_ll_add.setVisibility(View.GONE);
-						mAddMode = false;
-						Assignment newWorkItem = new Assignment(-1, course_work_et_desc.getText().toString(), (Calendar) course_work_btn_due.getTag(), mCourse);
-						mWorkManager.insert(newWorkItem);
-						mWorkList.clear();
-						mWorkList.addAll(mWorkManager.getAllForCourse(mCourse.getID()));
-						resetInputs();
-					}
-					else { // input not valid
-						AlertDialog.Builder dlg = new AlertDialog.Builder(CourseWorkActivity.this);
-						dlg
-							.setTitle(R.string.course_work_invalid_dialog_title)
-							.setMessage(R.string.course_work_invalid_dialog_text)
-							.setPositiveButton(R.string.course_work_invalid_dialog_OK_btn_label,
-									new DialogInterface.OnClickListener() {
-										public void onClick(DialogInterface dialog, int which) {
-											dialog.dismiss();
-										}
-									})
-							.show();
-					}
-				}
-				else { // User tapped Add
+				if (!mAddMode) {
 					mAddMode = true;
-					course_work_btn_add.setImageResource(R.drawable.done_layer_list);
+					//course_work_btn_add.setImageResource(R.drawable.done_layer_list);
 					course_work_ll_add.setVisibility(View.VISIBLE);
 				}
 			}
@@ -154,7 +135,18 @@ public class CourseWorkActivity extends ListActivity {
 		
 		course_work_btn_cancel.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				cancelAdd();
+				if (validInputs) {
+					Utility.hideSoftKeyboard(CourseWorkActivity.this, course_work_et_desc.getWindowToken());
+					course_work_ll_add.setVisibility(View.GONE);
+					mAddMode = false;
+					Assignment newWorkItem = new Assignment(-1, course_work_et_desc.getText().toString(), (Calendar) course_work_btn_due.getTag(), mCourse);
+					mWorkManager.insert(newWorkItem);
+					mWorkList.clear();
+					mWorkList.addAll(mWorkManager.getAllForCourse(mCourse.getID()));
+					resetInputs();
+				} else {
+					cancelAdd();
+				}
 			}
 		});
 		
@@ -167,9 +159,20 @@ public class CourseWorkActivity extends ListActivity {
 						dueDate.set(year, monthOfYear, dayOfMonth);
 						course_work_btn_due.setTag(dueDate);
 						course_work_btn_due.setText((new SimpleDateFormat("M/dd")).format(dueDate.getTime()));
+						validateInputs();
 					}
 				}, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH));
 				dlg.show();
+			}
+		});
+		
+		course_work_et_desc.addTextChangedListener(new TextWatcher() {
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				validateInputs();
+			}
+			public void afterTextChanged(Editable s) {
+			}
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 			}
 		});
 	}
@@ -177,17 +180,19 @@ public class CourseWorkActivity extends ListActivity {
 	protected void cancelAdd() {
 		Utility.hideSoftKeyboard(CourseWorkActivity.this, course_work_et_desc.getWindowToken());
 		resetInputs();
-		course_work_btn_add.setImageResource(R.drawable.layer_list_add);
+		//course_work_btn_add.setImageResource(R.drawable.layer_list_add);
 		course_work_ll_add.setVisibility(View.GONE);
 		mAddMode = false;
 	}
 	
-	protected boolean validateInputs() {
+	protected void validateInputs() {
 		if ("".equals(course_work_et_desc.getText().toString()) || course_work_btn_due.getTag() == null) {
-			return false;
+			validInputs = false;
+			course_work_btn_cancel.setImageResource(R.drawable.ic_delete);
 		}
 		else {
-			return true;
+			validInputs = true;
+			course_work_btn_cancel.setImageResource(R.drawable.ic_done);
 		}
 	}
 	
@@ -195,6 +200,8 @@ public class CourseWorkActivity extends ListActivity {
 		course_work_btn_due.setText(R.string.course_work_due_btn_label);
 		course_work_btn_due.setTag(null);
 		course_work_et_desc.setText("");
+		validInputs = false;
+		course_work_btn_cancel.setImageResource(R.drawable.ic_delete);
 	}
 	
 	/**
