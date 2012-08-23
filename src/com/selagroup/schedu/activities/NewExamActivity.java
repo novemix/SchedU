@@ -50,7 +50,7 @@ public class NewExamActivity extends Activity {
 	private Button new_exam_btn_start_time;
 	private Button new_exam_btn_end_time;
 	private Button new_exam_btn_done;
-	private ImageButton new_exam_btn_delete;
+	private Button new_exam_btn_delete;
 	
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM dd, yyyy");
 	private SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
@@ -101,7 +101,7 @@ public class NewExamActivity extends Activity {
 		new_exam_btn_end_time = (Button) findViewById(R.id.new_exam_btn_end_time);
 		new_exam_btn_done = (Button) findViewById(R.id.new_exam_btn_done);
 		if (editExam) {
-			new_exam_btn_delete = (ImageButton) findViewById(R.id.new_exam_btn_delete);
+			new_exam_btn_delete = (Button) findViewById(R.id.new_exam_btn_delete);
 			new_exam_btn_delete.setVisibility(View.VISIBLE);
 		}
 	}

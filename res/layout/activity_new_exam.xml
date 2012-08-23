@@ -13,7 +13,7 @@
             android:id="@+id/new_exam_course_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:layout_gravity="center_vertical"
             android:gravity="right"
             android:paddingRight="@dimen/label_padding"
@@ -23,17 +23,9 @@
             android:id="@+id/new_exam_tv_course_code"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="5"
+            android:layout_weight="3"
             android:layout_gravity="center_vertical"
             android:textAppearance="?android:attr/textAppearanceMedium" />
-
-         <ImageButton
-            android:visibility="invisible"
-            android:id="@+id/new_exam_btn_delete"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@android:drawable/ic_delete" />
          
     </LinearLayout>
 
@@ -195,6 +187,15 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/new_exam_cancel_btn" />
+            
+            <Button
+                android:id="@+id/new_exam_btn_delete"
+                android:visibility="gone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/new_exam_delete_btn" />
+            
         </LinearLayout>
     </RelativeLayout>
     
