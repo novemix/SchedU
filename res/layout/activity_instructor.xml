@@ -180,6 +180,7 @@
 
             <Button
                 android:id="@+id/instructor_btn_clear_time"
+                style="@style/button1"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/instructor_add_time_button_height"
                 android:layout_margin="5dp"
