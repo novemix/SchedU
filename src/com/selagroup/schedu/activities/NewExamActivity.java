@@ -19,7 +19,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -103,6 +102,7 @@ public class NewExamActivity extends Activity {
 		if (editExam) {
 			new_exam_btn_delete = (Button) findViewById(R.id.new_exam_btn_delete);
 			new_exam_btn_delete.setVisibility(View.VISIBLE);
+			new_exam_btn_done.setText(R.string.new_exam_done_btn_save_label);
 		}
 	}
 	
