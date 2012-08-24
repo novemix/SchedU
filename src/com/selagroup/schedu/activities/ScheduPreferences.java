@@ -61,8 +61,8 @@ public class ScheduPreferences extends PreferenceActivity implements OnSharedPre
 				// Restore ringer mode
 				alarmSys.restoreRingerMode();
 				
-				// TODO: Clear alarms
-				
+				// Clear alarms
+				alarmSys.clearAlarms();
 			}
 		} else if (key.equals(PREF_KEY_COURSE_REMIND)) {
 

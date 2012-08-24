@@ -262,6 +262,7 @@ public class AddCourseActivity extends Activity {
 			}
 			else {
 				mInstructors.add(instructor);
+				mInstructorManager.insert(instructor);
 			}
 			mCourseToEdit.setInstructor(instructor);
 			
@@ -296,10 +297,6 @@ public class AddCourseActivity extends Activity {
 		Instructor instructor = new Instructor(-1, instructorName, "", "");
 		if (instructorName.equals("")) {
 			instructor = null;
-		}
-		int index = mInstructors.indexOf(instructor);
-		if (index != -1) {
-			instructor = mInstructors.get(index);
 		}
 		else {
 			mInstructors.add(instructor);

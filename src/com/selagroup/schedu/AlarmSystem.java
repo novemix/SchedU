@@ -95,7 +95,7 @@ public class AlarmSystem {
 	 * @param iContext Application context
 	 */
 	public AlarmSystem(Context iContext) {
-		mContext = iContext;
+		mContext = iContext.getApplicationContext();
 		mAlarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
 		notificationMgr = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
 
