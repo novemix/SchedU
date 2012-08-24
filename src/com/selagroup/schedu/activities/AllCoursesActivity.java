@@ -74,6 +74,7 @@ public class AllCoursesActivity extends ListActivity {
 		Collections.sort(mCourseList, mCourseComparator);
 
 		initWidgets();
+		setValues();
 		initListeners();
 
 		mCourseAdapter = new CourseArrayAdapter(this, R.layout.adapter_course_select, mCourseList);
