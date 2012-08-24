@@ -76,6 +76,7 @@ public class TermArrayAdapter extends ArrayAdapter<Term> {
 	}
 	
 	public void cancelEditMode() {
+		((TermActivity) mContext).setEditMode(false);
 		mEditIndex = -1;
 		notifyDataSetChanged();
 	}
