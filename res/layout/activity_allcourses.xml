@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp" >
 
-        <ImageButton
+        <ImageView
             android:id="@+id/allcourses_btn_calendar"
             style="@style/button1"
             android:layout_width="@dimen/icon_button_size"
@@ -27,8 +27,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:src="@drawable/logo" />
-
-        <ImageButton
+        
+        <ImageView
             android:id="@+id/allcourses_btn_add"
             style="@style/button1"
             android:layout_width="@dimen/icon_button_size"

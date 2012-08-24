@@ -10,8 +10,8 @@
     <item
         android:bottom="8dp"
         android:drawable="@drawable/ic_calender"
-        android:left="8dp"
+        android:left="7dp"
         android:right="8dp"
-        android:top="8dp"/>
+        android:top="7dp"/>
 
 </layer-list>
