@@ -40,7 +40,7 @@
         <ListPreference
             android:entries="@array/preferences_exam_lead_time_display_array"
             android:entryValues="@array/preferences_exam_lead_time_value_array"
-            android:key="assignLeadTime1"
+            android:key="examLeadTime"
             android:defaultValue="2"
             android:summary="@string/preferences_exam_first_reminder_summary"
             android:title="@string/preferences_exam_first_reminder_title" />

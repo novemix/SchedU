@@ -118,7 +118,7 @@ public class AlarmSystem {
 		// Get preferences
 		Map<String, ?> allPreferences = PreferenceManager.getDefaultSharedPreferences(mContext).getAll();
 		boolean silentMode = (Boolean) allPreferences.get(ScheduPreferences.PREF_KEY_SILENT);
-		boolean courseReminders = (Boolean) allPreferences.get(ScheduPreferences.PREF_KEY_ASSSIGN_REMIND);
+		boolean courseReminders = (Boolean) allPreferences.get(ScheduPreferences.PREF_KEY_COURSE_REMIND);
 		int reminderLeadTime = Integer.parseInt((String) allPreferences.get(ScheduPreferences.PREF_KEY_COURSE_REMIND_TIME));
 
 		/*

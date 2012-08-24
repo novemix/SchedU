@@ -26,9 +26,8 @@ public class ScheduPreferences extends PreferenceActivity implements OnSharedPre
 	public static final String PREF_KEY_COURSE_REMIND = "remindCourse";
 	public static final String PREF_KEY_COURSE_REMIND_TIME = "courseLeadTime";
 	
-	public static final String PREF_KEY_ASSSIGN_REMIND = "remindAssign";
-	public static final String PREF_KEY_ASSSIGN_REMIND_TIME1 = "assignLeadTime1";
-	public static final String PREF_KEY_ASSSIGN_REMIND_TIME2 = "assignLeadTime2";
+	public static final String PREF_KEY_EXAM_REMINDERS = "remindExam";
+	public static final String PREF_KEY_EXAM_LEAD_TIME = "examLeadTime";
 	
 	public static final String PREF_KEY_HIGHLIGHT_RED = "highlightRed";
 	public static final String PREF_KEY_HIGHLIGHT_YELLOW = "highlightYellow";

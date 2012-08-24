@@ -196,6 +196,7 @@ public class CalendarActivity extends Activity {
 		initWidgets();
 		initListeners();
 		initDayView();
+		showDayView();
 	}
 
 	/**
