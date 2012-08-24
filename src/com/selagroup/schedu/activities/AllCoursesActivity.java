@@ -1,10 +1,12 @@
+
 /**
  * @author Nick Huebner and Mark Redden
  * @version 1.0
  */
 package com.selagroup.schedu.activities;
 
-import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import android.app.ListActivity;
@@ -42,6 +44,21 @@ public class AllCoursesActivity extends ListActivity {
 
 	private CourseManager mCourseManager;
 
+	// Comparator
+	private static final Comparator<Course> mCourseComparator = new Comparator<Course>() {
+		// -1 = lhs < rhs, 1 = lhs > rhs
+		public int compare(Course lhs, Course rhs) {
+			if (lhs == null) {
+				return -1;
+			}
+			if (rhs == null) {
+				return 1;
+			}
+			int retVal = lhs.getCode().compareTo(rhs.getCode());
+			return retVal;
+		}
+	};
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -54,9 +71,9 @@ public class AllCoursesActivity extends ListActivity {
 		if (mCourseList.isEmpty()) {
 			mCourseList.add(null);
 		}
+		Collections.sort(mCourseList, mCourseComparator);
 
 		initWidgets();
-		setValues();
 		initListeners();
 
 		mCourseAdapter = new CourseArrayAdapter(this, R.layout.adapter_course_select, mCourseList);
@@ -70,7 +87,7 @@ public class AllCoursesActivity extends ListActivity {
 			openOptionsMenu();
 		}
 	}
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -79,6 +96,7 @@ public class AllCoursesActivity extends ListActivity {
 		if (mCourseList.isEmpty()) {
 			mCourseList.add(null);
 		}
+		Collections.sort(mCourseList, mCourseComparator);
 		mCourseAdapter.notifyDataSetChanged();
 	}
 
@@ -102,12 +120,12 @@ public class AllCoursesActivity extends ListActivity {
 		allcourses_btn_calendar = (ImageButton) findViewById(R.id.allcourses_btn_calendar);
 		allcourses_tv_term_range = (TextView) findViewById(R.id.allcourses_tv_term_range);
 	}
-
+	
 	protected void setValues() {
 		String text = mCurrentTerm.getStartDateString() + " - " + mCurrentTerm.getEndDateString();
 		allcourses_tv_term_range.setText(text);
 	}
-	
+
 	protected void initListeners() {
 		allcourses_btn_add.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -123,3 +141,4 @@ public class AllCoursesActivity extends ListActivity {
 		});
 	}
 }
+

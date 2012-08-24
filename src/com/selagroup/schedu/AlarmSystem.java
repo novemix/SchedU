@@ -16,7 +16,6 @@ import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import com.selagroup.schedu.activities.CourseActivity;
 import com.selagroup.schedu.activities.ScheduPreferences;
@@ -86,7 +85,6 @@ public class AlarmSystem {
 		public void onReceive(Context context, Intent intent) {
 			if (!mIgnoreNextRingerChange) {
 				mPrevRingerMode = intent.getExtras().getInt(AudioManager.EXTRA_RINGER_MODE);
-				Log.i("Test", "Ringer mode changed by user to: " + mPrevRingerMode);
 			} else {
 				mIgnoreNextRingerChange = false;
 			}
