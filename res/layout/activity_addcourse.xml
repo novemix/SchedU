@@ -101,9 +101,12 @@
 
         <Button
             android:id="@+id/addcourse_btn_add_time"
+            style="@style/button1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/icon_button_size"
+            android:layout_margin="5dp"
             android:layout_weight="3"
+            android:background="@drawable/button_selector"
             android:text="@string/addcourse_add_time_btn" />
     </LinearLayout>
 
@@ -132,23 +135,32 @@
 
             <Button
                 android:id="@+id/addcourse_btn_add"
+                style="@style/button1"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/icon_button_size"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
+                android:background="@drawable/button_selector"
                 android:text="@string/addcourse_add_btn" />
 
             <Button
                 android:id="@+id/addcourse_btn_cancel"
+                style="@style/button1"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/icon_button_size"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
+                android:background="@drawable/button_selector"
                 android:text="@string/addcourse_cancel_btn" />
 
             <Button
                 android:id="@+id/addcourse_btn_delete"
+                style="@style/button1"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/icon_button_size"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
+                android:background="@drawable/button_selector"
                 android:text="@string/addcourse_delete_btn"
                 android:visibility="gone" />
         </LinearLayout>

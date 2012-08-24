@@ -11,7 +11,7 @@
     </style>
 
     <style name="label_small" parent="@style/label">
-        <item name="android:textSize">16dp</item>
+        <item name="android:textSize">12dp</item>
     </style>
 
     <style name="term_label" parent="@style/label">

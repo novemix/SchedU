@@ -142,12 +142,14 @@
 
             <TextView
                 android:id="@+id/course_instructor"
+                style="@style/label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/course_instructor_label" />
 
             <TextView
                 android:id="@+id/course_instructor_location"
+                style="@style/label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/course_instructor" />

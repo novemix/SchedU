@@ -24,6 +24,7 @@
                 android:orientation="vertical" >
 
                 <TextView
+                    style="@style/label"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:gravity="center_vertical|right"
@@ -31,6 +32,7 @@
                     android:text="@string/calendar_day_0000" />
 
                 <TextView
+                    style="@style/label_small"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:gravity="center_vertical|right"
@@ -38,6 +40,7 @@
                     android:text="@string/calendar_day_0030" />
 
                 <TextView
+                    style="@style/label"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:gravity="center_vertical|right"
@@ -45,6 +48,7 @@
                     android:text="@string/calendar_day_0100" />
 
                 <TextView
+                    style="@style/label_small"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:gravity="center_vertical|right"

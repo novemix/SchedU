@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/activity_background" >
+    android:background="@drawable/activity_background"
+    android:orientation="vertical" >
 
     <!-- Instructor name -->
 
@@ -31,157 +31,169 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
 
-        <TextView
-            android:id="@+id/instructor_name_label"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="right"
-            android:paddingRight="@dimen/label_padding"
-            android:text="@string/instructor_name_label" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
 
-        <EditText
-            android:id="@+id/instructor_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:inputType="textPersonName" />
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/instructor_name_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:paddingRight="@dimen/label_padding"
+                    android:text="@string/instructor_name_label" />
 
-    <!-- Instructor email -->
+                <EditText
+                    android:id="@+id/instructor_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:inputType="textPersonName" />
+            </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+            <!-- Instructor email -->
 
-        <TextView
-            android:id="@+id/instructor_email_label"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="right"
-            android:paddingRight="@dimen/label_padding"
-            android:text="@string/instructor_email_label" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
 
-        <EditText
-            android:id="@+id/instructor_email"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:inputType="textEmailAddress" />
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/instructor_email_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:paddingRight="@dimen/label_padding"
+                    android:text="@string/instructor_email_label" />
 
-    <!-- Instructor phone -->
+                <EditText
+                    android:id="@+id/instructor_email"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:inputType="textEmailAddress" />
+            </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+            <!-- Instructor phone -->
 
-        <TextView
-            android:id="@+id/instructor_phone_label"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="right"
-            android:paddingRight="@dimen/label_padding"
-            android:text="@string/instructor_phone_label" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
 
-        <EditText
-            android:id="@+id/instructor_phone"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:inputType="phone" />
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/instructor_phone_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:paddingRight="@dimen/label_padding"
+                    android:text="@string/instructor_phone_label" />
 
-    <!-- Office -->
+                <EditText
+                    android:id="@+id/instructor_phone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:inputType="phone" />
+            </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/instructor_office_label" />
+            <!-- Office -->
 
-    <!-- building -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/instructor_office_label" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+            <!-- building -->
 
-        <TextView
-            android:id="@+id/instructor_building_label"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="right"
-            android:paddingRight="@dimen/label_padding"
-            android:text="@string/instructor_building_label" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
 
-        <EditText
-            android:id="@+id/instructor_building"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:inputType="text" />
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/instructor_building_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:paddingRight="@dimen/label_padding"
+                    android:text="@string/instructor_building_label" />
 
-    <!-- Room -->
+                <EditText
+                    android:id="@+id/instructor_building"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:inputType="text" />
+            </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+            <!-- Room -->
 
-        <TextView
-            android:id="@+id/instructor_room_label"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="right"
-            android:paddingRight="@dimen/label_padding"
-            android:text="@string/instructor_room_label" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
 
-        <EditText
-            android:id="@+id/instructor_room"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:inputType="text" />
-    </LinearLayout>
-    </LinearLayout>
-</ScrollView>
+                <TextView
+                    android:id="@+id/instructor_room_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:paddingRight="@dimen/label_padding"
+                    android:text="@string/instructor_room_label" />
+
+                <EditText
+                    android:id="@+id/instructor_room"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:inputType="text" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="fill_parent" >
 
-        <Button
-            android:id="@+id/instructor_btn_add_time"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/instructor_add_time_button_height"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/instructor_btn_clear_time"
-            android:text="@string/instructor_add_time_btn" />
-        
-        <Button
-            android:id="@+id/instructor_btn_clear_time"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/instructor_add_time_button_height"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:text="@string/instructor_clear_time_btn" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" android:id="@+id/instructor_top_buttons" >
+
+            <Button
+                android:id="@+id/instructor_btn_add_time"
+                style="@style/button1"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/instructor_add_time_button_height"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_selector"
+                android:text="@string/instructor_add_time_btn" />
+
+            <Button
+                android:id="@+id/instructor_btn_clear_time"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/instructor_add_time_button_height"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_selector"
+                android:text="@string/instructor_clear_time_btn" />
+        </LinearLayout>
+
         <ScrollView
             android:id="@+id/instructor_sv_hours"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/instructor_bottom_buttons"
-            android:layout_below="@+id/instructor_btn_add_time" >
+            android:layout_below="@id/instructor_top_buttons" >
 
             <LinearLayout
                 android:id="@+id/instructor_ll_hours"
@@ -193,23 +205,31 @@
 
         <!-- Done button -->
 
-		<LinearLayout
-		    android:id="@+id/instructor_bottom_buttons"
-		    android:layout_width="match_parent"
-		    android:layout_height="wrap_content"
+        <LinearLayout
+            android:id="@+id/instructor_bottom_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true" >
-        <Button
-            android:id="@+id/instructor_btn_done"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/instructor_done_btn" />
-        <Button
-            android:id="@+id/instructor_btn_cancel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/instructor_cancel_btn" />
+
+            <Button
+                android:id="@+id/instructor_btn_done"
+                style="@style/button1"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/icon_button_size"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_selector"
+                android:text="@string/instructor_done_btn" />
+
+            <Button
+                android:id="@+id/instructor_btn_cancel"
+                style="@style/button1"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/icon_button_size"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_selector"
+                android:text="@string/instructor_cancel_btn" />
         </LinearLayout>
     </RelativeLayout>
 
