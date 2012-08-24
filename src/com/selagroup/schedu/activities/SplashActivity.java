@@ -65,7 +65,9 @@ public class SplashActivity extends Activity {
 		}
 		else {
 			application.setCurrentTerm(currentTerm);
-			startActivity(new Intent(SplashActivity.this, AllCoursesActivity.class));
+			Intent intent = new Intent(SplashActivity.this, AllCoursesActivity.class);
+			intent.putExtra("firstStart", true);
+			startActivity(intent);
 		}
 		finish();
 	}

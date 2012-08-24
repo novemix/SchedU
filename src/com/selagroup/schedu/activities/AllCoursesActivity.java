@@ -60,6 +60,14 @@ public class AllCoursesActivity extends ListActivity {
 	}
 
 	@Override
+	public void onAttachedToWindow() {
+		super.onAttachedToWindow();
+		if (getIntent().getBooleanExtra("firstStart", false)) {
+			openOptionsMenu();
+		}
+	}
+	
+	@Override
 	protected void onResume() {
 		super.onResume();
 		mCourseList.clear();
