@@ -41,6 +41,10 @@ public class Instructor extends ContentValueItem {
 		mOfficeHours.remove(iBlock);
 	}
 	
+	public void clearOfficeBlocks() {
+		mOfficeHours.clear();
+	}
+	
 	public List<TimePlaceBlock> getOfficeBlocks() {
 		return Collections.unmodifiableList(mOfficeHours);
 	}
