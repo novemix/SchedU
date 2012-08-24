@@ -16,7 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.selagroup.schedu.R;
@@ -33,8 +33,8 @@ import com.selagroup.schedu.model.Term;
 public class AllCoursesActivity extends ListActivity {
 
 	// Widgets
-	private ImageButton allcourses_btn_add;
-	private ImageButton allcourses_btn_calendar;
+	private ImageView allcourses_btn_add;
+	private ImageView allcourses_btn_calendar;
 	private TextView allcourses_tv_term_range;
 
 	// Data
@@ -117,8 +117,8 @@ public class AllCoursesActivity extends ListActivity {
 	}
 
 	protected void initWidgets() {
-		allcourses_btn_add = (ImageButton) findViewById(R.id.allcourses_btn_add);
-		allcourses_btn_calendar = (ImageButton) findViewById(R.id.allcourses_btn_calendar);
+		allcourses_btn_add = (ImageView) findViewById(R.id.allcourses_btn_add);
+		allcourses_btn_calendar = (ImageView) findViewById(R.id.allcourses_btn_calendar);
 		allcourses_tv_term_range = (TextView) findViewById(R.id.allcourses_tv_term_range);
 	}
 	
