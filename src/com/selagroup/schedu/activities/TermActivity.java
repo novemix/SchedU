@@ -133,12 +133,7 @@ public class TermActivity extends ListActivity {
 	}
 	
 	protected void setTerms() {
-		if (mTerms == null) {
-			mTerms = mTermManager.getAll();
-		} else {
-			mTerms.clear();
-			mTerms.addAll(mTermManager.getAll());
-		}
+		mTerms = mTermManager.getAll();
 		
 		if (mTerms.isEmpty()) {
 			mTerms.add(null);
