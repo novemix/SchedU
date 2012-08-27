@@ -185,6 +185,7 @@ public class NewExamActivity extends Activity {
 					public void onClick(DialogInterface dialog, int which) {
 						mExamManager.delete(exam);
 						setResult(RESULT_OK);
+						refreshAlarms();
 						finish();
 					}
 				})
@@ -236,10 +237,18 @@ public class NewExamActivity extends Activity {
 			block.setEndTime(end);
 			mExamManager.insert(exam);
 		}
+		
+		refreshAlarms();
 	}
 	
 	private void cancel() {
 		setResult(RESULT_CANCELED);
 		finish();
+	}
+	
+	private void refreshAlarms() {
+		ScheduApplication app = (ScheduApplication) getApplication();
+		app.getAlarmSystem().scheduleEventsForDay(app.getCourseManager().getAllForTerm(app.getCurrentTerm().getID()),
+				mExamManager.getAll(), Calendar.getInstance(), false, true);
 	}
 }

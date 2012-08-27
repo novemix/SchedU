@@ -23,7 +23,7 @@ import com.selagroup.schedu.ScheduApplication;
 public class ScheduPreferences extends PreferenceActivity implements OnSharedPreferenceChangeListener {
 	public static final String PREF_KEY_SILENT = "autoSilence";
 	
-	public static final String PREF_KEY_COURSE_REMIND = "remindCourse";
+	public static final String PREF_KEY_COURSE_REMINDERS = "remindCourse";
 	public static final String PREF_KEY_COURSE_REMIND_TIME = "courseLeadTime";
 	
 	public static final String PREF_KEY_EXAM_REMINDERS = "remindExam";
@@ -48,14 +48,14 @@ public class ScheduPreferences extends PreferenceActivity implements OnSharedPre
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
 		mAllPreferences = sharedPref.getAll();
+		ScheduApplication app = (ScheduApplication) getApplication();
+		AlarmSystem alarmSys = app.getAlarmSystem();
 
 		if (key.equals(PREF_KEY_SILENT)) {
-			ScheduApplication app = (ScheduApplication) getApplication();
-			AlarmSystem alarmSys = app.getAlarmSystem();
 			if ((Boolean) mAllPreferences.get(PREF_KEY_SILENT)) {
 				// Schedule alarms
 				alarmSys.scheduleEventsForDay(app.getCourseManager().getAllForTerm(app.getCurrentTerm().getID()),
-						app.getExamManager().getAll(), Calendar.getInstance(), false);
+						app.getExamManager().getAll(), Calendar.getInstance(), false, false);
 				
 			} else {
 				// Restore ringer mode
@@ -64,10 +64,14 @@ public class ScheduPreferences extends PreferenceActivity implements OnSharedPre
 				// Clear alarms
 				alarmSys.clearAlarms();
 			}
-		} else if (key.equals(PREF_KEY_COURSE_REMIND)) {
-
-		} else if (key.equals(PREF_KEY_COURSE_REMIND_TIME)) {
-
+		}
+		else if (key.equals(PREF_KEY_COURSE_REMINDERS) || key.equals(PREF_KEY_COURSE_REMIND_TIME)) {
+			alarmSys.scheduleEventsForDay(app.getCourseManager().getAllForTerm(app.getCurrentTerm().getID()),
+					app.getExamManager().getAll(), Calendar.getInstance(), true, false);
+		}
+		else if (key.equals(PREF_KEY_EXAM_REMINDERS) || key.equals(PREF_KEY_EXAM_LEAD_TIME)) {
+			alarmSys.scheduleEventsForDay(app.getCourseManager().getAllForTerm(app.getCurrentTerm().getID()),
+					app.getExamManager().getAll(), Calendar.getInstance(), false, true);
 		}
 	}
 

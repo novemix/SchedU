@@ -83,7 +83,7 @@ public class TermActivity extends ListActivity {
 				AlarmSystem alarmSys = app.getAlarmSystem();
 				if (currentTerm != null) {
 					alarmSys.scheduleEventsForDay(app.getCourseManager().getAllForTerm(currentTerm.getID()),
-						app.getExamManager().getAll(), Calendar.getInstance(), true);
+						app.getExamManager().getAll(), Calendar.getInstance(), true, false);
 				} else {
 					alarmSys.clearAlarms();
 				}

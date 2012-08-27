@@ -25,7 +25,6 @@ import com.selagroup.schedu.model.Exam;
 import com.selagroup.schedu.model.TimePlaceBlock;
 
 public class AlarmSystem {
-	private static final SimpleDateFormat CLASS_NOTIFICATION_FORMAT = new SimpleDateFormat("h:mma");
 	private static final SimpleDateFormat EXAM_NOTIFICATION_FORMAT = new SimpleDateFormat("EEE, MMM d");
 
 	public static final String ALARM_SET_NEXT_DAY_EVENTS = "com.selagroup.schedu.ALARM_SET_NEXT_DAY_EVENTS";
@@ -47,7 +46,10 @@ public class AlarmSystem {
 	private NotificationManager notificationMgr;
 	private AlarmManager mAlarmManager;
 
-	private ArrayList<PendingIntent> mAllAlarmIntents = new ArrayList<PendingIntent>();
+	private ArrayList<PendingIntent> mCourseReminderAlarms = new ArrayList<PendingIntent>();
+	private ArrayList<PendingIntent> mExamReminderAlarms = new ArrayList<PendingIntent>();
+	private ArrayList<PendingIntent> mSilenceAlarms = new ArrayList<PendingIntent>();
+	private ArrayList<PendingIntent> mRescheduleAlarms = new ArrayList<PendingIntent>();
 
 	private int mPrevRingerMode;
 	private boolean mIgnoreNextRingerChange = false;
@@ -73,7 +75,7 @@ public class AlarmSystem {
 			ArrayList<Course> courses = (ArrayList<Course>) bundle.getSerializable("courses");
 			ArrayList<Exam> exams = (ArrayList<Exam>) bundle.getSerializable("exams");
 			Calendar day = (Calendar) bundle.getSerializable("day");
-			scheduleEventsForDay(courses, exams, day, true);
+			scheduleEventsForDay(courses, exams, day, true, true);
 		}
 	};
 
@@ -130,8 +132,30 @@ public class AlarmSystem {
 	 * @param iCourses Courses for the current term
 	 * @param iDay Day to schedule events for
 	 */
-	public void scheduleEventsForDay(ArrayList<Course> iCourses, ArrayList<Exam> iExams, Calendar iDay, boolean iNewNotifications) {
-		clearAlarms();
+	public void scheduleEventsForDay(ArrayList<Course> iCourses, ArrayList<Exam> iExams, Calendar iDay,
+			boolean iRefreshCourseNotifications, boolean iRefreshExamNotifications) {
+		if (iRefreshCourseNotifications) {
+			for (PendingIntent intent : mCourseReminderAlarms) {
+				mAlarmManager.cancel(intent);
+			}
+			mCourseReminderAlarms.clear();
+		}
+		if (iRefreshExamNotifications) {
+			for (PendingIntent intent : mExamReminderAlarms) {
+				mAlarmManager.cancel(intent);
+			}
+			mExamReminderAlarms.clear();
+		}
+		for (PendingIntent intent : mSilenceAlarms) {
+			mAlarmManager.cancel(intent);
+		}
+		mSilenceAlarms.clear();
+
+		for (PendingIntent intent : mRescheduleAlarms) {
+			mAlarmManager.cancel(intent);
+		}
+		mRescheduleAlarms.clear();
+
 		restoreRingerMode();
 
 		// Get preferences
@@ -139,7 +163,7 @@ public class AlarmSystem {
 
 		boolean silentMode = (Boolean) allPreferences.get(ScheduPreferences.PREF_KEY_SILENT);
 
-		boolean courseReminders = (Boolean) allPreferences.get(ScheduPreferences.PREF_KEY_COURSE_REMIND);
+		boolean courseReminders = (Boolean) allPreferences.get(ScheduPreferences.PREF_KEY_COURSE_REMINDERS);
 		int courseReminderLeadTime = Integer.parseInt((String) allPreferences.get(ScheduPreferences.PREF_KEY_COURSE_REMIND_TIME));
 
 		boolean examReminders = (Boolean) allPreferences.get(ScheduPreferences.PREF_KEY_EXAM_REMINDERS);
@@ -166,7 +190,7 @@ public class AlarmSystem {
 				}
 
 				// If course reminders are on, schedule notifications
-				if (courseReminders && iNewNotifications) {
+				if (courseReminders && iRefreshCourseNotifications) {
 					Calendar courseReminderTime = (Calendar) start.clone();
 					courseReminderTime.add(Calendar.MINUTE, -courseReminderLeadTime);
 					if (start.after(Calendar.getInstance())) {
@@ -176,7 +200,7 @@ public class AlarmSystem {
 			}
 		}
 
-		if (examReminders && iNewNotifications) {
+		if (examReminders && iRefreshExamNotifications) {
 			for (Exam exam : iExams) {
 				Calendar examReminderTime = (Calendar) exam.getBlock().getStartTime().clone();
 				examReminderTime.add(Calendar.MINUTE, -examReminderLeadTime * Utility.MINUTES_PER_DAY);
@@ -196,7 +220,7 @@ public class AlarmSystem {
 		intent.putExtra("exams", iExams);
 		intent.putExtra("day", iDay);
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, ALARM_CODE_SET_NEXT_DAY_EVENTS, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-		mAllAlarmIntents.add(pendingIntent);
+		mRescheduleAlarms.add(pendingIntent);
 		mAlarmManager.set(AlarmManager.RTC_WAKEUP, tomorrow.getTimeInMillis(), pendingIntent);
 	}
 
@@ -204,10 +228,25 @@ public class AlarmSystem {
 	 * Clear all previously set alarms
 	 */
 	public void clearAlarms() {
-		for (PendingIntent intent : mAllAlarmIntents) {
+		for (PendingIntent intent : mExamReminderAlarms) {
 			mAlarmManager.cancel(intent);
 		}
-		mAllAlarmIntents.clear();
+		mExamReminderAlarms.clear();
+
+		for (PendingIntent intent : mCourseReminderAlarms) {
+			mAlarmManager.cancel(intent);
+		}
+		mCourseReminderAlarms.clear();
+
+		for (PendingIntent intent : mSilenceAlarms) {
+			mAlarmManager.cancel(intent);
+		}
+		mSilenceAlarms.clear();
+
+		for (PendingIntent intent : mRescheduleAlarms) {
+			mAlarmManager.cancel(intent);
+		}
+		mRescheduleAlarms.clear();
 	}
 
 	/**
@@ -219,7 +258,7 @@ public class AlarmSystem {
 		Intent intent = new Intent(ALARM_SET_SILENT_MODE);
 		intent.putExtra("mode", iMode);
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, (3 * (iBlockID + 4)) + iMode, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-		mAllAlarmIntents.add(pendingIntent);
+		mSilenceAlarms.add(pendingIntent);
 		mAlarmManager.set(AlarmManager.RTC_WAKEUP, iAlarmTime.getTimeInMillis(), pendingIntent);
 	}
 
@@ -230,7 +269,7 @@ public class AlarmSystem {
 		intent.putExtra("day", iDay);
 
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, ALARM_CODE_SET_COURSE_REMINDER, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-		mAllAlarmIntents.add(pendingIntent);
+		mCourseReminderAlarms.add(pendingIntent);
 		mAlarmManager.set(AlarmManager.RTC_WAKEUP, iReminderTime.getTimeInMillis(), pendingIntent);
 	}
 
@@ -260,7 +299,7 @@ public class AlarmSystem {
 		intent.putExtra("exam", iExam);
 
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, ALARM_CODE_SET_EXAM_REMINDER, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-		mAllAlarmIntents.add(pendingIntent);
+		mExamReminderAlarms.add(pendingIntent);
 		mAlarmManager.set(AlarmManager.RTC_WAKEUP, iReminderTime.getTimeInMillis(), pendingIntent);
 	}
 
@@ -277,10 +316,9 @@ public class AlarmSystem {
 		showExamIntent.putExtra("courseID", course.getID());
 
 		// Broadcast
-		PendingIntent contentIntent = PendingIntent.getActivity(mContext, iExam.getID(), showExamIntent, PendingIntent.FLAG_ONE_SHOT | Intent.FLAG_ACTIVITY_NEW_TASK);
-		notification.setLatestEventInfo(mContext, "Exam in " + course.getCode(),
-				EXAM_NOTIFICATION_FORMAT.format(iExam.getBlock().getStartTime().getTime()) + ": " +
-				iExam.getBlock().toTimeString(), contentIntent);
+		PendingIntent contentIntent = PendingIntent.getActivity(mContext, EXAM_ID_OFFSET + iExam.getID(), showExamIntent, PendingIntent.FLAG_ONE_SHOT | Intent.FLAG_ACTIVITY_NEW_TASK);
+		notification.setLatestEventInfo(mContext, course.getCode() + " Exam", iExam.getDescription() +  ": " +
+				EXAM_NOTIFICATION_FORMAT.format(iExam.getBlock().getStartTime().getTime()), contentIntent);
 		notificationMgr.notify(EXAM_ID_OFFSET + iExam.getID(), notification);
 	}
 
