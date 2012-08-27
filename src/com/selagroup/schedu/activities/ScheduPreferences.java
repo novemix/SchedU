@@ -28,9 +28,6 @@ public class ScheduPreferences extends PreferenceActivity implements OnSharedPre
 	
 	public static final String PREF_KEY_EXAM_REMINDERS = "remindExam";
 	public static final String PREF_KEY_EXAM_LEAD_TIME = "examLeadTime";
-	
-	public static final String PREF_KEY_HIGHLIGHT_RED = "highlightRed";
-	public static final String PREF_KEY_HIGHLIGHT_YELLOW = "highlightYellow";
 
 	private SharedPreferences sharedPref;
 	private Map<String, ?> mAllPreferences;
