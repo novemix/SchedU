@@ -136,7 +136,7 @@
             android:id="@+id/new_exam_btn_start_time"
             style="@style/button1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/icon_button_size"
             android:layout_margin="5dp"
             android:layout_weight="3"
             android:background="@drawable/button_selector"
