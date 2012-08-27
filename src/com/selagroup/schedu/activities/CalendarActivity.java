@@ -917,11 +917,19 @@ public class CalendarActivity extends Activity {
 	}
 
 	@Override
-	protected void onResume() {
-		mDayMode = true;
-		mCourses.clear();
-		mCourses.addAll(mCourseManager.getAllForTerm(mCurrentTerm.getID()));
-		initDayView();
-		super.onResume();
+	protected void onRestart() {
+		super.onRestart();
+		
+		// Term(s) may have been deleted and then this activity backed into
+		mCurrentTerm = ((ScheduApplication) getApplication()).getCurrentTerm();
+
+		if (mCurrentTerm != null) {
+			mDayMode = true;
+			mCourses.clear();
+			mCourses.addAll(mCourseManager.getAllForTerm(mCurrentTerm.getID()));
+			initDayView();
+		} else {
+			finish();
+		}
 	}
 }
