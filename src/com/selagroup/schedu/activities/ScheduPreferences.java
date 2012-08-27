@@ -54,8 +54,8 @@ public class ScheduPreferences extends PreferenceActivity implements OnSharedPre
 			AlarmSystem alarmSys = app.getAlarmSystem();
 			if ((Boolean) mAllPreferences.get(PREF_KEY_SILENT)) {
 				// Schedule alarms
-				alarmSys.scheduleEventsForDay(
-						app.getCourseManager().getAllForTerm(app.getCurrentTerm().getID()), Calendar.getInstance(), false);
+				alarmSys.scheduleEventsForDay(app.getCourseManager().getAllForTerm(app.getCurrentTerm().getID()),
+						app.getExamManager().getAll(), Calendar.getInstance(), false);
 				
 			} else {
 				// Restore ringer mode

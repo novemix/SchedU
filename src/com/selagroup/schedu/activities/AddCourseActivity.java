@@ -191,7 +191,8 @@ public class AddCourseActivity extends Activity {
 					}
 				}
 				ScheduApplication app = (ScheduApplication)getApplication();
-				app.getAlarmSystem().scheduleEventsForDay(mCourseManager.getAllForTerm(mCurrentTerm.getID()), Calendar.getInstance(), true);
+				app.getAlarmSystem().scheduleEventsForDay(mCourseManager.getAllForTerm(mCurrentTerm.getID()), app.getExamManager().getAll(),
+						Calendar.getInstance(), true);
 			}
 		});
 		

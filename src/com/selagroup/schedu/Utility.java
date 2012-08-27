@@ -33,6 +33,7 @@ public class Utility {
 	public static final int MILLIS_PER_MINUTE = MILLIS_PER_SECOND * SECONDS_PER_MINUTE;
 	public static final int MILLIS_PER_HOUR = MILLIS_PER_MINUTE * MINUTES_PER_HOUR;
 	public static final int MILLIS_PER_DAY = MILLIS_PER_HOUR * HOURS_PER_DAY;
+	public static final int MINUTES_PER_DAY = MINUTES_PER_HOUR * HOURS_PER_DAY;
 
 	public static long intFromCalendar(Calendar iCalendar) {
 		return iCalendar.getTimeInMillis();
