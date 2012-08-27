@@ -126,31 +126,31 @@ public class Course extends ContentValueItem {
 	}
 
 	/**
-	 * Gets the next block (and the day) for this course given a start time
+	 * Gets the next block (and the day) for this course given a start time, will return classes currently ongoing
 	 * @param iStart Start date and time
 	 * @return Pair: block and the associated day
 	 */
 	public Pair<TimePlaceBlock, Calendar> getNextBlock(Calendar iStart) {
-		TreeMap<Calendar, TimePlaceBlock> blockStartTimes = new TreeMap<Calendar, TimePlaceBlock>();
+		TreeMap<Calendar, TimePlaceBlock> blockEndTimes = new TreeMap<Calendar, TimePlaceBlock>();
 		for (TimePlaceBlock block : mScheduleBlocks) {
 			for (int i = 0; i < Utility.DAYS_PER_WEEK; ++i) {
 				if (block.getDayFlagArray()[i]) {
-					Calendar blockStart = (Calendar) block.getStartTime().clone();
-					blockStart.set(Calendar.YEAR, iStart.get(Calendar.YEAR));
-					blockStart.set(Calendar.WEEK_OF_YEAR, iStart.get(Calendar.WEEK_OF_YEAR));
-					blockStart.set(Calendar.DAY_OF_WEEK, i + 1);
-					if (blockStart.before(iStart)) {
-						blockStart.add(Calendar.WEEK_OF_YEAR, 1);
+					Calendar blockEnd = (Calendar) block.getEndTime().clone();
+					blockEnd.set(Calendar.YEAR, iStart.get(Calendar.YEAR));
+					blockEnd.set(Calendar.WEEK_OF_YEAR, iStart.get(Calendar.WEEK_OF_YEAR));
+					blockEnd.set(Calendar.DAY_OF_WEEK, i + 1);
+					if (blockEnd.before(iStart)) {
+						blockEnd.add(Calendar.WEEK_OF_YEAR, 1);
 					}
-					blockStartTimes.put(blockStart, block);
+					blockEndTimes.put(blockEnd, block);
 				}
 			}
 		}
-		if (blockStartTimes.isEmpty()) {
+		if (blockEndTimes.isEmpty()) {
 			return null;
 		} else {
-			Calendar firstKey = blockStartTimes.firstKey();
-			return new Pair<TimePlaceBlock, Calendar>(blockStartTimes.get(firstKey), firstKey);
+			Calendar firstKey = blockEndTimes.firstKey();
+			return new Pair<TimePlaceBlock, Calendar>(blockEndTimes.get(firstKey), firstKey);
 		}
 	}
 

@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/activity_background" >
-    
+    android:background="@drawable/activity_background"
+    android:orientation="vertical" >
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
@@ -13,8 +13,8 @@
             android:id="@+id/new_exam_course_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_gravity="center_vertical"
+            android:layout_weight="1"
             android:gravity="right"
             android:paddingRight="@dimen/label_padding"
             android:text="@string/new_exam_course_label" />
@@ -23,10 +23,9 @@
             android:id="@+id/new_exam_tv_course_code"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
             android:layout_gravity="center_vertical"
+            android:layout_weight="3"
             android:textAppearance="?android:attr/textAppearanceMedium" />
-         
     </LinearLayout>
 
     <LinearLayout
@@ -51,9 +50,8 @@
 
             <requestFocus />
         </EditText>
-
     </LinearLayout>
-    
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
@@ -74,7 +72,6 @@
             android:layout_weight="3"
             android:inputType="textCapWords" >
         </EditText>
-
     </LinearLayout>
 
     <LinearLayout
@@ -96,7 +93,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:inputType="textCapWords" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -114,11 +110,13 @@
 
         <Button
             android:id="@+id/new_exam_btn_date"
+            style="@style/button1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:layout_weight="3"
+            android:background="@drawable/button_selector"
             android:text="@string/new_exam_date_btn" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -136,11 +134,13 @@
 
         <Button
             android:id="@+id/new_exam_btn_start_time"
+            style="@style/button1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:layout_weight="3"
+            android:background="@drawable/button_selector"
             android:text="@string/new_exam_start_btn" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -158,11 +158,13 @@
 
         <Button
             android:id="@+id/new_exam_btn_end_time"
+            style="@style/button1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:layout_weight="3"
+            android:background="@drawable/button_selector"
             android:text="@string/new_exam_end_btn" />
-
     </LinearLayout>
 
     <RelativeLayout
@@ -176,27 +178,35 @@
 
             <Button
                 android:id="@+id/new_exam_btn_done"
+                style="@style/button1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
+                android:background="@drawable/button_selector"
                 android:text="@string/new_exam_done_btn" />
 
             <Button
                 android:id="@+id/new_exam_btn_cancel"
+                style="@style/button1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
+                android:background="@drawable/button_selector"
                 android:text="@string/new_exam_cancel_btn" />
-            
+
             <Button
                 android:id="@+id/new_exam_btn_delete"
-                android:visibility="gone"
+                style="@style/button1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:text="@string/new_exam_delete_btn" />
-            
+                android:background="@drawable/button_selector"
+                android:text="@string/new_exam_delete_btn"
+                android:visibility="gone" />
         </LinearLayout>
     </RelativeLayout>
-    
+
 </LinearLayout>

@@ -4,6 +4,8 @@
  */
 package com.selagroup.schedu.model;
 
+import java.text.SimpleDateFormat;
+
 import android.content.ContentValues;
 
 import com.selagroup.schedu.database.DBHelper;
@@ -12,12 +14,13 @@ import com.selagroup.schedu.database.DBHelper;
  * The Class Exam.
  */
 public class Exam extends ContentValueItem {
-    private static final long serialVersionUID = 1706713919453127768L;
-    
+	private static final long serialVersionUID = 1706713919453127768L;
+	private static final SimpleDateFormat EXAM_TIME_FORMAT = new SimpleDateFormat("h:mma");
+
 	private String mDescription;
 	private Course mCourse;
 	private TimePlaceBlock mBlock;
-	
+
 	/**
 	 * Instantiates a new exam.
 	 */
@@ -35,25 +38,27 @@ public class Exam extends ContentValueItem {
 		values.put(DBHelper.COL_EXAM_TimePlaceBlockID, mBlock.getID());
 		return values;
 	}
-	
+
 	public String getDescription() {
 		return mDescription;
 	}
-	
+
 	public void setDescription(String iDescription) {
 		mDescription = iDescription;
 	}
-	
+
 	public Course getCourse() {
 		return mCourse;
 	}
 
 	public TimePlaceBlock getBlock() {
-	    return mBlock;
-    }
-	
+		return mBlock;
+	}
+
 	@Override
 	public String toString() {
-		return "Exam for " + mCourse.getCode() + " on " + mDescription;
+		return "Exam for " + mCourse.getCode() + "\n" + mDescription + "\n" +
+				(EXAM_TIME_FORMAT.format(mBlock.getStartTime().getTime()) + " - " +
+				EXAM_TIME_FORMAT.format(mBlock.getEndTime().getTime())).toLowerCase();
 	}
 }

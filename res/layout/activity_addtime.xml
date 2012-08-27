@@ -84,9 +84,12 @@
 
             <Button
                 android:id="@+id/addtime_btn_start"
+                style="@style/button1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:layout_weight="3"
+                android:background="@drawable/button_selector"
                 android:text="@string/addtime_start_btn" />
         </LinearLayout>
 
@@ -108,9 +111,12 @@
 
             <Button
                 android:id="@+id/addtime_btn_end"
+                style="@style/button1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:layout_weight="3"
+                android:background="@drawable/button_selector"
                 android:text="@string/addtime_end_btn" />
         </LinearLayout>
 
@@ -307,16 +313,22 @@
 
         <Button
             android:id="@+id/addtime_btn_add"
+            style="@style/button1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:layout_weight="1"
+            android:background="@drawable/button_selector"
             android:text="@string/addtime_add_btn" />
 
         <Button
             android:id="@+id/addtime_btn_cancel"
+            style="@style/button1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:layout_weight="1"
+            android:background="@drawable/button_selector"
             android:text="@string/addtime_cancel_btn" />
     </LinearLayout>
 

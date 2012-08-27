@@ -8,6 +8,7 @@ package com.selagroup.schedu.activities;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -44,6 +45,7 @@ import com.selagroup.schedu.ScheduApplication;
 import com.selagroup.schedu.Utility;
 import com.selagroup.schedu.managers.CourseManager;
 import com.selagroup.schedu.managers.ExamManager;
+import com.selagroup.schedu.model.ContentValueItem;
 import com.selagroup.schedu.model.Course;
 import com.selagroup.schedu.model.Exam;
 import com.selagroup.schedu.model.Term;
@@ -80,6 +82,12 @@ public class CalendarActivity extends Activity {
 		FADE_OUT_ANIMATION.setDuration(ANIMATION_TIME);
 		FADE_OUT_ANIMATION.setInterpolator(new LinearInterpolator());
 	}
+	
+	private static final Comparator<TimePlaceBlock> TIME_COMPARATOR = new Comparator<TimePlaceBlock>() {
+		public int compare(TimePlaceBlock lhs, TimePlaceBlock rhs) {
+			return lhs.getMinutesAfterMidnight() - rhs.getMinutesAfterMidnight();
+		}
+	};
 
 	// Widgets
 	private ToggleButton calendar_btn_day;
@@ -555,13 +563,12 @@ public class CalendarActivity extends Activity {
 		addTimeLinesToView(mNextDayCourses);
 		addTimeLinesToView(mPrevDayCourses);
 
-		// Check if we are still in the current term
+		// Add courses to the current day
 		if (mCurrentTerm.getStartDate().before(mThisDay) && mCurrentTerm.getEndDate().after(mThisDay)) {
-			// Add courses to the current day
 			for (Course course : mCourses) {
 				List<TimePlaceBlock> blocks = course.getBlocksOnDay(mThisDay.get(Calendar.DAY_OF_WEEK) - 1);
 				for (TimePlaceBlock block : blocks) {
-					addCourseBlockToDay(course, block, mThisDay, mThisDayCourseBlocks, mThisDayCourses);
+					addCourseToDay(course, block, mThisDay, mThisDayCourseBlocks, mThisDayCourses);
 				}
 			}
 
@@ -575,22 +582,40 @@ public class CalendarActivity extends Activity {
 			}
 		}
 
+		// Add courses for next day
 		if (mCurrentTerm.getStartDate().before(mNextDay) && mCurrentTerm.getEndDate().after(mNextDay)) {
-			// Add courses for next day
 			for (Course course : mCourses) {
 				List<TimePlaceBlock> blocks = course.getBlocksOnDay(mNextDay.get(Calendar.DAY_OF_WEEK) - 1);
 				for (TimePlaceBlock block : blocks) {
-					addCourseBlockToDay(course, block, mNextDay, mNextDayCourseBlocks, mNextDayCourses);
+					addCourseToDay(course, block, mNextDay, mNextDayCourseBlocks, mNextDayCourses);
+				}
+			}
+
+			// Add exams to the next day
+			for (Exam exam : mExams) {
+				Calendar start = exam.getBlock().getStartTime();
+				if (start.get(Calendar.YEAR) == mNextDay.get(Calendar.YEAR) &&
+						start.get(Calendar.DAY_OF_YEAR) == mNextDay.get(Calendar.DAY_OF_YEAR)) {
+					addExamToDay(exam, mNextDay, mNextDayCourseBlocks, mNextDayCourses);
 				}
 			}
 		}
 
+		// Add courses for previous day
 		if (mCurrentTerm.getStartDate().before(mPrevDay) && mCurrentTerm.getEndDate().after(mPrevDay)) {
-			// Add courses for previous day
 			for (Course course : mCourses) {
 				List<TimePlaceBlock> blocks = course.getBlocksOnDay(mPrevDay.get(Calendar.DAY_OF_WEEK) - 1);
 				for (TimePlaceBlock block : blocks) {
-					addCourseBlockToDay(course, block, mPrevDay, mPrevDayCourseBlocks, mPrevDayCourses);
+					addCourseToDay(course, block, mPrevDay, mPrevDayCourseBlocks, mPrevDayCourses);
+				}
+			}
+
+			// Add exams to the previous day
+			for (Exam exam : mExams) {
+				Calendar start = exam.getBlock().getStartTime();
+				if (start.get(Calendar.YEAR) == mPrevDay.get(Calendar.YEAR) &&
+						start.get(Calendar.DAY_OF_YEAR) == mPrevDay.get(Calendar.DAY_OF_YEAR)) {
+					addExamToDay(exam, mPrevDay, mPrevDayCourseBlocks, mPrevDayCourses);
 				}
 			}
 		}
@@ -657,11 +682,11 @@ public class CalendarActivity extends Activity {
 		Calendar day = (Calendar) iFirstDay.clone();
 
 		// Tree map to store sorted blocks and the associated courses
-		TreeMap<TimePlaceBlock, Course> courseBlocks = new TreeMap<TimePlaceBlock, Course>();
+		TreeMap<TimePlaceBlock, ContentValueItem> courseAndExamBlocks = new TreeMap<TimePlaceBlock, ContentValueItem>(TIME_COMPARATOR);
 		// Add blocks for each day
 		for (int i = 0; i < DAYS_IN_WEEK; ++i) {
 			// Initialize the day header block
-			addWeekDayBlock(day, iBlocks, iWeekLayout);
+			addWeekDayHeaderBlock(day, iBlocks, iWeekLayout);
 
 			// If the day is in the current term
 			if (mCurrentTerm.getStartDate().before(day) && mCurrentTerm.getEndDate().after(day)) {
@@ -669,16 +694,30 @@ public class CalendarActivity extends Activity {
 				for (Course course : mCourses) {
 					List<TimePlaceBlock> blocks = course.getBlocksOnDay(i);
 					for (TimePlaceBlock block : blocks) {
-						courseBlocks.put(block, course);
+						courseAndExamBlocks.put(block, course);
+					}
+				}
+				
+				// Add exams for the current day
+				for (Exam exam : mExams) {
+					Calendar start = exam.getBlock().getStartTime();
+					if (start.get(Calendar.YEAR) == day.get(Calendar.YEAR) &&
+							start.get(Calendar.DAY_OF_YEAR) == day.get(Calendar.DAY_OF_YEAR)) {
+						courseAndExamBlocks.put(exam.getBlock(), exam);
 					}
 				}
 
 				// Add time blocks to the view in chronological order
-				for (Entry<TimePlaceBlock, Course> entry : courseBlocks.entrySet()) {
-					addCourseBlockToWeek(entry.getValue(), entry.getKey(), day, iBlocks, iWeekLayout);
+				for (Entry<TimePlaceBlock, ContentValueItem> entry : courseAndExamBlocks.entrySet()) {
+					if (entry.getValue() instanceof Course) {
+						addCourseToWeek((Course)entry.getValue(), entry.getKey(), day, iBlocks, iWeekLayout);
+					}
+					else if (entry.getValue() instanceof Exam) {
+						addExamToWeek((Exam)entry.getValue(), day, iBlocks, iWeekLayout);
+					}
 				}
 
-				courseBlocks.clear();
+				courseAndExamBlocks.clear();
 			}
 
 			// Increment the day by 1
@@ -686,7 +725,7 @@ public class CalendarActivity extends Activity {
 		}
 	}
 
-	private void addWeekDayBlock(Calendar day, LinkedList<TextView> iBlockList, LinearLayout iLayout) {
+	private void addWeekDayHeaderBlock(Calendar day, LinkedList<TextView> iBlockList, LinearLayout iLayout) {
 		TextView weekDayBlock = new TextView(this);
 		weekDayBlock.setTextColor(Color.BLACK);
 		weekDayBlock.setBackgroundColor(Color.LTGRAY);
@@ -710,7 +749,7 @@ public class CalendarActivity extends Activity {
 		iLayout.addView(weekDayBlock);
 	}
 
-	private void addCourseBlockToDay(Course iCourse, TimePlaceBlock iBlock, Calendar iDay, LinkedList<TextView> iBlockList, RelativeLayout iLayout) {
+	private void addCourseToDay(Course iCourse, TimePlaceBlock iBlock, Calendar iDay, LinkedList<TextView> iBlockList, RelativeLayout iLayout) {
 
 		// Initialize the block's colors, text, and listeners
 		TextView courseDayBlock = getCourseBlock(iCourse, iBlock);
@@ -749,9 +788,21 @@ public class CalendarActivity extends Activity {
 		iDayLayout.addView(examBlock);
 	}
 
-	private void addCourseBlockToWeek(Course iCourse, TimePlaceBlock iBlock, Calendar iDay, LinkedList<TextView> iCourseBlocks, LinearLayout iWeekLayout) {
+	private void addCourseToWeek(Course iCourse, TimePlaceBlock iBlock, Calendar iDay, LinkedList<TextView> iCourseBlocks, LinearLayout iWeekLayout) {
 		// Initialize the block's colors, text, and listeners
 		TextView weekDayBlock = getCourseBlock(iCourse, iBlock);
+		weekDayBlock.setTag(iDay.clone());
+
+		weekDayBlock.setLayoutParams(WEEK_LAYOUT_PARAMS);
+
+		// Add the week's day block to the list and the linear layout
+		iCourseBlocks.add(weekDayBlock);
+		iWeekLayout.addView(weekDayBlock);
+	}
+	
+	private void addExamToWeek(Exam iCourse, Calendar iDay, LinkedList<TextView> iCourseBlocks, LinearLayout iWeekLayout) {
+		// Initialize the block's colors, text, and listeners
+		TextView weekDayBlock = getExamBlock(iCourse);
 		weekDayBlock.setTag(iDay.clone());
 
 		weekDayBlock.setLayoutParams(WEEK_LAYOUT_PARAMS);
@@ -777,15 +828,20 @@ public class CalendarActivity extends Activity {
 		courseBlock.setOnClickListener(new CourseClickListener(iCourse.getID(), iBlock.getID()));
 		return courseBlock;
 	}
-	
-	private TextView getExamBlock(Exam iExam) {
+
+	private TextView getExamBlock(final Exam iExam) {
 		TextView examBlock = new TextView(this);
-		examBlock.setTextColor(Color.BLACK);
-		examBlock.setBackgroundColor(Color.GREEN);
+		examBlock.setTextColor(Color.YELLOW);
+		examBlock.setBackgroundResource(R.drawable.exam_block);
 		examBlock.setText(iExam.toString());
-		examBlock.setBackgroundResource(R.drawable.class_block_green);
 		examBlock.setClickable(true);
-		// examBlock.setOnClickListener(new CourseClickListener(iCourse.getID(), iBlock.getID()));
+		examBlock.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				Intent showExams = new Intent(CalendarActivity.this, CourseExamsActivity.class);
+				showExams.putExtra("courseID", iExam.getCourse().getID());
+				startActivity(showExams);
+			}
+		});
 		return examBlock;
 	}
 
