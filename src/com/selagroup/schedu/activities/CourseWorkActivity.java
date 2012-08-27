@@ -47,6 +47,7 @@ public class CourseWorkActivity extends ListActivity {
 	private AssignmentManager mWorkManager;
 	private WorkArrayAdapter mWorkAdapter;
 	private List<Assignment> mWorkList;
+	private int mCourseID;
 	private Course mCourse;
 	private Boolean mAddMode = false;
 	
@@ -95,6 +96,16 @@ public class CourseWorkActivity extends ListActivity {
 	}
 	
 	@Override
+	protected void onRestart() {
+		super.onRestart();
+		// Course or term could have been deleted, and then this activity backed into
+		mCourse = ((ScheduApplication) getApplication()).getCourseManager().get(mCourseID);
+		if (mCourse == null) {
+			finish();
+		}
+	}
+	
+	@Override
 	public void onBackPressed() {
 		if (mAddMode) {
 			cancelAdd();
@@ -105,7 +116,8 @@ public class CourseWorkActivity extends ListActivity {
 	}
 	
 	protected void initActivity() {
-		mCourse = ((ScheduApplication) getApplication()).getCourseManager().get(getIntent().getIntExtra("courseID", -1));
+		mCourseID = getIntent().getIntExtra("courseID", -1);
+		mCourse = ((ScheduApplication) getApplication()).getCourseManager().get(mCourseID);
 		((TextView) findViewById(R.id.course_work_course_code)).setText(mCourse.getCode());
 
 		mWorkManager = ((ScheduApplication) getApplication()).getAssignmentManager();

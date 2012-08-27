@@ -34,6 +34,7 @@ public class CourseExamsActivity extends ListActivity {
 	private ExamManager mExamManager;
 	private ExamArrayAdapter mExamAdapter;
 	private List<Exam> mExamList;
+	private int mCourseID;
 	private Course mCourse;
 	
 	private ImageView course_exams_btn_add;
@@ -62,6 +63,16 @@ public class CourseExamsActivity extends ListActivity {
 	}
 	
 	@Override
+	protected void onRestart() {
+		super.onRestart();
+		// Course or term could have been deleted, and then this activity backed into
+		mCourse = ((ScheduApplication) getApplication()).getCourseManager().get(mCourseID);
+		if (mCourse == null) {
+			finish();
+		}
+	}
+	
+	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == RESULT_OK) {
 			mExamList.clear();
@@ -71,7 +82,8 @@ public class CourseExamsActivity extends ListActivity {
 	}
 		
 	private void initActivity() {
-		mCourse = ((ScheduApplication) getApplication()).getCourseManager().get(getIntent().getIntExtra("courseID", -1));
+		mCourseID = getIntent().getIntExtra("courseID", -1);
+		mCourse = ((ScheduApplication) getApplication()).getCourseManager().get(mCourseID);
 		((TextView) findViewById(R.id.course_exams_course_code)).setText(mCourse.getCode());
 		
 		mExamManager = ((ScheduApplication) getApplication()).getExamManager();

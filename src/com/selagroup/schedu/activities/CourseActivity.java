@@ -85,6 +85,16 @@ public class CourseActivity extends Activity {
 	}
 
 	@Override
+	protected void onRestart() {
+		super.onRestart();
+		// Course or term could have been deleted, and then this activity backed into
+		thisCourse = ((ScheduApplication) getApplication()).getCourseManager().get(courseID);
+		if (thisCourse == null) {
+			finish();
+		}
+	}
+	
+	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == INSTRUCTOR_EDIT_CODE && resultCode == RESULT_OK) {
 			thisCourse = ((ScheduApplication) getApplication()).getCourseManager().get(courseID);
