@@ -84,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
                 android:hint="@string/course_work_et_hint"
-                android:inputType="text" />
+                android:inputType="textCapWords" />
 
             <ImageButton
                 android:id="@+id/course_work_btn_cancel"
