@@ -72,10 +72,9 @@
 
                 <TextView
                     android:id="@+id/course_tv_countDown"
-                    style="@style/label"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
             </LinearLayout>
 
             <TextView
