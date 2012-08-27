@@ -4,4 +4,5 @@
 	<string name="term_spinnerTitle_label">Select a Term</string>
     <string name="term_btn_edit_text_off">Edit</string>
     <string name="term_btn_edit_text_on">Done</string>
+    <string name="term_select_toast_hint">Tap row to select</string>
 </resources>

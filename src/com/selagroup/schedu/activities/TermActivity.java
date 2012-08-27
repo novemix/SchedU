@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.selagroup.schedu.AlarmSystem;
 import com.selagroup.schedu.R;
@@ -239,6 +240,9 @@ public class TermActivity extends ListActivity {
 		term_btn_add.setImageResource(R.drawable.layer_list_add);
 		term_btn_add.invalidate();
 		mTermAdapter.notifyDataSetChanged();
+		if (mTerms.size() == 1) {
+			Toast.makeText(TermActivity.this, R.string.term_select_toast_hint, Toast.LENGTH_LONG).show();
+		}
 	}
 	
 	@Override
