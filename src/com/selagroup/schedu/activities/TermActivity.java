@@ -82,7 +82,8 @@ public class TermActivity extends ListActivity {
 				Term currentTerm = Utility.getCurrentTerm(mTerms, Calendar.getInstance());
 				AlarmSystem alarmSys = app.getAlarmSystem();
 				if (currentTerm != null) {
-					alarmSys.scheduleEventsForDay(app.getCourseManager().getAllForTerm(currentTerm.getID()), Calendar.getInstance(), true);
+					alarmSys.scheduleEventsForDay(app.getCourseManager().getAllForTerm(currentTerm.getID()),
+						app.getExamManager().getAll(), Calendar.getInstance(), true);
 				} else {
 					alarmSys.clearAlarms();
 				}
@@ -131,20 +132,20 @@ public class TermActivity extends ListActivity {
 		mTermAdapter.setDropDownViewResource(R.layout.adapter_term_select);
 		setListAdapter(mTermAdapter);
 	}
-	
+
 	protected void setTerms() {
 		mTerms = mTermManager.getAll();
-		
+
 		if (mTerms.isEmpty()) {
 			mTerms.add(null);
 		}
 		Collections.sort(mTerms, mTermComparator);
 	}
-	
+
 	public void setEditMode(boolean iMode) {
 		mEditMode = iMode;
 	}
-	
+
 	@Override
 	protected void onRestart() {
 		super.onRestart();
@@ -152,7 +153,7 @@ public class TermActivity extends ListActivity {
 		setTerms();
 		mTermAdapter.notifyDataSetChanged();
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		if (mAddMode) {
@@ -198,11 +199,11 @@ public class TermActivity extends ListActivity {
 		mTermAdapter.notifyDataSetChanged();
 		mTermEditListener.onTermEdit(mNewTerm);
 	}
-	
+
 	private void initWidgets() {
 		term_btn_add = (ImageView) findViewById(R.id.term_btn_add);
 	}
-	
+
 	private void initListeners() {
 		term_btn_add.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -230,12 +231,12 @@ public class TermActivity extends ListActivity {
 	private boolean termIsValid(Term term) {
 		return term != null && term.getStartDate() != null && term.getEndDate() != null;
 	}
-	
+
 	private void cancelAdd() {
 		mAddMode = false;
 		mTermAdapter.setAddMode(false);
 		mTermAdapter.setEditIndex(-1);
-		
+
 		mTermAdapter.remove(mNewTerm);
 		mNewTerm = null;
 		if (mTermAdapter.isEmpty()) {
@@ -245,12 +246,12 @@ public class TermActivity extends ListActivity {
 		term_btn_add.invalidate();
 		mTermAdapter.notifyDataSetChanged();
 	}
-	
+
 	private void addTerm() {
 		mAddMode = false;
 		mTermAdapter.setAddMode(false);
 		mTermAdapter.setEditIndex(-1);
-		
+
 		mTermManager.insert(mNewTerm);
 		mTermEditListener.onTermEdit(mNewTerm);
 
@@ -263,11 +264,11 @@ public class TermActivity extends ListActivity {
 			Toast.makeText(TermActivity.this, R.string.term_select_toast_hint, Toast.LENGTH_LONG).show();
 		}
 	}
-	
+
 	@Override
 	public void onAttachedToWindow() {
-	    super.onAttachedToWindow();
-	    Window window = getWindow();
-	    window.setFormat(PixelFormat.RGBA_8888);
+		super.onAttachedToWindow();
+		Window window = getWindow();
+		window.setFormat(PixelFormat.RGBA_8888);
 	}
 }
