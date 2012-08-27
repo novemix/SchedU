@@ -90,6 +90,10 @@ public class TermActivity extends ListActivity {
 		}
 
 		public void onTermDelete(Term iTerm) {
+			ScheduApplication app = (ScheduApplication) getApplication();
+			if (iTerm.equals(app.getCurrentTerm())) {
+				app.setCurrentTerm(null);
+			}
 			mTerms.remove(iTerm);
 			if (mTerms.isEmpty()) {
 				mTerms.add(null);
@@ -147,8 +151,8 @@ public class TermActivity extends ListActivity {
 	}
 	
 	@Override
-	protected void onResume() {
-		super.onResume();
+	protected void onRestart() {
+		super.onRestart();
 		// We need to refresh because they might be backing into this activity after deleting one (or more) terms
 		setTerms();
 		mTermAdapter.notifyDataSetChanged();

@@ -90,15 +90,24 @@ public class AllCoursesActivity extends ListActivity {
 	}
 
 	@Override
-	protected void onResume() {
-		super.onResume();
-		mCourseList.clear();
-		mCourseList.addAll(mCourseManager.getAllForTerm(mCurrentTerm.getID()));
-		if (mCourseList.isEmpty()) {
-			mCourseList.add(null);
+	protected void onRestart() {
+		super.onRestart();
+		
+		// Term(s) may have been deleted and then this activity backed into
+		mCurrentTerm = ((ScheduApplication) getApplication()).getCurrentTerm();
+		
+		if (mCurrentTerm != null) {
+			setValues();
+			mCourseList.clear();
+			mCourseList.addAll(mCourseManager.getAllForTerm(mCurrentTerm.getID()));
+			if (mCourseList.isEmpty()) {
+				mCourseList.add(null);
+			}
+			Collections.sort(mCourseList, mCourseComparator);
+			mCourseAdapter.notifyDataSetChanged();
+		} else {
+			finish();
 		}
-		Collections.sort(mCourseList, mCourseComparator);
-		mCourseAdapter.notifyDataSetChanged();
 	}
 
 	@Override
@@ -130,8 +139,7 @@ public class AllCoursesActivity extends ListActivity {
 	protected void initListeners() {
 		allcourses_btn_add.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				Intent intent = new Intent(AllCoursesActivity.this, AddCourseActivity.class);
-				startActivity(intent);
+				startActivity(new Intent(AllCoursesActivity.this, AddCourseActivity.class));
 			}
 		});
 
