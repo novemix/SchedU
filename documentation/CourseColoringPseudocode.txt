@@ -1,0 +1,8 @@
+- Get all assignments from the assignment manager
+- Create array of time deltas until next assignment for each course
+- For each assignment
+	- If the assignment's time delta is less than the current
+		entry for the course, assign it to the array
+- For each course
+	- Given the minimum time until the next assignment assign
+		a color to the course
