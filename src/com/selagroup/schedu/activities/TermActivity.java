@@ -115,19 +115,43 @@ public class TermActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_term);
 
-		mTermManager = ((ScheduApplication) getApplication()).getTermManager();
+		initActivity();
+		initWidgets();
+		initListeners();
+	}
 
-		mTerms = mTermManager.getAll();
+	protected void initActivity() {
+		mTermManager = ((ScheduApplication) getApplication()).getTermManager();
+		setTerms();
+		mTermAdapter = new TermArrayAdapter(this, R.layout.adapter_term_select, mTerms, mTermEditListener, mTermSelectListener);
+		mTermAdapter.setDropDownViewResource(R.layout.adapter_term_select);
+		setListAdapter(mTermAdapter);
+	}
+	
+	protected void setTerms() {
+		if (mTerms == null) {
+			mTerms = mTermManager.getAll();
+		} else {
+			mTerms.clear();
+			mTerms.addAll(mTermManager.getAll());
+		}
+		
 		if (mTerms.isEmpty()) {
 			mTerms.add(null);
 		}
 		Collections.sort(mTerms, mTermComparator);
-
-		initWidgets();
 	}
-
+	
 	public void setEditMode(boolean iMode) {
 		mEditMode = iMode;
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		// We need to refresh because they might be backing into this activity after deleting one (or more) terms
+		setTerms();
+		mTermAdapter.notifyDataSetChanged();
 	}
 	
 	@Override
@@ -178,7 +202,9 @@ public class TermActivity extends ListActivity {
 	
 	private void initWidgets() {
 		term_btn_add = (ImageView) findViewById(R.id.term_btn_add);
-
+	}
+	
+	private void initListeners() {
 		term_btn_add.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (!mAddMode) {
@@ -195,12 +221,6 @@ public class TermActivity extends ListActivity {
 				}
 			}
 		});
-
-		// Set up spinner adapter
-		mTermAdapter = new TermArrayAdapter(this, R.layout.adapter_term_select, mTerms, mTermEditListener, mTermSelectListener);
-
-		mTermAdapter.setDropDownViewResource(R.layout.adapter_term_select);
-		setListAdapter(mTermAdapter);
 	}
 
 	/**
