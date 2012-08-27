@@ -21,5 +21,14 @@ public abstract class ContentValueItem implements Serializable {
 		mID = iID;
 	}
 	
+	public boolean equals(Object other) {
+		if (other instanceof ContentValueItem) {
+			return mID == ((ContentValueItem)other).getID();
+		}
+		else {
+			return false;
+		}
+	}
+	
 	public abstract ContentValues getValues();
 }
